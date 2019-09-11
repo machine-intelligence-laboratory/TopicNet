@@ -1,5 +1,0 @@
-[flake8]
-max-complexity = 10
-max-line-length = 100
-exclude = __init__.py
-
