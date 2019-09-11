@@ -173,7 +173,7 @@ class BaseCube:
         if not check_experiment_existence(topic_model):
             raise ValueError("TopicModel has no experiment. You should create Experiment.")
         experiment = topic_model.experiment
-        topic_model_depth_in_tree = topic_model.depth + 1
+        topic_model_depth_in_tree = topic_model.depth
         if topic_model_depth_in_tree < len(experiment.cubes):
             existed_cube = experiment.cubes[topic_model_depth_in_tree]
             if existed_cube['params'] != cube_description['params'] or \

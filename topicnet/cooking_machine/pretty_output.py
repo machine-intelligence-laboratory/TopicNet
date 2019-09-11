@@ -72,6 +72,7 @@ def get_cube_strings(cubes, tab: str = "  ", min_len_per_cube: int = 21):
 
     Parameters
     ----------
+    cubes : list of dict
     tab : str
          (Default value = "  ")
     min_len_per_cube : int
@@ -102,6 +103,77 @@ def get_cube_strings(cubes, tab: str = "  ", min_len_per_cube: int = 21):
         get_equal_strings(cube_strings[id_cube], min_len=min_len_per_cube)
     get_equal_lists(cube_strings)
     return cube_strings
+
+
+def get_criteria_strings(criteria, tab: str = "  ", min_len_per_cube: int = 21):
+    """
+
+    Parameters
+    ----------
+    criteria : list of str
+    tab : str
+         (Default value = "  ")
+    min_len_per_cube : int
+         (Default value = 21)
+
+    Returns
+    -------
+    dict
+
+    """
+    criterion_strings = dict()
+    for id_criterion, criterion in enumerate(criteria):
+        criterion_strings[id_criterion] = []
+        if criterion is None:
+            criterion_strings[id_criterion].append(' ')
+        else:
+            for statement_id, statement in enumerate(criterion, 1):
+                stage = statement.split(' and ')
+                if len(stage) > 1:
+                    heading = f'stage criteria {statement_id}:'
+                else:
+                    heading = f'stage criterion {statement_id}:'
+                criterion_strings[id_criterion].append(heading)
+                for rule in stage:
+                    criterion_strings[id_criterion].append(tab * 2 + rule)
+                criterion_strings[id_criterion].append("")
+        get_equal_strings(criterion_strings[id_criterion], min_len=min_len_per_cube)
+    get_equal_lists(criterion_strings)
+    return criterion_strings
+
+
+def add_non_tree_strings(strings, strings_to_add, add_separator=True):
+    """
+    Adding training stage strings
+    to the experiment description
+
+    Parameters
+    ----------
+    strings : list of strings
+        description of the experiment
+    strings_to_add : dict of lists of strings
+        new information to add to the experiment
+    add_separator : bool
+        make pretty separation line
+        at the end of this strings (Default value = True)
+
+    Returns
+    -------
+    strings : list of strings
+        description of the experiment
+    """
+    separation_string = ''
+    for id_string in range(len(strings_to_add[0])):
+        string = " "
+        for id_stage, value in strings_to_add.items():
+            string += value[id_string] + " | "
+            if len(separation_string) < len(string):
+                separation_string += "─" * (len(value[id_string]) + 2) + '+'
+        string = string[:-3]
+        strings.append(string)
+    if add_separator:
+        strings.append(separation_string[:-3])
+    return strings
 
 
 def give_strings_description(experiment,
@@ -135,8 +207,18 @@ def give_strings_description(experiment,
                f"Experiment was made with BigARTM {version}"]
 
     cube_strings = get_cube_strings(experiment.cubes, tab, min_len_per_cube)
-
+    stage_strings = get_criteria_strings(experiment.criteria, tab, min_len_per_cube)
     tree_strings = experiment.tree.get_description()
+    for key in range(len(cube_strings)):
+        max_len_string = max(len(cube_strings[key][0]), len(stage_strings[key][0]))
+        cube_strings[key] = [
+            get_fix_string(string_cube, length=max_len_string)
+            for string_cube in cube_strings[key]
+        ]
+        stage_strings[key] = [
+            get_fix_string(string_stage, length=max_len_string)
+            for string_stage in stage_strings[key]
+        ]
     # merge strings together
     # st = test_len_tree_step - 1
     fi = -1
@@ -157,13 +239,8 @@ def give_strings_description(experiment,
     strings.append("Tree:")
     strings += tree_strings
     strings.append("Cubes:")
-    for id_string in range(len(cube_strings[0])):
-        string = " "
-        for id_cube, value in cube_strings.items():
-            string += value[id_string] + " | "
-        string = string[:-3]
-        strings.append(string)
-
+    strings = add_non_tree_strings(strings, cube_strings, add_separator=True)
+    strings = add_non_tree_strings(strings, stage_strings, add_separator=False)
     return strings
 
 

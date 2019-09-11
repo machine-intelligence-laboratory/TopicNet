@@ -146,14 +146,7 @@ class BaseModel(object):
         Returns depth of the model.
 
         """
-        # return len(self.description) - 1
-        cube_creator_signatures = [
-            'INIT + TRAIN',
-            'HIER: LEVEL 2'
-        ]
-        cube_creators_in_pipeline = sum(1 for stage in self.description
-                                        if stage['action'] in cube_creator_signatures)
-        return len(self.description) - cube_creators_in_pipeline
+        return len(self.description)
 
     @property
     def description(self):
@@ -268,6 +261,6 @@ class BaseModel(object):
         """
         if self.experiment is None:
             return False
-        if model_id in self.experiment.models_info:
+        if model_id in self.experiment.models_info.keys():
             return True
         return False

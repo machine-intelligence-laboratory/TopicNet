@@ -13,7 +13,7 @@ from .routine import is_saveable_model
 
 from .models import BaseModel
 
-import topicnet.cooking_machine.cubes as tncubes
+# import topicnet.cooking_machine.cubes as tncubes
 
 START = '<'*8 + 'start' + '>'*8
 
@@ -31,7 +31,7 @@ class Experiment(object):
     Contains experiment, its description and descriptions of all models in the experiment.
 
     """
-    def __init__(self, experiment_id: str, save_path: str, topic_model=None,
+    def __init__(self, topic_model, experiment_id: str, save_path: str,
                  save_model_history: bool = False, save_experiment: bool = True,
                  tree: dict = None, models_info: dict = None, cubes: List[dict] = None):
         """
@@ -75,44 +75,28 @@ class Experiment(object):
         self.save_path = save_path
 
         # if you want to create an empty Experiment (only experiment_id and save_path must be known)
-        if topic_model is None:
-            self.tree = Tree()
-            self.models_info = {START: 'Start training point.'}
-            self.cubes = [{
-                'action': 'start',
-                'params': [{'version': 'not defined'}]
-            }]
-            self.models = {START: BaseModel(model_id=START, experiment=self)}
-            self.criteria = [None]
+        if save_model_history:
+            self._prune_experiment(topic_model)
         else:
-            if save_model_history:
-                self._prune_experiment(topic_model)
-            else:
-                self.cubes = [
-                    {
-                        'action': 'start',
-                        'params': [{'version':
-                                    topic_model.get_jsonable_from_parameters()['version']}]
-                    },
-                    {
-                        'action': 'init',
-                        'params': [topic_model.get_jsonable_from_parameters()],
-                    }
-                ]
-                self.criteria = [None] * 2
-                self.models_info = {
-                    START: 'Start training point.',
-                    topic_model.model_id: topic_model.get_jsonable_from_parameters()
+            topic_model.model_id = START
+            self.cubes = [
+                {
+                    'action': 'start',
+                    'params': [topic_model.get_jsonable_from_parameters()],
                 }
-                self.models = {
-                    START: BaseModel(model_id=START, experiment=self),
-                    topic_model.model_id: topic_model
-                }
-                topic_model.experiment = self
-                topic_model.parent_model_id = START
-                self.tree = Tree()
-                self.tree.add_model(topic_model)
-                topic_model.save_parameters()
+            ]
+            self.criteria = [None]
+            self.models_info = {
+                START: topic_model.get_jsonable_from_parameters()
+            }
+
+            self.models = {
+                START: topic_model,
+            }
+            topic_model.experiment = self
+            self.tree = Tree()
+            self.tree.add_model(topic_model)
+            topic_model.save_parameters()
 
         if save_experiment:
             self.save()
@@ -167,6 +151,7 @@ class Experiment(object):
         """
         experiment = topic_model.experiment
         self.cubes = experiment.cubes[:topic_model.depth + 1]
+        self.criteria = experiment.criteria[:topic_model.depth + 1]
         self.tree = experiment.tree.clone()
         self.tree.prune(topic_model.depth)
         self.models_info = dict()
@@ -249,6 +234,7 @@ class Experiment(object):
         params = {"save_path": self.save_path,
                   "experiment_id": self.experiment_id,
                   "models_info": self.models_info,
+                  "criteria": self.criteria,
                   "tree": self.tree.tree,
                   "depth": self.depth,
                   "cubes": self.cubes}
@@ -316,20 +302,29 @@ class Experiment(object):
             raise NameError(f'There is no dataset with name {dataset_id} in this experiment.')
 
     @staticmethod
-    def _load(experiment_id: str, save_path: str, tree: dict = None,
-              models_info: dict = None, cubes: List[dict] = None):
+    def _load(load_path, experiment_id: str, save_path: str, tree: dict = None,
+              models_info: dict = None, cubes: List[dict] = None,
+              criteria: List[List] = [None]):
         """
         Load helper.
 
         """
         from.experiment import Experiment
+        from .models import TopicModel
 
-        experiment = Experiment(experiment_id=experiment_id, save_path=save_path,
-                                save_experiment=False)
+        root_model_save_path = os.path.join(load_path, START)
+        root_model = TopicModel.load(root_model_save_path)
+        experiment = Experiment(
+            root_model,
+            experiment_id=experiment_id,
+            save_path=save_path,
+            save_experiment=False)
         experiment.tree = Tree(tree=tree)
         experiment.models_info = models_info
         experiment.models = dict.fromkeys(experiment.tree.get_model_ids())
+        experiment.models[START] = root_model
         experiment.cubes = cubes
+        experiment.criteria = criteria
 
         return experiment
 
@@ -364,7 +359,7 @@ class Experiment(object):
             ])
         save_models.update(set([
             (tmodel, tmodel.model_id)
-            for tmodel in self.get_models_by_depth(self.true_depth)
+            for tmodel in self.get_models_by_depth(self.depth)
             if is_saveable_model(tmodel)
         ]))
 
@@ -430,13 +425,14 @@ class Experiment(object):
             params = json.load(open(f"{load_path}/params.json", "r"))
             params.pop('depth', None)
 
-            experiment = Experiment._load(**params)
+            experiment = Experiment._load(load_path, **params)
             experiment._recover_consistency(load_path)
 
             for model_id in experiment.models.keys():
                 if model_id != START:
+                    model_save_path = os.path.join(load_path, model_id)
                     experiment.models[model_id] = TopicModel.load(
-                        f'{load_path}/{model_id}', experiment
+                        model_save_path, experiment
                     )
 
         return experiment
@@ -478,20 +474,12 @@ class Experiment(object):
     def get_models_by_depth(self, level=None):
         """ """
         if level is None:
-            level = self.true_depth
+            level = self.depth
         return [
             tmodel
             for tmodel in self.models.values()
             if isinstance(tmodel, BaseModel) and tmodel.depth == level
         ]
-
-    @property
-    def true_depth(self):
-        """
-        Returns true depth of the tree.
-
-        """
-        return max(tmodel.depth for tmodel in self.models.values() if isinstance(tmodel, BaseModel))
 
     def select(self, query_string, models_num=1, level=None):
         """
@@ -557,18 +545,13 @@ class Experiment(object):
                 _ = os.system('cls' if os.name == 'nt' else 'clear')
                 print(string)
 
-        for model_id in self.models.keys():
-            if model_id is not START:
-                stage_models = [self.models[model_id]]
+        stage_models = self.root
 
         for cube_index, cube_description in enumerate(self.cubes):
             if cube_description['action'] == 'start':
                 continue
             cube = cube_description['cube']
-            if isinstance(cube, tncubes.CubeCreator):
-                cube(self.root, dataset)
-            else:
-                cube(stage_models, dataset)
+            cube(stage_models, dataset)
             self.cubes[cube_index].pop('cube', None)
             stage_models = self._select_and_save_unique_models(self.criteria[cube_index], dataset)
 
@@ -694,8 +677,13 @@ class Experiment(object):
         ----------
         settings: list of dicts
             list with cubes parameters for every pipeline step
+        Returns
+        -------
+        Nothing
 
         """
+        import topicnet.cooking_machine.cubes as tncubes
+
         self.criteria = [None]
         for stage in settings:
             for cube_name, cube_param in stage.items():
@@ -720,11 +708,26 @@ class Experiment(object):
             except NameError:
                 raise NameError('To define pipeline BOTH cube and selection criteria needed')
 
-    def set_criterion(self, cube_index, criterion):
+    def set_criteria(self, cube_index, criteria):
+        """
+        Allows to edit model selection criteria
+        on each stage of the Experiment
+
+        Parameters
+        ----------
+        cube_index : int
+        selection_criteria: list of str or str
+            the criteria to replacing current record
+
+        Returns
+        -------
+        Nothing
+
+        """
         if cube_index >= len(self.cubes):
             raise ValueError(f'Invalid cube_index. There are {len(self.cubes)} cubes.'
                              'You can check it using experiment.cubes')
         else:
-            if isinstance(criterion, str):
-                criterion = [criterion]
-            self.criteria[cube_index] = criterion
+            if isinstance(criteria, str):
+                criteria = [criteria]
+            self.criteria[cube_index] = criteria

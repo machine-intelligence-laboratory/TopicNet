@@ -125,7 +125,7 @@ class Tree(object):
             tree depth
 
         """
-        depths = [0]
+        depths = [1]
         for leaf in tree["models"]:
             depths += [self._get_depth(leaf)]
 

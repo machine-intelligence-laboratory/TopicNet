@@ -15,7 +15,7 @@ from copy import deepcopy
 
 from inspect import signature
 
-
+START = '<'*8 + 'start' + '>'*8
 ARTM_NINE = artm.version().split(".")[1] == "9"
 
 SUPPORTED_SCORES_WITHOUT_VALUE_PROPERTY = (
@@ -241,7 +241,9 @@ class TopicModel(BaseModel):
         params = json.load(open(f"{path}/params.json", "r"))
         topic_model = TopicModel(model, **params)
 
-        if experiment:
+        # TODO: Разрешить конфликт рекурсивной загрузки эксперимента и модели (ITN-361)
+        crunch_resolve = experiment or topic_model.model_id == START
+        if crunch_resolve:
             topic_model.experiment = experiment
         elif params["experiment_id"] is not None:
             experiment_path = path[:path.rfind(topic_model.model_id)]

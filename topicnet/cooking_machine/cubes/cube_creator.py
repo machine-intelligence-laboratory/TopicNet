@@ -150,8 +150,6 @@ class CubeCreator(BaseCube):
 
         """
         new_model_parameters = deepcopy(self._model_init_parameters)
-        if self._model:
-            topic_model = self._model
         for parameter_entry in one_cube_parameter:
             _, parameter_name, parameter_value = parameter_entry
             if parameter_name[0] == '@':
@@ -159,7 +157,7 @@ class CubeCreator(BaseCube):
             else:
                 new_model_parameters[parameter_name] = parameter_value
         experiment = topic_model.experiment
-
+        model_class = topic_model.__class__
         if self._second_level:
             new_model_parameters['parent_model'] = topic_model._model
             if new_model_parameters.get('seed', -1) == -1:
@@ -172,14 +170,15 @@ class CubeCreator(BaseCube):
             parent_model_id = experiment.tree.tree['model_id']
             description = None
 
-        new_model_parameters['scores'] = list(self._model._model._scores._data.values())
+        new_model_parameters['scores'] = list(topic_model._model._scores._data.values())
         new_model_parameters['dictionary'] = dictionary
-
-        new_model = self._model_class(experiment=experiment,
-                                      parent_model_id=parent_model_id,
-                                      description=description,
-                                      custom_scores=deepcopy(self._model.custom_scores),
-                                      **new_model_parameters)
-        for reg_name, reg in self._model.regularizers.data.items():
+        new_model = model_class(
+            experiment=experiment,
+            parent_model_id=parent_model_id,
+            description=description,
+            custom_scores=deepcopy(topic_model.custom_scores),
+            **new_model_parameters
+        )
+        for reg_name, reg in topic_model.regularizers.data.items():
             new_model.regularizers.add(deepcopy(reg))
         return new_model
