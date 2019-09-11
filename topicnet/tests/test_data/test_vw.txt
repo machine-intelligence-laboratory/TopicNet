@@ -1,0 +1,10 @@
+doc_1 |@text a:1 b:5 c:3 d:4 |@ngramms bb:2 cd:1
+doc_2 |@text a:2 b:2 |@ngramms ab:2 bb:1
+doc_3 |@text c:2 d:2 e:2 f:2 |@ngramms cd:1 ef:1 cc:1
+doc_4 |@text a:1 b:1 c:1 d:1 e:1 f:1 |@ngramms  ab:1 cd:1 ef:1
+doc_5 |@text b:5 a:5 c:1 |@ngramms aa:1 bb:2 bc:1
+doc_6 |@text c:5 e:5 a:1 f:5 |@ngramms ce:1 af:2
+doc_7 |@text e:5 f:2 |@ngramms ef:2
+doc_8 |@text a:2 b:2 c:2 |@ngramms ab:1 ac:1
+doc_9 |@text b:1 a:10 d:5 |@ngramms aa:5 ab:1 ad:2
+doc_10 |@text d:10 c:2 e:5 |@ngramms cd:1 ce:5
