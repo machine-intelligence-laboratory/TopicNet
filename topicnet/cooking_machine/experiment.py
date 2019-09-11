@@ -13,8 +13,6 @@ from .routine import is_saveable_model
 
 from .models import BaseModel
 
-# import topicnet.cooking_machine.cubes as tncubes
-
 START = '<'*8 + 'start' + '>'*8
 
 UP_END = "┌"
