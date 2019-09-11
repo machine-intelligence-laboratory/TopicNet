@@ -4,7 +4,7 @@ from scipy.spatial.distance import cdist as sp_cdist
 import warnings
 
 from .base_viewer import BaseViewer
-from cooking_machine.dataset import BaseDataset
+from ..cooking_machine.dataset import BaseDataset
 
 
 # If change, also modify docstring for view()

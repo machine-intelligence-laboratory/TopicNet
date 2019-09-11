@@ -28,8 +28,7 @@ def experiment_enviroment(request):
     ex_score = ScoreExample()
     tm = TopicModel(model_artm, model_id='new_id', custom_scores={'example_score': ex_score})
     # experiment starts without model
-    experiment = Experiment(experiment_id="test", save_path="tests/experiments")
-    tm.experiment = experiment
+    experiment = Experiment(tm, experiment_id="test", save_path="tests/experiments")
 
     def resource_teardown():
         """ """

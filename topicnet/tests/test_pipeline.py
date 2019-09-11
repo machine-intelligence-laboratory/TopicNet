@@ -29,8 +29,7 @@ def experiment_enviroment(request):
     ex_score = ScoreExample()
     tm = TopicModel(model_artm, model_id='new_id', custom_scores={'example_score': ex_score})
 
-    experiment = Experiment(experiment_id="test", save_path="tests/experiments")
-    tm.experiment = experiment
+    experiment = Experiment(tm, experiment_id="test", save_path="tests/experiments")
     cube_settings = [{
         'CubeCreator':
         {
@@ -81,9 +80,9 @@ def test_simple_pipeline(experiment_enviroment):
     assert len(final_models) == 2, 'Incorrect number of final models.'
     assert len(experiment.cubes) == 3, 'Incorrect number of cubes in the experiment.'
     assert len(experiment.criteria) == 3, 'Incorrect number of criteria in the experiment.'
-    assert len(experiment.get_models_by_depth(level=1)) == 2, \
+    assert len(experiment.get_models_by_depth(level=2)) == 2, \
         'Incorrect number of models on the first level.'
-    assert len(experiment.get_models_by_depth(level=2)) == 5, \
+    assert len(experiment.get_models_by_depth(level=3)) == 5, \
         'Incorrect number of models on the second level.'
 
 

@@ -12,6 +12,7 @@ from ..cooking_machine.models.topic_model import TopicModel
 from ..cooking_machine.experiment import Experiment
 from ..cooking_machine.dataset import Dataset
 
+ROOT_ID = '<' * 8 + 'start' + '>' * 8
 
 # to run all test
 @pytest.fixture(scope="function")
@@ -58,13 +59,16 @@ def test_initial_save_load(two_experiment_enviroments):
     """ """
     tm_1, experiment_1, tm_2, experiment_2, dataset, dictionary = two_experiment_enviroments
 
+    experiment_1.set_criteria(0, 'test_criteria')
     experiment_1.save('tests/experiments/test_1')
     experiment = Experiment.load('tests/experiments/test_1')
-    tm_id = '#' * 6 + 'new_id_1' + '#' * 7
-    tm = experiment.models[tm_id]
+    tm_id = ROOT_ID
+    tm_load = experiment.models[tm_id]
+    tm_save = experiment_1.models[tm_id]
 
-    assert tm_1.depth == tm.depth
-    assert tm.parent_model_id == '<' * 8 + 'start' + '>' * 8
+    assert tm_save.depth == tm_load.depth
+    assert tm_save.parent_model_id == tm_load.parent_model_id
+    assert experiment.criteria[0] == ['test_criteria'], 'Experiment failed to load criteria'
 
 
 def test_simple_experiment(two_experiment_enviroments):
@@ -73,7 +77,7 @@ def test_simple_experiment(two_experiment_enviroments):
 
     experiment_1.save('tests/experiments/test_1')
     experiment = Experiment.load('tests/experiments/test_1')
-    tm_id = '#' * 6 + 'new_id_1' + '#' * 7
+    tm_id = ROOT_ID
     tm = experiment.models[tm_id]
 
     TAU_GRID = [0.1, 0.5, 1, 5, 10]

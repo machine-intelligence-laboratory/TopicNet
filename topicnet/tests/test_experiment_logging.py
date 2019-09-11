@@ -16,14 +16,14 @@ class TestLogging:
         cls.experiment_path = 'tests/test_data/test_experiment/'
         cls.dataset = Dataset('tests/test_data/test_dataset.csv')
         dictionary = cls.dataset.get_dictionary()
-        model_artm = init_simple_default_model(
+        cls.model_artm = init_simple_default_model(
             dictionary=dictionary,
             modalities_to_use={'@text'},
             main_modality='@text',
             n_specific_topics=14,
             n_background_topics=1,
         )
-        cls.topic_model = TopicModel(model_artm, model_id='Groot')
+        cls.topic_model = TopicModel(cls.model_artm, model_id='Groot')
 
     @classmethod
     def teardown_class(cls):
@@ -34,19 +34,23 @@ class TestLogging:
     def test_experiment_exists(cls):
         """ """
         experiment = Experiment(
+            cls.topic_model,
             experiment_id="rewrite_experiment",
             save_path=cls.experiment_path,
         )
         with pytest.raises(FileExistsError, match="already exists"):
+            tm = TopicModel(cls.model_artm, model_id='Groot')
             experiment = Experiment(  # noqa: F841
+                tm,
                 experiment_id="rewrite_experiment",
                 save_path=cls.experiment_path,
             )
 
     def test_experiment_prune(cls):
         """ """
+        cls.topic_model.experiment = None
         experiment_run = Experiment(
-            topic_model=cls.topic_model,
+            cls.topic_model,
             experiment_id="run_experiment",
             save_path=cls.experiment_path,
             )
@@ -59,7 +63,9 @@ class TestLogging:
             reg_search='mul',
             verbose=True
         )
+
         test_cube(cls.topic_model, cls.dataset)
+        experiment_run.set_criteria(1, 'some_criterion')
 
         new_seed = experiment_run.get_models_by_depth()[0]
         experiment = Experiment(
@@ -68,11 +74,13 @@ class TestLogging:
             save_path=cls.experiment_path,
             save_model_history=True,
             )
-        assert len(experiment.models) == 2
+        assert len(experiment.models) == 1
 
     def test_work_with_dataset(cls):
         """ """
+        cls.topic_model.experiment = None
         experiment = Experiment(
+            cls.topic_model,
             experiment_id="dataset_experiment",
             save_path=cls.experiment_path,
             )

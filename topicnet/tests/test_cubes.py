@@ -49,7 +49,7 @@ def test_initial_tm(experiment_enviroment):
     tm, dataset, experiment, dictionary = experiment_enviroment
 
     assert tm.depth == 1
-    assert tm.parent_model_id == '<' * 8 + 'start' + '>' * 8
+    assert tm.parent_model_id is None
 
 
 def test_simple_experiment(experiment_enviroment):

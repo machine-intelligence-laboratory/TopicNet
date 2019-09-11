@@ -13,10 +13,8 @@ from ..cooking_machine.experiment import Experiment
 
 ARTM_MODEL = artm.ARTM(num_topics=1, num_processors=1)
 
-
 SCORES = ['PerplexityScore', 'SparsityPhiScore']
 INIT_PARAMETERS = ['num_topics', 'num_document_passes']
-
 
 AND = 'and'
 MAX = 'max'
@@ -139,6 +137,23 @@ class MockTopicModel(TopicModel):
         return self
 
     @staticmethod
+    def get_start_model():
+        model = MockTopicModel(name=f'<<< Start Model >>>')
+
+        for score in SCORES:
+            model.set_score(score, [0.0])
+
+        for init_parameter in INIT_PARAMETERS:
+            model.set_init_parameter(init_parameter, 0.0)
+
+        # Call get_jsonable_from_parameters() in experiment breaks stuff:
+        # "ARTM model not initialized"
+        # but if initialize ARTM_MODEL, tests become very slow
+        model.get_jsonable_from_parameters = lambda: None
+
+        return model
+
+    @staticmethod
     def generate_specified_models(scores_ranges: dict = None, init_parameters_ranges: dict = None):
         def get_all_names_all_ranges_and_model_id_prefix():
             nonlocal scores_ranges
@@ -253,9 +268,15 @@ class TestExperimentSelect:
     def get_experiment(with_models=True):
         TestExperimentSelect.current_experiment_id += 1
 
+        start_model = MockTopicModel.get_start_model()
+        start_model.experiment = None
+
         experiment = Experiment(
+            start_model,
             experiment_id=f'{TestExperimentSelect.current_experiment_id:03}',
-            save_path=TestExperimentSelect.experiments_folder)
+            save_path=TestExperimentSelect.experiments_folder,
+            save_experiment=False
+        )
 
         if with_models:
             TestExperimentSelect.set_models(
