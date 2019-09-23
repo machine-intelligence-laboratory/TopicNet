@@ -127,7 +127,7 @@ class ThatCustomScore(BaseScore):
     def call(self, model,
              eps=1e-5,
              n_specific_topics=14):
-        phi = model.get_phi().values
+        phi = model.get_phi().values[:,:n_specific_topics]
         specific_sparsity = np.sum(phi < eps) / np.sum(phi < 1)
         return specific_sparsity
 ```
