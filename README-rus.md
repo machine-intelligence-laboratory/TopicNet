@@ -33,8 +33,8 @@
 С чего начать?
 
 ### Подготовка данных
-As always before training data needs to be preprocessed. TopicNet does not preform data preprocessing itself. Instead it demands data to be prepared by the user and loaded via [Dataset (no link yet)]() class.
-Here is a basic example of how one can achieve that:
+Как и в любой другой ML задаче данные должны быть сначала подготовленны. TopicNet оставляет обработку данных на предусмотрение пользователя. Тем не менее для работы с предобработанными данными используется класс [Dataset (нужна документация)]()
+Далее средует пример такой предобработки:
 ```
 import nltk
 import artm
@@ -46,7 +46,7 @@ from glob import glob
 WIKI_DATA_PATH = '/Wiki_raw_set/raw_plaintexts/'
 files = glob(WIKI_DATA_PATH+'*.txt')
 ```
-Loading all texts from files and leaving only alphabetical characters and spaces:
+Загружаем все текстовые данные оставляя только буквы:
 ```
 right_symbols = string.ascii_letters + ' '
 data = []
@@ -55,18 +55,18 @@ for path in files:
     entry['id'] = path.split('/')[-1].split('.')[0]
     with open(path,'r') as f:
         text = ''.join([char for char in f.read() if char in right_symbols])
-        entry['raw_text'] = ''.join(text.split('\n'))
+        entry['raw_text'] = ''.join(text.split('\n')).lower()
     data.append(entry)
 wiki_texts = pd.DataFrame(data)
 ```
-#### Perform tokenization:
+#### Проведем токенизацию:
 ```
 tokenized_text = []
 for text in wiki_texts['raw_text'].values:
     tokenized_text.append(' '.join(nltk.word_tokenize(text)))
 wiki_texts['tokenized'] = tokenized_text
 ```
-#### Perform lemmatization:
+#### Лемматизация:
 ```
 from nltk.stem import WordNetLemmatizer
 lemmatized_text = []
@@ -76,7 +76,7 @@ for text in wiki_texts['raw_text'].values:
     lemmatized_text.append(lemmatized)
 wiki_texts['lemmatized'] = lemmatized_text
 ```
-#### Get bigrams:
+#### Найдём биграмы:
 ```
 from nltk.collocations import BigramAssocMeasures, BigramCollocationFinder
 
@@ -94,7 +94,7 @@ for doc in documents:
 wiki_texts['bigram'] = bigrams
 ```
 
-#### Write them all to Vowpal Wabbit format and save result to disk:
+#### Переведём все в формат Vowpal Wabbit и сохраним результаты на диск:
 ```
 vw_text = []
 for index, data in wiki_texts.iterrows():
@@ -108,15 +108,14 @@ wiki_texts['vw_text'] = vw_text
 
 wiki_texts[['id','raw_text', 'vw_text']].to_csv('/Wiki_raw_set/wiki_data.csv')
 ```
-### Training topic model
-Here we can finally get on the main part: making your own, best of them all, manually crafted Topic Model
-#### Get your data
-We need to load our data prepared previously with Dataset:
+### Тренировка тематической модели
+Теперь можно приступить к самому интеерсному: создание своей собственной, самой лучшей насвете, крафтовой Тематической Модели.
+#### Загрузим данные
 ```
 data = Dataset('/Wiki_raw_set/wiki_data.csv')
 ```
-#### Make initial model
-In case you want to start from a fresh model we suggest you use this code:
+#### Создадим начальную модель
+В случае если вы хотите создать свежую артм модель воспользуйтесь следующим кодом:
 ```
 from topicnet.cooking_machine.model_constructor import init_simple_default_model
 
@@ -128,8 +127,8 @@ model_artm = init_simple_default_model(
     n_background_topics=1,
 )
 ```
-Note that here we have model with two modalities: `'@lemmatized'` and `'@bigram'`.  
-Further, if needed, one can define a custom score to be calculated during the model training:
+Следует отметить, что мы получаем модель с двумя модальностями: `'@lemmatized'` и `'@bigram'`.
+Далее, при необходимости, можно определить свой скор, который будет считаться при тренировки модели:
 ```
 from topicnet.cooking_machine.models.base_score import BaseScore
 
@@ -144,20 +143,20 @@ class ThatCustomScore(BaseScore):
         specific_sparsity = np.sum(phi < eps) / np.sum(phi < 1)
         return specific_sparsity
 ```
-Now, `TopicModel` with custom score can be defined by following commands:
+Теперь, `TopicModel` с кастомным скором может быть определена следующим образом:
 ```
 from topicnet.cooking_machine.models.topic_model import TopicModel
 
 custom_score_dict = {'SpecificSparsity': ThatCustomScore()}
 tm = TopicModel(model_artm, model_id='Groot', custom_scores=custom_score_dict)
 ```
-#### Define experiment
+#### Определить эксперимент
 ```
 from topicnet.cooking_machine.experiment import Experiment
 experiment = Experiment(experiment_id="simple_experiment", save_path="experiments", topic_model=tm)
 ```
-#### Toy with the cubes
-Defining a next stage of the model training:
+#### Взять кубики
+Определим этап тренировки модели и применим его к имеющейся модели:
 ```
 from topicnet.cooking_machine.cubes import RegularizersModifierCube
 
@@ -173,13 +172,13 @@ my_first_cube = RegularizersModifierCube(
 )
 my_first_cube(tm, demo_data)
 ```
-Selecting a model with best perplexity score:
+Выберем лучшую модель для следующего этапа:
 ```
 perplexity_select = 'PerplexityScore@lemmatized -> min COLLECT 1'
 best_model = experiment.select(perplexity_select)
 ```
-#### View the results
-Browsing the model is easy: create a viewer and call its `view()` method:
+#### Просмотр результатов моделирования
+Вывести данные о модели легко: создайте необходимый вам вьювер и используйте его view метод.
 ```
 thresh = 1e-5
 top_tok = TopTokensViewer(best_model, num_top_tokens=10, method='phi')
