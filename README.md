@@ -5,7 +5,7 @@
 ### What is TopicNet?
 ```topicnet```  library was created to assist in the task of building topic models. It aims at automating model training routine freeing more time for artistic process of constructing a target functional for the task at hand.
 ### How does it work?
-It starts with defining ```TopicModel``` from an ARTM model at hand or with help from ```model_constructor``` module. This model is then assigned a root position for the ```Experiment``` that will provide infrastructure for the model building process. Further, the user can define a set of training stages by the functionality provided by the ```cooking_machine.cubes``` modules and observe results of their actions via ```viewers``` module.
+The work starts with defining ```TopicModel``` from an ARTM model at hand or with help from ```model_constructor``` module. This model is then assigned a root position for the ```Experiment``` that will provide infrastructure for the model building process. Further, the user can define a set of training stages by the functionality provided by the ```cooking_machine.cubes``` modules and observe results of their actions via ```viewers``` module.
 ### Who will use this repo?
 This repo is intended to be used by people that want to explore BigARTM functionality without writing an essential overhead for model training pipelines and information retrieval. It might be helpful for the experienced users to help with rapid solution prototyping
 
