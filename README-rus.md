@@ -1,5 +1,5 @@
 # TopicNet 
-[English version](README-rus.md)
+[English version](README.md)
 
 ---
 ### Что такое TopicNet?
