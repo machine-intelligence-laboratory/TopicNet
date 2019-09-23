@@ -3,9 +3,9 @@
 
 ---
 ### What is TopicNet?
-```topicnet```  library was creaded to assist in task of builting topic models. It aims at automating model training routine freeing more time for artistic process of constructing target functional for the task at hand.
+```topicnet```  library was created to assist in the task of building topic models. It aims at automating model training routine freeing more time for artistic process of constructing a target functional for the task at hand.
 ### How does it work?
-It starts with definig ```TopicModel``` from an ARTM model at hand or with help from ```model_constructor``` module. This model is then assigned a root position for the ```Experiment``` that will provide infrastructure for the model building process. Further, user can define a set of trainig stages by functionality provided by the ```cooking_machine.cubes``` modules and observe results of their actions via ```viewers``` module.
+It starts with defining ```TopicModel``` from an ARTM model at hand or with help from ```model_constructor``` module. This model is then assigned a root position for the ```Experiment``` that will provide infrastructure for the model building process. Further, the user can define a set of training stages by the functionality provided by the ```cooking_machine.cubes``` modules and observe results of their actions via ```viewers``` module.
 ### Who will use this repo?
 This repo is intended to be used by people that want to explore BigARTM functionality without writing an essential overhead for model training pipelines and information retrieval. It might be helpful for the experienced users to help with rapid solution prototyping
 
@@ -13,14 +13,14 @@ This repo is intended to be used by people that want to explore BigARTM function
 ## How to install TopicNet
 
 You can fork this repository or use ```pip install topicnet``` to install the library.  
-**However**, core library functionality is based on BigARTM library which requres manual installation.  
+**However**, core library functionality is based on BigARTM library which requires manual installation.  
 For further details please follow [BigARTM installation manual](https://bigartm.readthedocs.io/en/stable/installation/index.html)
 
 ---
 ## How to use TopicNet
-Lets say you have a handfull of raw text mined from some source and you want to perform some topic modelling on them. Where should you start at? 
+Let's say you have a handful of raw text mined from some source and you want to perform some topic modelling on them. Where should you start? 
 ### Data Preparation
-As always before training data needs to be preprocessed. TopicNet does not preform data preprocessing itself. Instead it demands data to be prepared by the user and loaded via [Dataset (no link yet)]() class.
+As always before training data needs to be preprocessed. TopicNet does not perform data preprocessing itself. Instead, it demands data to be prepared by the user and loaded via [Dataset (no link yet)]() class.
 Here is a basic example of how one can achieve that:
 ```
 import nltk
