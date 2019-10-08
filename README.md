@@ -11,10 +11,10 @@ This repo is intended to be used by people that want to explore BigARTM function
 
 ---
 ## How to install TopicNet
-
-You can fork this repository or use ```pip install topicnet``` to install the library.  
-**However**, core library functionality is based on BigARTM library which requires manual installation.  
-For further details please follow [BigARTM installation manual](https://bigartm.readthedocs.io/en/stable/installation/index.html)
+**Core library functionality is based on BigARTM library** which requires manual installation.  
+To avoid that you can use a [docker images](https://hub.docker.com/r/xtonev/topicnet_test/tags) with preinstalled topicnet libraries in them. 
+Alternatively, you can follow [BigARTM installation manual](https://bigartm.readthedocs.io/en/stable/installation/index.html)
+After setting up the environment you can fork this repository or use ```pip install topicnet``` to install the library.  
 
 ---
 ## How to use TopicNet
