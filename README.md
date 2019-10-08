@@ -16,6 +16,18 @@ To avoid that you can use a [docker images](https://hub.docker.com/r/xtonev/biga
 Alternatively, you can follow [BigARTM installation manual](https://bigartm.readthedocs.io/en/stable/installation/index.html)
 After setting up the environment you can fork this repository or use ```pip install topicnet``` to install the library.  
 
+#### Using docker image
+```
+docker pull xtonev/bigartm:v0.10.0
+docker run -t -i xtonev/bigartm:v0.10.0
+```
+#### Check if import is sucessfull
+```
+python3
+import artm
+artm.version()
+```
+
 ---
 ## How to use TopicNet
 Let's say you have a handful of raw text mined from some source and you want to perform some topic modelling on them. Where should you start? 
