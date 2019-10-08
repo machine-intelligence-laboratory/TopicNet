@@ -22,10 +22,10 @@
 
 ---
 ## Как установить TopicNet
-
-Можно форкнуть данный репозиторий или же установить его с помощью команды: ```pip install topicnet```.
-**Тем не меннее**,  большая часть функционала TopicNet завязана на библиотеку BigARTM, которая требует установки вручную.
-Более подробное описание установки BigARTM можно найти здесь: [BigARTM installation manual](https://bigartm.readthedocs.io/en/stable/installation/index.html)
+**Большая часть** функционала TopicNet завязана на библиотеку BigARTM, требующей рученой установки.
+Чтобы облегчить этот процесс вы можете воспользоваться [докер образами с предустановленным BigARTM](https://hub.docker.com/r/xtonev/bigartm/tags).
+Если по каким-то причинам использование докер образов вам не подходит, то подробное описание установки BigARTM можно найти здесь: [BigARTM installation manual](https://bigartm.readthedocs.io/en/stable/installation/index.html).
+В полученный образ с BigARTM форкнуть данный репозиторий или же установить его с помощью команды: ```pip install topicnet```.
 
 ---
 ## Краткая инструкция по работе с TopicNet
