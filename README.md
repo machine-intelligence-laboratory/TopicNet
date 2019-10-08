@@ -20,7 +20,7 @@ After setting up the environment you can fork this repository or use ```pip inst
 ## How to use TopicNet
 Let's say you have a handful of raw text mined from some source and you want to perform some topic modelling on them. Where should you start? 
 ### Data Preparation
-As always before training data needs to be preprocessed. TopicNet does not perform data preprocessing itself. Instead, it demands data to be prepared by the user and loaded via [Dataset (no link yet)]() class.
+As always before training data needs to be preprocessed. TopicNet does not perform data preprocessing itself. Instead, it demands data being prepared by the user and loaded via [Dataset (no link yet)]() class.
 Here is a basic example of how one can achieve that:
 ```
 import nltk
