@@ -12,7 +12,8 @@ This repo is intended to be used by people that want to explore BigARTM function
 ---
 ## How to install TopicNet
 **Core library functionality is based on BigARTM library** which requires manual installation.  
-To avoid that you can use a [docker images](https://hub.docker.com/r/xtonev/bigartm/tags) with preinstalled topicnet libraries in them. 
+To avoid that you can use [docker images](https://hub.docker.com/r/xtonev/bigartm/tags) with preinstalled BigARTM library in them. 
+
 Alternatively, you can follow [BigARTM installation manual](https://bigartm.readthedocs.io/en/stable/installation/index.html)
 After setting up the environment you can fork this repository or use ```pip install topicnet``` to install the library.  
 
@@ -32,7 +33,7 @@ artm.version()
 ## How to use TopicNet
 Let's say you have a handful of raw text mined from some source and you want to perform some topic modelling on them. Where should you start? 
 ### Data Preparation
-As always before training data needs to be preprocessed. TopicNet does not perform data preprocessing itself. Instead, it demands data being prepared by the user and loaded via [Dataset (no link yet)]() class.
+Every ML problem starts with data preprocess step. TopicNet does not perform data preprocessing itself. Instead, it demands data being prepared by the user and loaded via [Dataset (no link yet)]() class.
 Here is a basic example of how one can achieve that:
 ```
 import nltk
