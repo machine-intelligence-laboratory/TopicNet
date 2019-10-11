@@ -1,0 +1,56 @@
+topics:
+    background_topics: ["bcg_5"]
+    specific_topics: ['topic_0', 'topic_1', 'topic_2', 'topic_3', 'topic_4']
+
+regularizers:
+
+- DecorrelatorPhiRegularizer:
+    name: 'decorrelation_phi_@text'
+    topic_names: specific_topics
+    tau: 1
+    class_ids: ["@text"]
+
+model: 
+    dataset_path: tests/test_data/test_dataset.csv
+    modalities_to_use: ['@text']
+    main_modality: '@text'
+
+stages:
+
+- CubeCreator:
+    num_iter: 5
+    reg_search: grid
+    selection:
+        - model.seed = 82019 and PerplexityScore@all -> min
+        - model.seed = 322 and PerplexityScore@all -> min
+    parameters:
+        - name: seed
+          values: [82019, 322]
+        - name: class_ids@text
+          values: [0.3, 1.0]
+
+- RegularizersModifierCube:
+    num_iter: 5
+    reg_search: add
+    selection:
+        - model.seed = 42 and PerplexityScore@all < 1.1 * MINIMUM(PerplexityScore@all) and SparsityPhiScore@text -> max
+        - model.seed = 35 and PerplexityScore@all < MEDIAN(PerplexityScore@all)
+    strategy: PerplexityStrategy
+    regularizer_parameters:
+        name: decorrelation_phi_@text
+    strategy_params:
+        start_point: 0
+        step: -10
+        max_len: 1
+    tracked_score_function: PerplexityScore@all
+
+- RegularizersModifierCube:
+    num_iter: 5
+    reg_search: add
+    regularizer_parameters:
+        name: decorrelation_phi_@text
+        tau_grid: [1, 2, 3]
+    selection:
+        - SparsityPhiScore@text > 0
+
+

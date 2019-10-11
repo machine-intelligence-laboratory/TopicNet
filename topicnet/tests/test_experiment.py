@@ -1,38 +1,62 @@
 import pytest
+import warnings
 
+import os
 import shutil
 import numpy as np
 
 import artm
 
-from ..cooking_machine.cubes.perplexity_strategy import retrieve_score_for_strategy
 from ..cooking_machine.cubes import RegularizersModifierCube
 
 from ..cooking_machine.models.topic_model import TopicModel
-from ..cooking_machine.experiment import Experiment
-from ..cooking_machine.dataset import Dataset
+from ..cooking_machine.experiment import Experiment, START
+from ..cooking_machine.dataset import Dataset, W_DIFF_BATCHES_1
 
-ROOT_ID = '<' * 8 + 'start' + '>' * 8
+
+MAIN_MODALITY = "@text"
+NGRAM_MODALITY = "@ngramms"
+EXTRA_MODALITY = "@str"
+
+
+def resource_teardown():
+    """ """
+    if os.path.exists("tests/experiments"):
+        shutil.rmtree("tests/experiments")
+    if os.path.exists("tests/test_data/test_dataset_batches"):
+        shutil.rmtree("tests/test_data/test_dataset_batches")
+
+
+def setup_function():
+    resource_teardown()
+
+
+def teardown_function():
+    resource_teardown()
 
 # to run all test
 @pytest.fixture(scope="function")
 def two_experiment_enviroments(request):
     """ """
-    dataset = Dataset('tests/test_data/test_dataset.csv')
-    dictionary = dataset.get_dictionary()
+    with warnings.catch_warnings():
+        warnings.filterwarnings(action="ignore", message=W_DIFF_BATCHES_1)
+        dataset = Dataset('tests/test_data/test_dataset.csv')
+        dictionary = dataset.get_dictionary()
 
     model_artm_1 = artm.ARTM(
         num_processors=1,
         num_topics=5, cache_theta=True,
         num_document_passes=1, dictionary=dictionary,
-        scores=[artm.PerplexityScore(name='PerplexityScore', dictionary=dictionary)],
+        scores=[artm.PerplexityScore(name='PerplexityScore'),
+                artm.SparsityPhiScore(name='SparsityPhiScore', class_id=MAIN_MODALITY)]
     )
 
     model_artm_2 = artm.ARTM(
         num_processors=1,
         num_topics=5, cache_theta=True,
         num_document_passes=1, dictionary=dictionary,
-        scores=[artm.PerplexityScore(name='PerplexityScore', dictionary=dictionary)],
+        scores=[artm.PerplexityScore(name='PerplexityScore'),
+                artm.SparsityPhiScore(name='SparsityPhiScore', class_id=MAIN_MODALITY)]
     )
 
     tm_1 = TopicModel(model_artm_1, model_id='new_id_1')
@@ -45,24 +69,18 @@ def two_experiment_enviroments(request):
         experiment_id="test_2", save_path="tests/experiments", topic_model=tm_2
     )
 
-    def resource_teardown():
-        """ """
-        shutil.rmtree("tests/experiments")
-        shutil.rmtree("tests/test_data/test_dataset_batches")
-
-    request.addfinalizer(resource_teardown)
-
     return tm_1, experiment_1, tm_2, experiment_2, dataset, dictionary
 
 
 def test_initial_save_load(two_experiment_enviroments):
     """ """
+    print(os.getcwd())
     tm_1, experiment_1, tm_2, experiment_2, dataset, dictionary = two_experiment_enviroments
 
     experiment_1.set_criteria(0, 'test_criteria')
     experiment_1.save('tests/experiments/test_1')
     experiment = Experiment.load('tests/experiments/test_1')
-    tm_id = ROOT_ID
+    tm_id = START
     tm_load = experiment.models[tm_id]
     tm_save = experiment_1.models[tm_id]
 
@@ -77,27 +95,27 @@ def test_simple_experiment(two_experiment_enviroments):
 
     experiment_1.save('tests/experiments/test_1')
     experiment = Experiment.load('tests/experiments/test_1')
-    tm_id = ROOT_ID
+    tm_id = START
     tm = experiment.models[tm_id]
 
     TAU_GRID = [0.1, 0.5, 1, 5, 10]
     regularizer_parameters = {
         "regularizer": artm.regularizers.SmoothSparsePhiRegularizer(name='test',
-                                                                    class_ids='text'),
+                                                                    class_ids=MAIN_MODALITY),
         "tau_grid": TAU_GRID
     }
 
     cube = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
-        tracked_score_function=retrieve_score_for_strategy('PerplexityScore'),
+        relative_coefficients=False,
         reg_search="grid"
     )
 
     cube_2 = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
-        tracked_score_function=retrieve_score_for_strategy('PerplexityScore'),
+        relative_coefficients=False,
         reg_search="grid"
     )
 
@@ -120,19 +138,21 @@ def test_double_steps_experiment(two_experiment_enviroments):
 
     regularizer_parameters = {
         "regularizer": artm.regularizers.SmoothSparsePhiRegularizer(name='test_first',
-                                                                    class_ids='text'),
+                                                                    class_ids=MAIN_MODALITY),
         "tau_grid": [0.1, 0.5, 1, 5, 10]
     }
 
     cube_first_1 = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
+        relative_coefficients=False,
         reg_search="grid"
     )
 
     cube_first_2 = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
+        relative_coefficients=False,
         reg_search="grid"
     )
 
@@ -141,6 +161,8 @@ def test_double_steps_experiment(two_experiment_enviroments):
 
     experiment_1.save('tests/experiments/test_1')
     experiment = Experiment.load('tests/experiments/test_1')
+    print('original experiment ', experiment_1.models.keys())
+    print('loaded experiment ', experiment.models.keys())
     tmodels_lvl2 = experiment.get_models_by_depth(2)
 
     TAU_GRID_LVL2 = [0.1, 0.5, 1]
@@ -153,14 +175,14 @@ def test_double_steps_experiment(two_experiment_enviroments):
     cube_second = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
-        tracked_score_function=retrieve_score_for_strategy('PerplexityScore'),
+        relative_coefficients=False,
         reg_search="grid"
     )
 
     cube_second_2 = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
-        tracked_score_function=retrieve_score_for_strategy('PerplexityScore'),
+        relative_coefficients=False,
         reg_search="grid"
     )
 
@@ -180,3 +202,43 @@ def test_double_steps_experiment(two_experiment_enviroments):
         assert np.array_equal(models[0].get_phi(), models[1].get_phi())
         assert models[0].depth == 3
         assert models[1].depth == 3
+
+
+def test_describe(two_experiment_enviroments):
+    """ """
+    tm_1, experiment_1, tm_2, experiment_2, dataset, dictionary = two_experiment_enviroments
+
+    regularizer_parameters = {
+        "regularizer": artm.regularizers.SmoothSparsePhiRegularizer(name='test_first',
+                                                                    class_ids=MAIN_MODALITY),
+        "tau_grid": [0.1, 0.5, 1, 5, 10]
+    }
+
+    cube_first = RegularizersModifierCube(
+        num_iter=10,
+        regularizer_parameters=regularizer_parameters,
+        relative_coefficients=False,
+        reg_search="grid"
+    )
+
+    _ = cube_first(tm_1, dataset)
+    criterion = "PerplexityScore -> min COLLECT 2"
+    tmodels_lvl1 = experiment_1.select(criterion)
+    experiment_1.set_criteria(1, [criterion])
+
+    cube_second = RegularizersModifierCube(
+        num_iter=10,
+        regularizer_parameters=regularizer_parameters,
+        relative_coefficients=False,
+        reg_search="grid"
+    )
+
+    _ = cube_second(tmodels_lvl1, dataset)
+    criterion = "SparsityPhiScore -> max COLLECT 1"
+    final_models = experiment_1.select(criterion)
+    experiment_1.set_criteria(2, [criterion])
+
+    final_model_name = final_models[0].model_id
+    second_model_name = tmodels_lvl1[0].model_id
+    assert "SparsityPhiScore" in experiment_1.describe_model(final_model_name)
+    assert "PerplexityScore" in experiment_1.describe_model(second_model_name)

@@ -22,7 +22,7 @@ class BaseScore:
 
     def call(self, model):
         """
-        Call to custom score function
+        Call to custom score function.
 
         Parameters
         ----------
@@ -34,5 +34,12 @@ class BaseScore:
         float
             score
 
+        Notes
+        -----
+        Higher score not necessarily should correspond to better model.
+        It is up to user to decide what the meaning is behind the score,
+        and then use this logic in query in Experiment's `select()` method.
+
+        If one need ARTM model for score (not TopicNet one), it is available as model._model
         """
-        raise NotImplementedError('define your score here')
+        raise NotImplementedError('Define your score here')

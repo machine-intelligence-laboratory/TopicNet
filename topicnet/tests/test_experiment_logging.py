@@ -1,29 +1,34 @@
 import artm
 import shutil
 import pytest
+import warnings
 
 from ..cooking_machine.models.topic_model import TopicModel
 from ..cooking_machine.experiment import Experiment
-from ..cooking_machine.dataset import Dataset
+from ..cooking_machine.dataset import Dataset, W_DIFF_BATCHES_1
 from ..cooking_machine.model_constructor import init_simple_default_model
 from ..cooking_machine.cubes import RegularizersModifierCube
+from ..cooking_machine.cubes.perplexity_strategy import PerplexityStrategy
+
+MAIN_MODALITY = "@text"
 
 
 class TestLogging:
     @classmethod
     def setup_class(cls):
         """ """
-        cls.experiment_path = 'tests/test_data/test_experiment/'
-        cls.dataset = Dataset('tests/test_data/test_dataset.csv')
-        dictionary = cls.dataset.get_dictionary()
-        cls.model_artm = init_simple_default_model(
-            dictionary=dictionary,
-            modalities_to_use={'@text'},
-            main_modality='@text',
-            n_specific_topics=14,
-            n_background_topics=1,
-        )
-        cls.topic_model = TopicModel(cls.model_artm, model_id='Groot')
+        with warnings.catch_warnings():
+            warnings.filterwarnings(action="ignore", message=W_DIFF_BATCHES_1)
+            cls.experiment_path = 'tests/test_data/test_experiment/'
+            cls.dataset = Dataset('tests/test_data/test_dataset.csv')
+            cls.model_artm = init_simple_default_model(
+                dataset=cls.dataset,
+                modalities_to_use={MAIN_MODALITY},
+                main_modality=MAIN_MODALITY,
+                specific_topics=14,
+                background_topics=1,
+            )
+            cls.topic_model = TopicModel(cls.model_artm, model_id='Groot')
 
     @classmethod
     def teardown_class(cls):
@@ -55,19 +60,22 @@ class TestLogging:
             save_path=cls.experiment_path,
             )
         test_cube = RegularizersModifierCube(
-            num_iter=3,
+            num_iter=5,
             regularizer_parameters={
                 'regularizer': artm.DecorrelatorPhiRegularizer(name='decorrelation_phi', tau=1),
-                'tau_grid': [1, 10, 100, 1000],
+                'tau_grid': [],
             },
+            strategy=PerplexityStrategy(0.001, 10, 25, threshold=1.0),
+            tracked_score_function='PerplexityScore@all',
             reg_search='mul',
+            relative_coefficients=False,
             verbose=True
         )
 
         test_cube(cls.topic_model, cls.dataset)
         experiment_run.set_criteria(1, 'some_criterion')
 
-        new_seed = experiment_run.get_models_by_depth()[0]
+        new_seed = experiment_run.get_models_by_depth(level=1)[0]
         experiment = Experiment(
             topic_model=new_seed,
             experiment_id="prune_experiment",

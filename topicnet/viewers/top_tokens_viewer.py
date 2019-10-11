@@ -70,6 +70,8 @@ def compute_pt_distribution(model, class_ids=None):
 
     n_wt = model.get_phi(class_ids=class_ids, model_name=model.model_nwt)
     n_t = n_wt.sum(axis=0)  # sum over all words
+    # TODO: maybe this is not P(t)
+    #  P(t) means prior P()? here using info from model, so not P(t), more like P(t | model)
     return n_t / n_t.sum()
 
 

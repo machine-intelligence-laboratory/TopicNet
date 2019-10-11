@@ -1,6 +1,6 @@
 from .base_cube import BaseCube
 from ..routine import transform_complex_entity_to_dict
-
+from ..rel_toolbox_lite import count_vocab_size, transform_regularizer
 from copy import deepcopy
 
 
@@ -9,14 +9,15 @@ class RegularizersModifierCube(BaseCube):
     Allows to create cubes of training and apply them to a topic model.
 
     """
-    def __init__(self, num_iter, regularizer_parameters, reg_search='grid',
-                 strategy=None, tracked_score_function=None, verbose=False):
+    def __init__(self, num_iter: int, regularizer_parameters,
+                 reg_search='grid', relative_coefficients: bool = True, strategy=None,
+                 tracked_score_function=None, verbose: bool = False):
         """
         Initialize stage. Checks params and update internal attributes.
 
         Parameters
         ----------
-        num_iter : str or int
+        num_iter : int
             number of iterations or method
         regularizer_parameters : list[dict] or dict
             regularizers params
@@ -26,19 +27,22 @@ class RegularizersModifierCube(BaseCube):
             "grid" for the fullgrid search in the case of several regularizers 
             "add" and "mul" for the ariphmetic and geometric progression
             respectively for PerplexityStrategy 
-            (Defatult value = "grid")
+            (Default value = "grid")
+        relative_coefficients : bool
+            forces the regularizer coefficient to be in relative form
+            i.e. normalized over collection properties
         strategy : BaseStrategy
-            optimization approach (Defatult value = None)
+            optimization approach (Default value = None)
         tracked_score_function : retrieve_score_for_strategy
-            optimizable function for strategy (Defatult value = None)
+            optimizable function for strategy (Default value = None)
         verbose : bool
-            visualization flag (Defatult value = False)
+            visualization flag (Default value = False)
 
         """  # noqa: W291
         super().__init__(num_iter=num_iter, action='reg_modifier',
                          reg_search=reg_search, strategy=strategy,
                          tracked_score_function=tracked_score_function, verbose=verbose)
-
+        self._relative = relative_coefficients
         if isinstance(regularizer_parameters, dict):
             regularizer_parameters = [regularizer_parameters]
         self._add_regularizers(regularizer_parameters)
@@ -98,46 +102,109 @@ class RegularizersModifierCube(BaseCube):
             {
                 "object": _retrieve_object(params),
                 "field": "tau",
-                "values": params['tau_grid']
+                "values": params.get('tau_grid', [])
             }
             for params in all_regularizer_parameters
         ]
 
-    def apply(self, topic_model, one_model_parameter, dictionary=None):
+    def _handle_regularizer(
+        self,
+        model,
+        modalities,
+        regularizer,
+        regularizer_type,
+    ):
         """
-        Applies regularizers and parameters to model.
+        Handles the case of various regularizers that
+        contain 'Regularizer' in their name, namely all artm regularizers
+
+        Parameters
+        ----------
+        model : TopicModel
+            to be changed in place
+        modalities : dict
+            modalities used in the model
+        regularizer : an instance of Regularizer from artm library
+        regularizer_type : str
+            type of regularizer to be added
+
+        Returns
+        -------
+        None
+
+        """
+
+        fallback_options = (AttributeError, TypeError, AssertionError)
+        try:
+            n_topics = len(regularizer.topic_names)
+            assert n_topics > 0
+        except fallback_options:
+            n_topics = len(model.topic_names)
+
+        if self._relative and 'SmoothSparse' in regularizer_type:
+            regularizer = transform_regularizer(
+                self.data_stats,
+                regularizer,
+                modalities,
+                n_topics,
+            )
+
+        model.regularizers.add(regularizer, overwrite=True)
+        if 'Decorrelator' in regularizer_type:
+            if self._relative:
+                model.regularizers[regularizer.name].gamma = 0
+            else:
+                model.regularizers[regularizer.name].gamma = None
+
+    def apply(self, topic_model, one_model_parameter, dictionary=None, model_id=None):
+        """
+        Applies regularizers and parameters to model
 
         Parameters
         ----------
         topic_model : TopicModel
         one_model_parameter : list or tuple
         dictionary : Dictionary
-             (Default value = None)
+            (Default value = None)
+        model_id : str
+            (Default value = None)
 
         Returns
         -------
         TopicModel
 
         """
-        new_model = topic_model.clone()
+        new_model = topic_model.clone(model_id)
         new_model.parent_model_id = topic_model.model_id
+
+        modalities = dict()
+        self.data_stats = None
+        if self._relative:
+            modalities = new_model.class_ids
+            if not getattr(self, 'data_stats', None):
+                self.data_stats = count_vocab_size(dictionary, modalities)
+
         for regularizer_data in one_model_parameter:
             regularizer, field_name, params = regularizer_data
+            regularizer_type = str(type(regularizer))
             if isinstance(regularizer, dict):
                 if regularizer['name'] in new_model.regularizers.data:
                     setattr(new_model.regularizers[regularizer['name']],
                             field_name,
                             params)
                 else:
-                    print(regularizer)
                     error_msg = (f"Regularizer {regularizer['name']} does not exist. "
                                  f"Cannot be modified.")
                     raise ValueError(error_msg)
-            elif 'Regularizer' in str(type(regularizer)):
+            elif 'Regularizer' in regularizer_type:
                 new_regularizer = deepcopy(regularizer)
-                # TODO: '._tau' -> setattr(field_name)
                 new_regularizer._tau = params
-                new_model.regularizers.add(new_regularizer, overwrite=True)
+                self._handle_regularizer(
+                    new_model,
+                    modalities,
+                    new_regularizer,
+                    regularizer_type,
+                )
             else:
                 error_msg = f"Regularizer instance or name must be specified for {regularizer}."
                 raise ValueError(error_msg)
@@ -147,7 +214,7 @@ class RegularizersModifierCube(BaseCube):
         """ """
         jsonable_parameters = []
         for one_model_parameters in self.raw_parameters:
-            one_jsonable = {"tau_grid": one_model_parameters["tau_grid"]}
+            one_jsonable = {"tau_grid": one_model_parameters.get("tau_grid", [])}
             if "regularizer" in one_model_parameters:
                 one_regularizer = one_model_parameters['regularizer']
                 if not isinstance(one_regularizer, dict):

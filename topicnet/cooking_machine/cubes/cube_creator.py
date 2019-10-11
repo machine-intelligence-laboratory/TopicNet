@@ -11,50 +11,76 @@ class CubeCreator(BaseCube):
     """
     DEFAULT_SEED_VALUE = 4
 
-    def __init__(self, model, num_iter, parameters, reg_search,
-                 second_level=False, tracked_score_function=None, verbose=False):
+    def __init__(self, num_iter: int, parameters, reg_search, strategy=None,
+                 model_class='TopicModel', second_level=False,
+                 tracked_score_function=None, verbose=False):
         """
 
         Parameters
         ----------
         model : TopicModel
             TopicModel instance
-        num_iter : str or int
+        num_iter : int
             number of iterations or method
         parameters : list[dict] or dict
             parameters for model initialization
         reg_search: str
             "grid" or "pair"
+        strategy : BaseStrategy
+            optimization approach (Default value = None)
         second_level : bool
-            if this cube is a second model level (Defatult value = False)
+            if this cube is a second model level (Default value = False)
         tracked_score_function : retrieve_score_for_strategy
-            optimizable function for strategy (Defatult value = None)
+            optimizable function for strategy (Default value = None)
         verbose : bool
-            visualization flag (Defatult value = False)
+            visualization flag (Default value = False)
 
         """
+        import topicnet.cooking_machine.models as tnmodels
+
         if second_level:
             action = 'HIER: LEVEL 2'
         else:
             action = 'INIT + TRAIN'
-        super().__init__(num_iter=num_iter, action=action,
+        super().__init__(num_iter=num_iter, action=action, strategy=strategy,
                          tracked_score_function=tracked_score_function,
                          reg_search=reg_search, verbose=verbose)
 
         if isinstance(parameters, dict):
             parameters = [parameters]
-        self.raw_parameters = parameters
-        self._model = model
+        parameters = self._preprocess_parameters(parameters)
+        self._raw_parameters = parameters
+
+        try:
+            if model_class == 'TopicModel':
+                model = getattr(tnmodels, model_class)(num_topics=-1)
+            else:
+                model = getattr(tnmodels, model_class)()
+        except AttributeError:
+            raise AttributeError('This model is not implemented')
+
         self._model_class = model.__class__
+        self._library_version = model._model.library_version
 
         param_set = [dictionary['name'] for dictionary in parameters]
         topic_related = set(['topic_names', 'num_topics']) & set(param_set)
         not_include = ['topic_names', ] if len(topic_related) > 0 else list()
+        self._not_include = not_include
 
-        self._model_init_parameters = model.get_init_parameters(not_include=not_include)
         self._second_level = second_level
         self._check_all_parameters(parameters)
         self._prepare_models_parameters(parameters)
+
+    def _preprocess_parameters(self, parameters):
+        clean_parameters = []
+        for params in parameters:
+            if "name" in params:
+                clean_parameters.append(params)
+            else:
+                for (name, values) in params.items():
+                    new_params = {"name": name, "values": values}
+                    clean_parameters.append(new_params)
+        return clean_parameters
 
     def _check_all_parameters(self, parameters):
         """
@@ -102,14 +128,26 @@ class CubeCreator(BaseCube):
         """
         self.parameters = []
         for params in parameters:
-            if params['name'] != 'class_ids':
+            name = params['name']
+            if not name.startswith('class_ids'):
                 self.parameters.append({
                     "object": "",
                     "field": params["name"],
                     "values": params["values"]
                 })
             else:
-                for modality_name, modality_values in params['values'].items():
+                if name == "class_ids":
+                    new_params = params
+                else:
+                    _, class_id = name.split("class_ids")
+
+                    weights = [float(w) for w in params["values"]]
+                    new_params = {
+                        "name": "class_ids",
+                        "values": {class_id: weights}
+                    }
+
+                for modality_name, modality_values in new_params['values'].items():
                     if modality_name[0] == '@':
                         self.parameters.append({
                             "object": "",
@@ -121,9 +159,9 @@ class CubeCreator(BaseCube):
 
     def get_jsonable_from_parameters(self):
         """ """
-        jsonable_parameters = dict(self._model_init_parameters)
+        jsonable_parameters = dict()
 
-        for one_parameter in self.raw_parameters:
+        for one_parameter in self._raw_parameters:
             jsonable_values = []
             for parameter in one_parameter['values']:
                 jsonable_values.append(str(parameter))
@@ -132,10 +170,13 @@ class CubeCreator(BaseCube):
         if self._second_level:
             jsonable_parameters['additional_info'] = 'hierarchical: Second level.'
 
-        jsonable_parameters['version'] = self._model._model.library_version
+        try:
+            jsonable_parameters['version'] = self._library_version
+        except AttributeError:
+            jsonable_parameters['version'] = "undefined"
         return [jsonable_parameters]
 
-    def apply(self, topic_model, one_cube_parameter, dictionary=None):
+    def apply(self, topic_model, one_cube_parameter, dictionary=None, model_id=None):
         """
 
         Parameters
@@ -143,13 +184,17 @@ class CubeCreator(BaseCube):
         topic_model : TopicModel
         one_cube_parameter : list or tuple
         dictionary : Dictionary
-             (Default value = None)
+            (Default value = None)
+        model_id : str
+            (Default value = None)
 
         Returns
         -------
 
         """
-        new_model_parameters = deepcopy(self._model_init_parameters)
+        new_model_parameters = deepcopy(
+            topic_model.get_init_parameters(not_include=self._not_include)
+        )
         for parameter_entry in one_cube_parameter:
             _, parameter_name, parameter_value = parameter_entry
             if parameter_name[0] == '@':
@@ -174,6 +219,7 @@ class CubeCreator(BaseCube):
         new_model_parameters['dictionary'] = dictionary
         new_model = model_class(
             experiment=experiment,
+            model_id=model_id,
             parent_model_id=parent_model_id,
             description=description,
             custom_scores=deepcopy(topic_model.custom_scores),

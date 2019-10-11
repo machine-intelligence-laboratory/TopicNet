@@ -1,27 +1,32 @@
 import pytest
+import warnings
 import shutil
 import artm
 
 from ..cooking_machine.models.topic_model import TopicModel
 from ..cooking_machine.experiment import Experiment
-from ..cooking_machine.dataset import Dataset
+from ..cooking_machine.dataset import Dataset, W_DIFF_BATCHES_1
 from ..cooking_machine.models.example_score import ScoreExample
 
 ARTM_NINE = artm.version().split(".")[1] == "9"
+MAIN_MODALITY = "@text"
+NGRAM_MODALITY = "@ngramms"
+EXTRA_MODALITY = "@str"
 
 # to run all test
 @pytest.fixture(scope="function")
 def experiment_enviroment(request):
     """ """
-    dataset = Dataset('tests/test_data/test_dataset.csv')
-    dictionary = dataset.get_dictionary()
+    with warnings.catch_warnings():
+        warnings.filterwarnings(action="ignore", message=W_DIFF_BATCHES_1)
+        dataset = Dataset('tests/test_data/test_dataset.csv')
+        dictionary = dataset.get_dictionary()
 
     model_artm = artm.ARTM(
         num_topics=5,
         num_document_passes=1, dictionary=dictionary,
-        scores=[artm.PerplexityScore(name='PerplexityScore', dictionary=dictionary)],
+        scores=[artm.PerplexityScore(name='PerplexityScore', )],
         theta_columns_naming='title',
-        # class_ids={'@text': 1, '@ngramms': 1, '@str': 1, '@psyduck': 42}
     )
     custom_scores = {'mean_kernel_size': ScoreExample()}
 
@@ -105,9 +110,9 @@ def test_fancy_fit_is_ok(experiment_enviroment):
     model_artm = artm.ARTM(
         num_topics=5,
         num_document_passes=1, dictionary=dictionary,
-        scores=[artm.PerplexityScore(name='PerplexityScore', dictionary=dictionary)],
+        scores=[artm.PerplexityScore(name='PerplexityScore')],
         theta_columns_naming='title',
-        class_ids={'@text': 1, '@ngramms': 1, '@str': 1, '@psyduck': 42},
+        class_ids={MAIN_MODALITY: 1, NGRAM_MODALITY: 1, EXTRA_MODALITY: 1, '@psyduck': 42},
         regularizers=[
             artm.SmoothSparseThetaRegularizer(name='smooth_theta', tau=10.0),
         ]

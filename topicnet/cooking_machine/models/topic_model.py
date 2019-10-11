@@ -3,7 +3,9 @@ from ..routine import transform_complex_entity_to_dict
 
 import os
 import json
+import glob
 import shutil
+import pickle
 import pandas as pd
 import warnings
 
@@ -15,7 +17,6 @@ from copy import deepcopy
 
 from inspect import signature
 
-START = '<'*8 + 'start' + '>'*8
 ARTM_NINE = artm.version().split(".")[1] == "9"
 
 SUPPORTED_SCORES_WITHOUT_VALUE_PROPERTY = (
@@ -84,6 +85,9 @@ class TopicModel(BaseModel):
         else:
             self._description = description
 
+    def __getattr__(self, attr_name):
+        return getattr(self._model, attr_name)
+
     def _get_all_scores(self):
         yield from self._model.score_tracker.items()
 
@@ -127,7 +131,7 @@ class TopicModel(BaseModel):
 
             for name, custom_score in self.custom_scores.items():
                 try:
-                    score = custom_score.call(self._model)
+                    score = custom_score.call(self)
                     custom_score.update(score)
                     self._model.score_tracker[name] = custom_score
                 except AttributeError:  # TODO: means no "call" attribute?
@@ -163,9 +167,6 @@ class TopicModel(BaseModel):
 
         return parameters
 
-    def __getattr__(self, attr_name):
-        return getattr(self._model, attr_name)
-
     def get_init_parameters(self, not_include=list()):
         init_artm_parameter_names = [
             p.name for p in list(signature(artm.ARTM.__init__).parameters.values())
@@ -183,19 +184,19 @@ class TopicModel(BaseModel):
              theta=False,
              dataset=None,):
         """
-        Saves model description and dump artm model.
+        Saves model description and dumps artm model.
         Use this method if you want to dump the model.
 
         Parameters
         ----------
         model_save_path : str
-            path to file (Default value = None)
+            path to the folder with dumped info about model
         phi : bool
-            save phi in csv format if True (Default value = True)
+            save phi in csv format if True
         theta : bool
-            save theta in csv format if True (Default value = False)
+            save theta in csv format if True
         dataset : Dataset
-             (Default value = None)
+             dataset
 
         """
         if model_save_path is None:
@@ -215,6 +216,10 @@ class TopicModel(BaseModel):
         self._model.dump_artm_model(model_itself_save_path)
         self.save_parameters(model_save_path)
 
+        for score_name, score_class in self.custom_scores.items():
+            save_path = os.path.join(model_save_path, score_name + '.p')
+            pickle.dump(score_class, open(save_path, 'wb'))
+
     @staticmethod
     def load(path, experiment=None):
         """
@@ -231,30 +236,40 @@ class TopicModel(BaseModel):
         TopicModel
 
         """
-        from ..experiment import Experiment
+        from ..experiment import Experiment, START
 
         if "model" in os.listdir(f"{path}"):
             model = artm.load_artm_model(f"{path}/model")
         else:
             model = None
             print("There is no dumped model. You should train it again.")
-        params = json.load(open(f"{path}/params.json", "r"))
+        params = json.load(open(f"{path}/params.json", "r"))  # TODO: add property with such name?
         topic_model = TopicModel(model, **params)
 
-        # TODO: Разрешить конфликт рекурсивной загрузки эксперимента и модели (ITN-361)
         crunch_resolve = experiment or topic_model.model_id == START
         if crunch_resolve:
             topic_model.experiment = experiment
         elif params["experiment_id"] is not None:
             experiment_path = path[:path.rfind(topic_model.model_id)]
             if params["experiment_id"] in experiment_path.split('/'):
-                topic_model.experiment = Experiment.load(path[:path.rfind(topic_model.model_id)])
+                topic_model.experiment = Experiment.load(experiment_path)
 
+        custom_scores = {}
+        for score_path in glob.glob(os.path.join(path, '*.p')):
+            score_name = os.path.basename(score_path).split('.')[0]
+            custom_scores[score_name] = pickle.load(open(score_path, 'rb'))
+
+        topic_model.custom_scores = custom_scores
         return topic_model
 
-    def clone(self):
+    def clone(self, model_id=None):
         """
         Creates a copy of the model except model_id.
+
+        Parameters
+        ----------
+        model_id : str
+            (Default value = None)
 
         Returns
         -------
@@ -262,6 +277,7 @@ class TopicModel(BaseModel):
 
         """
         topic_model = TopicModel(artm_model=self._model.clone(),
+                                 model_id=model_id,
                                  parent_model_id=self.parent_model_id,
                                  description=deepcopy(self.description),
                                  custom_scores=deepcopy(self.custom_scores),
@@ -423,6 +439,81 @@ class TopicModel(BaseModel):
                                                   theta_matrix_type,
                                                   predict_class_id)
                     return theta
+
+    def to_dummy(self):
+        """Creates dummy model
+
+        Returns
+        -------
+        DummyTopicModel
+            Dummy model: without inner ARTM model,
+            but with scores and init parameters of calling TopicModel
+
+        Notes
+        -----
+        Dummy model has the same model_id as the original model,
+        but "model_id" key in experiment.models contains original model, not dummy
+        """
+        from .dummy_topic_model import DummyTopicModel
+        # python crashes if place this import on top of the file
+        # import circle: TopicModel -> DummyTopicModel -> TopicModel
+
+        dummy = DummyTopicModel(
+            init_parameters=self.get_init_parameters(),
+            scores=self.scores,
+            model_id=self.model_id,
+            parent_model_id=self.parent_model_id,
+            description=self.description,
+            experiment=self.experiment
+        )
+
+        # BaseModel spoils model_id trying to make it unique
+        dummy._model_id = self.model_id  # accessing private field instead of public property
+
+        return dummy
+
+    def make_dummy(self, save_to_drive=True, save_path=None, dataset=None):
+        """Makes topic model dummy in-place
+
+        Parameters
+        ----------
+        save_to_drive : bool
+            Whether to save model to drive or not. If not, the info will be lost
+        save_path : str (or None)
+            Path to folder to dump info to
+        dataset : Dataset
+            Dataset with text collection on which the model was trained.
+            Needed for saving Theta matrix
+
+        Notes
+        -----
+        After calling the method, the model is still of type TopicModel,
+        but all its attributes are now like DummyTopicModel's
+        """
+        from .dummy_topic_model import DummyTopicModel
+        from .dummy_topic_model import WARNING_ALREADY_DUMMY
+
+        if hasattr(self, DummyTopicModel._dummy_attribute):
+            warnings.warn(WARNING_ALREADY_DUMMY)
+
+            return
+
+        if not save_to_drive:
+            save_path = None
+        else:
+            save_path = save_path or self.model_default_save_path
+            save_theta = self._model._cache_theta or (dataset is not None)
+            self.save(save_path, phi=True, theta=save_theta, dataset=dataset)
+
+        dummy = self.to_dummy()
+        dummy._original_model_save_folder_path = save_path
+
+        self._model.dispose()
+        self._model = dummy._model
+
+        del dummy
+
+        setattr(self, DummyTopicModel._dummy_attribute, True)
 
     @property
     def scores(self):

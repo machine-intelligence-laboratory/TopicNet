@@ -1,6 +1,11 @@
+import os
 from tqdm import tqdm
+import warnings
+from multiprocessing import SimpleQueue, Process
 
 from .strategy import BaseStrategy
+from ..models.base_model import padd_model_name
+from ..routine import get_timestamp_in_str_format
 
 
 def check_experiment_existence(topic_model):
@@ -23,52 +28,15 @@ def check_experiment_existence(topic_model):
     return is_experiment
 
 
-def choose_best_model(models, metric):
-    """
-    Get best model according to specified metric.
+class retrieve_score_for_strategy:
+    def __init__(self, score_name):
+        self.score_name = score_name
 
-    Parameters
-    ----------
-    models : list
-        list of models with .scores parameter
-    metric : str
-        metric for selection
-
-    Returns
-    -------
-    TopicModel
-        model with best score
-    float
-        best score.
-
-    """
-    if metric not in models[0].scores:
-        raise ValueError(f'There is no {metric} metric for model {models[0].model_id}.')
-    best_model, best_score = models[0], models[0].scores[metric][-1]
-    for model in models[1:]:
-        current_score = model.scores[metric][-1]
-        if best_score < current_score:
-            best_score = current_score
-            best_model = model
-    return best_model, best_score
-
-
-def retrieve_perplexity_score(topic_model):
-    """
-
-    Parameters
-    ----------
-    topic_model : TopicModel
-
-    Returns
-    -------
-
-    """
-    score_name = "PerplexityScore"
-    value_name = "value"
-    model = topic_model._model
-    values = getattr(model.score_tracker[score_name], value_name)
-    return values
+    def __call__(self, model):
+        if isinstance(model, str):
+            self.score_name = model
+        else:
+            return model.scores[self.score_name][-1]
 
 
 class BaseCube:
@@ -87,17 +55,17 @@ class BaseCube:
         num_iter : int
             number of iterations or method
         action : str
-            stage of creation (Defatult value = None)
+            stage of creation
         reg_search : str
             "grid" or "pair". "pair" for elementwise grid search in the case
             of several regularizers, "grid" for the fullgrid search in the
-            case of several regularizers (Defatult value = "grid")
+            case of several regularizers
         strategy : BaseStrategy
-            optimization approach (Defatult value = None)
-        tracked_score_function : retrieve_score_for_strategy
-            optimizable function for strategy (Defatult value = None)
+            optimization approach
+        tracked_score_function : str or callable
+            optimizable function for strategy
         verbose : bool
-            visualization flag (Defatult value = False)
+            visualization flag
 
         """
         self.num_iter = num_iter
@@ -107,10 +75,13 @@ class BaseCube:
         if not strategy:
             strategy = BaseStrategy()
         self.strategy = strategy
-        self.tracked_score_function = tracked_score_function
         self.verbose = verbose
 
-    def apply(self, topic_model, one_cube_parameter, dictionary=None):
+        if isinstance(tracked_score_function, str):
+            tracked_score_function = retrieve_score_for_strategy(tracked_score_function)
+        self.tracked_score_function = tracked_score_function
+
+    def apply(self, topic_model, one_cube_parameter, dictionary=None, model_id=None):
         """
         "apply" method changes topic_model in way that is defined by one_cube_parameter.
 
@@ -123,6 +94,8 @@ class BaseCube:
         dictionary : dict
             dictionary so that the it can be used
             on the basis of the model (Default value = None)
+        model_id : str
+            id of created model if necessary (Default value = None)
 
         Returns
         -------
@@ -146,6 +119,88 @@ class BaseCube:
         """
         return self.parameters
 
+    def _train_models(self, queue, experiment, topic_model, dataset,
+                      dataset_trainable, search_space, search_length):
+        """
+        This function trains models in separate thread, saves them
+        and returns all paths for save with respect to train order.
+        To preserve train order model number is also returned.
+
+        """
+        def verbose_enumerate(space, verbose, total_length):
+            """
+
+            Parameters
+            ----------
+            space : optional
+            verbose : bool
+            total_length : int
+
+            Returns
+            -------
+
+            """
+            if verbose:
+                space = tqdm(space, total=total_length)
+            for param_id, point in enumerate(space):
+                yield param_id, point
+
+        with warnings.catch_warnings(record=True) as caught_warnings:
+            returned_paths = []
+            experiment_save_path = getattr(experiment, 'save_path', None)
+            experiment_id = getattr(experiment, 'experiment_id', None)
+            save_folder = os.path.join(experiment_save_path, experiment_id)
+            for parameter_id, search_point in verbose_enumerate(search_space,
+                                                                self.verbose,
+                                                                search_length):
+                new_model_def_id = get_timestamp_in_str_format()
+                new_model_id = padd_model_name(new_model_def_id)
+                new_model_save_path = os.path.join(save_folder, new_model_id)
+                model_index = 0
+                while os.path.exists(new_model_save_path):
+                    new_model_id = padd_model_name(new_model_def_id + '_' + str(model_index))
+                    new_model_save_path = os.path.join(save_folder, new_model_id)
+                    model_index += 1
+
+                new_model = self.apply(topic_model, search_point,
+                                       dataset.get_dictionary(), new_model_id)
+
+                model_cube = {
+                    "action": self.action,
+                    "num_iter": self.num_iter,
+                    "params": repr(search_point)
+                }
+
+                new_model._fit(
+                    dataset_trainable=dataset_trainable,
+                    num_iterations=self.num_iter
+                )
+                new_model.add_cube(model_cube)
+                new_model.experiment = experiment
+                new_model.save()
+
+                returned_paths.append((parameter_id, new_model.model_default_save_path))
+
+                # some strategies depend on previous train results, therefore scores must be updated
+                if self.tracked_score_function:
+                    current_score = self.tracked_score_function(new_model)
+                else:
+                    # we return number of iterations as a placeholder
+                    current_score = len(returned_paths)
+                self.strategy.update_scores(current_score)
+
+            queue.put(len(returned_paths))
+            for path_tuple in returned_paths:
+                queue.put(path_tuple)
+
+            # to work with strategy we recover consistency by sending important parameters
+            strategy_parameters = self.strategy._get_strategy_parameters(saveable_only=True)
+            queue.put(strategy_parameters)
+
+            caught_warnings = [(warning.message, warning.category)
+                               for warning in caught_warnings]
+            queue.put(caught_warnings)
+
     def _run_cube(self, topic_model, dataset):
         """
         Apply cube to topic_model. Get new models and fit them on batch_vectorizer.
@@ -161,6 +216,8 @@ class BaseCube:
         TopicModel
 
         """
+        from ..models import TopicModel
+
         # create log
         # TODO: будет странно работать, если бесконечный список
         parameter_description = self.get_jsonable_from_parameters()
@@ -190,60 +247,41 @@ class BaseCube:
             is_new_exp_cube = False
         else:
             is_new_exp_cube = True
-        # print(is_new_exp_cube, experiment.depth, experiment.true_depth, topic_model_depth_in_tree)
 
         dataset_trainable = dataset._transform_data_for_training()
 
         # perform all experiments
-        topic_models = []
-        strategy = self.strategy
-        strategy.prepare_grid(self.parameters, self.reg_search)
-        search_space = strategy.grid_visit_generator(self.parameters, self.reg_search)
-        search_length = getattr(strategy, 'grid_len', None)
+        self.strategy.prepare_grid(self.parameters, self.reg_search)
+        search_space = self.strategy.grid_visit_generator(self.parameters, self.reg_search)
+        search_length = getattr(self.strategy, 'grid_len', None)
+        queue = SimpleQueue()
+        process = Process(
+            target=self._train_models,
+            args=(queue, experiment, topic_model, dataset,
+                  dataset_trainable, search_space, search_length)
+        )
+        process.start()
 
-        def verbose_enumerate(space, verbose, total_length):
-            """
+        models_num = queue.get()
+        topic_models_dict = {}
+        for _ in range(models_num):
+            path_tuple = queue.get()
+            topic_models_dict[path_tuple[0]] = TopicModel.load(path_tuple[1], experiment=experiment)
 
-            Parameters
-            ----------
-            space : optional
-            verbose : bool
-            total_length : int
+        strategy_parameters = queue.get()
+        caught_warnings = queue.get()
 
-            Returns
-            -------
+        process.join()
 
-            """
-            if verbose:
-                space = tqdm(space, total=total_length)
-            for param_id, point in enumerate(space):
-                yield param_id, point
+        for warning in caught_warnings:
+            if issubclass(warning[1], UserWarning):
+                warnings.warn(warning[0])
 
-        for parameter_id, search_point in verbose_enumerate(search_space,
-                                                            self.verbose,
-                                                            search_length):
-            new_model = self.apply(topic_model, search_point, dataset.get_dictionary())
+        topic_models = list(dict(sorted(topic_models_dict.items())).values())
+        for topic_model in topic_models:
+            experiment.add_model(topic_model)
 
-            model_cube = {
-                "action": self.action,
-                "num_iter": self.num_iter,
-                "params": repr(search_point)
-            }
-
-            new_model._fit(
-                dataset_trainable=dataset_trainable,
-                num_iterations=self.num_iter
-            )
-            new_model.add_cube(model_cube)
-            experiment.add_model(new_model)
-            topic_models.append(new_model)
-
-            if self.tracked_score_function:
-                current_score = self.tracked_score_function(new_model)
-            else:
-                # we return number of iterations as a placeholder
-                current_score = len(topic_models)
-            strategy.update_scores(current_score)
+        self.strategy._set_strategy_parameters(strategy_parameters)
 
         if is_new_exp_cube:
             experiment.add_cube(cube_description)

@@ -1,8 +1,20 @@
 import numpy as np
 
 from copy import deepcopy
+from .models.base_model import MODEL_NAME_LENGTH
 
-START = '<'*8 + 'start' + '>'*8
+
+def padd_model_name(model_id):
+    padding = MODEL_NAME_LENGTH - len(model_id)
+    if padding > 0:
+        add = padding // 2
+        odd = padding % 2
+        return '<' * add + model_id + '>' * (add + odd)
+    else:
+        return model_id[:MODEL_NAME_LENGTH]
+
+
+START = padd_model_name('root')
 
 UP_END = "┌"
 DOWN_END = "└"
@@ -149,7 +161,7 @@ class Tree(object):
             for leaf in tree["models"]:
                 self._add_model_in_tree(leaf, topic_model)
 
-    def _prune(self, tree, depth, level: int = 0):
+    def _prune(self, tree, depth, level: int = 1):
         """
         Prunes tree to get particular depth.
 

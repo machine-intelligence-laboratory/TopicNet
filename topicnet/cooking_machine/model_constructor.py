@@ -20,7 +20,7 @@ def add_standard_scores(
     assert main_modality in all_modalities, "main_modality must be part of all_modalities"
 
     model.scores.add(artm.scores.PerplexityScore(
-        name='PerplexityScore@all', dictionary=dictionary,
+        name='PerplexityScore@all',
         class_ids=all_modalities
     ))
 
@@ -33,7 +33,7 @@ def add_standard_scores(
             name=f'SparsityPhiScore{modality}', class_id=modality)
         )
         model.scores.add(artm.scores.PerplexityScore(
-            name=f'PerplexityScore{modality}', dictionary=dictionary,
+            name=f'PerplexityScore{modality}',
             class_ids=[modality]
         ))
         model.scores.add(
@@ -60,21 +60,43 @@ def init_model(topic_names, seed=None, class_ids=None):
 
 
 def init_simple_default_model(
-        dictionary, modalities_to_use, main_modality,
-        n_specific_topics, n_background_topics
+        dataset, modalities_to_use, main_modality,
+        specific_topics, background_topics,
 ):
     """
-    Creates simple artm model with standart scores.
+    Creates simple artm model with standard scores.
 
+    Parameters
+    ----------
+    dataset : Dataset
+    modalities_to_use : list of str
+    main_modality : str
+    specific_topics : list or int
+    background_topics : list or int
+
+    Returns
+    -------
+    model: artm.ARTM() instance
     """
-    specific_topic_names = [
-        f'topic_{i}'
-        for i in range(n_specific_topics)
-    ]
-    background_topic_names = [
-        f'background_{n_specific_topics + i}'
-        for i in range(n_background_topics)
-    ]
+    if isinstance(specific_topics, list):
+        specific_topic_names = list(specific_topics)
+    else:
+        specific_topics = int(specific_topics)
+        specific_topic_names = [
+            f'topic_{i}'
+            for i in range(specific_topics)
+        ]
+    n_specific_topics = len(specific_topic_names)
+    if isinstance(background_topics, list):
+        background_topic_names = list(background_topics)
+    else:
+        background_topics = int(background_topics)
+        background_topic_names = [
+            f'background_{n_specific_topics + i}'
+            for i in range(background_topics)
+        ]
+    n_background_topics = len(background_topic_names)
+    dictionary = dataset.get_dictionary()
 
     baseline_class_ids = {class_id: 1 for class_id in modalities_to_use}
     tokens_data = count_vocab_size(dictionary, modalities_to_use)

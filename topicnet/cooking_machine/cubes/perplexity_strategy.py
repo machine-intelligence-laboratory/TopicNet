@@ -5,23 +5,13 @@ import warnings
 from .strategy import BaseStrategy
 
 
-class retrieve_score_for_strategy:
-    def __init__(self, score_name):
-        self.score_name = score_name
-
-    def __call__(self, model):
-        if isinstance(model, str):
-            self.score_name = model
-        else:
-            return model.scores[self.score_name][-1]
-
-
 class PerplexityStrategy(BaseStrategy):
     """
     Search for the best perplexity score.
 
     """
-    def __init__(self, start_point=None, step=None, max_len=25, threshold=1.05):
+    def __init__(self, start_point: float = None, step: float = None,
+                 max_len: float = 25, threshold: float = 1.05):
         """
         Initialize stage.
 
@@ -62,6 +52,44 @@ class PerplexityStrategy(BaseStrategy):
             if any(key not in entry.keys() for key in ["field", "object", "values"]):
                 raise ValueError(entry)
         self.parameters = parameters
+
+    def _get_strategy_parameters(self, saveable_only=False):
+        """
+        """
+        strategy_parameters = {
+            "score": self.score,
+            "threshold": self.threshold,
+            "grid_len": self.grid_len,
+            "start_point": self.start_point,
+            "step": self.step,
+            "max_len": self.max_len
+        }
+
+        if not saveable_only:
+            strategy_parameters["best_point"] = self.best_point
+            strategy_parameters["last_point"] = self.last_point
+            strategy_parameters["grid"] = self.grid
+            if hasattr(self, "parameters"):
+                strategy_parameters["parameters"] = self.parameters
+        else:
+            strategy_parameters["best_point"] = self.best_point[0][-1]
+            strategy_parameters["last_point"] = self.last_point[0][-1]
+
+        return strategy_parameters
+
+    def _set_strategy_parameters(self, strategy_parameters):
+        """
+        """
+        if not isinstance(strategy_parameters, dict):
+            raise ValueError("Input parameters must be dict.")
+
+        for parameter_name in strategy_parameters.keys():
+            if parameter_name in ["best_point", "last_point"]:
+                if isinstance(strategy_parameters[parameter_name], (int, float)):
+                    setattr(self, parameter_name,
+                            self._implement_tau(strategy_parameters[parameter_name]))
+            else:
+                setattr(self, parameter_name, strategy_parameters[parameter_name])
 
     def _implement_tau(self, tau):
         """

@@ -78,18 +78,15 @@ def phi_weight_rel2abs(ds, modality_weights, n_topics, gimel, modalities_list=No
     return tau
 
 
-def compute_regularizer_tau(tokens_data, reg, modality_weights):
+def compute_regularizer_tau(tokens_data, reg, modality_weights, n_topics):
 
     (modality_count, modality_vocab_size, num_docs) = tokens_data
 
-    if isinstance(reg.tau, str) and "rel" == reg.tau[-3:]:
-        gimel = float(reg.tau[:-3])
-    else:
-        return reg.tau
+    gimel = reg.tau
 
     if "SmoothSparseThetaRegularizer" in str(type(reg)):
         tau = theta_weight_rel2abs(tokens_data, modality_weights,
-                                   len(reg.topic_names), gimel)
+                                   n_topics, gimel)
         return tau
     elif "SmoothSparsePhiRegularizer" in str(type(reg)):
         if len(reg.class_ids):
@@ -98,7 +95,7 @@ def compute_regularizer_tau(tokens_data, reg, modality_weights):
             modalities_list = modality_weights.keys()
 
         tau = phi_weight_rel2abs(tokens_data, modality_weights,
-                                 len(reg.topic_names), gimel, modalities_list)
+                                 n_topics, gimel, modalities_list)
         return tau
     elif "DecorrelatorPhiRegularizer" in str(type(reg)):
         raise ValueError("Decorrelator {} warrants further study".format(reg.name))
@@ -106,13 +103,13 @@ def compute_regularizer_tau(tokens_data, reg, modality_weights):
         raise KeyError("Invalid: {}".format(reg.name))
 
 
-def compute_regularizer_gimel(tokens_data, reg, modality_weights):
+def compute_regularizer_gimel(tokens_data, reg, modality_weights, n_topics):
 
     (modality_count, modality_vocab_size, num_docs) = tokens_data
 
     if "SmoothSparseThetaRegularizer" in str(type(reg)):
         gimel = theta_weight_abs2rel(tokens_data, modality_weights,
-                                     len(reg.topic_names), reg.tau)
+                                     n_topics, reg.tau)
         return gimel
     elif "SmoothSparsePhiRegularizer" in str(type(reg)):
         if len(reg.class_ids):
@@ -121,7 +118,7 @@ def compute_regularizer_gimel(tokens_data, reg, modality_weights):
             modalities_list = modality_weights.keys()
 
         gimel = phi_weight_abs2rel(tokens_data, modality_weights,
-                                   len(reg.topic_names), reg.tau, modalities_list)
+                                   n_topics, reg.tau, modalities_list)
         return gimel
     elif "DecorrelatorPhiRegularizer" in str(type(reg)):
         raise ValueError("Decorrelator {} warrants further study".format(reg.name))
@@ -129,11 +126,16 @@ def compute_regularizer_gimel(tokens_data, reg, modality_weights):
         raise KeyError("Invalid: {}".format(reg.name))
 
 
-def transform_regularizer(tokens_data, reg, modality_weights):
+def transform_regularizer(tokens_data, reg, modality_weights, n_topics=None):
+
+    if n_topics is None and len(reg.topic_names) == 0:
+        raise ValueError('Number of topics to regularize should be specified')
+    if n_topics is None:
+        n_topics = len(reg.topic_names)
 
     (modality_count, modality_vocab_size, num_docs) = tokens_data
 
-    new_tau = compute_regularizer_tau(tokens_data, reg, modality_weights)
+    new_tau = compute_regularizer_tau(tokens_data, reg, modality_weights, n_topics)
     reg_class = reg.__class__
     reg_copy = reg_class(
             tau=new_tau,

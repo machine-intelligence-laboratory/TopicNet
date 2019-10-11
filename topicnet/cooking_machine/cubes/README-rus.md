@@ -1,5 +1,5 @@
 # Cubes
-[Русская версия](README-rus.md)
+[English version](README.md)
 Виды кубиков (cubes):
 
 * `BaseCube` — абстрактный класс для создания других кубиков

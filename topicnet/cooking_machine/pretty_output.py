@@ -3,8 +3,7 @@ import numpy as np
 from datetime import datetime
 from .routine import get_fix_string, get_fix_list
 from .routine import get_equal_strings, get_equal_lists
-
-START = '<'*8 + 'start' + '>'*8
+from .models.base_model import MODEL_NAME_LENGTH
 
 UP_END = "┌"
 DOWN_END = "└"
@@ -67,7 +66,7 @@ def resize_value(key, value, tab: str = "  "):
     return [tab + get_fix_string(value, length=-1)]
 
 
-def get_cube_strings(cubes, tab: str = "  ", min_len_per_cube: int = 21):
+def get_cube_strings(cubes, tab: str = "  ", min_len_per_cube: int = MODEL_NAME_LENGTH):
     """
 
     Parameters
@@ -76,7 +75,7 @@ def get_cube_strings(cubes, tab: str = "  ", min_len_per_cube: int = 21):
     tab : str
          (Default value = "  ")
     min_len_per_cube : int
-         (Default value = 21)
+         (Default value = MODEL_NAME_LENGTH defined in BaseModel)
 
     Returns
     -------
@@ -105,7 +104,7 @@ def get_cube_strings(cubes, tab: str = "  ", min_len_per_cube: int = 21):
     return cube_strings
 
 
-def get_criteria_strings(criteria, tab: str = "  ", min_len_per_cube: int = 21):
+def get_criteria_strings(criteria, tab: str = "  ", min_len_per_cube: int = MODEL_NAME_LENGTH):
     """
 
     Parameters
@@ -114,7 +113,7 @@ def get_criteria_strings(criteria, tab: str = "  ", min_len_per_cube: int = 21):
     tab : str
          (Default value = "  ")
     min_len_per_cube : int
-         (Default value = 21)
+         (Default value = MODEL_NAME_LENGTH defined in BaseModel)
 
     Returns
     -------
@@ -178,8 +177,8 @@ def add_non_tree_strings(strings, strings_to_add, add_separator=True):
 
 def give_strings_description(experiment,
                              tab: str = "  ",
-                             min_len_per_cube: int = 21,
-                             len_tree_step: int = 22):
+                             min_len_per_cube: int = MODEL_NAME_LENGTH,
+                             len_tree_step: int = MODEL_NAME_LENGTH + 1):
     """
     Gets strings description of the experiment.
 
@@ -188,9 +187,11 @@ def give_strings_description(experiment,
     tab : str
         tab symbol for margin (Default value = "  ")
     min_len_per_cube : int
-        minimal length of one stage of description experiment (Default value = 21)
+        minimal length of one stage of description experiment
+        (Default value = MODEL_NAME_LENGTH defined in BaseModel)
     len_tree_step : int
-        length of the whole one stage description of experiment's tree (Default value = 22)
+        length of the whole one stage description of experiment's tree
+        (Default value = MODEL_NAME_LENGTH + 1 defined in BaseModel)
 
     Returns
     -------

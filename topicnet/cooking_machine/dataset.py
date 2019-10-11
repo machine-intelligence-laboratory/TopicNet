@@ -7,6 +7,12 @@ import shutil
 from glob import glob
 from .routine import blake2bchecksum
 
+W_DIFF_BATCHES_1 = "Attempted to use batches for different dataset."
+W_DIFF_BATCHES_2 = "Overwriting batches in {0}"
+
+DEFAULT_ARTM_MODALITY = '@default_class'  # TODO: how to get this value from artm library?
+MODALITY_START_SYMBOL = '|'
+
 
 def get_modality_names(vw_string):
     """
@@ -25,7 +31,7 @@ def get_modality_names(vw_string):
         modalities in document
 
     """
-    modalities = vw_string.split('|')
+    modalities = vw_string.split(MODALITY_START_SYMBOL)
     modality_names = [mod.split(' ')[0] for mod in modalities]
     doc_id = modality_names[0]
     modality_names = list(set(modality_names[1:]))
@@ -49,11 +55,15 @@ def get_modality_vw(vw_string, modality_name):
         content of modality_name modality
 
     """
-    modality_contents = vw_string.split('|')
+    modality_contents = vw_string.split(MODALITY_START_SYMBOL)
     for one_modality_content in modality_contents:
         if one_modality_content[:len(modality_name)] == modality_name:
             return one_modality_content[len(modality_name):]
     return ""
+
+
+VW_TEXT_COL = 'vw_text'
+RAW_TEXT_COL = 'raw_text'
 
 
 class BaseDataset:
@@ -80,7 +90,8 @@ class Dataset(BaseDataset):
     """
     def __init__(self, data_path,
                  keep_in_memory=True,
-                 batch_vectorizer_path=None):
+                 batch_vectorizer_path=None,
+                 batch_size=1000):
         """
 
         Parameters
@@ -88,14 +99,20 @@ class Dataset(BaseDataset):
         data_path : str
             path to a CSV file with input data for training models,
             format of the file is <id>,<raw text>,<Vowpal Wabbit text>
-        vocab_path : str
-            path to the file (dictionary) with input data attributes
+        keep_in_memory: bool
+            a flag determining if the collection is small enough to
+            be kept in memory.
+        batch_vectorizer_path : str
+            path to the directory with collection batches
+        batch_size : int
+            number of documents in one batch
 
         """
         # set main data
         self._data_path = data_path
         self._small_data = keep_in_memory
         self._data_hash = None
+        self._cached_dict = None
         if os.path.exists(data_path):
             self._data = self._read_data(data_path)
         else:
@@ -110,6 +127,7 @@ class Dataset(BaseDataset):
             self._batch_vectorizer_path = data_path[:dot_position] + '_batches'
 
         self._modalities = self._extract_possible_modalities()
+        self.batch_size = batch_size
 
     def _read_data(self, data_path):
         """
@@ -156,16 +174,16 @@ class Dataset(BaseDataset):
                 error_bad_lines=False,
                 sep='\n',
                 header=None,
-                names=['vw_text']
+                names=[VW_TEXT_COL]
             )
-            data['raw_text'] = ''
+            data[RAW_TEXT_COL] = ''
 
-            data['id'] = data['vw_text'].str.partition(' ')[0]
+            data['id'] = data[VW_TEXT_COL].str.partition(' ')[0]
         else:
             raise TypeError('Unknown file type')
         data['id'] = data['id'].astype('str')
         data = data.set_index('id')
-        if 'vw_text' not in data.columns:
+        if VW_TEXT_COL not in data.columns:
             raise ValueError('data should contain VW field')
         return data
 
@@ -192,7 +210,7 @@ class Dataset(BaseDataset):
         if self._small_data:
             in_index = self._data.index.intersection(document_id)
             back_pd = pd.DataFrame(
-                self._data.loc[in_index, 'vw_text']
+                self._data.loc[in_index, VW_TEXT_COL]
                 .reindex(document_id)
                 .fillna('Not Found')
             )
@@ -204,7 +222,7 @@ class Dataset(BaseDataset):
                 if doc_id in data_indices
             ]
             back_pd = pd.DataFrame(
-                self._data.loc[in_index, 'vw_text'].compute()
+                self._data.loc[in_index, VW_TEXT_COL].compute()
                 .reindex(document_id)
                 .fillna('Not Found')
             )
@@ -229,7 +247,7 @@ class Dataset(BaseDataset):
         if self._small_data:
             in_index = self._data.index.intersection(document_id)
             back_pd = pd.DataFrame(
-                self._data.loc[in_index, 'raw_text']
+                self._data.loc[in_index, RAW_TEXT_COL]
                 .reindex(document_id)
                 .fillna('Not Found')
             )
@@ -241,7 +259,7 @@ class Dataset(BaseDataset):
                 if doc_id in data_indices
             ]
             back_pd = pd.DataFrame(
-                self._data.loc[in_index, 'raw_text'].compute()
+                self._data.loc[in_index, RAW_TEXT_COL].compute()
                 .reindex(document_id)
                 .fillna('Not Found')
             )
@@ -251,7 +269,7 @@ class Dataset(BaseDataset):
         """ """
         with open(file_path, 'w') as f:
             for index, data in self._data.iterrows():
-                vw_string = data['vw_text']
+                vw_string = data[VW_TEXT_COL]
                 f.write(vw_string + '\n')
 
     def _check_collection(self, data_path):
@@ -268,13 +286,17 @@ class Dataset(BaseDataset):
         -------
         same_collection : bool
         """
+        path_to_collection = os.path.join(data_path, 'vw.txt')
+        if not os.path.exists(data_path):
+            os.mkdir(data_path)
+            return False, path_to_collection
+
         if self._data_hash is None:
             temp_file_path = os.path.join(data_path, 'temp_vw.txt')
             self.write_vw(temp_file_path)
             self._data_hash = blake2bchecksum(temp_file_path)
             os.remove(temp_file_path)
 
-        path_to_collection = os.path.join(data_path, 'vw.txt')
         if os.path.isfile(path_to_collection):
             same_collection = blake2bchecksum(path_to_collection) == self._data_hash
         else:
@@ -298,9 +320,6 @@ class Dataset(BaseDataset):
         if batch_vectorizer_path is None:
             batch_vectorizer_path = self._batch_vectorizer_path
 
-        if not os.path.exists(batch_vectorizer_path):
-            os.mkdir(batch_vectorizer_path)
-
         same_collection, path_to_collection = self._check_collection(
             batch_vectorizer_path
         )
@@ -312,14 +331,16 @@ class Dataset(BaseDataset):
                 batch_vectorizer = artm.BatchVectorizer(
                     data_path=path_to_collection,
                     data_format='vowpal_wabbit',
-                    target_folder=batch_vectorizer_path)
+                    target_folder=batch_vectorizer_path,
+                    batch_size=self.batch_size
+                )
             else:
                 batch_vectorizer = artm.BatchVectorizer(
                     data_path=batch_vectorizer_path,
-                    data_format='batches')
+                    data_format='batches'
+                )
         else:
-            warnings.warn(f"Attempted to use batches for different dataset."
-                          f"Overwriting batches in {batch_vectorizer_path}")
+            warnings.warn(W_DIFF_BATCHES_1 + W_DIFF_BATCHES_2.format(batch_vectorizer_path))
             try:
                 shutil.rmtree(batch_vectorizer_path)
             except FileNotFoundError:
@@ -331,6 +352,7 @@ class Dataset(BaseDataset):
                 data_path=path_to_collection,
                 data_format='vowpal_wabbit',
                 target_folder=batch_vectorizer_path,
+                batch_size=self.batch_size
             )
 
         return batch_vectorizer
@@ -349,11 +371,11 @@ class Dataset(BaseDataset):
         dictionary :
 
         """
+        if self._cached_dict is not None:
+            return self._cached_dict
+
         if batch_vectorizer_path is None:
             batch_vectorizer_path = self._batch_vectorizer_path
-
-        if not os.path.exists(batch_vectorizer_path):
-            os.mkdir(batch_vectorizer_path)
 
         dictionary = artm.Dictionary()
         dict_path = os.path.join(batch_vectorizer_path, 'dict.dict')
@@ -366,14 +388,15 @@ class Dataset(BaseDataset):
             if not os.path.isfile(dict_path):
                 dictionary.gather(data_path=batch_vectorizer_path)
                 dictionary.save(dictionary_path=dict_path)
-
             dictionary.load(dictionary_path=dict_path)
+            self._cached_dict = dictionary
             return dictionary
         else:
             _ = self.get_batch_vectorizer(batch_vectorizer_path)
             dictionary.gather(data_path=batch_vectorizer_path)
             dictionary.save(dictionary_path=dict_path)
             dictionary.load(dictionary_path=dict_path)
+            self._cached_dict = dictionary
             return dictionary
 
     def _transform_data_for_training(self):
@@ -391,7 +414,7 @@ class Dataset(BaseDataset):
 
         """
         modalities_list = [
-            get_modality_names(vw_string['vw_text'])[1]
+            get_modality_names(vw_string[VW_TEXT_COL])[1]
             for _, vw_string in self._data.iterrows()
         ]
         all_modalities = set([

@@ -32,6 +32,30 @@ class BaseStrategy():
                 raise ValueError(entry)
         self.parameters = parameters
 
+    def _get_strategy_parameters(self, saveable_only=False):
+        """
+        """
+        strategy_parameters = {
+            "score": self.score,
+            "grid_len": self.grid_len
+        }
+
+        if not saveable_only:
+            strategy_parameters["grid"] = self.grid
+            if hasattr(self, "parameters"):
+                strategy_parameters["parameters"] = self.parameters
+
+        return strategy_parameters
+
+    def _set_strategy_parameters(self, strategy_parameters):
+        """
+        """
+        if not isinstance(strategy_parameters, dict):
+            raise ValueError("Input parameters must be dict.")
+
+        for parameter_name in strategy_parameters.keys():
+            setattr(self, parameter_name, strategy_parameters[parameter_name])
+
     def prepare_grid(self, other_parameters, reg_search):
         """
         Creates grid for the search. Inplace.

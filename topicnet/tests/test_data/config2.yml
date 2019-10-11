@@ -1,0 +1,40 @@
+topics:
+    background_topics: ["bcg_5"]
+    specific_topics: ['topic_0', 'topic_1', 'topic_2', 'topic_3', 'topic_4']
+
+regularizers:
+- SmoothSparsePhiRegularizer:
+    name: smooth_sparse_phi_@text
+    topic_names: specific_topics
+    tau: 1
+    class_ids: ["@text"]
+- DecorrelatorPhiRegularizer:
+    name: 'decorrelation_phi_@text'
+    topic_names: specific_topics
+    tau: 1
+    class_ids: ["@text"]
+
+model: 
+    dataset_path: tests/test_data/test_dataset.csv
+    modalities_to_use: ['@text']
+    main_modality: '@text'
+
+stages:
+- RegularizersModifierCube:
+    num_iter: 5
+    reg_search: grid
+    regularizer_parameters:
+        - name: smooth_sparse_phi_@text
+          tau_grid: [-0.5, -0.3, -0.1, 0, 0.1, 0.3, 0.5]
+        - name: decorrelation_phi_@text
+          tau_grid: [0.05, 0.04, 0.03, 0.02, 0.01, 0]
+    selection:
+        - PerplexityScore@text < 1.1 * MINIMUM(PerplexityScore@text) and TopicKernel@text.average_contrast -> max
+    strategy: GreedyStrategy
+    relative_coefficients: True
+    strategy_params:
+        renormalize: False
+    tracked_score_function: TopicKernel@text.average_contrast
+    verbose: false
+
+

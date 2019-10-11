@@ -1,9 +1,10 @@
 import os
+import re
 import json
 import shutil
 import warnings
 
-from .model_tracking import Tree
+from .model_tracking import Tree, START
 from typing import List
 
 from .pretty_output import give_strings_description, get_html
@@ -13,15 +14,14 @@ from .routine import is_saveable_model
 
 from .models import BaseModel
 
-START = '<'*8 + 'start' + '>'*8
-
-UP_END = "┌"
-DOWN_END = "└"
-MIDDLE = "├"
-LAST = "┤"
-EMPTY = "│"
-START_END = "┐"
-SPACE = " "
+W_EMPTY_SPECIAL_1 = 'Unable to calculate special functions in query\n'
+W_EMPTY_SPECIAL_2 = 'Process failed with following: {}'
+EMPTY_ERRORS = [
+    'mean requires at least one data point',
+    'no median for empty data',
+    'min() arg is an empty sequence',
+    'max() arg is an empty sequence',
+]
 
 
 class Experiment(object):
@@ -31,7 +31,8 @@ class Experiment(object):
     """
     def __init__(self, topic_model, experiment_id: str, save_path: str,
                  save_model_history: bool = False, save_experiment: bool = True,
-                 tree: dict = None, models_info: dict = None, cubes: List[dict] = None):
+                 tree: dict = None, models_info: dict = None, cubes: List[dict] = None,
+                 low_memory: bool = False):
         """
         Initialize stage, also used for loading and creating new experiments.
 
@@ -58,6 +59,11 @@ class Experiment(object):
             keys are model ids, where values are model's description
         cubes : list of dict
             cubes that were used in the experiment
+        low_memory : bool
+            If true, models be transformed to dummies via `squeeze_models()`.
+            Gradually, level by level.
+            If false, models will be untouched, all data, including inner ARTM models,
+            Phi, Theta matrices, stays.
 
         """  # noqa: W291
 
@@ -98,7 +104,10 @@ class Experiment(object):
 
         if save_experiment:
             self.save()
+
         self.datasets = dict()
+
+        self._low_memory = low_memory
 
     @property
     def depth(self):
@@ -372,8 +381,25 @@ class Experiment(object):
         ]
         for file in files:
             model_delete_path = os.path.join(experiment_save_path, file, 'model')
-            if file not in list(zip(*save_models))[1] and os.path.exists(model_delete_path):
+            if len(list(zip(*save_models))) > 0 and file not in list(zip(*save_models))[1] and\
+                    os.path.exists(model_delete_path):
                 shutil.rmtree(model_delete_path)
+
+    def squeeze_models(self, depth: int = None):
+        """Transforms models to dummies so as to occupy less RAM memory
+
+        Parameters
+        ----------
+        depth : int
+            Models on what depth are to be squeezed, i.e. transformed to dummies
+        """
+        if depth == 0:
+            return
+
+        assert isinstance(depth, int) and depth > 0
+
+        for m in self.get_models_by_depth(depth):
+            m.make_dummy()
 
     def save(self, window_size: int = 1500, mode: str = 'tree'):
         """
@@ -472,14 +498,15 @@ class Experiment(object):
     def get_models_by_depth(self, level=None):
         """ """
         if level is None:
-            level = self.depth
+            # level = self.depth
+            level = len(self.cubes)
         return [
             tmodel
             for tmodel in self.models.values()
-            if isinstance(tmodel, BaseModel) and tmodel.depth == level
+            if isinstance(tmodel, BaseModel) and tmodel.depth == int(level)
         ]
 
-    def select(self, query_string, models_num=1, level=None):
+    def select(self, query_string='', models_num=None, level=None):
         """
         Selects a best model according to the query string among all models on a particular depth.
 
@@ -487,9 +514,8 @@ class Experiment(object):
         ----------
         query_string : str
             string of form "SCORE1 < VAL and SCORE2 > VAL and SCORE3 -> min"
-            (see parse_query_string function for details)
         models_num : int
-            number of models to select (Default value = 1)
+            number of models to select (Default value = None)
         level : int
             None represents "the last level of experiment" (Default value = None)
 
@@ -498,25 +524,89 @@ class Experiment(object):
         TopicModel
             model - an element of experiment
 
-        """
-        if "COLLECT" in query_string:
-            first_part, delim, second_part = query_string.partition(" COLLECT ")
-            try:
-                models_num = int(second_part)
-            except ValueError:
-                raise ValueError(f"Invalid directive in COLLECT: {second_part}")
-            query_string = first_part
+        String Format
+        -------------
+        string of following form:  
+        QUERY = EXPR and EXPR and EXPR and ... and EXPR [collect COLLECT_NUMERAL]
+        where EXPR could take any of these forms:  
+            EXPR = LITERAL < NUMBER  
+            EXPR = LITERAL > NUMBER  
+            EXPR = LITERAL = NUMBER  
+            EXPR = LITERAL -> min  
+            EXPR = LITERAL -> max  
+        and LITERAL is one of the following:
+            SCORE_NAME or model.PARAMETER_NAME
+            (for complicated scores you can use '.': e.g. TopicKernelScore.average_purity)
+        COLLECT clause is optional. COLLECT_NUMERAL could be integer or string "all"
 
-        query_string = self.preprocess_query(query_string, level)
-        req_lesser, req_greater, req_equal, metric, extremum = parse_query_string(query_string)
-        candidate_tmodels = self.get_models_by_depth(level=level)
-        result = choose_best_models(
-            candidate_tmodels,
-            req_lesser, req_greater, req_equal,
-            metric, extremum,
-            models_num
+        NUMBER is float / int or some expression involving special functions:
+            MINIMUM, MAXIMUM, AVERAGE, MEDIAN
+        Everything is separated by spaces.
+
+        Notes
+        -----
+
+        If both models_num and COLLECT_NUMERAL is specified, COLLECT_NUMERAL takes priority.
+
+        If optimization directive is specified, select() may return more models than requested
+        (whether by models_num or by COLLECT_NUMERAL). This behaviour occurs when some scores
+        are equal.
+
+        For example, if we have 5 models with following scores:
+            [model1: 100, model2: 95, model3: 95, model4: 95, model5: 80]
+        and user asks experiment to provide 2 models with maximal score,
+        then 4 models will be returned:
+            [model1: 100, model2: 95, model3: 95, model4: 95]
+
+
+        Examples
+        --------
+
+        >> experiment.select("PerplexityScore@words -> min COLLECT 2")
+
+        >> experiment.select(
+            "TopicKernelScore.average_contrast -> max and PerplexityScore@all < 100 COLLECT 2"
         )
-        return result
+
+        >> experiment.select(
+            "PerplexityScore@words < 1.1 * MINIMUM(PerplexityScore@all) and model.num_topics > 12"
+        )
+
+
+        """  # noqa: W291
+        candidate_tmodels = self.get_models_by_depth(level=level)
+
+        if "COLLECT" in query_string:
+            first_part, second_part = re.split(r'\s*COLLECT\s+', query_string)
+            if second_part.lower() != 'all':
+                try:
+                    models_num = int(second_part)
+                except ValueError:
+                    raise ValueError(f"Invalid directive in COLLECT: {second_part}")
+            else:
+                models_num = len(candidate_tmodels)
+            query_string = first_part
+        if models_num is not None and int(models_num) < 0:
+            raise ValueError(f"Cannot return negative number of models")
+
+        try:
+            query_string = self.preprocess_query(query_string, level)
+            req_lesser, req_greater, req_equal, metric, extremum = parse_query_string(query_string)
+
+            result = choose_best_models(
+                candidate_tmodels,
+                req_lesser, req_greater, req_equal,
+                metric, extremum,
+                models_num
+            )
+            return result
+        except ValueError as e:
+            if e.args[0] in EMPTY_ERRORS:
+                error_message = repr(e)
+                warnings.warn(W_EMPTY_SPECIAL_1 + W_EMPTY_SPECIAL_2.format(error_message))
+                return []
+            else:
+                raise e
 
     def run(self, dataset, verbose=False, nb_verbose=False):
         """
@@ -532,50 +622,71 @@ class Experiment(object):
             if False prints in console (Default value = False)
 
         """  # noqa: W291
-
-        def clear_and_print(string, nb_verbose):
-            if nb_verbose:
-                from IPython.display import clear_output
-                from IPython.core.display import display_pretty
-                clear_output()
-                display_pretty(string, raw=True)
-            else:
-                _ = os.system('cls' if os.name == 'nt' else 'clear')
-                print(string)
-
         stage_models = self.root
 
         for cube_index, cube_description in enumerate(self.cubes):
             if cube_description['action'] == 'start':
                 continue
+
             cube = cube_description['cube']
             cube(stage_models, dataset)
-            self.cubes[cube_index].pop('cube', None)
-            stage_models = self._select_and_save_unique_models(self.criteria[cube_index], dataset)
+
+            # TODO: either delete this line completely
+            #  or come up with a way to restore any cube using just info about it in self.cubes
+            #  (need to restore cubes for upgrading dummy to topic model)
+            # self.cubes[cube_index].pop('cube', None)
+
+            stage_models = self._select_and_save_unique_models(
+                self.criteria[cube_index], dataset, cube_index + 1
+            )
 
             if verbose:
                 tree_description = "\n".join(self.tree.get_description())
-                clear_and_print(tree_description, nb_verbose)
+                Experiment._clear_and_print(tree_description, nb_verbose)
+
+            if self._low_memory:
+                self.squeeze_models(max(0, self.depth - 2))
 
         if verbose:
-            clear_and_print(self.get_description(), nb_verbose)
+            Experiment._clear_and_print(self.get_description(), nb_verbose)
+
+        if self._low_memory:
+            self.squeeze_models(max(0, self.depth - 1))
+            self.squeeze_models(self.depth)
+
         return stage_models
 
-    def _select_and_save_unique_models(self, templates, dataset):
+    @staticmethod
+    def _clear_and_print(string, nb_verbose):
+        if nb_verbose:
+            from IPython.display import clear_output
+            from IPython.core.display import display_pretty
+            clear_output()
+            display_pretty(string, raw=True)
+        else:
+            _ = os.system('cls' if os.name == 'nt' else 'clear')
+            print(string)
+
+    def _select_and_save_unique_models(self, templates, dataset, current_level):
         """
         Applies selection criteria to
-        last stage models and save sucessfull candidates.
+        last stage models and save successful candidates.
 
         Parameters
         ----------
         templates : list of str
+        dataset : Dataset
+        current_level : int
 
         Returns
         -------
         selected_models : set of TopicModel
 
         """
-        stage_models = sum([self.select(template) for template in templates], [])
+        stage_models = sum(
+            [self.select(template, level=current_level) for template in templates],
+            []
+        )
         number_models_selected = len(stage_models)
         stage_models = set(stage_models)
         if number_models_selected > len(stage_models):
@@ -593,26 +704,32 @@ class Experiment(object):
         model_id : str
             string id of the model to examine
 
+        Returns
+        -------
+        description_string : str
         """
         model = self.models[model_id]
         # criteria for selecting models for the following cube
-        templates = self.criteria.get(model.depth, [])
+        templates = self.criteria[model.depth - 1]
 
         score_names = []
         for template in templates:
-            score_names += [statement.split()[0] for statement in template.split('and')]
+            score_names += [statement.split()[0] for statement in re.split(r'\s+and\s+', template)]
         score_names = set(score_names)
-        print('model: ', model_id)
+        description_strings = ['model: ' + model_id]
         for score_name in score_names:
             if 'model.' in score_name:
                 attr = score_name.split('.')[1]
                 attr_val = getattr(model, attr)
-                print(f'model attribute "{attr}" with value: {attr_val}')
+                description_strings += [f'model attribute "{attr}" with value: {attr_val}']
             else:
                 try:
-                    print(score_name + ': ', model.scores[score_name][-1])
+                    description_strings += [f'{score_name}: {model.scores[score_name][-1]}']
                 except KeyError:
                     raise ValueError(f'Model does not have {score_name} score.')
+
+        description_string = "\n".join(description_strings)
+        return description_string
 
     def preprocess_query(self, query_string: str, level):
         """
@@ -626,7 +743,7 @@ class Experiment(object):
             model level
 
         """
-        queries_list = query_string.split(' and ')
+        queries_list = re.split(r'\s+and\s+', query_string)
         special_functions = [
                     'MINIMUM',
                     'MAXIMUM',

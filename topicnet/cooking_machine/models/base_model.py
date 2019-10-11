@@ -5,7 +5,17 @@ from copy import deepcopy
 from ..routine import get_timestamp_in_str_format
 from ..routine import transform_topic_model_description_to_jsonable
 
-MODEL_NAME_LENGTH = 21
+MODEL_NAME_LENGTH = 26
+
+
+def padd_model_name(model_id):
+    padding = MODEL_NAME_LENGTH - len(model_id)
+    if padding > 0:
+        add = padding // 2
+        odd = padding % 2
+        return '#' * add + model_id + '#' * (add + odd)
+    else:
+        return model_id[:MODEL_NAME_LENGTH]
 
 
 class BaseModel(object):
@@ -27,14 +37,6 @@ class BaseModel(object):
         self.experiment = experiment
 
         # set unique model_id in the experiment
-        def padd_model_name(model_id):
-            padding = MODEL_NAME_LENGTH - len(model_id)
-            if padding > 0:
-                add = padding // 2
-                odd = padding % 2
-                return '#' * add + model_id + '#' * (add + odd)
-            else:
-                return model_id[:MODEL_NAME_LENGTH]
         if self.experiment is None:
             if model_id is None:
                 self.set_model_id_as_timestamp()
@@ -45,12 +47,14 @@ class BaseModel(object):
                 candidate_name = get_timestamp_in_str_format()
             else:
                 candidate_name = model_id
-
             version = 0
             while True:
+                candidate_name = padd_model_name(candidate_name)
                 if candidate_name in self.experiment.models_info:
                     version += 1
-                    candidate_name = candidate_name.split('__')[0] + '__' + str(version)
+                    candidate_name = padd_model_name(
+                        candidate_name.replace('#', '').split('__')[0] + '__' + str(version)
+                    )
                 else:
                     self.model_id = candidate_name
                     break
@@ -213,19 +217,26 @@ class BaseModel(object):
     @property
     def model_default_save_path(self):
         """ """
-        path_possible = all([
-            self.experiment.save_path,
-            self.experiment.experiment_id,
+        # Experiment may be None. If so, AttributeError is raised
+        # __getattr__ catches it in case of TopicModel and redirects to artm_model
+        experiment_save_path = getattr(self.experiment, 'save_path', None)
+        experiment_id = getattr(self.experiment, 'experiment_id', None)
+
+        assert self.model_id is not None
+
+        path_components = [
+            experiment_save_path,
+            experiment_id,
             self.model_id
-        ])
+        ]
+
+        path_possible = all(path_components)
+
         if path_possible:
-            path_to_save = os.path.join(
-                self.experiment.save_path,
-                self.experiment.experiment_id,
-                self.model_id
-            )
+            path_to_save = os.path.join(*path_components)
         else:
             path_to_save = self.model_id
+
         return path_to_save
 
     @property
@@ -249,7 +260,7 @@ class BaseModel(object):
 
     def set_model_id_as_timestamp(self):
         """ """
-        self._model_id = get_timestamp_in_str_format()
+        self._model_id = padd_model_name(get_timestamp_in_str_format())
 
     def _check_is_model_id_in_experiment(self, model_id):
         """

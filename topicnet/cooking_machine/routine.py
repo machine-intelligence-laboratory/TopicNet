@@ -8,6 +8,9 @@ from statistics import mean, median
 import numexpr as ne
 # from .models.base_score import BaseScore
 
+W_TOO_STRICT = 'No models match criteria '
+W_TOO_STRICT_DETAILS = '(The requirements on {} have eliminated all {} models)'
+
 
 def is_jsonable(x):
     """
@@ -124,6 +127,8 @@ def transform_topic_model_description_to_jsonable(obj):
     """
     if isinstance(obj, np.int64):
         return int(obj)
+    if isinstance(obj, np.ndarray):
+        return obj.tolist()
     elif re.search(r'artm.score_tracker', str(type(obj))) is not None:
         return obj._name
     elif re.search(r'score', str(type(obj))) is not None:
@@ -267,8 +272,118 @@ def get_equal_lists(one_dict, min_len: int = 0, sep: str = " ", sep_len="last"):
             raise ValueError("Parameter sep_len can be int or \"last\".")
 
 
+def extract_required_parameter(model, parameter):
+    """
+    Extracts necessary parameter from model.
+
+    Parameters
+    ----------
+    model : TopicModel
+    parameter : str
+
+    Returns
+    -------
+    optional
+
+    """
+    if parameter.split('.')[0] == 'model':
+        parameters = model.get_init_parameters()
+        parameter_name = parameter.split('.')[1]
+        if parameter_name in parameters.keys():
+            return parameters.get(parameter_name)
+        else:
+            raise ValueError(f'Unknown parameter {parameter_name} for model.')
+    else:
+        scores = model.scores.get(parameter)
+        if scores is not None:
+            try:
+                return scores[-1]
+            except IndexError:
+                raise ValueError(f'Empty score {parameter}.')
+        else:
+            raise ValueError(f'Expected score name {parameter}' +
+                             f' or model.parameter {parameter}.')
+
+
+def is_acceptable(model, requirement_lesser, requirement_greater, requirement_equal):
+    """
+    Checks if model suits request.
+
+    Parameters
+    ----------
+    model : TopicModel
+    requirement_lesser : list of tuple
+    requirement_greater : list of tuple
+    requirement_equal : list of tuple
+
+    Returns
+    -------
+    bool
+
+    """
+    from .models import TopicModel
+    if not isinstance(model, TopicModel):
+        warnings.warn(f'Model {model} isn\'t of type TopicModel.' +
+                      ' Check your selection level and/or level models.')
+        return False
+
+    answer = (
+        all(extract_required_parameter(model, req_parameter) < value
+            for req_parameter, value in requirement_lesser)
+        and
+        all(extract_required_parameter(model, req_parameter) > value
+            for req_parameter, value in requirement_greater)
+        and
+        all(extract_required_parameter(model, req_parameter) == value
+            for req_parameter, value in requirement_equal)
+    )
+    return answer
+
+
+def _select_acceptable_models(models,
+                              requirement_lesser, requirement_greater, requirement_equal):
+    """
+    Selects necessary models with sanity check.
+
+    Parameters
+    ----------
+    models : list of TopicModel
+        list of models with .scores parameter.
+    requirement_lesser : list of tuple
+        list containing tuples of form
+        (SCORE_NAME/model.PARAMETER_NAME, TARGET_NUMBER)
+    requirement_greater : list of tuple
+        list containing tuples of form
+        (SCORE_NAME/model.PARAMETER_NAME, TARGET_NUMBER)
+    requirement_equal : list of tuple
+        list containing tuples of form
+        (SCORE_NAME/model.PARAMETER_NAME, TARGET_NUMBER)
+
+    Returns
+    -------
+    list of TopicModels
+    """
+    acceptable_models = [
+        model for model in models if is_acceptable(
+            model,
+            requirement_lesser,
+            requirement_greater,
+            requirement_equal
+        )
+    ]
+    if len(models) and not len(acceptable_models):
+        all_requirements = [
+            req_parameter for req_parameter, value
+            in (requirement_lesser + requirement_greater + requirement_equal)
+        ]
+        warnings.warn(W_TOO_STRICT +
+                      W_TOO_STRICT_DETAILS.format(", ".join(all_requirements), len(models)))
+
+    return acceptable_models
+
+
 def choose_best_models(models: list, requirement_lesser: list, requirement_greater: list,
-                       requirement_equal: list, metric: str, extremum="min", models_num=1):
+                       requirement_equal: list, metric: str, extremum="min", models_num=None):
     """
     Get best model according to specified metric.
 
@@ -290,7 +405,8 @@ def choose_best_models(models: list, requirement_lesser: list, requirement_great
     extremum : str
         "min" or "max" - comparison parameter (Default value = "min")
     models_num : int
-        number of models to select (Default value = 1)
+        number of models to select
+        (default value is None, which is mapped to "all" or 1 depending on whether 'metric' is set)
 
     Returns
     -------
@@ -298,72 +414,42 @@ def choose_best_models(models: list, requirement_lesser: list, requirement_great
         models with best scores or matching request
 
     """
-    def required_parameter(model, parameter):
-        """
-        Extracts necessary parameter from model.
-
-        Parameters
-        ----------
-        model : TopicModel
-        parameter : str
-
-        Returns
-        -------
-        optional
-
-        """
-        return model.scores[parameter][-1] \
-            if parameter.split('.')[0] != 'model' \
-            else model.get_init_parameters().get(parameter.split('.')[1])
-
-    def is_acceptable(model):
-        """
-        Checks if model suits request.
-
-        Parameters
-        ----------
-        model : TopicModel
-
-        Returns
-        -------
-        bool
-
-        """
-        # locals: requirement_lesser/greater/equal
-        answer = (
-            all(required_parameter(model, req_parameter) < value
-                for req_parameter, value in requirement_lesser)
-            and
-            all(required_parameter(model, req_parameter) > value
-                for req_parameter, value in requirement_greater)
-            and
-            all(required_parameter(model, req_parameter) == value
-                for req_parameter, value in requirement_equal)
-        )
-        return answer
-
-    acceptable_models = [model for model in models if is_acceptable(model)]
-    if not acceptable_models:
-        all_requirements = [
-            req_parameter for req_parameter, value
-            in (requirement_lesser + requirement_greater + requirement_equal)
-        ]
-        raise ValueError(f'No model match criteria'
-                         f'(The requirements on {", ".join(all_requirements)}'
-                         f' have eliminated all {len(models)} models)')
+    acceptable_models = _select_acceptable_models(
+        models,
+        requirement_lesser,
+        requirement_greater,
+        requirement_equal
+    )
 
     if metric is None and extremum is None:
-        return acceptable_models
-    elif metric not in models[0].scores:
-        raise ValueError(f'There is no {metric} metric for model {models[0].model_id}.')
+        if models_num is None:
+            return acceptable_models
+        else:
+            return acceptable_models[:models_num]
+    elif len(models) > 0 and metric not in models[0].scores:
+        raise ValueError(f'There is no {metric} metric for model {models[0].model_id}.\n'
+                         f'The following scores are available: {list(models[0].scores.keys())}')
 
-    scores = [acceptable_model.scores[metric][-1] for acceptable_model in acceptable_models]
+    scores_models = {}
+    for acceptable_model in acceptable_models:
+        score = acceptable_model.scores[metric][-1]
+        if score in scores_models.keys():
+            scores_models[score].append(acceptable_model)
+        else:
+            scores_models[score] = [acceptable_model]
+    scores_models = sorted(scores_models.items(), key=lambda kv: kv[0])
+
+    if models_num is None:
+        models_num = len(scores_models) if not metric else 1
+
     if extremum == "max":
-        best_models = np.array(acceptable_models)[np.argsort(-np.array(scores))[:models_num]]
-    else:
-        best_models = np.array(acceptable_models)[np.argsort(scores)[:models_num]]
+        scores_models = list(reversed(scores_models))
+    best_models = sum([models[1] for models in scores_models[:models_num]], [])
 
-    return best_models.tolist()
+    if models_num > len(acceptable_models):
+        warnings.warn(f'Not enough models for models_num = {models_num},' +
+                      f' only {len(acceptable_models)} models will be returned.')
+    return best_models
 
 
 def parse_query_string(query_string: str):
@@ -373,15 +459,7 @@ def parse_query_string(query_string: str):
     Parameters
     ----------
     query_string : str
-        string of following form:  
-        QUERY = EXPR and EXPR and EXPR and ... and EXPR
-        where EXPR could take any of these forms:  
-        EXPR = SCORE_NAME/model.PARAMETER_NAME < NUMBER  
-        EXPR = SCORE_NAME/model.PARAMETER_NAME > NUMBER  
-        EXPR = SCORE_NAME/model.PARAMETER_NAME = NUMBER  
-        EXPR = SCORE_NAME -> min  
-        EXPR = SCORE_NAME -> max  
-        Everything is separated by spaces.
+        (see Experiment.select function for details)
 
     Returns
     -------
@@ -399,8 +477,8 @@ def parse_query_string(query_string: str):
     }
     metric = None
     extremum = None
-    for part in query_string.split("and"):
-        expression_parts = part.strip().split(" ")
+    for part in filter(None, re.split(r'\s+and\s+', query_string)):
+        expression_parts = part.strip().split()
         if len(expression_parts) != 3:
             raise ValueError(f"Cannot understand '{part}'")
 
@@ -432,10 +510,13 @@ def compute_special_queries(special_models, special_queries):
         'AVERAGE': mean,
         'MEDIAN': median,
     }
+    if not special_models and special_queries:
+        warnings.warn(f"Cannot evaluate '{special_queries}': list of candidate models is empty",
+                      RuntimeWarning)
 
     processed_queries = []
     for query in special_queries:
-        first, middle, *raw_last = query.strip().split(' ')
+        first, middle, *raw_last = query.strip().split()
         if middle not in ['>', '<', '=']:
             raise ValueError(f"Cannot understand '{query}': unknown format")
 
@@ -443,7 +524,7 @@ def compute_special_queries(special_models, special_queries):
         for subpart in raw_last:
             if subpart[0] in ['A', 'M']:
                 split_subpart = re.split('[()]', subpart)
-                special_function, metric = split_subpart[0], split_subpart[1]
+                special_function, metric = split_subpart[0].strip(), split_subpart[1].strip()
                 scores = [model.scores[metric][-1] for model in special_models]
                 last.append(str(special_functions.get(special_function, max)(scores)))
             else:

@@ -4,9 +4,10 @@ import numpy as np
 import shutil
 
 import pytest
+import warnings
 
 from ..cooking_machine.models.topic_model import TopicModel
-from ..cooking_machine.dataset import Dataset
+from ..cooking_machine.dataset import Dataset, W_DIFF_BATCHES_1
 from ..viewers import top_tokens_viewer
 
 
@@ -26,13 +27,15 @@ class TestTopTokensViewer:
     @classmethod
     def setup_class(cls):
         """ """
-        dataset = Dataset('tests/test_data/test_dataset.csv')
-        raw_data = []
-        with open('tests/test_data/test_vw.txt') as file:
-            for line in file:
-                raw_data += [line.split(' ')]
-        dictionary = dataset.get_dictionary()
-        batch_vectorizer = dataset.get_batch_vectorizer()
+        with warnings.catch_warnings():
+            warnings.filterwarnings(action="ignore", message=W_DIFF_BATCHES_1)
+            dataset = Dataset('tests/test_data/test_dataset.csv')
+            raw_data = []
+            with open('tests/test_data/test_vw.txt') as file:
+                for line in file:
+                    raw_data += [line.split(' ')]
+            dictionary = dataset.get_dictionary()
+            batch_vectorizer = dataset.get_batch_vectorizer()
 
         model_artm = artm.ARTM(
             num_topics=NUM_TOPICS,
@@ -41,7 +44,7 @@ class TestTopTokensViewer:
             cache_theta=True,
             num_document_passes=NUM_DOCUMENT_PASSES,
             dictionary=dictionary,
-            scores=[artm.PerplexityScore(name='PerplexityScore', dictionary=dictionary)],)
+            scores=[artm.PerplexityScore(name='PerplexityScore')],)
 
         cls.topic_model = TopicModel(model_artm, model_id='model_id')
         cls.topic_model._fit(batch_vectorizer, num_iterations=NUM_ITERATIONS)
