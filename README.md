@@ -187,3 +187,30 @@ top_tok_html =  top_tok.to_html(top_tok.view(),thresh=thresh)
 for line in first_model_html:
     display_html(line, raw=True)
 ```
+
+---
+## FAQ
+
+#### In the example we used to write vw modality like **@modality** is it a VowpallWabbit format?
+
+It is a convention to write data designating modalities with @ sign taken by TopicNet from BigARTM.
+
+#### CubeCreator helps to perform a grid search over initial model parameters. How can I do it with modalities?
+
+Modality search space can be defined using standart library logic like:
+```
+name: 'class_ids',
+values: {
+'@text': [1, 2, 3],
+'@ngrams': [4, 5, 6],
+},
+```
+However for the case of modalities a couple of slightly more convenient methods are availiable:
+
+```
+[{'name': 'class_ids@text', 'values': [1, 2, 3]},
+{'name': 'class_ids@ngrams', 'values': [4, 5, 6]}]
+{'class_ids@text': [1, 2, 3],
+'class_ids@ngrams': [4, 5, 6]}
+
+```
