@@ -136,19 +136,32 @@ It is a convention to write data designating modalities with @ sign taken by Top
 #### CubeCreator helps to perform a grid search over initial model parameters. How can I do it with modalities?
 
 Modality search space can be defined using standart library logic like:
-```,k
-name: 'class_ids',
-values: {
-'@text': [1, 2, 3],
-'@ngrams': [4, 5, 6],
-},
+```
+class_ids_cube = CubeCreator(
+    num_iter=5,
+    parameters: [
+        name: 'class_ids',
+        values: {
+        '@text': [1, 2, 3],
+        '@ngrams': [4, 5, 6],
+        },
+    ]
+    reg_search='grid',
+    verbose=True
+)
+
 ```
 However for the case of modalities a couple of slightly more convenient methods are availiable:
 
 ```
-[{'name': 'class_ids@text', 'values': [1, 2, 3]},
-{'name': 'class_ids@ngrams', 'values': [4, 5, 6]}]
-{'class_ids@text': [1, 2, 3],
-'class_ids@ngrams': [4, 5, 6]}
-
+parameters : [
+    {'name': 'class_ids@text', 'values': [1, 2, 3]},
+    {'name': 'class_ids@ngrams', 'values': [4, 5, 6]}
+    ]
+parameters:[
+    {
+    'class_ids@text': [1, 2, 3],
+    'class_ids@ngrams': [4, 5, 6]
+    }
+]
 ```
