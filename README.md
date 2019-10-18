@@ -24,9 +24,6 @@ Define `TopicModel` from an ARTM model at hand or with help from `model_construc
 **Core library functionality is based on BigARTM library** which requires manual installation.  
 To avoid that you can use [docker images](https://hub.docker.com/r/xtonev/bigartm/tags) with preinstalled BigARTM library in them. 
 
-Alternatively, you can follow [BigARTM installation manual](https://bigartm.readthedocs.io/en/stable/installation/index.html)
-After setting up the environment you can fork this repository or use ```pip install topicnet``` to install the library.  
-
 #### Using docker image
 ```
 docker pull xtonev/bigartm:v0.10.0
@@ -38,6 +35,9 @@ python3
 import artm
 artm.version()
 ```
+
+Alternatively, you can follow [BigARTM installation manual](https://bigartm.readthedocs.io/en/stable/installation/index.html).
+After setting up the environment you can fork this repository or use ```pip install topicnet``` to install the library.  
 
 ---
 ## How to use TopicNet
@@ -59,7 +59,7 @@ In case you want to start from a fresh model we suggest you use this code:
 from topicnet.cooking_machine.model_constructor import init_simple_default_model
 
 model_artm = init_simple_default_model(
-    dataset=demo_data,
+    dataset=data,
     modalities_to_use={'@lemmatized': 1.0, '@bigram':0.5},
     main_modality='@lemmatized',
     n_specific_topics=14,
@@ -71,7 +71,7 @@ Further, if needed, one can define a custom score to be calculated during the mo
 ```
 from topicnet.cooking_machine.models.base_score import BaseScore
 
-class ThatCustomScore(BaseScore):
+class CustomScore(BaseScore):
     def __init__(self):
         super().__init__()
 
@@ -86,7 +86,7 @@ Now, `TopicModel` with custom score can be defined:
 ```
 from topicnet.cooking_machine.models.topic_model import TopicModel
 
-custom_score_dict = {'SpecificSparsity': ThatCustomScore()}
+custom_score_dict = {'SpecificSparsity': CustomScore()}
 tm = TopicModel(model_artm, model_id='Groot', custom_scores=custom_score_dict)
 ```
 #### Define experiment
@@ -101,7 +101,7 @@ from topicnet.cooking_machine.cubes import RegularizersModifierCube
 
 my_first_cube = RegularizersModifierCube(
     num_iter=5,
-    tracked_score_function=retrieve_score_for_strategy('PerplexityScore@lemmatized'),
+    tracked_score_function='PerplexityScore@lemmatized',
     regularizer_parameters={
         'regularizer': artm.DecorrelatorPhiRegularizer(name='decorrelation_phi', tau=1),
         'tau_grid': [0,1,2,3,4,5],
@@ -129,14 +129,14 @@ for line in first_model_html:
 ---
 ## FAQ
 
-#### In the example we used to write vw modality like **@modality** is it a VowpallWabbit format?
+#### In the example we used to write vw modality like **@modality**, is it a VowpallWabbit format?
 
 It is a convention to write data designating modalities with @ sign taken by TopicNet from BigARTM.
 
 #### CubeCreator helps to perform a grid search over initial model parameters. How can I do it with modalities?
 
 Modality search space can be defined using standart library logic like:
-```
+```,k
 name: 'class_ids',
 values: {
 '@text': [1, 2, 3],
