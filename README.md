@@ -3,11 +3,21 @@
 
 ---
 ### What is TopicNet?
-```topicnet```  library was created to assist in the task of building topic models. It aims at automating model training routine freeing more time for artistic process of constructing a target functional for the task at hand.
-### How does it work?
-The work starts with defining ```TopicModel``` from an ARTM model at hand or with help from ```model_constructor``` module. This model is then assigned a root position for the ```Experiment``` that will provide infrastructure for the model building process. Further, the user can define a set of training stages by the functionality provided by the ```cooking_machine.cubes``` modules and observe results of their actions via ```viewers``` module.
-### Who will use this repo?
-This repo is intended to be used by people that want to explore BigARTM functionality without writing an essential overhead for model training pipelines and information retrieval. It might be helpful for the experienced users to help with rapid solution prototyping
+TopicNet is a high-level interface running on top of BigARTM. 
+
+```TopicNet```  library was created to assist in the task of building topic models. It aims at automating model training routine freeing more time for artistic process of constructing a target functional for the task at hand.
+
+Consider using TopicNet if:
+
+* you want to explore BigARTM functionality without writing an overhead.
+* you need help with rapid solution prototyping.
+* you want to build a good topic model quickly (out-of-box, with default parameters).
+* you have an ARTM model at hand and you want to explore it's topics.
+
+```TopicNet``` provides an infrastructure for your prototyping (```Experiment``` class) and helps to observe results of your actions via ```viewers``` module.
+
+### How to start?
+Define `TopicModel` from an ARTM model at hand or with help from `model_constructor` module. Then create an `Experiment`, assigning a root position to this model. Further, you can define a set of training stages by the functionality provided by the `cooking_machine.cubes` module.
 
 ---
 ## How to install TopicNet
@@ -34,80 +44,8 @@ artm.version()
 Let's say you have a handful of raw text mined from some source and you want to perform some topic modelling on them. Where should you start? 
 ### Data Preparation
 Every ML problem starts with data preprocess step. TopicNet does not perform data preprocessing itself. Instead, it demands data being prepared by the user and loaded via [Dataset (no link yet)]() class.
-Here is a basic example of how one can achieve that:
-```
-import nltk
-import artm
-import string
+Here is a basic example of how one can achieve that: [rtl_wiki_preprocessing (no link yet)]().
 
-import pandas as pd
-from glob import glob
-
-WIKI_DATA_PATH = '/Wiki_raw_set/raw_plaintexts/'
-files = glob(WIKI_DATA_PATH+'*.txt')
-```
-Loading all texts from files and leaving only alphabetical characters and spaces:
-```
-right_symbols = string.ascii_letters + ' '
-data = []
-for path in files:
-    entry = {}
-    entry['id'] = path.split('/')[-1].split('.')[0]
-    with open(path,'r') as f:
-        text = ''.join([char for char in f.read() if char in right_symbols])
-        entry['raw_text'] = ''.join(text.split('\n'))
-    data.append(entry)
-wiki_texts = pd.DataFrame(data)
-```
-#### Perform tokenization:
-```
-tokenized_text = []
-for text in wiki_texts['raw_text'].values:
-    tokenized_text.append(' '.join(nltk.word_tokenize(text)))
-wiki_texts['tokenized'] = tokenized_text
-```
-#### Perform lemmatization:
-```
-from nltk.stem import WordNetLemmatizer
-lemmatized_text = []
-wnl = WordNetLemmatizer()
-for text in wiki_texts['raw_text'].values:
-    lemmatized = [wnl.lemmatize(word) for word in text.split()]
-    lemmatized_text.append(lemmatized)
-wiki_texts['lemmatized'] = lemmatized_text
-```
-#### Get bigrams:
-```
-from nltk.collocations import BigramAssocMeasures, BigramCollocationFinder
-
-bigram_measures = BigramAssocMeasures()
-finder = BigramCollocationFinder.from_documents(wiki_texts['lemmatized'])
-finder.apply_freq_filter(5)
-set_dict = set(finder.nbest(bigram_measures.pmi,32100)[100:])
-documents = wiki_texts['lemmatized']
-bigrams = []
-for doc in documents:
-    entry = ['_'.join([word_first, word_second])
-             for word_first, word_second in zip(doc[:-1],doc[1:])
-             if (word_first, word_second) in set_dict]
-    bigrams.append(entry)
-wiki_texts['bigram'] = bigrams
-```
-
-#### Write them all to Vowpal Wabbit format and save result to disk:
-```
-vw_text = []
-for index, data in wiki_texts.iterrows():
-    vw_string = ''    
-    doc_id = data.id
-    lemmatized = '@lemmatized ' + ' '.join(data.lemmatized)
-    bigram = '@bigram ' + ' '.join(data.bigram)
-    vw_string = ' |'.join([doc_id, lemmatized, bigram])
-    vw_text.append(vw_string)
-wiki_texts['vw_text'] = vw_text
-
-wiki_texts[['id','raw_text', 'vw_text']].to_csv('/Wiki_raw_set/wiki_data.csv')
-```
 ### Training topic model
 Here we can finally get on the main part: making your own, best of them all, manually crafted Topic Model
 #### Get your data
