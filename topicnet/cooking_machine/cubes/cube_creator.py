@@ -11,7 +11,7 @@ class CubeCreator(BaseCube):
     """
     DEFAULT_SEED_VALUE = 4
 
-    def __init__(self, num_iter: int, parameters, reg_search, strategy=None,
+    def __init__(self, num_iter: int, parameters, reg_search="grid", strategy=None,
                  model_class='TopicModel', second_level=False,
                  tracked_score_function=None, verbose=False):
         """

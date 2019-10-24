@@ -13,6 +13,7 @@ from .routine import parse_query_string, choose_best_models, compute_special_que
 from .routine import is_saveable_model
 
 from .models import BaseModel
+from .models.base_model import MODEL_NAME_LENGTH
 
 W_EMPTY_SPECIAL_1 = 'Unable to calculate special functions in query\n'
 W_EMPTY_SPECIAL_2 = 'Process failed with following: {}'
@@ -461,7 +462,9 @@ class Experiment(object):
 
         return experiment
 
-    def get_description(self, min_len_per_cube: int = 21, len_tree_step: int = 22):
+    def get_description(self,
+                        min_len_per_cube: int = MODEL_NAME_LENGTH,
+                        len_tree_step: int = MODEL_NAME_LENGTH + 1):
         """
         Creates description of the tree that you can print.
         Print is good when you use no more than 3 cubes at all.
