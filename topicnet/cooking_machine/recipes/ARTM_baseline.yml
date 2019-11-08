@@ -24,13 +24,15 @@ regularizers:
         topic_names: background_topics
         class_ids: {modality_list}
         tau: 0.1
+        relative: true
     - SmoothSparseThetaRegularizer:
         name: smooth_theta_bcg
         topic_names: background_topics
         tau: 0.1
+        relative: true
 scores:
     - BleiLaffertyScore:
-        num_top_tokens: 15
+        num_top_tokens: 30
 model: 
     dataset_path: {dataset_path}
     modalities_to_use: {modality_list}
@@ -38,30 +40,18 @@ model:
 
 stages:
 - RegularizersModifierCube:
-    num_iter: 1
-    reg_search: grid
-    regularizer_parameters:
-        - name: smooth_phi_bcg
-          tau_grid: [0.1]
-        - name: smooth_theta_bcg
-          tau_grid: [0.1]
-    selection:
-        - COLLECT 1
-    verbose: false
-    relative_coefficients: True
-- RegularizersModifierCube:
     num_iter: 20
     reg_search: add
     regularizer_parameters:
         name: decorrelation_phi
     selection:
-        - PerplexityScore@all < 1.01 * MINIMUM(PerplexityScore@all) and BleiLaffertyScore -> max
+        - PerplexityScore@all < 1.05 * MINIMUM(PerplexityScore@all) and BleiLaffertyScore -> max
     strategy: PerplexityStrategy
     # parameters of this strategy are intended for revision
     strategy_params:
         start_point: 0
-        step: 1000
-        max_len: 10000
+        step: 0.01
+        max_len: 50
     tracked_score_function: PerplexityScore@all
     verbose: false
-    relative_coefficients: false
+    relative_coefficients: true

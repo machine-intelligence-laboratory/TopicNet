@@ -144,9 +144,14 @@ class RegularizersModifierCube(BaseCube):
             regularizer_type = str(type(regularizer))
             if isinstance(regularizer, dict):
                 if regularizer['name'] in new_model.regularizers.data:
-                    setattr(new_model.regularizers[regularizer['name']],
-                            field_name,
-                            params)
+                    new_regularizer = deepcopy(new_model.regularizers[regularizer['name']])
+                    new_regularizer._tau = params
+                    handle_regularizer(
+                        self._relative,
+                        new_model,
+                        new_regularizer,
+                        self.data_stats,
+                    )
                 else:
                     error_msg = (f"Regularizer {regularizer['name']} does not exist. "
                                  f"Cannot be modified.")
@@ -157,7 +162,6 @@ class RegularizersModifierCube(BaseCube):
                 handle_regularizer(
                     self._relative,
                     new_model,
-                    modalities,
                     new_regularizer,
                     self.data_stats,
                 )

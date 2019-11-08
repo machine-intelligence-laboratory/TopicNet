@@ -160,7 +160,7 @@ def modality_weight_rel2abs(tokens_data, weights, default_modality):
     return taus
 
 
-def handle_regularizer(use_relative_coefficients, model, modalities, regularizer, data_stats):
+def handle_regularizer(use_relative_coefficients, model, regularizer, data_stats):
     """
     Handles the case of various regularizers that
     contain 'Regularizer' in their name, namely all artm regularizers
@@ -171,8 +171,6 @@ def handle_regularizer(use_relative_coefficients, model, modalities, regularizer
         indicates whether regularizer should be altered
     model : TopicModel or artm.ARTM
         to be changed in place
-    modalities : dict
-        modalities used in the model
     regularizer : an instance of Regularizer from artm library
     data_stats : dict
         collection-specific data
@@ -195,7 +193,7 @@ def handle_regularizer(use_relative_coefficients, model, modalities, regularizer
         regularizer = transform_regularizer(
             data_stats,
             regularizer,
-            modalities,
+            model.class_ids,
             n_topics,
         )
 

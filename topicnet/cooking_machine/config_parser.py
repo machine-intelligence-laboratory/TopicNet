@@ -53,6 +53,7 @@ from .models import TopicModel
 
 from .cubes import PerplexityStrategy, GreedyStrategy
 from .model_constructor import init_simple_default_model, create_default_topics
+from .rel_toolbox_lite import count_vocab_size, handle_regularizer
 
 import artm
 
@@ -201,7 +202,11 @@ def build_schema_for_regs():
     for elem in artm.regularizers.__all__:
         if "Regularizer" in elem:
             class_of_object = getattr(artm.regularizers, elem)
-            res = wrap_in_map(build_schema_from_signature(class_of_object))
+            res = build_schema_from_signature(class_of_object)
+            if elem in ["SmoothSparseThetaRegularizer", "SmoothSparsePhiRegularizer",
+                        "DecorrelatorPhiRegularizer"]:
+                res[Optional("relative", default=None)] = Bool()
+            res = wrap_in_map(res)
 
             specific_schema = Map({class_of_object.__name__: res})
             schemas[class_of_object.__name__] = specific_schema
@@ -392,11 +397,44 @@ def build_cube_settings(elemtype, elem_args):
             "selection": elem_args['selection'].data}
 
 
-def parse(yaml_string):
+def _add_parsed_scores(parsed, topic_model):
+    """ """
+    for score in parsed.data.get('scores', []):
+        for elemtype, elem_args in score.items():
+            is_artm_score = elemtype in artm.scores.__all__
+            score_object = build_score(elemtype, elem_args, is_artm_score)
+            if is_artm_score:
+                topic_model._model.scores.add(score_object, overwrite=True)
+            else:
+                topic_model.custom_scores[elemtype] = score_object
+
+
+def _add_parsed_regularizers(
+    parsed, model, specific_topic_names, background_topic_names, data_stats
+):
+    """ """
+    regularizers = []
+    for stage in parsed.data['regularizers']:
+        for elemtype, elem_args in stage.items():
+            should_be_relative = None
+            if "relative" in elem_args:
+                should_be_relative = elem_args["relative"]
+                elem_args.pop("relative")
+
+            regularizer_object = build_regularizer(
+                elemtype, elem_args, specific_topic_names, background_topic_names
+            )
+            handle_regularizer(should_be_relative, model, regularizer_object, data_stats)
+            regularizers.append(model.regularizers[regularizer_object.name])
+    return regularizers
+
+
+def parse(yaml_string, force_single_thread=False):
     """
     Parameters
     ----------
     yaml_string : str
+    force_single_thread : bool
 
     Returns
     -------
@@ -418,39 +456,30 @@ def parse(yaml_string):
         revalidate_section(parsed, "scores")
 
     cube_settings = []
-    regularizers = []
 
     dataset = Dataset(parsed.data["model"]["dataset_path"])
+    modalities_to_use = parsed.data["model"]["modalities_to_use"]
+
+    data_stats = count_vocab_size(dataset.get_dictionary(), modalities_to_use)
     model = init_simple_default_model(
         dataset=dataset,
-        modalities_to_use=parsed.data["model"]["modalities_to_use"],
+        modalities_to_use=modalities_to_use,
         main_modality=parsed.data["model"]["main_modality"],
         specific_topics=parsed.data["topics"]["specific_topics"],
         background_topics=parsed.data["topics"]["background_topics"],
     )
-    for stage in parsed.data['regularizers']:
-        for elemtype, elem_args in stage.items():
 
-            regularizer_object = build_regularizer(
-                elemtype, elem_args, specific_topic_names, background_topic_names
-            )
-            regularizers.append(regularizer_object)
-            model.regularizers.add(regularizer_object, overwrite=True)
-
+    regularizers = _add_parsed_regularizers(
+        parsed, model, specific_topic_names, background_topic_names, data_stats
+    )
     topic_model = TopicModel(model)
-
-    for score in parsed.data.get('scores', []):
-        for elemtype, elem_args in score.items():
-            is_artm_score = elemtype in artm.scores.__all__
-            score_object = build_score(elemtype, elem_args, is_artm_score)
-            if is_artm_score:
-                model.scores.add(score_object, overwrite=True)
-            else:
-                topic_model.custom_scores[elemtype] = score_object
+    _add_parsed_scores(parsed, topic_model)
 
     for stage in parsed['stages']:
         for elemtype, elem_args in stage.items():
             settings = build_cube_settings(elemtype.data, elem_args)
+            if force_single_thread:
+                settings[elemtype]["separate_thread"] = False
             cube_settings.append(settings)
 
     return cube_settings, regularizers, topic_model, dataset
@@ -486,8 +515,9 @@ def revalidate_section(parsed, section):
         stage.revalidate(local_schema)
 
 
-def build_experiment_environment_from_yaml_config(yaml_string, experiment_id, save_path):
-    settings, regs, model, dataset = parse(yaml_string)
+def build_experiment_environment_from_yaml_config(yaml_string, experiment_id,
+                                                  save_path, force_single_thread=False):
+    settings, regs, model, dataset = parse(yaml_string, force_single_thread)
     # TODO: handle dynamic addition of regularizers
     experiment = Experiment(experiment_id=experiment_id, save_path=save_path, topic_model=model)
     experiment.build(settings)

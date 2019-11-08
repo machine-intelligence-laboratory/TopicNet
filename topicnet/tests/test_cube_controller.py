@@ -3,7 +3,6 @@ import warnings
 
 import os
 import shutil
-from time import sleep
 
 import artm
 import numpy as np

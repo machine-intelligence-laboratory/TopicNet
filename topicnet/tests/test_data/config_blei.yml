@@ -39,4 +39,4 @@ stages:
     selection:
         - PerplexityScore@all < 1.01 * MINIMUM(PerplexityScore@all) and BleiLaffertyScore -> max COLLECT 1
     verbose: false
-    relative_coefficients: True
+    use_relative_coefficients: True

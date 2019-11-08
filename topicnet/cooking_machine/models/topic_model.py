@@ -574,3 +574,17 @@ class TopicModel(BaseModel):
     def class_ids(self):
         """ """
         return self._model.class_ids
+
+    def describe_scores(self):
+        data = []
+        for score_name, score in self.scores.items():
+            data.append([self.model_id, score_name, score[-1]])
+        result = pd.DataFrame(columns=["model_id", "score_name", "last_value"], data=data)
+        return result.set_index(["model_id", "score_name"])
+
+    def describe_regularizers(self):
+        data = []
+        for reg_name, reg in self.regularizers._data.items():
+            data.append([self.model_id, reg_name, reg.tau, reg.gamma])
+        result = pd.DataFrame(columns=["model_id", "regularizer_name", "tau", "gamma"], data=data)
+        return result.set_index(["model_id", "regularizer_name"])

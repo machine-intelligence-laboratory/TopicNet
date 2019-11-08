@@ -371,7 +371,6 @@ class RegularizationControllerCube(BaseCube):
                 handle_regularizer(
                     self._relative,
                     new_model,
-                    modalities,
                     new_regularizer,
                     self.data_stats,
                 )
