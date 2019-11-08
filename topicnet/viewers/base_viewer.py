@@ -1,4 +1,4 @@
-from ..cooking_machine.models.base_model import BaseModel
+from ..cooking_machine.models import BaseModel
 
 
 class BaseViewer:

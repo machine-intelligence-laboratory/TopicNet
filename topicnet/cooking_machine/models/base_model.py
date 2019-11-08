@@ -43,25 +43,30 @@ class BaseModel(object):
             else:
                 self.model_id = padd_model_name(model_id)
         else:
+            experiment_save_path = getattr(experiment, 'save_path', None)
+            experiment_id = getattr(experiment, 'experiment_id', None)
+            save_folder = os.path.join(experiment_save_path, experiment_id)
             if model_id is None:
                 candidate_name = get_timestamp_in_str_format()
             else:
                 candidate_name = model_id
-            version = 0
-            while True:
-                candidate_name = padd_model_name(candidate_name)
-                if candidate_name in self.experiment.models_info:
-                    version += 1
-                    candidate_name = padd_model_name(
-                        candidate_name.replace('#', '').split('__')[0] + '__' + str(version)
-                    )
-                else:
-                    self.model_id = candidate_name
-                    break
+            model_index = 0
+            new_model_id = padd_model_name(candidate_name)
+            new_model_save_path = os.path.join(save_folder, new_model_id)
+            while os.path.exists(new_model_save_path):
+                model_index += 1
+                new_model_id = padd_model_name("{0}{1:_>5}".format(candidate_name, model_index))
+
+            self.model_id = new_model_id
 
         self._description = []
         self._scores = dict()
         self._score_functions = dict()
+
+    def __str__(self):
+        return f'id={self.model_id}, ' \
+               f'parent_id={self.parent_model_id}, ' \
+               f'experiment_id={self.experiment.experiment_id if self.experiment is not None else None}'  # noqa long line
 
     def _fit(self, dataset_trainable, num_iterations):
         """
@@ -202,10 +207,12 @@ class BaseModel(object):
         """
         parameters = {
             "model_id": self.model_id,
+            "init_parameters": self.get_init_parameters(),
             "parent_model_id": self.parent_model_id,
             "data_path": self.data_path,
             "description": self.description,
             "depth": self.depth,
+            "scores": self.scores
         }
         if self.experiment is None:
             parameters["experiment_id"] = None

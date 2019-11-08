@@ -6,10 +6,14 @@ import warnings
 from datetime import datetime
 from statistics import mean, median
 import numexpr as ne
-# from .models.base_score import BaseScore
+
 
 W_TOO_STRICT = 'No models match criteria '
 W_TOO_STRICT_DETAILS = '(The requirements on {} have eliminated all {} models)'
+W_NOT_ENOUGH_MODELS_FOR_CHOICE = 'Not enough models'
+W_NOT_ENOUGH_MODELS_FOR_CHOICE_DETAILS = 'for models_num = {}, only {} models will be returned.'
+W_RETURN_FEWER_MODELS = 'Can\'t return the requested number of models:'
+W_RETURN_FEWER_MODELS_DETAILS = ' \"{}\". Only \"{}\" satisfy the query'
 
 
 def is_jsonable(x):
@@ -37,13 +41,14 @@ def is_saveable_model(model=None, model_id=None, experiment=None):
     Little helpful function. May be extended later.
 
     """
-    from .models import TopicModel
+    from .models import SUPPORTED_MODEL_CLASSES
 
     if model is None and experiment is not None:
         model = experiment.models.get(model_id)
 
     # hasattr(model, 'save') is not currently supported due to dummy save in BaseModel
-    return isinstance(model, TopicModel)
+
+    return isinstance(model, SUPPORTED_MODEL_CLASSES)
 
 
 def get_public_instance_attributes(instance):
@@ -137,6 +142,11 @@ def transform_topic_model_description_to_jsonable(obj):
         return str(obj.__class__)
     elif re.search(r'Cube', str(type(obj))) is not None:
         return str(obj.__class__)
+    elif re.search(r'protobuf', str(type(obj))) is not None:
+        try:
+            return str(list(obj))
+        except:  # noqa: E722
+            return str(type(obj))
     else:
         warnings.warn(f'Object {obj} can not be dumped using json.' +
                       'Object class name will be returned.', RuntimeWarning)
@@ -286,23 +296,39 @@ def extract_required_parameter(model, parameter):
     optional
 
     """
+    value_to_return_as_none = float('nan')  # value needed for comparisons in is_acceptable
+
     if parameter.split('.')[0] == 'model':
         parameters = model.get_init_parameters()
         parameter_name = parameter.split('.')[1]
+
         if parameter_name in parameters.keys():
-            return parameters.get(parameter_name)
+            parameter_value = parameters.get(parameter_name)
+
+            if parameter_value is not None:
+                return parameter_value
+            else:
+                return value_to_return_as_none
         else:
             raise ValueError(f'Unknown parameter {parameter_name} for model.')
     else:
-        scores = model.scores.get(parameter)
-        if scores is not None:
-            try:
-                return scores[-1]
-            except IndexError:
-                raise ValueError(f'Empty score {parameter}.')
-        else:
-            raise ValueError(f'Expected score name {parameter}' +
-                             f' or model.parameter {parameter}.')
+        scores = model.scores.get(parameter, None)
+
+        if scores is None and model.depth == 0:  # start model
+            warnings.warn(f'Start model doesn\'t have score values for \"{parameter}\"')
+
+            return value_to_return_as_none
+
+        elif scores is None:
+            raise ValueError(
+                f'Model \"{model}\" doesn\'t have the score \"{parameter}\". '
+                f'Expected score name {parameter} or model.parameter {parameter}')
+
+        try:
+            return scores[-1]
+
+        except IndexError:
+            raise ValueError(f'Empty score {parameter}.')
 
 
 def is_acceptable(model, requirement_lesser, requirement_greater, requirement_equal):
@@ -322,6 +348,7 @@ def is_acceptable(model, requirement_lesser, requirement_greater, requirement_eq
 
     """
     from .models import TopicModel
+
     if not isinstance(model, TopicModel):
         warnings.warn(f'Model {model} isn\'t of type TopicModel.' +
                       ' Check your selection level and/or level models.')
@@ -382,6 +409,75 @@ def _select_acceptable_models(models,
     return acceptable_models
 
 
+def choose_value_for_models_num_and_check(
+        models_num_as_parameter, models_num_from_query) -> int:
+
+    models_num = None
+
+    if models_num_as_parameter is not None and models_num_from_query is not None and \
+            models_num_as_parameter != models_num_from_query:
+
+        warnings.warn(
+            f'Models number given as parameter \"{models_num_as_parameter}\" '
+            f'not the same as models number specified after '
+            f'COLLECT: \"{models_num_from_query}\". '
+            f'Parameter value \"{models_num_as_parameter}\" will be used for select'
+        )
+
+        models_num = models_num_as_parameter
+
+    elif models_num_as_parameter is not None:
+        models_num = models_num_as_parameter
+
+    elif models_num_from_query is not None:
+        models_num = models_num_from_query
+
+    if models_num is not None and int(models_num) < 0:
+        raise ValueError(f"Cannot return negative number of models")
+
+    return models_num
+
+
+def _choose_models_by_metric(acceptable_models, metric, extremum, models_num):
+    scores_models = {}
+
+    for acceptable_model in acceptable_models:
+        if len(acceptable_model.scores[metric]) == 0:
+            warnings.warn(
+                f'Model \"{acceptable_model}\" has empty value list for score \"{metric}\"')
+
+            continue
+
+        score = acceptable_model.scores[metric][-1]
+
+        if score in scores_models.keys():
+            scores_models[score].append(acceptable_model)
+        else:
+            scores_models[score] = [acceptable_model]
+
+    scores_models = sorted(scores_models.items(), key=lambda kv: kv[0])
+
+    if models_num is None:
+        models_num = len(scores_models) if not metric else 1
+
+    if extremum == "max":
+        scores_models = list(reversed(scores_models))
+
+    best_models = sum([models[1] for models in scores_models[:models_num]], [])
+    result_models = best_models[:models_num]
+
+    if models_num > len(acceptable_models):
+        warnings.warn(
+            W_NOT_ENOUGH_MODELS_FOR_CHOICE + ' ' +
+            W_NOT_ENOUGH_MODELS_FOR_CHOICE_DETAILS.format(models_num, len(acceptable_models))
+        )
+
+    if len(result_models) < models_num:
+        warnings.warn(W_RETURN_FEWER_MODELS.format(models_num, len(result_models)))
+
+    return result_models
+
+
 def choose_best_models(models: list, requirement_lesser: list, requirement_greater: list,
                        requirement_equal: list, metric: str, extremum="min", models_num=None):
     """
@@ -410,7 +506,7 @@ def choose_best_models(models: list, requirement_lesser: list, requirement_great
 
     Returns
     -------
-    TopicModel
+    best_models : list of models
         models with best scores or matching request
 
     """
@@ -423,33 +519,21 @@ def choose_best_models(models: list, requirement_lesser: list, requirement_great
 
     if metric is None and extremum is None:
         if models_num is None:
-            return acceptable_models
+            result_models = acceptable_models
         else:
-            return acceptable_models[:models_num]
+            result_models = acceptable_models[:models_num]
+
+        if models_num is not None and len(result_models) < models_num:
+            warnings.warn(W_RETURN_FEWER_MODELS + ' ' +
+                          W_RETURN_FEWER_MODELS_DETAILS.format(models_num, len(result_models)))
+
+        return result_models
+
     elif len(models) > 0 and metric not in models[0].scores:
         raise ValueError(f'There is no {metric} metric for model {models[0].model_id}.\n'
                          f'The following scores are available: {list(models[0].scores.keys())}')
 
-    scores_models = {}
-    for acceptable_model in acceptable_models:
-        score = acceptable_model.scores[metric][-1]
-        if score in scores_models.keys():
-            scores_models[score].append(acceptable_model)
-        else:
-            scores_models[score] = [acceptable_model]
-    scores_models = sorted(scores_models.items(), key=lambda kv: kv[0])
-
-    if models_num is None:
-        models_num = len(scores_models) if not metric else 1
-
-    if extremum == "max":
-        scores_models = list(reversed(scores_models))
-    best_models = sum([models[1] for models in scores_models[:models_num]], [])
-
-    if models_num > len(acceptable_models):
-        warnings.warn(f'Not enough models for models_num = {models_num},' +
-                      f' only {len(acceptable_models)} models will be returned.')
-    return best_models
+    return _choose_models_by_metric(acceptable_models, metric, extremum, models_num)
 
 
 def parse_query_string(query_string: str):
@@ -477,22 +561,38 @@ def parse_query_string(query_string: str):
     }
     metric = None
     extremum = None
+
     for part in filter(None, re.split(r'\s+and\s+', query_string)):
         expression_parts = part.strip().split()
+
         if len(expression_parts) != 3:
             raise ValueError(f"Cannot understand '{part}'")
 
         first, middle, last = expression_parts
+
         if middle in [">", "<", "="]:
             requirement[middle] += [(first, float(last))]
+
         elif middle == "->":
+            current_metric = first
+            current_extremum = last
+
+            if metric == current_metric and extremum == current_extremum:
+                continue
+
             if metric is not None:
-                raise ValueError(f"Cannot process more than one target ({metric} and {first})")
-            metric = first
-            if last in ["max", "min"]:
-                extremum = last
-            else:
-                raise ValueError(f"Cannot understand '{part}': unknown requirement '{last}'")
+                raise ValueError(
+                    f"Cannot process more than one target: "
+                    f"previous \"{metric}\" with extremum \"{extremum}\" and "
+                    f"current \"{current_metric}\" with extremum \"{current_extremum}\"")
+
+            if current_extremum not in ["max", "min"]:
+                raise ValueError(f"Cannot understand '{part}': "
+                                 f"unknown requirement '{current_extremum}'")
+
+            metric = current_metric
+            extremum = current_extremum
+
         else:
             raise ValueError(f"Unknown connector '{middle}' in '{part}'")
 

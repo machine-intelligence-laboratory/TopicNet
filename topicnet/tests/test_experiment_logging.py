@@ -68,7 +68,7 @@ class TestLogging:
             strategy=PerplexityStrategy(0.001, 10, 25, threshold=1.0),
             tracked_score_function='PerplexityScore@all',
             reg_search='mul',
-            relative_coefficients=False,
+            use_relative_coefficients=False,
             verbose=True
         )
 

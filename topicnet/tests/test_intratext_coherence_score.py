@@ -59,6 +59,7 @@ class TestIntratextCoherenceScore:
         for topic in topics
     }
     vocabulary = list(reduce(lambda res, cur: res + cur, top_words.values(), []))
+    out_of_topics_word = 'unknown_word'
 
     data_folder_path = None
     model = None
@@ -116,6 +117,7 @@ class TestIntratextCoherenceScore:
             num_words = 0
             segments = []
             is_main_topic = True
+            is_out_of_topics_word_included = False
 
             while num_words < DOCUMENT_LENGTH:
                 if len(other_topics) == 0:
@@ -137,6 +139,10 @@ class TestIntratextCoherenceScore:
                     current_segment_length
                 )
                 segment = segment.tolist()
+
+                if not is_out_of_topics_word_included:
+                    segment += [cls.out_of_topics_word]
+                    is_out_of_topics_word_included = True
 
                 is_main_topic = not is_main_topic
 

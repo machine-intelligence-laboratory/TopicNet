@@ -3,7 +3,7 @@ class BaseScore:
     Base Class to construct custom score functions.
 
     """
-    def __init__(self, *args, **kwargs):
+    def __init__(self):
         self.value = []
 
     def update(self, score):
@@ -18,6 +18,11 @@ class BaseScore:
         -------
 
         """
+        known_errors = (ValueError, TypeError)
+        try:
+            score = float(score)
+        except known_errors:
+            raise ValueError(f'Score call should return float but not {score}')
         self.value.append(score)
 
     def call(self, model):

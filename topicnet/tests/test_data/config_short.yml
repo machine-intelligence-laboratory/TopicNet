@@ -1,0 +1,40 @@
+topics:
+    background_topics: 1
+    specific_topics: 4
+
+regularizers:
+- SmoothSparsePhiRegularizer:
+    name: sparse_phi_@text
+    topic_names: specific_topics
+    tau: 1
+    class_ids: ["@text"]
+
+scores:
+    - BackgroundTokensRatioScore:
+        class_id: '@text'
+        name: 'BTRS'
+    - ScoreExample:
+
+model: 
+    dataset_path: tests/test_data/test_dataset.csv
+    modalities_to_use: ['@text']
+    main_modality: '@text'
+
+stages:
+
+- CubeCreator:
+    num_iter: 5
+    selection:
+        - PerplexityScore@all -> min
+    parameters:
+        - name: class_ids@text
+          values: [1.0]
+
+- RegularizersModifierCube:
+    num_iter: 5
+    regularizer_parameters:
+        name: sparse_phi_@text
+        tau_grid: [-1, 0, 1]
+    selection:
+        - TopicKernel@text.average_contrast -> max
+    relative_coefficients: False

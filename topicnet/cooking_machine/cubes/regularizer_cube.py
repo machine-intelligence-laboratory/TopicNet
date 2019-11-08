@@ -1,6 +1,6 @@
 from .base_cube import BaseCube
 from ..routine import transform_complex_entity_to_dict
-from ..rel_toolbox_lite import count_vocab_size, transform_regularizer
+from ..rel_toolbox_lite import count_vocab_size, handle_regularizer
 from copy import deepcopy
 
 
@@ -10,8 +10,9 @@ class RegularizersModifierCube(BaseCube):
 
     """
     def __init__(self, num_iter: int, regularizer_parameters,
-                 reg_search='grid', relative_coefficients: bool = True, strategy=None,
-                 tracked_score_function=None, verbose: bool = False):
+                 reg_search='grid', use_relative_coefficients: bool = True, strategy=None,
+                 tracked_score_function=None,
+                 verbose: bool = False, separate_thread: bool = True):
         """
         Initialize stage. Checks params and update internal attributes.
 
@@ -28,7 +29,7 @@ class RegularizersModifierCube(BaseCube):
             "add" and "mul" for the ariphmetic and geometric progression
             respectively for PerplexityStrategy 
             (Default value = "grid")
-        relative_coefficients : bool
+        use_relative_coefficients : bool
             forces the regularizer coefficient to be in relative form
             i.e. normalized over collection properties
         strategy : BaseStrategy
@@ -37,12 +38,15 @@ class RegularizersModifierCube(BaseCube):
             optimizable function for strategy (Default value = None)
         verbose : bool
             visualization flag (Default value = False)
+        separate_thread : bool
+            will train models inside a separate thread if True
 
         """  # noqa: W291
         super().__init__(num_iter=num_iter, action='reg_modifier',
                          reg_search=reg_search, strategy=strategy,
-                         tracked_score_function=tracked_score_function, verbose=verbose)
-        self._relative = relative_coefficients
+                         tracked_score_function=tracked_score_function, verbose=verbose,
+                         separate_thread=separate_thread)
+        self._relative = use_relative_coefficients
         if isinstance(regularizer_parameters, dict):
             regularizer_parameters = [regularizer_parameters]
         self._add_regularizers(regularizer_parameters)
@@ -107,55 +111,6 @@ class RegularizersModifierCube(BaseCube):
             for params in all_regularizer_parameters
         ]
 
-    def _handle_regularizer(
-        self,
-        model,
-        modalities,
-        regularizer,
-        regularizer_type,
-    ):
-        """
-        Handles the case of various regularizers that
-        contain 'Regularizer' in their name, namely all artm regularizers
-
-        Parameters
-        ----------
-        model : TopicModel
-            to be changed in place
-        modalities : dict
-            modalities used in the model
-        regularizer : an instance of Regularizer from artm library
-        regularizer_type : str
-            type of regularizer to be added
-
-        Returns
-        -------
-        None
-
-        """
-
-        fallback_options = (AttributeError, TypeError, AssertionError)
-        try:
-            n_topics = len(regularizer.topic_names)
-            assert n_topics > 0
-        except fallback_options:
-            n_topics = len(model.topic_names)
-
-        if self._relative and 'SmoothSparse' in regularizer_type:
-            regularizer = transform_regularizer(
-                self.data_stats,
-                regularizer,
-                modalities,
-                n_topics,
-            )
-
-        model.regularizers.add(regularizer, overwrite=True)
-        if 'Decorrelator' in regularizer_type:
-            if self._relative:
-                model.regularizers[regularizer.name].gamma = 0
-            else:
-                model.regularizers[regularizer.name].gamma = None
-
     def apply(self, topic_model, one_model_parameter, dictionary=None, model_id=None):
         """
         Applies regularizers and parameters to model
@@ -199,11 +154,12 @@ class RegularizersModifierCube(BaseCube):
             elif 'Regularizer' in regularizer_type:
                 new_regularizer = deepcopy(regularizer)
                 new_regularizer._tau = params
-                self._handle_regularizer(
+                handle_regularizer(
+                    self._relative,
                     new_model,
                     modalities,
                     new_regularizer,
-                    regularizer_type,
+                    self.data_stats,
                 )
             else:
                 error_msg = f"Regularizer instance or name must be specified for {regularizer}."

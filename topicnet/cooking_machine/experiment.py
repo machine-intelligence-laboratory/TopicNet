@@ -1,7 +1,6 @@
 import os
 import re
 import json
-import shutil
 import warnings
 
 from .model_tracking import Tree, START
@@ -9,7 +8,12 @@ from typing import List
 
 from .pretty_output import give_strings_description, get_html
 from .routine import transform_topic_model_description_to_jsonable
-from .routine import parse_query_string, choose_best_models, compute_special_queries
+from .routine import (
+    parse_query_string,
+    choose_best_models,
+    compute_special_queries,
+    choose_value_for_models_num_and_check
+)
 from .routine import is_saveable_model
 
 from .models import BaseModel
@@ -23,6 +27,14 @@ EMPTY_ERRORS = [
     'min() arg is an empty sequence',
     'max() arg is an empty sequence',
 ]
+
+
+def _run_from_notebook():
+    try:
+        shell = get_ipython().__class__.__name__  # noqa: F821
+        return shell == 'ZMQInteractiveShell'
+    except:  # noqa: E722
+        return False
 
 
 class Experiment(object):
@@ -67,6 +79,11 @@ class Experiment(object):
             Phi, Theta matrices, stays.
 
         """  # noqa: W291
+
+        if not isinstance(save_path, str):
+            raise ValueError("Cannot create an Experiment with invalid save_path!")
+        if not isinstance(experiment_id, str):
+            raise ValueError("Cannot create an Experiment with invalid experiment_id!")
 
         self.experiment_id = experiment_id
 
@@ -259,6 +276,7 @@ class Experiment(object):
             topic model
 
         """
+        topic_model.experiment = self
         self.tree.add_model(topic_model)
         self.models_info[topic_model.model_id] = topic_model.get_parameters()
         self.models[topic_model.model_id] = topic_model
@@ -365,26 +383,16 @@ class Experiment(object):
                 for tmodel in self.models.values()
                 if is_saveable_model(self.models.get(getattr(tmodel, 'parent_model_id', None)))
             ])
-        save_models.update(set([
-            (tmodel, tmodel.model_id)
-            for tmodel in self.get_models_by_depth(self.depth)
-            if is_saveable_model(tmodel)
-        ]))
+        else:
+            save_models.update(set([
+                (tmodel, tmodel.model_id)
+                for tmodel in self.get_models_by_depth(self.depth)
+                if is_saveable_model(tmodel)
+            ]))
 
-        for model in list(save_models):
-            model_save_path = os.path.join(experiment_save_path, model[0].model_id)
-            model[0].save(model_save_path=model_save_path)
-
-        files = [
-            file
-            for file in os.listdir(experiment_save_path)
-            if os.path.isdir(os.path.join(experiment_save_path, file))
-        ]
-        for file in files:
-            model_delete_path = os.path.join(experiment_save_path, file, 'model')
-            if len(list(zip(*save_models))) > 0 and file not in list(zip(*save_models))[1] and\
-                    os.path.exists(model_delete_path):
-                shutil.rmtree(model_delete_path)
+        for model, model_id in list(save_models):
+            model_save_path = os.path.join(experiment_save_path, model_id)
+            model.save(model_save_path=model_save_path)
 
     def squeeze_models(self, depth: int = None):
         """Transforms models to dummies so as to occupy less RAM memory
@@ -402,7 +410,7 @@ class Experiment(object):
         for m in self.get_models_by_depth(depth):
             m.make_dummy()
 
-    def save(self, window_size: int = 1500, mode: str = 'tree'):
+    def save(self, window_size: int = 1500, mode: str = 'all'):
         """
         Saves all params of the experiment to save_path/experiment_id.
 
@@ -472,9 +480,11 @@ class Experiment(object):
         Parameters
         ----------
         min_len_per_cube : int
-            minimal length of the one stage of experiment description (Default value = 21)
+            minimal length of the one stage of experiment description
+            (Default value = MODEL_NAME_LENGTH)
         len_tree_step : int
-            length of the whole one stage description of experiment's tree (Default value = 22)
+            length of the whole one stage description of experiment's tree
+            (Default value = MODEL_NAME_LENGTH +1)
 
         Returns
         -------
@@ -496,13 +506,16 @@ class Experiment(object):
         Shows description of the experiment.
 
         """
-        print(self.get_description())
+        nb_verbose = _run_from_notebook()
+        string = self.get_description()
+        Experiment._clear_and_print(string, nb_verbose)
 
     def get_models_by_depth(self, level=None):
         """ """
         if level is None:
             # level = self.depth
             level = len(self.cubes)
+
         return [
             tmodel
             for tmodel in self.models.values()
@@ -511,7 +524,8 @@ class Experiment(object):
 
     def select(self, query_string='', models_num=None, level=None):
         """
-        Selects a best model according to the query string among all models on a particular depth.
+        Selects all models satisfying the query string
+        from all models on a particular depth.
 
         Parameters
         ----------
@@ -524,8 +538,7 @@ class Experiment(object):
 
         Returns
         -------
-        TopicModel
-            model - an element of experiment
+        result_topic_models : list of restored TopicModels
 
         String Format
         -------------
@@ -577,20 +590,27 @@ class Experiment(object):
 
 
         """  # noqa: W291
+        from .models import DummyTopicModel
+        models_num_as_parameter = models_num
+        models_num_from_query = None
         candidate_tmodels = self.get_models_by_depth(level=level)
 
         if "COLLECT" in query_string:
             first_part, second_part = re.split(r'\s*COLLECT\s+', query_string)
+
             if second_part.lower() != 'all':
                 try:
-                    models_num = int(second_part)
+                    models_num_from_query = int(second_part)
                 except ValueError:
                     raise ValueError(f"Invalid directive in COLLECT: {second_part}")
             else:
-                models_num = len(candidate_tmodels)
+                models_num_from_query = len(candidate_tmodels)
+
             query_string = first_part
-        if models_num is not None and int(models_num) < 0:
-            raise ValueError(f"Cannot return negative number of models")
+
+        models_num = choose_value_for_models_num_and_check(
+            models_num_as_parameter, models_num_from_query
+        )
 
         try:
             query_string = self.preprocess_query(query_string, level)
@@ -602,14 +622,18 @@ class Experiment(object):
                 metric, extremum,
                 models_num
             )
-            return result
+            result_topic_models = [model.restore() if isinstance(model, DummyTopicModel)
+                                   else model for model in result]
+            return result_topic_models
+
         except ValueError as e:
-            if e.args[0] in EMPTY_ERRORS:
-                error_message = repr(e)
-                warnings.warn(W_EMPTY_SPECIAL_1 + W_EMPTY_SPECIAL_2.format(error_message))
-                return []
-            else:
+            if e.args[0] not in EMPTY_ERRORS:
                 raise e
+
+            error_message = repr(e)
+            warnings.warn(W_EMPTY_SPECIAL_1 + W_EMPTY_SPECIAL_2.format(error_message))
+
+            return []
 
     def run(self, dataset, verbose=False, nb_verbose=False):
         """

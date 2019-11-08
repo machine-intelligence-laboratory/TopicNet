@@ -10,13 +10,18 @@ import warnings
 
 from ..cooking_machine.models.topic_model import TopicModel
 from ..cooking_machine.experiment import Experiment
-from ..cooking_machine.routine import W_TOO_STRICT
+from ..cooking_machine.routine import (
+    W_TOO_STRICT,
+    W_RETURN_FEWER_MODELS,
+    W_NOT_ENOUGH_MODELS_FOR_CHOICE
+)
 
 
 ARTM_MODEL = artm.ARTM(num_topics=1, num_processors=1)
 
 SCORES = ['PerplexityScore', 'SparsityPhiScore']
 INIT_PARAMETERS = ['num_topics', 'num_document_passes']
+DEFINED_START_INIT_PARAMETER = 'num_topics'
 
 AND = 'and'
 MAX = 'max'
@@ -38,14 +43,14 @@ INIT_PARAMETER_PREFIX = 'model.'
 MIN_SCORE = -0.2  # seems better to use floats right away (without ints)
 MAX_SCORE = +0.3
 SCORE_STEP = 0.1
-SCORE_RANGE = np.arange(MIN_SCORE, MAX_SCORE + SCORE_STEP, SCORE_STEP)
+SCORE_RANGE = np.arange(MIN_SCORE, MAX_SCORE, SCORE_STEP)
 MIDDLE_SCORE = int((MAX_SCORE + MIN_SCORE) / 2)
 
 MIN_INIT_PARAMETER = -0.2
 MAX_INIT_PARAMETER = +0.3
 INIT_PARAMETER_STEP = 0.1
 INIT_PARAMETER_RANGE = np.arange(
-    MIN_INIT_PARAMETER, MAX_INIT_PARAMETER + INIT_PARAMETER_STEP, INIT_PARAMETER_STEP
+    MIN_INIT_PARAMETER, MAX_INIT_PARAMETER, INIT_PARAMETER_STEP
 )
 MIDDLE_INIT_PARAMETER = int((MAX_INIT_PARAMETER + MIN_INIT_PARAMETER) / 2)
 
@@ -98,10 +103,12 @@ class MockTopicModel(TopicModel):
         result = f'{self._name}'
 
         for s, v in self.scores.items():
-            result += f'__s:{s}:{v[-1]:.2f}'
+            formatted_score_value = f'{v[-1]:.2f}' if len(v) > 0 else f'{None}'
+            result += f'__s:{s}:{formatted_score_value}'
 
         for p, v in self.init_parameters.items():
-            result += f'__p:{p}:{v:.2f}'
+            formatted_parameter_value = f'{v:.2f}' if v is not None else f'{None}'
+            result += f'__p:{p}:{formatted_parameter_value}'
 
         return result
 
@@ -141,13 +148,15 @@ class MockTopicModel(TopicModel):
 
     @staticmethod
     def get_start_model():
-        model = MockTopicModel(name=f'<<< Start Model >>>')
+        model = MockTopicModel(name=f'<<< Start Model >>>', depth=0)
 
         for score in SCORES:
-            model.set_score(score, [0.0])
+            model.set_score(score, [])
 
         for init_parameter in INIT_PARAMETERS:
-            model.set_init_parameter(init_parameter, 0.0)
+            model.set_init_parameter(init_parameter, None)
+
+        model.set_init_parameter(DEFINED_START_INIT_PARAMETER, 0)
 
         # Call get_jsonable_from_parameters() in experiment breaks stuff:
         # "ARTM model not initialized"
@@ -266,6 +275,7 @@ class TestExperimentSelect:
     @classmethod
     def teardown_class(cls):
         shutil.rmtree(cls.experiments_folder)
+        ARTM_MODEL.dispose()
 
     @staticmethod
     def get_experiment(with_models=True):
@@ -300,21 +310,23 @@ class TestExperimentSelect:
     def get_filter_for_score(query, score, threshold, models):
         if f'{ARROW_TO} {MAX}' in query:
             return lambda m: m.scores[score][-1] == max(
-                model.scores[score][-1] for model in models if score in model.scores)\
-                if score in m.scores else False
+                model.scores[score][-1]
+                for model in models if score in model.scores and len(model.scores[score]) > 0
+            ) if score in m.scores and len(m.scores[score]) > 0 else False
         if f'{ARROW_TO} {MIN}' in query:
             return lambda m: m.scores[score][-1] == min(
-                model.scores[score][-1] for model in models if score in model.scores)\
-                if score in m.scores else False
+                model.scores[score][-1]
+                for model in models if score in model.scores and len(model.scores[score]) > 0
+            ) if score in m.scores and len(m.scores[score]) > 0 else False
         if LESS in query:
             return lambda m: m.scores[score][-1] < threshold\
-                if score in m.scores else False
+                if score in m.scores and len(m.scores[score]) > 0 else False
         if EQUALS in query:
             return lambda m: m.scores[score][-1] == threshold\
-                if score in m.scores else False
+                if score in m.scores and len(m.scores[score]) > 0 else False
         if GREATER in query:
             return lambda m: m.scores[score][-1] > threshold\
-                if score in m.scores else False
+                if score in m.scores and len(m.scores[score]) > 0 else False
 
         raise ValueError(
             f'Don\'t know what to do with query "{query}" for score "{score}"...')
@@ -341,7 +353,11 @@ class TestExperimentSelect:
         experiment = TestExperimentSelect.get_experiment(with_models=False)
 
         with warnings.catch_warnings():
+            # TODO: check that tests on warnings are here somewhere
             warnings.filterwarnings(action="ignore", message=W_TOO_STRICT)
+            warnings.filterwarnings(action="ignore", message=W_NOT_ENOUGH_MODELS_FOR_CHOICE)
+            warnings.filterwarnings(action="ignore", message=W_RETURN_FEWER_MODELS)
+
             query = TestExperimentSelect.query_sample
             selection = experiment.select(query, models_num=1, level=level)
 
@@ -639,7 +655,11 @@ class TestExperimentSelect:
         )
 
         with warnings.catch_warnings():
+            # TODO: check that tests on warnings are here somewhere
             warnings.filterwarnings(action="ignore", message=W_TOO_STRICT)
+            warnings.filterwarnings(action="ignore", message=W_NOT_ENOUGH_MODELS_FOR_CHOICE)
+            warnings.filterwarnings(action="ignore", message=W_RETURN_FEWER_MODELS)
+
             selection = experiment.select(
                 TestExperimentSelect.query_sample,
                 models_num=1,
@@ -651,8 +671,6 @@ class TestExperimentSelect:
         assert len(selection) == 0,\
             'Some models selected on level with no models'
 
-    # TODO: investigate failure
-    @pytest.mark.xfail
     @pytest.mark.parametrize('num_models', [1, 2])
     @pytest.mark.parametrize('difference_with_num_satisfying', [1, 0, -1])
     @pytest.mark.parametrize('total_num_models', [20])
@@ -660,9 +678,8 @@ class TestExperimentSelect:
         'score, target_value, other_value, query_template',
         [
             (SCORES[0], 100, 1, CONSTRAINT_EQUALS_TO.format('{0}', 100)),
-            # TODO: fix scores, make them distinct
-            # (SCORES[0], 100, 1, CONSTRAINT_MAXIMIZE),
-            # (SCORES[0], 100, 1000, CONSTRAINT_MINIMIZE),
+            (SCORES[0], 100, 1, CONSTRAINT_MAXIMIZE),
+            (SCORES[0], 100, 1000, CONSTRAINT_MINIMIZE),
             (SCORES[0], 100, 1, CONSTRAINT_GREATER_THAN.format('{0}', 1)),
             (SCORES[0], 100, 1000, CONSTRAINT_LESS_THAN.format('{0}', 1000))
         ]
@@ -677,42 +694,55 @@ class TestExperimentSelect:
         num_satisfying = max(num_models + difference_with_num_satisfying, 1)
         num_other = max(total_num_models - num_satisfying, 0)
 
+        # TODO: investigate more thoroughly the case with START model
+        #  (can in be chosen here, if not specify depth?)
         models_satisfying = [
-            MockTopicModel(f'model_satisfying_{i}').set_score(score, [target_value])
+            MockTopicModel(f'model_satisfying_{i}', depth=1).set_score(score, [target_value])
             for i in range(num_satisfying)
         ]
         models_other = [
-            MockTopicModel(f'model_other_{i}').set_score(score, [other_value])
+            MockTopicModel(f'model_other_{i}', depth=1).set_score(score, [other_value])
             for i in range(num_other)
         ]
 
         TestExperimentSelect.set_models(experiment, models_satisfying + models_other)
 
         query = query_template.format(format_score(score))
-        selection_first_time = experiment.select(query, models_num=num_models)
-        selection_second_time = experiment.select(query, models_num=num_models)
 
-        assert len(selection_first_time) == min(num_models, num_satisfying),\
+        with warnings.catch_warnings():
+            warnings.filterwarnings(action="ignore", message=W_RETURN_FEWER_MODELS)
+
+            selection_first_time = experiment.select(query, models_num=num_models)
+            selection_second_time = experiment.select(query, models_num=num_models)
+
+        if ARROW_TO in query:
+            expected_num_models = min(num_models, num_satisfying + num_other)
+        else:
+            expected_num_models = min(num_models, num_satisfying)
+
+        assert len(selection_first_time) == expected_num_models,\
             f'Wrong number of selected models on first select by"{query}"'
-        assert len(selection_second_time) == min(num_models, num_satisfying),\
+        assert len(selection_second_time) == expected_num_models,\
             f'Wrong number of selected models on second select by "{query}"'
         assert selection_first_time == selection_second_time,\
             f'First and second select() results not the same on "{query}"'
 
-    # TODO: it should return all models, I think?
-    @pytest.mark.xfail
     @pytest.mark.parametrize('with_models', [True, False])
     def test_blank_query(self, with_models):
         experiment = TestExperimentSelect.get_experiment(with_models=False)
 
-        if with_models:
+        if not with_models:
+            expected_num_models = 0
+        else:
             TestExperimentSelect.set_models(
                 experiment, [MockTopicModel('model_name').set_score('some_score', [1])]
             )
 
-        selection = experiment.select('')
+            expected_num_models = len([m for m in experiment.models.values() if m.depth == 1])
 
-        assert len(selection) == 0, 'Some models selected'
+        selection = experiment.select('', level=1)
+
+        assert len(selection) == expected_num_models, 'Some models selected'
 
     @pytest.mark.parametrize('score, threshold', [(SCORES[0], MIDDLE_SCORE)])
     def test_whitespace(self, score, threshold):
@@ -902,8 +932,6 @@ class TestExperimentSelect:
         with pytest.raises(ValueError):
             _ = experiment.select(query, models_num=1)
 
-    # TODO: investigate failure
-    @pytest.mark.xfail
     @pytest.mark.parametrize(
         'constraint',
         [
@@ -925,8 +953,6 @@ class TestExperimentSelect:
         assert selection_with_one == selection_with_duplicate,\
             'Duplicate constraints changed query result'
 
-    # TODO: two test failures out of 9, why?
-    @pytest.mark.xfail
     @pytest.mark.parametrize(
         'constraint_to_duplicate',
         [
@@ -956,19 +982,16 @@ class TestExperimentSelect:
         query_duplicate_constraints_and_other = combine_constraints(
             constraint_to_duplicate, constraint_other, constraint_to_duplicate)
 
-        selection_with_one = experiment.select(query_constraint_and_other, models_num=1)
+        selection_with_one = experiment.select(
+            query_constraint_and_other, models_num=1
+        )
         selection_with_duplicate = experiment.select(
-            query_duplicate_constraints_and_other,
-            models_num=1
+            query_duplicate_constraints_and_other, models_num=1
         )
 
         assert selection_with_one == selection_with_duplicate,\
             'Other constraint changed query result'
 
-    # TODO:
-    # тут проблемы из-за того, что сейчас MAXIMIZE возвращает
-    # несколько моделей с одинаковыми скорами
-    @pytest.mark.xfail
     @pytest.mark.parametrize(
         'parameter, soft_constraint_template, hard_constraint_template',
         [
@@ -1000,8 +1023,11 @@ class TestExperimentSelect:
         soft_query = soft_constraint
         hard_query = combine_constraints(soft_constraint, hard_constraint)
 
-        soft_selection = experiment.select(soft_query, models_num=1)
-        hard_selection = experiment.select(hard_query, models_num=1)
+        with warnings.catch_warnings():
+            warnings.filterwarnings(action="ignore", message=W_RETURN_FEWER_MODELS)
+
+            soft_selection = experiment.select(soft_query)
+            hard_selection = experiment.select(hard_query)
 
         assert len(hard_selection) < len(soft_selection),\
             f'Hard constraint "{hard_query}" not proper subset of soft one "{soft_query}"'
@@ -1061,8 +1087,11 @@ class TestExperimentSelect:
             *[constraint_template.format(parameter, sign, threshold)
               for sign in signs]
         )
+
         with warnings.catch_warnings():
             warnings.filterwarnings(action="ignore", message=W_TOO_STRICT)
+            warnings.filterwarnings(action="ignore", message=W_RETURN_FEWER_MODELS)
+
             selection = experiment.select(query, models_num=1)
 
         assert len(selection) == 0, 'Some models selected'
@@ -1259,12 +1288,19 @@ class TestExperimentSelect:
 
         query_satisfying_all = query_template.format(
             format_init_parameter(init_parameter), threshold_satisfying_all)
-        selection = experiment.select(query_satisfying_all, num_models)
+
+        with warnings.catch_warnings():
+            warnings.filterwarnings(action="ignore", message=W_RETURN_FEWER_MODELS)
+
+            selection = experiment.select(query_satisfying_all, num_models, level=1)
 
         filter_func = TestExperimentSelect.get_filter_for_init_parameter(
             query_satisfying_all, init_parameter, threshold_satisfying_all
         )
-        satisfying = list(filter(filter_func, experiment.models.values()))
+        satisfying = list(filter(
+            filter_func,
+            [m for m in experiment.models.values() if m.depth == 1]
+        ))
 
         if len(satisfying) > total_num_models:
             raise RuntimeError('Satisfying models more than all models')
@@ -1283,7 +1319,6 @@ class TestExperimentSelect:
                 'Return models number as requested, ' \
                 'but not all returned models satisfy the constraint'
 
-    @pytest.mark.xfail
     @pytest.mark.parametrize(
         'query_satisfying_all',
         [CONSTRAINT_LESS_THAN.format(
@@ -1297,3 +1332,43 @@ class TestExperimentSelect:
 
         with pytest.warns(UserWarning):
             _ = experiment.select(query_satisfying_all, num_models)
+
+    def test_select_blank_start_model_by_score(self):
+        experiment = TestExperimentSelect.get_experiment(with_models=False)
+
+        with pytest.warns(UserWarning):
+            selection = experiment.select(
+                CONSTRAINT_MAXIMIZE.format(format_score(SCORES[0])),
+                level=0
+            )
+
+        assert len(selection) == 0, 'Some models selected'
+
+    def test_select_blank_start_model_by_defined_init_parameter(self):
+        experiment = TestExperimentSelect.get_experiment(with_models=False)
+        big_number = 10 ** 9
+
+        selection = experiment.select(
+            CONSTRAINT_LESS_THAN.format(
+                format_init_parameter(DEFINED_START_INIT_PARAMETER), big_number
+            ),
+            level=0
+        )
+
+        assert len(selection) == 1, 'Wrong selection size'
+        assert selection[0].depth == 0, f'Wrong model selected: with depth \"{selection[0].depth}\"'
+
+    def test_select_blank_start_model_by_undefined_init_parameter(self):
+        experiment = TestExperimentSelect.get_experiment(with_models=False)
+        init_parameter = list(set(INIT_PARAMETERS).difference([DEFINED_START_INIT_PARAMETER]))[0]
+        some_value = 0
+
+        with pytest.warns(UserWarning):
+            selection = experiment.select(
+                CONSTRAINT_LESS_THAN.format(
+                    format_init_parameter(init_parameter), some_value
+                ),
+                level=0
+            )
+
+        assert len(selection) == 0, 'Some models selected'

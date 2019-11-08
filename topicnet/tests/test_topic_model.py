@@ -7,6 +7,7 @@ from ..cooking_machine.models.topic_model import TopicModel
 from ..cooking_machine.experiment import Experiment
 from ..cooking_machine.dataset import Dataset, W_DIFF_BATCHES_1
 from ..cooking_machine.models.example_score import ScoreExample
+from ..cooking_machine.models.blei_lafferty_score import BleiLaffertyScore
 
 ARTM_NINE = artm.version().split(".")[1] == "9"
 MAIN_MODALITY = "@text"
@@ -24,6 +25,7 @@ def experiment_enviroment(request):
 
     model_artm = artm.ARTM(
         num_topics=5,
+        class_ids={MAIN_MODALITY: 1.0, NGRAM_MODALITY: 1.0, EXTRA_MODALITY: 1.0},
         num_document_passes=1, dictionary=dictionary,
         scores=[artm.PerplexityScore(name='PerplexityScore', )],
         theta_columns_naming='title',
@@ -162,6 +164,17 @@ def test_topic_model_fancy_phi_are_ok(experiment_enviroment):
     ({'num_topics': 10, 'dictionary': "invalid dictionary name lol"},
      ValueError, "ARTM failed with following: InvalidOperationException")
 ])
+# we allow model to deal with invalid entry parameters for now
+@pytest.mark.xfail
 def test_tm_with_bad_kwargs(my_kwargs, exception_expected, error_msg):
     with pytest.raises(exception_expected, match=error_msg):
         _ = TopicModel(**my_kwargs)
+
+
+def test_tm_with_blei_laff_score(experiment_enviroment):
+    tm, dataset, experiment, dictionary = experiment_enviroment
+    tm.custom_scores['blei'] = BleiLaffertyScore()
+    num_iter = 3
+    tm._fit(dataset.get_batch_vectorizer(), num_iterations=num_iter)
+    assert len(tm.scores['blei']) == num_iter
+    assert BleiLaffertyScore().call(tm) != 0.0

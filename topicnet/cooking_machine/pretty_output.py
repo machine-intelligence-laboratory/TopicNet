@@ -281,3 +281,21 @@ def get_html(experiment, window_size: int = 1500):
                      + str(datetime.now()) + ".</font></i></p>",
                      "</html>"]
     return "\n".join(strings_html)
+
+
+def make_notebook_pretty():
+    from IPython.core.display import display, HTML
+
+    display(HTML("""<style>
+    div.output_html {
+        white-space: nowrap;
+    }
+    div .output_subarea > pre {
+        white-space: pre;
+        word-wrap: normal;
+    }
+    div .output_stdout > pre {
+        white-space: pre-wrap !important;
+        word-wrap:  break-word !important;
+    }
+    </style>"""))

@@ -45,19 +45,20 @@ Ideally, this stage should be performed using revalidate() as well,
 but it's a work-in-progress currently.
 
 """  # noqa: W291
-from .models.topic_model import TopicModel
 from .cubes import RegularizersModifierCube, CubeCreator
 from .experiment import Experiment
 from .dataset import Dataset
-
+from .models import scores as tnscores
+from .models import TopicModel
 
 from .cubes import PerplexityStrategy, GreedyStrategy
-from .model_constructor import init_simple_default_model
+from .model_constructor import init_simple_default_model, create_default_topics
 
 import artm
 
 from inspect import signature, Parameter
-from strictyaml import Map, Str, Int, Seq, Any, Optional, Float, EmptyNone, Bool
+from strictyaml import Map, Str, Int, Seq, Float, Bool
+from strictyaml import Any, Optional, EmptyDict, EmptyNone, EmptyList
 from strictyaml import dirty_load
 
 # TODO: use stackoverflow.com/questions/37929851/parse-numpydoc-docstring-and-access-components
@@ -80,6 +81,7 @@ ARTM_TYPES = {
 element = Any()
 base_schema = Map({
     'regularizers': Seq(element),
+    Optional('scores'): Seq(element),
     'stages': Seq(element),
     'model': Map({
         "dataset_path": Str(),
@@ -87,8 +89,8 @@ base_schema = Map({
         "main_modality": Str()
     }),
     'topics': Map({
-        "background_topics": Seq(Str()),
-        "specific_topics": Seq(Str()),
+        "background_topics": Seq(Str()) | Int() | EmptyList(),
+        "specific_topics": Seq(Str()) | Int() | EmptyList(),
     })
 })
 SUPPORTED_CUBES = [CubeCreator, RegularizersModifierCube]
@@ -150,6 +152,44 @@ def build_schema_from_signature(class_of_object, use_optional=True):
             if param.name != 'self'}
 
 
+def wrap_in_map(dictionary):
+    could_be_empty = all(isinstance(key, Optional) for key in dictionary)
+    if could_be_empty:
+        return Map(dictionary) | EmptyDict()
+    return Map(dictionary)
+
+
+def build_schema_for_scores():
+    """
+    Returns
+    -------
+    strictyaml.Map
+        schema used for validation and type-coercion
+    """
+    schemas = {}
+    for elem in artm.scores.__all__:
+        if "Score" in elem:
+            class_of_object = getattr(artm.scores, elem)
+            # TODO: check if every key is Optional. If it is, then "| EmptyDict()"
+            # otherwise, just Map()
+            res = wrap_in_map(build_schema_from_signature(class_of_object))
+
+            specific_schema = Map({class_of_object.__name__: res})
+            schemas[class_of_object.__name__] = specific_schema
+
+    for elem in tnscores.__all__:
+        if "Score" in elem:
+            class_of_object = getattr(tnscores, elem)
+            res = build_schema_from_signature(class_of_object)
+            # res["name"] = Str()  # TODO: support custom names
+            res = wrap_in_map(res)
+
+            specific_schema = Map({class_of_object.__name__: res})
+            schemas[class_of_object.__name__] = specific_schema
+
+    return schemas
+
+
 def build_schema_for_regs():
     """
     Returns
@@ -161,7 +201,7 @@ def build_schema_for_regs():
     for elem in artm.regularizers.__all__:
         if "Regularizer" in elem:
             class_of_object = getattr(artm.regularizers, elem)
-            res = Map(build_schema_from_signature(class_of_object))
+            res = wrap_in_map(build_schema_from_signature(class_of_object))
 
             specific_schema = Map({class_of_object.__name__: res})
             schemas[class_of_object.__name__] = specific_schema
@@ -280,7 +320,28 @@ def handle_special_cases(elem_args, kwargs):
         kwargs["strategy"] = strategy  # or None if failed to identify it
 
 
-def build_regularizer(elemtype, elem_args, parsed):
+def build_score(elemtype, elem_args, is_artm_score):
+    """
+    Parameters
+    ----------
+    elemtype : str
+        name of score
+    elem_args: dict
+    is_artm_score: bool
+
+    Returns
+    -------
+    instance of artm.Score or topicnet.BaseScore
+    """
+    module = artm.scores if is_artm_score else tnscores
+    class_of_object = getattr(module, elemtype)
+    kwargs = {name: value
+              for name, value in elem_args.items()}
+
+    return class_of_object(**kwargs)
+
+
+def build_regularizer(elemtype, elem_args, specific_topic_names, background_topic_names):
     """
     Parameters
     ----------
@@ -299,9 +360,9 @@ def build_regularizer(elemtype, elem_args, parsed):
     # special case: shortcut for topic_names
     if "topic_names" in kwargs:
         if kwargs["topic_names"] == "background_topics":
-            kwargs["topic_names"] = parsed.data["topics"]["background_topics"]
+            kwargs["topic_names"] = background_topic_names
         if kwargs["topic_names"] == "specific_topics":
-            kwargs["topic_names"] = parsed.data["topics"]["specific_topics"]
+            kwargs["topic_names"] = specific_topic_names
 
     return class_of_object(**kwargs)
 
@@ -345,8 +406,16 @@ def parse(yaml_string):
     dataset: Dataset
     """
     parsed = dirty_load(yaml_string, base_schema, allow_flow_style=True)
+
+    specific_topic_names, background_topic_names = create_default_topics(
+        parsed.data["topics"]["specific_topics"],
+        parsed.data["topics"]["background_topics"]
+    )
+
     revalidate_section(parsed, "stages")
     revalidate_section(parsed, "regularizers")
+    if "scores" in parsed:
+        revalidate_section(parsed, "scores")
 
     cube_settings = []
     regularizers = []
@@ -362,12 +431,23 @@ def parse(yaml_string):
     for stage in parsed.data['regularizers']:
         for elemtype, elem_args in stage.items():
 
-            regularizer_object = build_regularizer(elemtype, elem_args, parsed)
-
+            regularizer_object = build_regularizer(
+                elemtype, elem_args, specific_topic_names, background_topic_names
+            )
             regularizers.append(regularizer_object)
             model.regularizers.add(regularizer_object, overwrite=True)
 
     topic_model = TopicModel(model)
+
+    for score in parsed.data.get('scores', []):
+        for elemtype, elem_args in score.items():
+            is_artm_score = elemtype in artm.scores.__all__
+            score_object = build_score(elemtype, elem_args, is_artm_score)
+            if is_artm_score:
+                model.scores.add(score_object, overwrite=True)
+            else:
+                topic_model.custom_scores[elemtype] = score_object
+
     for stage in parsed['stages']:
         for elemtype, elem_args in stage.items():
             settings = build_cube_settings(elemtype.data, elem_args)
@@ -390,6 +470,8 @@ def revalidate_section(parsed, section):
         schemas = build_schema_for_cubes()
     elif section == "regularizers":
         schemas = build_schema_for_regs()
+    elif section == "scores":
+        schemas = build_schema_for_scores()
     else:
         raise ValueError(f"Unknown section name '{section}'")
 
@@ -398,7 +480,7 @@ def revalidate_section(parsed, section):
         name = list(stage.data)[0]
 
         if name not in schemas:
-            raise ValueError(f"Unsupported stage ID: {name} at line {stage.start_line}")
+            raise ValueError(f"Unsupported {section} value: {name} at line {stage.start_line}")
         local_schema = schemas[name]
 
         stage.revalidate(local_schema)

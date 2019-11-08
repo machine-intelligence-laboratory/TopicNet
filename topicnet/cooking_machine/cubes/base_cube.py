@@ -1,11 +1,17 @@
 import os
 from tqdm import tqdm
 import warnings
-from multiprocessing import SimpleQueue, Process
+from multiprocessing import Queue, Process
+from queue import Empty
 
 from .strategy import BaseStrategy
 from ..models.base_model import padd_model_name
 from ..routine import get_timestamp_in_str_format
+
+NUM_MODELS_ERROR = "Failed to retrive number of trained models"
+MODEL_RETRIEVE_ERROR = "Retrieved only {0} models out of {1}"
+STRATEGY_RETRIEVE_ERROR = 'Failed to retrieve strategy parameters'
+WARNINGS_RETRIEVE_ERROR = 'Failed to return warnings'
 
 
 def check_experiment_existence(topic_model):
@@ -39,13 +45,24 @@ class retrieve_score_for_strategy:
             return model.scores[self.score_name][-1]
 
 
+def get_from_queue_till_fail(queue,  error_message='', fail_margin=1,):
+    fail_counter = 0
+    while fail_counter < fail_margin:
+        try:
+            return queue.get(timeout=0.1)
+        except Empty:
+            fail_counter += 1
+    raise Empty(error_message)
+
+
 class BaseCube:
     """
     Abstract class for all cubes.
 
     """
     def __init__(self, num_iter, action=None, reg_search="grid",
-                 strategy=None, tracked_score_function=None, verbose=False):
+                 strategy=None, tracked_score_function=None,
+                 verbose=False, separate_thread=True):
         """
         Initialize stage.
         Checks params and update .parameters attribute.
@@ -66,6 +83,8 @@ class BaseCube:
             optimizable function for strategy
         verbose : bool
             visualization flag
+        separate_thread : bool
+            will train models inside a separate thread if True
 
         """
         self.num_iter = num_iter
@@ -76,6 +95,7 @@ class BaseCube:
             strategy = BaseStrategy()
         self.strategy = strategy
         self.verbose = verbose
+        self.separate_thread = separate_thread
 
         if isinstance(tracked_score_function, str):
             tracked_score_function = retrieve_score_for_strategy(tracked_score_function)
@@ -119,79 +139,87 @@ class BaseCube:
         """
         return self.parameters
 
-    def _train_models(self, queue, experiment, topic_model, dataset,
-                      dataset_trainable, search_space, search_length):
+    def _train_models(self, experiment, topic_model, dataset, search_space):
+        """
+        This function trains models
+        """
+        dataset_trainable = dataset._transform_data_for_training()
+        dataset_dictionary = dataset.get_dictionary()
+        returned_paths = []
+        experiment_save_path = experiment.save_path
+        experiment_id = experiment.experiment_id
+        save_folder = os.path.join(experiment_save_path, experiment_id)
+        for search_point in search_space:
+            candidate_name = get_timestamp_in_str_format()
+            new_model_id = padd_model_name(candidate_name)
+            new_model_save_path = os.path.join(save_folder, new_model_id)
+            model_index = 0
+            while os.path.exists(new_model_save_path):
+                model_index += 1
+                new_model_id = padd_model_name("{0}{1:_>5}".format(candidate_name, model_index))
+                new_model_save_path = os.path.join(save_folder, new_model_id)
+
+            # alter the model according to cube parameters
+            new_model = self.apply(topic_model, search_point, dataset_dictionary, new_model_id)
+
+            model_cube = {
+                "action": self.action,
+                "num_iter": self.num_iter,
+                "params": repr(search_point)
+            }
+
+            # train new model for a number of iterations (might be zero)
+            new_model._fit(
+                dataset_trainable=dataset_trainable,
+                num_iterations=self.num_iter
+            )
+            # add cube description to the model history
+            new_model.add_cube(model_cube)
+            new_model.experiment = experiment
+            new_model.save()
+
+            returned_paths.append(new_model.model_default_save_path)
+
+            # some strategies depend on previous train results, therefore scores must be updated
+            if self.tracked_score_function:
+                current_score = self.tracked_score_function(new_model)
+            else:
+                # we return number of iterations as a placeholder
+                current_score = len(returned_paths)
+            self.strategy.update_scores(current_score)
+        return returned_paths
+
+    def _retrieve_results_from_process(self, queue, experiment):
+        from ..models import DummyTopicModel
+        models_num = get_from_queue_till_fail(queue, NUM_MODELS_ERROR)
+        topic_models = []
+        for _ in range(models_num):
+            path = get_from_queue_till_fail(queue, MODEL_RETRIEVE_ERROR.format(_, models_num))
+            topic_models.append(DummyTopicModel.load(path, experiment=experiment))
+
+        strategy_parameters = get_from_queue_till_fail(queue, STRATEGY_RETRIEVE_ERROR)
+        caught_warnings = get_from_queue_till_fail(queue, WARNINGS_RETRIEVE_ERROR)
+        self.strategy._set_strategy_parameters(strategy_parameters)
+
+        for (warning_message, warning_class) in caught_warnings:
+            # if issubclass(warning_class, UserWarning):
+            warnings.warn(warning_message)
+        return topic_models
+
+    def _train_models_and_report_results(self, queue, experiment, topic_model, dataset,
+                                         search_space, search_length):
         """
         This function trains models in separate thread, saves them
         and returns all paths for save with respect to train order.
         To preserve train order model number is also returned.
 
         """
-        def verbose_enumerate(space, verbose, total_length):
-            """
-
-            Parameters
-            ----------
-            space : optional
-            verbose : bool
-            total_length : int
-
-            Returns
-            -------
-
-            """
-            if verbose:
-                space = tqdm(space, total=total_length)
-            for param_id, point in enumerate(space):
-                yield param_id, point
-
         with warnings.catch_warnings(record=True) as caught_warnings:
-            returned_paths = []
-            experiment_save_path = getattr(experiment, 'save_path', None)
-            experiment_id = getattr(experiment, 'experiment_id', None)
-            save_folder = os.path.join(experiment_save_path, experiment_id)
-            for parameter_id, search_point in verbose_enumerate(search_space,
-                                                                self.verbose,
-                                                                search_length):
-                new_model_def_id = get_timestamp_in_str_format()
-                new_model_id = padd_model_name(new_model_def_id)
-                new_model_save_path = os.path.join(save_folder, new_model_id)
-                model_index = 0
-                while os.path.exists(new_model_save_path):
-                    new_model_id = padd_model_name(new_model_def_id + '_' + str(model_index))
-                    new_model_save_path = os.path.join(save_folder, new_model_id)
-                    model_index += 1
-
-                new_model = self.apply(topic_model, search_point,
-                                       dataset.get_dictionary(), new_model_id)
-
-                model_cube = {
-                    "action": self.action,
-                    "num_iter": self.num_iter,
-                    "params": repr(search_point)
-                }
-
-                new_model._fit(
-                    dataset_trainable=dataset_trainable,
-                    num_iterations=self.num_iter
-                )
-                new_model.add_cube(model_cube)
-                new_model.experiment = experiment
-                new_model.save()
-
-                returned_paths.append((parameter_id, new_model.model_default_save_path))
-
-                # some strategies depend on previous train results, therefore scores must be updated
-                if self.tracked_score_function:
-                    current_score = self.tracked_score_function(new_model)
-                else:
-                    # we return number of iterations as a placeholder
-                    current_score = len(returned_paths)
-                self.strategy.update_scores(current_score)
+            returned_paths = self._train_models(experiment, topic_model, dataset, search_space)
 
             queue.put(len(returned_paths))
-            for path_tuple in returned_paths:
-                queue.put(path_tuple)
+            for path in returned_paths:
+                queue.put(path)
 
             # to work with strategy we recover consistency by sending important parameters
             strategy_parameters = self.strategy._get_strategy_parameters(saveable_only=True)
@@ -216,7 +244,10 @@ class BaseCube:
         TopicModel
 
         """
-        from ..models import TopicModel
+
+        from ..models import DummyTopicModel
+        if isinstance(topic_model, DummyTopicModel):
+            topic_model = topic_model.restore()
 
         # create log
         # TODO: будет странно работать, если бесконечный список
@@ -248,40 +279,34 @@ class BaseCube:
         else:
             is_new_exp_cube = True
 
-        dataset_trainable = dataset._transform_data_for_training()
-
         # perform all experiments
         self.strategy.prepare_grid(self.parameters, self.reg_search)
         search_space = self.strategy.grid_visit_generator(self.parameters, self.reg_search)
         search_length = getattr(self.strategy, 'grid_len', None)
-        queue = SimpleQueue()
-        process = Process(
-            target=self._train_models,
-            args=(queue, experiment, topic_model, dataset,
-                  dataset_trainable, search_space, search_length)
-        )
-        process.start()
 
-        models_num = queue.get()
-        topic_models_dict = {}
-        for _ in range(models_num):
-            path_tuple = queue.get()
-            topic_models_dict[path_tuple[0]] = TopicModel.load(path_tuple[1], experiment=experiment)
+        if self.verbose:
+            search_space = tqdm(search_space, total=search_length)
 
-        strategy_parameters = queue.get()
-        caught_warnings = queue.get()
+        if self.separate_thread:
+            queue = Queue()
+            process = Process(
+                target=self._train_models_and_report_results,
+                args=(queue, experiment, topic_model, dataset,
+                      search_space, search_length)
+            )
+            process.start()
+            process.join()
+            topic_models = self._retrieve_results_from_process(queue, experiment)
+        else:
+            returned_paths = self._train_models(experiment, topic_model, dataset, search_space)
+            topic_models = [
+                DummyTopicModel.load(path, experiment=experiment)
+                for path in returned_paths
+            ]
 
-        process.join()
-
-        for warning in caught_warnings:
-            if issubclass(warning[1], UserWarning):
-                warnings.warn(warning[0])
-
-        topic_models = list(dict(sorted(topic_models_dict.items())).values())
         for topic_model in topic_models:
+            topic_model.data_path = dataset._data_path
             experiment.add_model(topic_model)
-
-        self.strategy._set_strategy_parameters(strategy_parameters)
 
         if is_new_exp_cube:
             experiment.add_cube(cube_description)

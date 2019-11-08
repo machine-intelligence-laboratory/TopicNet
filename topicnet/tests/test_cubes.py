@@ -3,7 +3,6 @@ import warnings
 
 import os
 import shutil
-from time import sleep
 
 import artm
 import numpy as np
@@ -26,6 +25,7 @@ POSSIBLE_REGULARIZERS = [
     artm.regularizers.SmoothSparseThetaRegularizer(name='test_theta_sparse'),
     artm.regularizers.DecorrelatorPhiRegularizer(name='test_decor')
 ]
+RENORMALIZE_FLAG = [False, True]
 
 
 def resource_teardown():
@@ -37,15 +37,12 @@ def resource_teardown():
 
 
 def setup_function():
-    sleep(1)
     resource_teardown()
-    sleep(1)
 
 
 def teardown_function():
-    sleep(1)
     resource_teardown()
-    sleep(1)
+
 
 # to run all test
 @pytest.fixture(scope="function")
@@ -78,6 +75,7 @@ def test_initial_tm(experiment_enviroment):
 
     assert tm.depth == 1
     assert tm.parent_model_id is None
+    assert len(tm.callbacks) == 0
 
 
 def test_simple_experiment(experiment_enviroment):
@@ -95,10 +93,11 @@ def test_simple_experiment(experiment_enviroment):
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         reg_search="grid",
-        relative_coefficients=False,
+        use_relative_coefficients=False,
+        separate_thread=False
     )
 
-    tmodels = cube(tm, dataset)
+    tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
 
     assert len(tmodels) == len(TAU_GRID)
     for i, one_model in enumerate(tmodels):
@@ -120,10 +119,14 @@ def test_simple_experiment_pair_strategy(experiment_enviroment):
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         reg_search="pair",
-        relative_coefficients=False,
+        use_relative_coefficients=False,
+        separate_thread=False
     )
-
-    tmodels_pair = cube_pair(tm, dataset)
+    dummies = cube_pair(tm, dataset)
+    for dummy in dummies:
+        print(dummy._original_model_save_folder_path)
+    tmodels_pair = [dummy.restore() for dummy in dummies]
+    print(dummies)
 
     assert len(tmodels_pair) == 5
 
@@ -145,7 +148,8 @@ def test_double_steps_experiment(experiment_enviroment):
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         reg_search="grid",
-        relative_coefficients=False,
+        use_relative_coefficients=False,
+        separate_thread=False
     )
 
     tmodels_lvl2 = cube_first(tm, dataset)
@@ -161,10 +165,11 @@ def test_double_steps_experiment(experiment_enviroment):
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         reg_search="grid",
-        relative_coefficients=False,
+        use_relative_coefficients=False,
+        separate_thread=False
     )
 
-    tmodels_lvl3 = cube_second(tmodels_lvl2[0], dataset)
+    tmodels_lvl3 = [dummy.restore() for dummy in cube_second(tmodels_lvl2[0], dataset)]
 
     assert len(tmodels_lvl3) == len(TAU_GRID_LVL2)
     for i, one_model in enumerate(tmodels_lvl3):
@@ -189,7 +194,8 @@ def test_relative_coefficients(experiment_enviroment, artm_regularizer):
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         reg_search="grid",
-        relative_coefficients=False,
+        use_relative_coefficients=False,
+        separate_thread=False
     )
 
     first_cube_tmodels = cube_first(tm, dataset)
@@ -225,7 +231,8 @@ def test_relative_coefficients(experiment_enviroment, artm_regularizer):
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         reg_search="grid",
-        relative_coefficients=True,
+        use_relative_coefficients=True,
+        separate_thread=False
     )
 
     second_cube_models = cube_second(tm, dataset)
@@ -262,10 +269,11 @@ def test_two_regularizers_on_step_experiment(experiment_enviroment):
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         reg_search="grid",
-        relative_coefficients=False,
+        use_relative_coefficients=False,
+        separate_thread=False
     )
 
-    tmodels_lvl2 = cube(tm, dataset)
+    tmodels_lvl2 = [dummy.restore() for dummy in cube(tm, dataset)]
 
     TAU_FOR_CHECKING = [
         (1, -0.1), (1, -0.5), (5, -0.1), (5, -0.5), (10, -0.1), (10, -0.5)
@@ -305,10 +313,11 @@ def test_two_regularizers_on_step_experiment_pair_grid(experiment_enviroment):
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         reg_search="pair",
-        relative_coefficients=False,
+        use_relative_coefficients=False,
+        separate_thread=False
     )
 
-    tmodels_lvl2_pair = cube_pair(tm, dataset)
+    tmodels_lvl2_pair = [dummy.restore() for dummy in cube_pair(tm, dataset)]
 
     TAU_FOR_CHECKING = [
         (1, -0.1), (5, -0.5), (10, -0.3)
@@ -323,7 +332,7 @@ def test_two_regularizers_on_step_experiment_pair_grid(experiment_enviroment):
         assert taus == TAU_FOR_CHECKING[i]
 
 
-def test_modefier_cube_on_two_steps_experiment(experiment_enviroment):
+def test_modifier_cube_on_two_steps_experiment(experiment_enviroment):
     """ """
     tm, dataset, experiment, dictionary = experiment_enviroment
 
@@ -345,7 +354,8 @@ def test_modefier_cube_on_two_steps_experiment(experiment_enviroment):
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         reg_search="pair",
-        relative_coefficients=False,
+        use_relative_coefficients=False,
+        separate_thread=False
     )
 
     tmodels_lvl2_pair = cube_pair(tm, dataset)
@@ -359,10 +369,11 @@ def test_modefier_cube_on_two_steps_experiment(experiment_enviroment):
         num_iter=10,
         regularizer_parameters=regularizer_parameters_second,
         reg_search="pair",
-        relative_coefficients=False,
+        use_relative_coefficients=False,
+        separate_thread=False
     )
 
-    tmodels_second = cube_second(tmodels_lvl2_pair[1], dataset)
+    tmodels_second = [dummy.restore() for dummy in cube_second(tmodels_lvl2_pair[1], dataset)]
     TAU_FOR_CHECKING = [
         (5, -0.2), (5, -0.4), (5, -0.6), (5, -0.7)
     ]
@@ -376,7 +387,7 @@ def test_modefier_cube_on_two_steps_experiment(experiment_enviroment):
         assert taus == TAU_FOR_CHECKING[i]
 
 
-def test_class_id_cube(experiment_enviroment):
+def test_class_ids_cube(experiment_enviroment):
     """ """
     tm, dataset, experiment, dictionary = experiment_enviroment
 
@@ -389,9 +400,10 @@ def test_class_id_cube(experiment_enviroment):
         num_iter=1,
         parameters=class_id_params,
         reg_search="grid",
+        separate_thread=False
     )
 
-    tmodels_lvl2 = cube(tm, dataset)
+    tmodels_lvl2 = [dummy.restore() for dummy in cube(tm, dataset)]
 
     CLASS_IDS_FOR_CHECKING = [(1, 1), (1, 2), (2, 1), (2, 2), (3, 1), (3, 2)]
     assert len(tmodels_lvl2) == 6
@@ -416,7 +428,7 @@ def test_phi_matrix_after_class_ids_cube(experiment_enviroment):
         num_iter=5,
         parameters=class_id_params,
         reg_search="pair",
-        relative_coefficients=False,
+        use_relative_coefficients=False,
     )
 
     tmodels = cube(tm, dataset)
@@ -432,11 +444,10 @@ def test_phi_matrix_after_class_ids_cube(experiment_enviroment):
 '''
 
 
-@pytest.mark.parametrize('renormalize', [False, True])
+@pytest.mark.parametrize('renormalize', RENORMALIZE_FLAG)
 def test_class_id_cube_strategy_elliptic_paraboloid(experiment_enviroment, renormalize):
     """ """
     tm, dataset, experiment, dictionary = experiment_enviroment
-
     class_id_params = {
         "class_ids" + MAIN_MODALITY: list(np.arange(0, 1.0, 0.25)),
         "class_ids" + NGRAM_MODALITY: list(np.arange(0, 2.05, 0.25)),
@@ -453,10 +464,11 @@ def test_class_id_cube_strategy_elliptic_paraboloid(experiment_enviroment, renor
         parameters=class_id_params,
         reg_search="grid",
         strategy=GreedyStrategy(renormalize),
-        tracked_score_function=retrieve_elliptic_paraboloid_score
+        tracked_score_function=retrieve_elliptic_paraboloid_score,
+        separate_thread=False
     )
 
-    tmodels_lvl2 = cube(tm, dataset)
+    tmodels_lvl2 = [dummy.restore() for dummy in cube(tm, dataset)]
 
     if not renormalize:
         assert len(tmodels_lvl2) == sum(len(m) for m in class_id_params.values())
@@ -478,7 +490,7 @@ def test_class_id_cube_strategy_elliptic_paraboloid(experiment_enviroment, renor
     assert cube.strategy.best_score >= -0.09
 
 
-@pytest.mark.parametrize('renormalize', [False, True])
+@pytest.mark.parametrize('renormalize', RENORMALIZE_FLAG)
 def test_class_id_cube_strategy_rosenbrock(experiment_enviroment, renormalize):
     """ """
     tm, dataset, experiment, dictionary = experiment_enviroment
@@ -499,10 +511,11 @@ def test_class_id_cube_strategy_rosenbrock(experiment_enviroment, renormalize):
         parameters=class_id_params,
         reg_search="grid",
         strategy=GreedyStrategy(renormalize),
-        tracked_score_function=retrieve_rosenbrock_score
+        tracked_score_function=retrieve_rosenbrock_score,
+        separate_thread=False
     )
 
-    tmodels_lvl2 = cube(tm, dataset)
+    tmodels_lvl2 = [dummy.restore() for dummy in cube(tm, dataset)]
 
     if not renormalize:
         assert len(tmodels_lvl2) == sum(len(m) for m in class_id_params.values())
@@ -524,7 +537,7 @@ def test_class_id_cube_strategy_rosenbrock(experiment_enviroment, renormalize):
     assert cube.strategy.best_score >= -0.09
 
 
-@pytest.mark.parametrize('renormalize', [False, True])
+@pytest.mark.parametrize('renormalize', RENORMALIZE_FLAG)
 def test_class_id_cube_strategy_3d_parabolic(experiment_enviroment, renormalize):
     """ """
     tm, dataset, experiment, dictionary = experiment_enviroment
@@ -548,10 +561,11 @@ def test_class_id_cube_strategy_3d_parabolic(experiment_enviroment, renormalize)
         reg_search="grid",
         strategy=GreedyStrategy(renormalize),
         tracked_score_function=retrieve_parabolic_3d_score,
-        verbose=True
+        verbose=True,
+        separate_thread=False
     )
 
-    tmodels_lvl2 = cube(tm, dataset)
+    tmodels_lvl2 = [dummy.restore() for dummy in cube(tm, dataset)]
 
     if not renormalize:
         assert len(tmodels_lvl2) == sum(len(m) for m in class_id_params.values())
@@ -622,10 +636,11 @@ def test_perplexity_strategy_grid(experiment_enviroment):
         strategy=PerplexityStrategy(1, 5),
         tracked_score_function='PerplexityScore',
         reg_search="grid",
-        relative_coefficients=False,
+        use_relative_coefficients=False,
+        separate_thread=False
     )
     with pytest.warns(UserWarning, match='Grid would be used instead'):
-        tmodels = cube(tm, dataset)
+        tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
 
     visited_taus = extract_visited_taus(tmodels)
     expected_taus = [0] + TAU_GRID
@@ -656,11 +671,12 @@ def test_perplexity_strategy_add(experiment_enviroment):
         strategy=PerplexityStrategy(1, 1, max_len=5),
         tracked_score_function='PerplexityScore',
         reg_search='add',
-        relative_coefficients=False,
-        verbose=True
+        use_relative_coefficients=False,
+        verbose=True,
+        separate_thread=False
     )
     with pytest.warns(UserWarning, match="Max progression length"):
-        tmodels = cube(tm, dataset)
+        tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
 
     visited_taus = extract_visited_taus(tmodels)
     expected_taus = [0, 1, 2, 3, 4, 5]
@@ -691,12 +707,13 @@ def test_perplexity_strategy_mul(experiment_enviroment):
         strategy=PerplexityStrategy(0.001, 10, 25, threshold=1.0),
         tracked_score_function='PerplexityScore',
         reg_search='mul',
-        relative_coefficients=False,
-        verbose=True
+        use_relative_coefficients=False,
+        verbose=True,
+        separate_thread=False
     )
 
     with pytest.warns(UserWarning, match="Perplexity is too high for threshold"):
-        tmodels = cube(tm, dataset)
+        tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
 
     visited_taus = extract_visited_taus(tmodels)
     expected_taus = [0, 0.001, 0.01, 0.1, 1.0, 10.0]
