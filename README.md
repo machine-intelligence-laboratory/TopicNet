@@ -17,12 +17,12 @@ Consider using TopicNet if:
 ```TopicNet``` provides an infrastructure for your prototyping (```Experiment``` class) and helps to observe results of your actions via ```viewers``` module.
 
 ### How to start?
-Define `TopicModel` from an ARTM model at hand or with help from `model_constructor` module. Then create an `Experiment`, assigning a root position to this model. Further, you can define a set of training stages by the functionality provided by the `cooking_machine.cubes` module.
+Define `TopicModel` from an ARTM model at hand or with help from `model_constructor` module, where you can set models main parameters. Then create an `Experiment`, assigning a root position to this model and path to store your experiment. Further, you can define a set of training stages by the functionality provided by the `cooking_machine.cubes` module.
 
 ---
 ## How to install TopicNet
 **Core library functionality is based on BigARTM library** which requires manual installation.  
-To avoid that you can use [docker images](https://hub.docker.com/r/xtonev/bigartm/tags) with preinstalled BigARTM library in them. 
+To avoid that you can use [docker images](https://hub.docker.com/r/xtonev/bigartm/tags) with preinstalled different versions of BigARTM library in them. 
 
 #### Using docker image
 ```
@@ -90,12 +90,13 @@ custom_score_dict = {'SpecificSparsity': CustomScore()}
 tm = TopicModel(model_artm, model_id='Groot', custom_scores=custom_score_dict)
 ```
 #### Define experiment
+For further model training and tuning `Experiment` is necessary:
 ```
 from topicnet.cooking_machine.experiment import Experiment
 experiment = Experiment(experiment_id="simple_experiment", save_path="experiments", topic_model=tm)
 ```
 #### Toy with the cubes
-Defining a next stage of the model training:
+Defining a next stage of the model training to select a decorrelator parameter:
 ```
 from topicnet.cooking_machine.cubes import RegularizersModifierCube
 
