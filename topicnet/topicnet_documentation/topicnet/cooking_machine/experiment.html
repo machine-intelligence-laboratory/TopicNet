@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.3" />
+<title>topicnet.cooking_machine.experiment API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>topicnet.cooking_machine.experiment</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="topicnet.cooking_machine.experiment.Experiment"><code class="flex name class">
+<span>class <span class="ident">Experiment</span></span>
+<span>(</span><span>topic_model, experiment_id, save_path, save_model_history=False, save_experiment=True, tree=None, models_info=None, cubes=None, low_memory=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Contains experiment, its description and descriptions of all models in the experiment.</p>
+<p>Initialize stage, also used for loading and creating new experiments.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>experiment_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>experiment id</dd>
+<dt><strong><code>save_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to save the experiment</dd>
+<dt><strong><code>topic_model</code></strong> :&ensp;<code>TopicModel</code> or <code>None</code></dt>
+<dd>if TopicModel - use initial topic_model or last topic_model
+if save_model_history is True
+if None - create empty experiment</dd>
+<dt><strong><code>save_model_history</code></strong> :&ensp;<code>bool</code></dt>
+<dd>if True - Experiment will save all information about previous
+models (before this topic_model). The typical use case than
+you want to apply cube that cannot be applied in old
+experiment, then you create new experiment that will save
+all necessary information and will be independent itself<br>
+if False - then topic model will be initial model (the first)</dd>
+<dt><strong><code>tree</code></strong> :&ensp;<code>dict</code></dt>
+<dd>tree of the experiment. It is used for loading and creating non empty experiment</dd>
+<dt><strong><code>models_info</code></strong> :&ensp;<code>dict</code></dt>
+<dd>keys are model ids, where values are model's description</dd>
+<dt><strong><code>cubes</code></strong> :&ensp;<code>list</code> of <code>dict</code></dt>
+<dd>cubes that were used in the experiment</dd>
+<dt><strong><code>low_memory</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If true, models be transformed to dummies via <code>squeeze_models()</code>.
+Gradually, level by level.
+If false, models will be untouched, all data, including inner ARTM models,
+Phi, Theta matrices, stays.</dd>
+</dl></section>
+<h3>Static methods</h3>
+<dl>
+<dt id="topicnet.cooking_machine.experiment.Experiment.load"><code class="name flex">
+<span>def <span class="ident">load</span></span>(<span>load_path)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Loads all params of the experiments. Recovers removed files if it is possible.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>load_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the experiment folder.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><a title="topicnet.cooking_machine.experiment.Experiment" href="#topicnet.cooking_machine.experiment.Experiment"><code>Experiment</code></a></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="topicnet.cooking_machine.experiment.Experiment.depth"><code class="name">var <span class="ident">depth</span></code></dt>
+<dd>
+<section class="desc"><p>Returns depth of the tree.<br>
+Be careful, depth of the tree may not be the real experiment depth.</p></section>
+</dd>
+<dt id="topicnet.cooking_machine.experiment.Experiment.root"><code class="name">var <span class="ident">root</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="topicnet.cooking_machine.experiment.Experiment.add_cube"><code class="name flex">
+<span>def <span class="ident">add_cube</span></span>(<span>self, cube)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Adds cube to the experiment.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>cube</code></strong> :&ensp;<code>dict</code></dt>
+<dd>cube's params</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.experiment.Experiment.add_dataset"><code class="name flex">
+<span>def <span class="ident">add_dataset</span></span>(<span>self, dataset_id, dataset)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Adds dataset to storage.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>dataset_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>id of dataset to save</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.experiment.Experiment.add_model"><code class="name flex">
+<span>def <span class="ident">add_model</span></span>(<span>self, topic_model)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Adds model to the experiment.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>topic_model</code></strong> :&ensp;<code>TopicModel</code></dt>
+<dd>topic model</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.experiment.Experiment.build"><code class="name flex">
+<span>def <span class="ident">build</span></span>(<span>self, settings)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Builds experiment pipeline from description.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>settings</code></strong> :&ensp;<code>list</code> of <code>dicts</code></dt>
+<dd>list with cubes parameters for every pipeline step</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Nothing</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.experiment.Experiment.describe_model"><code class="name flex">
+<span>def <span class="ident">describe_model</span></span>(<span>self, model_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns all scores mentioned on the model stage criteria.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>model_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>string id of the model to examine</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>description_string</code></strong> :&ensp;<code>str</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.experiment.Experiment.get_description"><code class="name flex">
+<span>def <span class="ident">get_description</span></span>(<span>self, min_len_per_cube=26, len_tree_step=27)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Creates description of the tree that you can print.
+Print is good when you use no more than 3 cubes at all.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>min_len_per_cube</code></strong> :&ensp;<code>int</code></dt>
+<dd>minimal length of the one stage of experiment description
+(Default value = MODEL_NAME_LENGTH)</dd>
+<dt><strong><code>len_tree_step</code></strong> :&ensp;<code>int</code></dt>
+<dd>length of the whole one stage description of experiment's tree
+(Default value = MODEL_NAME_LENGTH +1)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>description to print</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.experiment.Experiment.get_models_by_depth"><code class="name flex">
+<span>def <span class="ident">get_models_by_depth</span></span>(<span>self, level=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.cooking_machine.experiment.Experiment.get_params"><code class="name flex">
+<span>def <span class="ident">get_params</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Gets params of the experiment.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>parameters</code></strong> :&ensp;<code>dict</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.experiment.Experiment.preprocess_query"><code class="name flex">
+<span>def <span class="ident">preprocess_query</span></span>(<span>self, query_string, level)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Preprocesses special queries with functions inside.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>query_string</code></strong> :&ensp;<code>str</code></dt>
+<dd>string for processing</dd>
+<dt><strong><code>level</code></strong> :&ensp;<code>int</code></dt>
+<dd>model level</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.experiment.Experiment.remove_dataset"><code class="name flex">
+<span>def <span class="ident">remove_dataset</span></span>(<span>self, dataset_id)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Removes dataset from storage.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>dataset_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>id of dataset to remove</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.experiment.Experiment.run"><code class="name flex">
+<span>def <span class="ident">run</span></span>(<span>self, dataset, verbose=False, nb_verbose=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Runs defined pipeline and prints out the result.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>verbose</code></strong> :&ensp;<code>bool</code></dt>
+<dd>parameter that determines if the output is produced (Default value = False)</dd>
+<dt><strong><code>nb_verbose</code></strong> :&ensp;<code>bool</code></dt>
+<dd>parameter that determines where the output is produced
+if False prints in console (Default value = False)</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.experiment.Experiment.save"><code class="name flex">
+<span>def <span class="ident">save</span></span>(<span>self, window_size=1500, mode='all')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Saves all params of the experiment to save_path/experiment_id.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>window_size</code></strong> :&ensp;<code>int</code></dt>
+<dd>pixels size of window in html description (Default value = 1500)</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.experiment.Experiment.save_models"><code class="name flex">
+<span>def <span class="ident">save_models</span></span>(<span>self, mode='all')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Saves experiment models with respect to selected way of saving.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>mode</code></strong> :&ensp;<code>str</code></dt>
+<dd>defines saving mode
+'all' - save all models in experiment<br>
+'tree' - save only stem and leaves from the last level<br>
+'last' save only leaves from the last level</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.experiment.Experiment.select"><code class="name flex">
+<span>def <span class="ident">select</span></span>(<span>self, query_string='', models_num=None, level=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Selects all models satisfying the query string
+from all models on a particular depth.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>query_string</code></strong> :&ensp;<code>str</code></dt>
+<dd>string of form "SCORE1 &lt; VAL and SCORE2 &gt; VAL and SCORE3 -&gt; min"</dd>
+<dt><strong><code>models_num</code></strong> :&ensp;<code>int</code></dt>
+<dd>number of models to select (Default value = None)</dd>
+<dt><strong><code>level</code></strong> :&ensp;<code>int</code></dt>
+<dd>None represents "the last level of experiment" (Default value = None)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>result_topic_models</code></strong> :&ensp;<code>list</code> of <code>restored</code> <code>TopicModels</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="string-format">String Format</h2>
+<p>string of following form:<br>
+QUERY = EXPR and EXPR and EXPR and &hellip; and EXPR [collect COLLECT_NUMERAL]
+where EXPR could take any of these forms:<br>
+EXPR = LITERAL &lt; NUMBER<br>
+EXPR = LITERAL &gt; NUMBER<br>
+EXPR = LITERAL = NUMBER<br>
+EXPR = LITERAL -&gt; min<br>
+EXPR = LITERAL -&gt; max<br>
+and LITERAL is one of the following:
+SCORE_NAME or model.PARAMETER_NAME
+(for complicated scores you can use '.': e.g. TopicKernelScore.average_purity)
+COLLECT clause is optional. COLLECT_NUMERAL could be integer or string "all"</p>
+<p>NUMBER is float / int or some expression involving special functions:
+MINIMUM, MAXIMUM, AVERAGE, MEDIAN
+Everything is separated by spaces.</p>
+<h2 id="notes">Notes</h2>
+<p>If both models_num and COLLECT_NUMERAL is specified, COLLECT_NUMERAL takes priority.</p>
+<p>If optimization directive is specified, select() may return more models than requested
+(whether by models_num or by COLLECT_NUMERAL). This behaviour occurs when some scores
+are equal.</p>
+<p>For example, if we have 5 models with following scores:
+[model1: 100, model2: 95, model3: 95, model4: 95, model5: 80]
+and user asks experiment to provide 2 models with maximal score,
+then 4 models will be returned:
+[model1: 100, model2: 95, model3: 95, model4: 95]</p>
+<h2 id="examples">Examples</h2>
+<blockquote>
+<blockquote>
+<p>experiment.select("PerplexityScore@words -&gt; min COLLECT 2")</p>
+<p>experiment.select(
+"TopicKernelScore.average_contrast -&gt; max and PerplexityScore@all &lt; 100 COLLECT 2"
+)</p>
+<p>experiment.select(
+"PerplexityScore@words &lt; 1.1 * MINIMUM(PerplexityScore@all) and model.num_topics &gt; 12"
+)</p>
+</blockquote>
+</blockquote></section>
+</dd>
+<dt id="topicnet.cooking_machine.experiment.Experiment.set_criteria"><code class="name flex">
+<span>def <span class="ident">set_criteria</span></span>(<span>self, cube_index, criteria)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Allows to edit model selection criteria
+on each stage of the Experiment</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>cube_index</code></strong> :&ensp;<code>int</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>selection_criteria</code></strong> :&ensp;<code>list</code> of <code>str</code> or <code>str</code></dt>
+<dd>the criteria to replacing current record</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Nothing</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.experiment.Experiment.show"><code class="name flex">
+<span>def <span class="ident">show</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Shows description of the experiment.</p></section>
+</dd>
+<dt id="topicnet.cooking_machine.experiment.Experiment.squeeze_models"><code class="name flex">
+<span>def <span class="ident">squeeze_models</span></span>(<span>self, depth=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Transforms models to dummies so as to occupy less RAM memory</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>depth</code></strong> :&ensp;<code>int</code></dt>
+<dd>Models on what depth are to be squeezed, i.e. transformed to dummies</dd>
+</dl></section>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="topicnet.cooking_machine" href="index.html">topicnet.cooking_machine</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="topicnet.cooking_machine.experiment.Experiment" href="#topicnet.cooking_machine.experiment.Experiment">Experiment</a></code></h4>
+<ul class="two-column">
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.add_cube" href="#topicnet.cooking_machine.experiment.Experiment.add_cube">add_cube</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.add_dataset" href="#topicnet.cooking_machine.experiment.Experiment.add_dataset">add_dataset</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.add_model" href="#topicnet.cooking_machine.experiment.Experiment.add_model">add_model</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.build" href="#topicnet.cooking_machine.experiment.Experiment.build">build</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.depth" href="#topicnet.cooking_machine.experiment.Experiment.depth">depth</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.describe_model" href="#topicnet.cooking_machine.experiment.Experiment.describe_model">describe_model</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.get_description" href="#topicnet.cooking_machine.experiment.Experiment.get_description">get_description</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.get_models_by_depth" href="#topicnet.cooking_machine.experiment.Experiment.get_models_by_depth">get_models_by_depth</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.get_params" href="#topicnet.cooking_machine.experiment.Experiment.get_params">get_params</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.load" href="#topicnet.cooking_machine.experiment.Experiment.load">load</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.preprocess_query" href="#topicnet.cooking_machine.experiment.Experiment.preprocess_query">preprocess_query</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.remove_dataset" href="#topicnet.cooking_machine.experiment.Experiment.remove_dataset">remove_dataset</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.root" href="#topicnet.cooking_machine.experiment.Experiment.root">root</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.run" href="#topicnet.cooking_machine.experiment.Experiment.run">run</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.save" href="#topicnet.cooking_machine.experiment.Experiment.save">save</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.save_models" href="#topicnet.cooking_machine.experiment.Experiment.save_models">save_models</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.select" href="#topicnet.cooking_machine.experiment.Experiment.select">select</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.set_criteria" href="#topicnet.cooking_machine.experiment.Experiment.set_criteria">set_criteria</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.show" href="#topicnet.cooking_machine.experiment.Experiment.show">show</a></code></li>
+<li><code><a title="topicnet.cooking_machine.experiment.Experiment.squeeze_models" href="#topicnet.cooking_machine.experiment.Experiment.squeeze_models">squeeze_models</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+</footer>
+</body>
+</html>
