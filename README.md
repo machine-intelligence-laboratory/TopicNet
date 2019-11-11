@@ -62,8 +62,8 @@ model_artm = init_simple_default_model(
     dataset=data,
     modalities_to_use={'@lemmatized': 1.0, '@bigram':0.5},
     main_modality='@lemmatized',
-    n_specific_topics=14,
-    n_background_topics=1,
+    specific_topics=14,
+    background_topics=1,
 )
 ```
 Note that here we have model with two modalities: `'@lemmatized'` and `'@bigram'`.  
