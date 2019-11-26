@@ -1,4 +1,7 @@
 # TopicNet
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/TopicNet)
+![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/machine-intelligence-laboratory/TopicNet)
+![GitHub issues](https://img.shields.io/github/issues/machine-intelligence-laboratory/TopicNet)
 [![HitCount](http://hits.dwyl.io/machine-intelligence-library/machine-intelligence-library/TopicNet.svg)](http://hits.dwyl.io/machine-intelligence-library/machine-intelligence-library/TopicNet)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -20,6 +23,8 @@ Consider using TopicNet if:
 
 ```TopicNet``` provides an infrastructure for your prototyping (```Experiment``` class) and helps to observe results of your actions via ```viewers``` module.
 
+![GitHub contributors](https://img.shields.io/github/contributors/machine-intelligence-laboratory/TopicNet)
+![GitHub last commit](https://img.shields.io/github/last-commit/machine-intelligence-laboratory/TopicNet)
 ### How to start?
 Define `TopicModel` from an ARTM model at hand or with help from `model_constructor` module, where you can set models main parameters. Then create an `Experiment`, assigning a root position to this model and path to store your experiment. Further, you can define a set of training stages by the functionality provided by the `cooking_machine.cubes` module.
 
