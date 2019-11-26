@@ -1,4 +1,5 @@
 # TopicNet
+[![HitCount](http://hits.dwyl.io/machine-intelligence-library/machine-intelligence-library/TopicNet.svg)](http://hits.dwyl.io/machine-intelligence-library/machine-intelligence-library/TopicNet)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
