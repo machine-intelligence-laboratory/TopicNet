@@ -3,7 +3,7 @@
 ![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/machine-intelligence-laboratory/TopicNet)
 ![GitHub issues](https://img.shields.io/github/issues/machine-intelligence-laboratory/TopicNet)
 [![HitCount](http://hits.dwyl.io/machine-intelligence-library/machine-intelligence-library/TopicNet.svg)](http://hits.dwyl.io/machine-intelligence-library/machine-intelligence-library/TopicNet)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![PyPI - License](https://img.shields.io/pypi/l/TopicNet?color=Black)
 
 
 [Русская версия](README-rus.md)
