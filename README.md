@@ -9,7 +9,7 @@
 
 ---
 ### What is TopicNet?
-TopicNet is a high-level interface running on top of BigARTM. 
+TopicNet is a high-level interface running on top of [BigARTM](https://github.com/bigartm/bigartm) developed in [Machine Intelligence Laboratory](https://mipt.ai/en). 
 
 ```TopicNet```  library was created to assist in the task of building topic models. It aims at automating model training routine freeing more time for artistic process of constructing a target functional for the task at hand.
 
@@ -26,6 +26,8 @@ Consider using TopicNet if:
 ![GitHub last commit](https://img.shields.io/github/last-commit/machine-intelligence-laboratory/TopicNet)
 ### How to start?
 Define `TopicModel` from an ARTM model at hand or with help from `model_constructor` module, where you can set models main parameters. Then create an `Experiment`, assigning a root position to this model and path to store your experiment. Further, you can define a set of training stages by the functionality provided by the `cooking_machine.cubes` module.
+
+Further you can read documentation [here](https://machine-intelligence-laboratory.github.io/TopicNet/). Currently we are in the process of imporving it. 
 
 ---
 ## How to install TopicNet
@@ -137,11 +139,6 @@ for line in first_model_html:
 
 ---
 ## FAQ
-
-#### I'm tired of reading docstrings is there any way to read the library documentation in .html format?
-
-Luckily yes. topicnet package contains [README guide](topicnet/topicnet_doc_generation/README.md) on generating your own version of documentation.
-Alternatively genertated documentation can be found [here](topicnet/topicnet_documentation/topicnet/) (we will try our best to keep it updated). 
 
 #### In the example we used to write vw modality like **@modality**, is it a VowpallWabbit format?
 
