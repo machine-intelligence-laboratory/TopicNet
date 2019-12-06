@@ -19,19 +19,18 @@
 <h1 class="title">Module <code>topicnet.viewers</code></h1>
 </header>
 <h2 id="viewers">Viewers</h2>
-<p><a href="README-rus.md">Русская версия</a></p>
 <p>Module <code>viewers</code> provides information from a topic model allowing to estimate the model quality. Its advantage is in unified call ifrastucture to the topic model making the routine and tedious task of extracting the information easy.</p>
 <p>Currently module contains following viewers:</p>
 <ul>
 <li><p><code>base_viewer</code> - module responsible for base infrastructure</p></li>
-<li><p><code>initial_doc_to_topic_viewer</code> - first edition of <code>TopDocumentsViewer</code> - Deprecated</p></li>
-<li><p><code>spectr_viewer</code> - first edition of <code>TopicSpectrumViewer</code> using t-SNE clustering - Deprecated</p></li>
 <li><p><code>spectrum</code> - module contains heuristics for solving TSP to arrange topics minimizing total distance of the spectrun, <code>TopicSpectrumViewer</code></p></li>
-<li><p><code>tokens_viewer</code> - first edition of <code>TopTokensViewer</code> - Deprecated</p></li>
 <li><p><code>top_documents_viewer</code> - module with functions that work with dataset document collections and class <code>TopDocumentsViewer</code> wrapping this functionality.</p></li>
 <li><p><code>top_similar_documents_viewer</code> - module containing class for finding simmilar document for a givenone. This viewer helps to estimate homogeneity of clusters given by the model</p></li>
 <li><p><code>top_tokens_viewer</code> - module with class for displaying the most relevant tokens in each topic of the model.</p></li>
 <li><p><code>topic_mapping</code> - module allowing to compare topics between two different models trained on the same collection.</p></li>
+<li><p><code>document_cluster</code> - module containing class <code>DocumentClusterViewer</code> which allows to visualize collection documents. May be slow for large document collections as it uses TSNE algorithm from sklearn library.</p></li>
+<li><p><code>initial_doc_to_topic_viewer</code> - first edition of <code>TopDocumentsViewer</code> - Deprecated</p></li>
+<li><p><code>tokens_viewer</code> - first edition of <code>TopTokensViewer</code> - Deprecated</p></li>
 </ul>
 <section id="section-intro">
 </section>
@@ -68,6 +67,10 @@ If speed is the essence I recommend to use …</p></section>
 <dd>
 <section class="desc"></section>
 </dd>
+<dt><code class="name"><a title="topicnet.viewers.topic_flow_viewer" href="topic_flow_viewer.html">topicnet.viewers.topic_flow_viewer</a></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
 <dt><code class="name"><a title="topicnet.viewers.topic_mapping" href="topic_mapping.html">topicnet.viewers.topic_mapping</a></code></dt>
 <dd>
 <section class="desc"></section>
@@ -82,7 +85,7 @@ If speed is the essence I recommend to use …</p></section>
 </section>
 </article>
 <nav id="sidebar">
-<h1>Документация к модулю <code>topicnet</code></h1>
+<h1><code>Topicnet</code> library documentation </h1>
 <div class="toc">
 <ul></ul>
 </div>
@@ -101,6 +104,7 @@ If speed is the essence I recommend to use …</p></section>
 <li><code><a title="topicnet.viewers.top_documents_viewer" href="top_documents_viewer.html">topicnet.viewers.top_documents_viewer</a></code></li>
 <li><code><a title="topicnet.viewers.top_similar_documents_viewer" href="top_similar_documents_viewer.html">topicnet.viewers.top_similar_documents_viewer</a></code></li>
 <li><code><a title="topicnet.viewers.top_tokens_viewer" href="top_tokens_viewer.html">topicnet.viewers.top_tokens_viewer</a></code></li>
+<li><code><a title="topicnet.viewers.topic_flow_viewer" href="topic_flow_viewer.html">topicnet.viewers.topic_flow_viewer</a></code></li>
 <li><code><a title="topicnet.viewers.topic_mapping" href="topic_mapping.html">topicnet.viewers.topic_mapping</a></code></li>
 </ul>
 </li>

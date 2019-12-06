@@ -18,36 +18,40 @@
 <header>
 <h1 class="title">Module <code>topicnet.cooking_machine.cubes</code></h1>
 </header>
-<h1 id="cubes">Cubes</h1>
-<p><a href="README-rus.md">Русская версия</a> Виды кубиков (cubes):</p>
+<h1 id="cubes-and-their-strategies">Cubes and their Strategies</h1>
+<p>Cube types:</p>
 <ul>
-<li><code>BaseCube</code> — абстрактный класс для создания других кубиков</li>
-<li><code>RegularizersModifierCube</code> — кубик добавляющий/изменяющий регуляризаторы</li>
-<li><code>CubeCreator</code> - куб для перебора начальных параметров модели.</li>
-<li><h2 id="classidmodifiercube---куб-для-перебора-class_ids"><code>ClassIdModifierCube</code> - куб для перебора class_ids</h2></li>
-</ul>
-<h2 id="внутреннее-устройство-кубика">Внутреннее устройство кубика</h2>
-<p><strong>Основные атрибуты кубика</strong>:</p>
-<ul>
-<li><p><code>parameters</code> — основной атрибут кубика. Содержит информацию о параметрах всех возможных изменений со всеми возможными коэффициентами. Может являться любым <code>iterable</code> объектом. Важно, чтобы один этап (одно множество гиперпараметров) применения кубика определялся одним элементом <code>parameters</code>.</p>
-<p><em>Например, для кубика, в котором для регуляризатора SmoothSparsePhi перебираются пять коэффициентов регуляризации, атрибут <code>parameters</code> должен содержать пять элементов, каждый из которых должен как миниму содержать тип регуляризатора и текущее значение коэффициента регуляризации.</em></p></li>
-</ul>
-<p><strong>Основные методы кубика</strong>:</p>
-<ul>
-<li><p><code>__init__</code> — в методе происходит инициализация параметров кубика, в частности в <code>__init__</code> должен задаваться атрибут <code>parameters</code>.</p></li>
-<li><p><code>__call__</code> — применение кубика к модели на выбранном наборе данных. Вход функции — инстанс класса TopicModel и инстанс Dataset, задающий данные для обучнеия. Основное использование кубика происходит через этот метод. Внутри <code>__call__</code> происходит логирование процесса обучения, перебор возможных моделей по заданной стратегии (например, при помощи метода <code>apply</code> для каждого набора параметров может создаваться копия старой модели, после чего параметры копии изменяются заданным образом), обучение всех моделей заданное число итераций и обновление сущностей, связанных с кубиком.</p></li>
-<li><p><code>apply</code> — создание модели или изменение параметров модели согласно заданному набору параметров. Функция возвращает модель. Эта функция специфична для каждого кубика.</p>
-<p><em>Например, для кубика, в котором для регуляризатора SmoothSparsePhi перебираются пять коэффициентов регуляризации, данная функция будет копировать исходную модель и добавлять новый регуляризатор с нужным коэффициентом регуляризации.</em></p></li>
-<li><p><code>get_jsonable_from_parameters</code> — преобразование атрибута <code>parameters</code> в структуру, которую можно сохранить в json-формате.</p>
-<p><em>Например, если в <code>parameters</code> содержаться инстансы регуляризаторов, в json можно положить соответствующие имена классов для каждого регуляризатора и словарь всех параметров.</em></p></li>
+<li><code>BaseCube</code> — a parent class for all the Cubes</li>
+<li><code>RegularizersModifierCube</code> — cube that adds or alter model regularizers</li>
+<li><code>CubeCreator</code> — cube that allows to change model fundamental hyperparameters (topic number)</li>
+<li><code>RegularizationControllerCube</code> - cube that ties together a complicated usage of <code>RegularizersModifierCube</code>. This cube allows for change of regularization coefficients across the model training. This allows to obtain soemwhat unique results by combining contradictionary restrictions on the model.</li>
 </ul>
 <hr />
-<h2 id="что-нужно-для-создания-нового-кубика">Что нужно для создания нового кубика?</h2>
-<p>При выполнении всех этих условий у вас получится рабочий кубик, встраиваемый в библиотеку:</p>
+<p>Strategy types:</p>
+<ul>
+<li><code>BaseStrategy</code> — a parent class for all the Strategies</li>
+<li><code>PerplexityStrategy</code> — performs search in given hyperparameter space until certain score exceeds a boundary</li>
+<li><code>GreedyStrategy</code> — strategy that performes search in hyperparameter space consequently changing dimensions to perform a 1D search for a minimum</li>
+</ul>
+<hr />
+<h2 id="cube-internal-structure">Cube internal structure</h2>
+<p><strong>The main cube attributes</strong>:</p>
+<ul>
+<li><code>parameters</code> — paramteres is an iterable object containing all the specific information about current cube. The class architecture implies that parameters should contain an iterable field describing the hyperparameters search space</li>
+</ul>
+<p><strong>Cube methods worth noticing</strong>:</p>
+<ul>
+<li><p><code>__call__</code> — performes the cube actions to the model using provided dataset. Always recieves instance of TopicModel class and instance of Dataset class. This method does the internal workings of training models with new hyperparameters. It is responsible for logging the events (which parameters where changed) happening during the model training.</p></li>
+<li><p><code>apply</code> — method of the cube that prepares model for further training. This method should be specified by the user as it contains an “essence” of what is happening at this stage of the training. It could be new type of model reinitialization, change of the regualarization coefficient, adding a new level of hierarchy etc. This function defines what the cube does in the training pipeline.</p></li>
+<li><p><code>get_jsonable_from_parameters</code> — is a cube-specific function that transforms it parameters to dict-like form which later is written in JSON format log of the experiment.</p></li>
+</ul>
+<hr />
+<h2 id="what-do-you-need-to-create-a-new-cube">What do you need to create a new cube?</h2>
+<p>Following this 3 easy steps you will be able to write down your own cube:</p>
 <ol type="1">
-<li><p>Новый кубик наследуется от BaseCube.</p></li>
-<li><p>В классе-наследнике задаются методы <code>__init__</code>, <code>apply</code>, <code>get_jsonable_from_parameters</code>. Метод <code>__call__</code> переопределять не рекомендуется.</p></li>
-<li><p><code>get_jsonable_from_parameters()[i]</code> соответствует тому же шагу кубика, что и <code>parameters[i]</code>.</p></li>
+<li><p>Inherit your Cube from BaseCube.</p></li>
+<li><p>Child class should define following methods <code>__init__</code>, <code>apply</code>, <code>get_jsonable_from_parameters</code>. It is strongly descouraged to change <code>__call__</code> method.</p></li>
+<li><p><code>get_jsonable_from_parameters()[i]</code> corresponds to the same cube step as <code>parameters[i]</code>.</p></li>
 </ol>
 <section id="section-intro">
 </section>
@@ -93,7 +97,7 @@ change <code>tau</code> during the <code>_fit</code> method …</p></section>
 </section>
 </article>
 <nav id="sidebar">
-<h1>Документация к модулю <code>topicnet</code></h1>
+<h1><code>Topicnet</code> library documentation </h1>
 <div class="toc">
 <ul></ul>
 </div>

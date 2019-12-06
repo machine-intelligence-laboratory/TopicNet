@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.6.3" />
-<title>topicnet.cooking_machine.models.base_score API documentation</title>
+<title>topicnet.viewers.topic_flow_viewer API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
@@ -16,7 +16,7 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>topicnet.cooking_machine.models.base_score</code></h1>
+<h1 class="title">Module <code>topicnet.viewers.topic_flow_viewer</code></h1>
 </header>
 <section id="section-intro">
 </section>
@@ -29,51 +29,74 @@
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="topicnet.cooking_machine.models.base_score.BaseScore"><code class="flex name class">
-<span>class <span class="ident">BaseScore</span></span>
+<dt id="topicnet.viewers.topic_flow_viewer.TopicFlowViewer"><code class="flex name class">
+<span>class <span class="ident">TopicFlowViewer</span></span>
+<span>(</span><span>model, time_labels, dataset, modality='@lemmatized', sort_key_function=None)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Base Class to construct custom score functions.</p></section>
-<h3>Subclasses</h3>
-<ul class="hlist">
-<li><a title="topicnet.cooking_machine.models.example_score.ScoreExample" href="example_score.html#topicnet.cooking_machine.models.example_score.ScoreExample">ScoreExample</a></li>
-<li><a title="topicnet.cooking_machine.models.intratext_coherence_score.IntratextCoherenceScore" href="intratext_coherence_score.html#topicnet.cooking_machine.models.intratext_coherence_score.IntratextCoherenceScore">IntratextCoherenceScore</a></li>
-<li><a title="topicnet.cooking_machine.models.blei_lafferty_score.BleiLaffertyScore" href="blei_lafferty_score.html#topicnet.cooking_machine.models.blei_lafferty_score.BleiLaffertyScore">BleiLaffertyScore</a></li>
-<li><a title="topicnet.cooking_machine.models.semantic_radius_score.SemanticRaduisScore" href="semantic_radius_score.html#topicnet.cooking_machine.models.semantic_radius_score.SemanticRaduisScore">SemanticRaduisScore</a></li>
-</ul>
-<h3>Methods</h3>
-<dl>
-<dt id="topicnet.cooking_machine.models.base_score.BaseScore.call"><code class="name flex">
-<span>def <span class="ident">call</span></span>(<span>self, model)</span>
-</code></dt>
-<dd>
-<section class="desc"><p>Call to custom score function.</p>
+<section class="desc"><p>Viewer to show trending topics over time.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>model</code></strong> :&ensp;<code>TopicModel</code></dt>
-<dd>a TopicNet model inherited from BaseModel</dd>
-</dl>
-<h2 id="returns">Returns</h2>
+<dd>an instance of topic model class</dd>
+<dt><strong><code>time_labels</code></strong> :&ensp;<code>list</code> of <code>numbers</code></dt>
+<dd>time label that supports comparrison for each document</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dd>dataset used for model training (is used to compute nwd here)</dd>
+<dt><strong><code>modality</code></strong> :&ensp;<code>str</code></dt>
+<dd>model's modality for topics description</dd>
+<dt><strong><code>sort_key_function</code></strong> :&ensp;<code>Function</code></dt>
+<dd>function that can be used with python sorted</dd>
+</dl></section>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="topicnet.viewers.base_viewer.BaseViewer" href="base_viewer.html#topicnet.viewers.base_viewer.BaseViewer">BaseViewer</a></li>
+</ul>
+<h3>Methods</h3>
 <dl>
-<dt><code>float</code></dt>
-<dd>score</dd>
-</dl>
-<h2 id="notes">Notes</h2>
-<p>Higher score not necessarily should correspond to better model.
-It is up to user to decide what the meaning is behind the score,
-and then use this logic in query in Experiment's <code>select()</code> method.</p>
-<p>If one need ARTM model for score (not TopicNet one), it is available as model._model</p></section>
+<dt id="topicnet.viewers.topic_flow_viewer.TopicFlowViewer.compute_nd"><code class="name flex">
+<span>def <span class="ident">compute_nd</span></span>(<span>self, number_of_docs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Compute number of tokens in each document from dataset.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>number_of_docs</code></strong> :&ensp;<code>int</code></dt>
+<dd>number of documents in theta</dd>
+</dl></section>
 </dd>
-<dt id="topicnet.cooking_machine.models.base_score.BaseScore.update"><code class="name flex">
-<span>def <span class="ident">update</span></span>(<span>self, score)</span>
+<dt id="topicnet.viewers.topic_flow_viewer.TopicFlowViewer.compute_top_tokens"><code class="name flex">
+<span>def <span class="ident">compute_top_tokens</span></span>(<span>self, model, modality)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Function for top tokens extraction.</p>
+<h2 id="parameters">Parameters:</h2>
+<p>model : TopicModel
+modality : str
+modality for topic representation</p></section>
+</dd>
+<dt id="topicnet.viewers.topic_flow_viewer.TopicFlowViewer.plot"><code class="name flex">
+<span>def <span class="ident">plot</span></span>(<span>self, topics, significance_threshold=0.01)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Function for plotly graph building.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>topics</code></strong> :&ensp;<code>list</code> of <code>int</code></dt>
+<dd>topics that need to be visualized</dd>
+<dt><strong><code>significance_threshold</code></strong> :&ensp;<code>float</code></dt>
+<dd>plot ignores values lower than threshold</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.viewers.topic_flow_viewer.TopicFlowViewer.view"><code class="name flex">
+<span>def <span class="ident">view</span></span>(<span>self, topic_names=None)</span>
 </code></dt>
 <dd>
 <section class="desc"><h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>score</code></strong> :&ensp;<code>float</code></dt>
-<dd>score value</dd>
-</dl>
-<h2 id="returns">Returns</h2></section>
+<dt><strong><code>topic_names</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
+<dd>topics that user wants to see on plot</dd>
+</dl></section>
 </dd>
 </dl>
 </dd>
@@ -88,16 +111,18 @@ and then use this logic in query in Experiment's <code>select()</code> method.</
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="topicnet.cooking_machine.models" href="index.html">topicnet.cooking_machine.models</a></code></li>
+<li><code><a title="topicnet.viewers" href="index.html">topicnet.viewers</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="topicnet.cooking_machine.models.base_score.BaseScore" href="#topicnet.cooking_machine.models.base_score.BaseScore">BaseScore</a></code></h4>
+<h4><code><a title="topicnet.viewers.topic_flow_viewer.TopicFlowViewer" href="#topicnet.viewers.topic_flow_viewer.TopicFlowViewer">TopicFlowViewer</a></code></h4>
 <ul class="">
-<li><code><a title="topicnet.cooking_machine.models.base_score.BaseScore.call" href="#topicnet.cooking_machine.models.base_score.BaseScore.call">call</a></code></li>
-<li><code><a title="topicnet.cooking_machine.models.base_score.BaseScore.update" href="#topicnet.cooking_machine.models.base_score.BaseScore.update">update</a></code></li>
+<li><code><a title="topicnet.viewers.topic_flow_viewer.TopicFlowViewer.compute_nd" href="#topicnet.viewers.topic_flow_viewer.TopicFlowViewer.compute_nd">compute_nd</a></code></li>
+<li><code><a title="topicnet.viewers.topic_flow_viewer.TopicFlowViewer.compute_top_tokens" href="#topicnet.viewers.topic_flow_viewer.TopicFlowViewer.compute_top_tokens">compute_top_tokens</a></code></li>
+<li><code><a title="topicnet.viewers.topic_flow_viewer.TopicFlowViewer.plot" href="#topicnet.viewers.topic_flow_viewer.TopicFlowViewer.plot">plot</a></code></li>
+<li><code><a title="topicnet.viewers.topic_flow_viewer.TopicFlowViewer.view" href="#topicnet.viewers.topic_flow_viewer.TopicFlowViewer.view">view</a></code></li>
 </ul>
 </li>
 </ul>

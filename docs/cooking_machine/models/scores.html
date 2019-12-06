@@ -167,6 +167,59 @@ We inherit from BaseScore in order to have self.value property and self.update()
 </li>
 </ul>
 </dd>
+<dt id="topicnet.cooking_machine.models.scores.SemanticRaduisScore"><code class="flex name class">
+<span>class <span class="ident">SemanticRaduisScore</span></span>
+<span>(</span><span>batch_vectorizer)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This score implements cluster semantic radius, described in paper
+'Проверка гипотезы условной независимости
+для оценивания качества тематической кластеризации' by Rogozina A.
+At the core this score helps to discover topics uniformity.
+The lower this score - better</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>batch_vectorizer</code></strong></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="topicnet.cooking_machine.models.base_score.BaseScore" href="base_score.html#topicnet.cooking_machine.models.base_score.BaseScore">BaseScore</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="topicnet.cooking_machine.models.scores.SemanticRaduisScore.call"><code class="name flex">
+<span>def <span class="ident">call</span></span>(<span>self, model, max_sampled_document_len=None, sample_step=5, sample_size=3, alpha=0.1)</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>model</code></strong> :&ensp;<code>TopicModel</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>max_sampled_document_len</code></strong> :&ensp;<code>int</code></dt>
+<dd>Maximum length of pseudo-document for quantile regression
+(Default value = None)</dd>
+<dt><strong><code>sample_step</code></strong> :&ensp;<code>int</code></dt>
+<dd>Grain for quantile regression
+(Default value = 5)</dd>
+<dt><strong><code>sample_size</code></strong> :&ensp;<code>int</code></dt>
+<dd>Size of every sample for quantile regression<br>
+(Default value = 3)</dd>
+<dt><strong><code>alpha</code></strong> :&ensp;<code>float</code></dt>
+<dd>(1 - alpha) quantile level, must be &lt;= 1<br>
+(Default value = 0.1)</dd>
+</dl></section>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="topicnet.cooking_machine.models.base_score.BaseScore" href="base_score.html#topicnet.cooking_machine.models.base_score.BaseScore">BaseScore</a></b></code>:
+<ul class="hlist">
+<li><code><a title="topicnet.cooking_machine.models.base_score.BaseScore.update" href="base_score.html#topicnet.cooking_machine.models.base_score.BaseScore.update">update</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
 </dl>
 </section>
 </article>
@@ -196,6 +249,12 @@ We inherit from BaseScore in order to have self.value property and self.update()
 <h4><code><a title="topicnet.cooking_machine.models.scores.ScoreExample" href="#topicnet.cooking_machine.models.scores.ScoreExample">ScoreExample</a></code></h4>
 <ul class="">
 <li><code><a title="topicnet.cooking_machine.models.scores.ScoreExample.call" href="#topicnet.cooking_machine.models.scores.ScoreExample.call">call</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="topicnet.cooking_machine.models.scores.SemanticRaduisScore" href="#topicnet.cooking_machine.models.scores.SemanticRaduisScore">SemanticRaduisScore</a></code></h4>
+<ul class="">
+<li><code><a title="topicnet.cooking_machine.models.scores.SemanticRaduisScore.call" href="#topicnet.cooking_machine.models.scores.SemanticRaduisScore.call">call</a></code></li>
 </ul>
 </li>
 </ul>

@@ -37,7 +37,7 @@
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel"><code class="flex name class">
 <span>class <span class="ident">TopicModel</span></span>
-<span>(</span><span>artm_model=None, model_id=None, parent_model_id=None, data_path=None, description=None, experiment=None, callbacks=[], depth=0, scores={}, custom_scores={}, *args, **kwargs)</span>
+<span>(</span><span>artm_model=None, model_id=None, parent_model_id=None, data_path=None, description=None, experiment=None, callbacks=[], depth=0, scores={}, custom_scores={}, custom_regularizers={}, *args, **kwargs)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Topic Model contains artm model and all necessary information: scores, training pipeline, etc.</p>
@@ -62,6 +62,8 @@ mainly used for fancy regularizer coefficients manipulation</dd>
 <dt><strong><code>custom_scores</code></strong> :&ensp;<code>dict</code></dt>
 <dd>dictionary with score names as keys and score classes as functions
 (score class with functionality like those of BaseScore)</dd>
+<dt><strong><code>custom_regularizers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>dictionary with regularizer names as keys and regularizer classes as values</dd>
 </dl></section>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -95,6 +97,15 @@ mainly used for fancy regularizer coefficients manipulation</dd>
 </dl>
 <h3>Instance variables</h3>
 <dl>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.all_regularizers"><code class="name">var <span class="ident">all_regularizers</span></code></dt>
+<dd>
+<section class="desc"><p>Gets all regularizers with custom regularizers.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>regularizers_dict</code></strong> :&ensp;<code>dict</code></dt>
+<dd>dict with artm.regularizer and BaseRegularizer instances</dd>
+</dl></section>
+</dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.class_ids"><code class="name">var <span class="ident">class_ids</span></code></dt>
 <dd>
 <section class="desc"></section>
@@ -105,7 +116,7 @@ mainly used for fancy regularizer coefficients manipulation</dd>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.regularizers"><code class="name">var <span class="ident">regularizers</span></code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>Gets regularizers from model.</p></section>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.scores"><code class="name">var <span class="ident">scores</span></code></dt>
 <dd>
@@ -306,6 +317,12 @@ Use this method if you want to dump the model.</p>
 <dd>dataset</dd>
 </dl></section>
 </dd>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.save_custom_regularizers"><code class="name flex">
+<span>def <span class="ident">save_custom_regularizers</span></span>(<span>self, model_save_path=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.to_dummy"><code class="name flex">
 <span>def <span class="ident">to_dummy</span></span>(<span>self)</span>
 </code></dt>
@@ -356,6 +373,7 @@ but "model_id" key in experiment.models contains original model, not dummy</p></
 <li>
 <h4><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel" href="#topicnet.cooking_machine.models.topic_model.TopicModel">TopicModel</a></code></h4>
 <ul class="">
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.all_regularizers" href="#topicnet.cooking_machine.models.topic_model.TopicModel.all_regularizers">all_regularizers</a></code></li>
 <li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.class_ids" href="#topicnet.cooking_machine.models.topic_model.TopicModel.class_ids">class_ids</a></code></li>
 <li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.clone" href="#topicnet.cooking_machine.models.topic_model.TopicModel.clone">clone</a></code></li>
 <li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.describe_regularizers" href="#topicnet.cooking_machine.models.topic_model.TopicModel.describe_regularizers">describe_regularizers</a></code></li>
@@ -371,6 +389,7 @@ but "model_id" key in experiment.models contains original model, not dummy</p></
 <li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.make_dummy" href="#topicnet.cooking_machine.models.topic_model.TopicModel.make_dummy">make_dummy</a></code></li>
 <li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.regularizers" href="#topicnet.cooking_machine.models.topic_model.TopicModel.regularizers">regularizers</a></code></li>
 <li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.save" href="#topicnet.cooking_machine.models.topic_model.TopicModel.save">save</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.save_custom_regularizers" href="#topicnet.cooking_machine.models.topic_model.TopicModel.save_custom_regularizers">save_custom_regularizers</a></code></li>
 <li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.scores" href="#topicnet.cooking_machine.models.topic_model.TopicModel.scores">scores</a></code></li>
 <li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.to_dummy" href="#topicnet.cooking_machine.models.topic_model.TopicModel.to_dummy">to_dummy</a></code></li>
 </ul>
