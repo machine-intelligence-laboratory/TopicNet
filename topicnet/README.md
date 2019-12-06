@@ -1,5 +1,4 @@
 ## TopicNet 
-[Русская версия](README-rus.md)
 
 ```topicnet```  library was created to assist in the task of building topic models. It aims to automate away many routine tasks related to topic model training, allowing a user to focus on the task at hand. Also, it provides additional tools to construct advanced topic models.
 The library consists of three modules:

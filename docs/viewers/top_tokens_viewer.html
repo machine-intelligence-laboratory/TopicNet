@@ -35,13 +35,13 @@
 phi[wt] * [log(phi[wt]) - 1/T sum_k log(phi[wk])]</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>phi</code></strong> :&ensp;<code>pd.Dataframe</code></dt>
+<dt><strong><code>phi</code></strong> :&ensp;<code>pd.DataFrame</code></dt>
 <dd>phi matrix of the model</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><strong><code>score</code></strong> :&ensp;<code>pd.Dataframe</code></dt>
-<dd>wheighted phi matrix</dd>
+<dt><strong><code>score</code></strong> :&ensp;<code>pd.DataFrame</code></dt>
+<dd>weighted phi matrix</dd>
 </dl></section>
 </dd>
 <dt id="topicnet.viewers.top_tokens_viewer.compute_clusters_top_tokens_by_clusters_tfidf"><code class="name flex">
@@ -174,10 +174,11 @@ array of original indexes for top_values array (Default value = True)</p></secti
 <dl>
 <dt id="topicnet.viewers.top_tokens_viewer.TopTokensViewer"><code class="flex name class">
 <span>class <span class="ident">TopTokensViewer</span></span>
-<span>(</span><span>model, class_ids=None, method='blei', num_top_tokens=5, alpha=1, dataset=None)</span>
+<span>(</span><span>model, class_ids=None, method='blei', num_top_tokens=10, alpha=1, dataset=None)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>The class provide information about top tokens
+<section class="desc"><p>Gets top tokens from topic (sorted by scores)</p>
+<p>The class provide information about top tokens
 of the model topics providing with different methods to score that.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -206,40 +207,60 @@ ptw method of scoring</dd>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="topicnet.viewers.top_tokens_viewer.TopTokensViewer.to_html"><code class="name flex">
-<span>def <span class="ident">to_html</span></span>(<span>self, all_topics_top_tokens, topic_names=None, thresh=1e-05)</span>
+<dt id="topicnet.viewers.top_tokens_viewer.TopTokensViewer.to_df"><code class="name flex">
+<span>def <span class="ident">to_df</span></span>(<span>self, topic_names=None, digits=5)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>method that generates html version of
-dataframes to be displayed by jupyter notebooks
-display by:
-from IPython.display import display_html
-display_html(html_line, raw=True)
-:param all_topics_top_tokens: dict of dicts
-dict where first level keys are topic names
-second level keys are modalities
-third level keys are tokens with their scores
-as float values
-:param topic_names: list of strings &ndash; optional
-ordered list of initial dictionary keys
-:return topic_dataframes: list of strings
-list of dataframes in html encoding</p></section>
+<section class="desc"></section>
 </dd>
-<dt id="topicnet.viewers.top_tokens_viewer.TopTokensViewer.view"><code class="name flex">
-<span>def <span class="ident">view</span></span>(<span>self, class_ids=None, raw_data=None)</span>
+<dt id="topicnet.viewers.top_tokens_viewer.TopTokensViewer.to_html"><code class="name flex">
+<span>def <span class="ident">to_html</span></span>(<span>self, topic_top_tokens=None, topic_names=None, digits=5, thresh=None)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns list of tuples (token,score) for each topic in the model.</p>
+<section class="desc"><p>Generates html version of dataframes to be displayed by Jupyter notebooks</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>raw_data</code></strong> :&ensp;<code>list</code> of <code>list</code> of <code>str</code></dt>
-<dd>necessary for 'tfidf' option</dd>
+<dt><strong><code>topic_top_tokens</code></strong> :&ensp;<code>dict</code> of <code>dicts</code> [<code>Deprecated</code>]</dt>
+<dd>Dict where first level keys are topic names
+Second level keys are modalities
+Third level keys are tokens with their scores as float values</dd>
+<dt><strong><code>topic_names</code></strong> :&ensp;<code>list</code> of <code>strings</code></dt>
+<dd>Initial dictionary keys</dd>
+<dt><strong><code>digits</code></strong> :&ensp;<code>int</code></dt>
+<dd>Number of digits to round each probability to</dd>
+<dt><strong><code>thresh</code></strong> :&ensp;<code>float</code> [<code>Deprecated</code>]</dt>
+<dd>Threshold used for calculating <code>digits</code> and throwing out too low probabilities</dd>
 </dl>
-<h2 id="returns">Returns</h2>
+<h2 id="examples">Examples</h2>
+<pre><code>&gt;&gt;&gt; from IPython.display import HTML, display_html
+&gt;&gt;&gt;
+&gt;&gt;&gt; # model training here
+&gt;&gt;&gt; # ...
+&gt;&gt;&gt; viewer = TopTokensViewer(model)
+&gt;&gt;&gt; display_html(viewer.to_html(), raw=True)
+&gt;&gt;&gt; # or
+&gt;&gt;&gt; HTML(viewer.to_html())
+</code></pre></section>
+</dd>
+<dt id="topicnet.viewers.top_tokens_viewer.TopTokensViewer.view"><code class="name flex">
+<span>def <span class="ident">view</span></span>(<span>self, class_ids=None, raw_data=None, three_levels=True)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns list of tuples (token, score) for each topic in the model.</p>
+<h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>all_topics_top_tokens</code></strong> :&ensp;<code>nested</code> <code>3</code> <code>level</code> <code>dict</code></dt>
-<dd>dict of topics each key contains dict of modalities with each modality key
-having dict of top tokens format: (token, value)</dd>
+<dt><strong><code>class_ids</code></strong></dt>
+<dd>Modalities from which to retrieve top tokens</dd>
+<dt><strong><code>raw_data</code></strong> :&ensp;<code>list</code> of <code>list</code> of <code>str</code></dt>
+<dd>Necessary for 'tfidf' option</dd>
+<dt><strong><code>three_levels</code></strong></dt>
+<dd>If true, three level dict will be returned, otherwise — two level one</dd>
+</dl>
+<h2 id="returns">returns</h2>
+<dl>
+<dt><strong><code>topic_top_tokens</code></strong> :&ensp;<code>nested</code> <code>3</code> or <code>2</code>-<code>level</code> <code>dict</code></dt>
+<dd>Topic -&gt; Modality -&gt; Token -&gt; Probability or
+Topic -&gt; (Modality, Token) -&gt; Probability</dd>
 </dl></section>
 </dd>
 </dl>
@@ -274,6 +295,7 @@ having dict of top tokens format: (token, value)</dd>
 <li>
 <h4><code><a title="topicnet.viewers.top_tokens_viewer.TopTokensViewer" href="#topicnet.viewers.top_tokens_viewer.TopTokensViewer">TopTokensViewer</a></code></h4>
 <ul class="">
+<li><code><a title="topicnet.viewers.top_tokens_viewer.TopTokensViewer.to_df" href="#topicnet.viewers.top_tokens_viewer.TopTokensViewer.to_df">to_df</a></code></li>
 <li><code><a title="topicnet.viewers.top_tokens_viewer.TopTokensViewer.to_html" href="#topicnet.viewers.top_tokens_viewer.TopTokensViewer.to_html">to_html</a></code></li>
 <li><code><a title="topicnet.viewers.top_tokens_viewer.TopTokensViewer.view" href="#topicnet.viewers.top_tokens_viewer.TopTokensViewer.view">view</a></code></li>
 </ul>

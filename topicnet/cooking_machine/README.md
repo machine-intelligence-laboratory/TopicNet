@@ -1,5 +1,4 @@
 # Cooking Machine
-[Русская версия](README-rus.md)
 
 #### Cube
 A unit of model training pipeline. This unit encapsulates an action over one or many model hyperparameters. This action and hyperparameter space are stored as cube properties and then saved in Experiment. 
