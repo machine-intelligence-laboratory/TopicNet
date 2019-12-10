@@ -5,8 +5,11 @@ services:
 
 before_install:
     - docker pull xtonev/bigartm:v0.9.1 
-    - docker run -d -p 127.0.0.1:80:4567 xtonev/bigartm:v0.9.1 /bin/sh -c "cd /root/TopicNet/topicnet; py.test ."
+    - docker run -d -p 127.0.0.1:80:4567 xtonev/bigartm:v0.9.1 /bin/sh -c "cd /root/TopicNet/topicnet"
 
 script:
-    - py.test .
+  - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+  - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, PR=$PR, BRANCH=$BRANCH"
+
+- py.test .
 
