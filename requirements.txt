@@ -1,0 +1,16 @@
+dill
+dask[dataframe]
+numpy
+six
+scipy
+numexpr
+pytest
+pandas
+tqdm
+dask
+scikit_learn
+typing
+ipython
+strictyaml
+artm
+

@@ -1,0 +1,12 @@
+language: python
+
+services:
+      - docker
+
+before_install:
+    - docker pull xtonev/bigartm:v0.9.1 
+    - docker run -d -p 127.0.0.1:80:4567 xtonev/bigartm:v0.9.1 /bin/sh -c "cd /root/TopicNet/topicnet; py.test ."
+
+script:
+    - py.test .
+
