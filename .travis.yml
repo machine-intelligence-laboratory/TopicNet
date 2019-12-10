@@ -1,15 +1,56 @@
-language: python:3.6
+sudo: false
 
-services:
-      - docker
+language:
+  - python
+# Currently Travis doesn't support multiple values for language variable
+#  - cpp
+
+#compiler:
+#  - gcc
+
+# not sure whether the following configuration will be available
+# with non-C/C++ language (e.g python)
+#cache: ccache
+
+cache:
+  directories:
+    - $HOME/.ccache
+
+python:
+  - "3.6"
+
+env:
+  global:
+    # variables for caching
+    - CCACHE_DIR=$HOME/.ccache
+    - CCACHE_COMPILERCHECK=content
+    - CCACHE_COMPRESS=true
+    - CCACHE_NODISABLE=true
+    - CCACHE_MAXSIZE=500M
+  matrix:
+    - GCC_VER=4.8
 
 before_install:
-    - docker pull xtonev/bigartm:v0.9.1 
-    - docker run -d -p 127.0.0.1:80:4567 xtonev/bigartm:v0.9.1 /bin/sh -c "cd /root/TopicNet/topicnet"
+  # we need latest pip to work with only-binary option
+  - pip install -U pip
+  - pip install -U pytest pep8 wheel pytest-forked
+  - pip install -U numpy scipy pandas tqdm --only-binary numpy,scipy,pandas
+  - pip install -U protobuf
+  # install boost
+  - add-apt-repository universe
+  - apt-get update
+  - apt-get install libboost-all-dev
+ 
+  # configure ccache
+  # code from https://github.com/urho3d/Urho3D/blob/master/.travis.yml
+  - export PATH=$(whereis -b ccache |grep -o '\S*lib\S*'):$PATH
+  - export CXX=g++-$GCC_VER CC=gcc-$GCC_VER
+  - for compiler in gcc g++; do ln -s $(which ccache) $HOME/$compiler-$GCC_VER; done && export PATH=$HOME:$PATH
+
+install:
+  - mkdir build
+  - pushd build && cmake .. && make -j2 && file ./bin/bigartm && popd
+  - pushd python && python setup.py install && popd
 
 script:
-  - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
-  - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, PR=$PR, BRANCH=$BRANCH"
-
-- py.test .
-
+  - py.test .
