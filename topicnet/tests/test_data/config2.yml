@@ -31,7 +31,7 @@ stages:
     selection:
         - PerplexityScore@text < 1.1 * MINIMUM(PerplexityScore@text) and TopicKernel@text.average_contrast -> max
     strategy: GreedyStrategy
-    relative_coefficients: True
+    use_relative_coefficients: True
     strategy_params:
         renormalize: False
     tracked_score_function: TopicKernel@text.average_contrast

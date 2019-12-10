@@ -24,15 +24,15 @@ def resource_teardown():
 
 
 def setup_function():
-    sleep(0.1)
+    sleep(1)
     resource_teardown()
-    sleep(0.1)
+    sleep(1)
 
 
 def teardown_function():
-    sleep(0.1)
+    sleep(1)
     resource_teardown()
-    sleep(0.1)
+    sleep(1)
 
 
 @pytest.fixture(scope="function")
@@ -80,7 +80,7 @@ def experiment_enviroment(request):
                 "tau_grid": [0.1, 0.5, 1, 5, 10]
             },
             'reg_search': 'grid',
-            'relative_coefficients': False,
+            'use_relative_coefficients': False,
         },
         'selection': [
             'PerplexityScore -> max COLLECT 2',
@@ -109,7 +109,7 @@ def test_bad_config(experiment_enviroment):
     with open("tests/test_data/bad_config.yml", "r") as f:
         yaml_string = f.read()
 
-    with pytest.raises(ValueError, match='Unsupported stage ID: SecondStageCube at line 53'):
+    with pytest.raises(ValueError, match='Unsupported stages value: SecondStageCube at line 53'):
         experiment, dataset = build_experiment_environment_from_yaml_config(
             yaml_string,
             experiment_id="Test_config",
@@ -146,7 +146,7 @@ def test_pipeline_from_config(experiment_enviroment):
     description = experiment.describe_model(final_models[0].model_id)
     for tm in experiment.models.values():
         depth = tm.depth - 1
-        num_iters = len(tm.scores.get("PerplexityScore@all", []))
+        num_iters = len(tm.scores.get("PerplexityScore@all"))
         assert(depth * 5 == num_iters)
 
     print('depth: ', final_models[0].depth)
@@ -168,7 +168,44 @@ def test_pipeline_from_config(experiment_enviroment):
     assert "PerplexityScore@all" in description
 
 
+def test_config_with_blei_score(experiment_enviroment):
+    with open("tests/test_data/config_blei.yml", "r") as f:
+        yaml_string = f.read()
+
+    experiment, dataset = build_experiment_environment_from_yaml_config(
+        yaml_string,
+        experiment_id="Test_config",
+        save_path="tests/experiments"
+    )
+    sleep(2)
+    experiment.run(dataset)
+
+    final_models = experiment.select()
+    assert len(final_models) > 0
+    assert "BleiLaffertyScore" in final_models[0].scores
+    assert final_models[0].scores["BleiLaffertyScore"][-1] > 0
+
+
+def test_config_with_scores(experiment_enviroment):
+    with open("tests/test_data/config_short.yml", "r") as f:
+        yaml_string = f.read()
+
+    experiment, dataset = build_experiment_environment_from_yaml_config(
+        yaml_string,
+        experiment_id="Test_config",
+        save_path="tests/experiments"
+    )
+    experiment.run(dataset)
+
+    final_models = experiment.select()
+    assert len(final_models) > 0
+    assert len(final_models[0].topic_names) == 5
+    assert "ScoreExample" in final_models[0].scores
+    assert "BTRS" in final_models[0].scores
+
+
 def test_config_with_greedy_strategy(experiment_enviroment):
+    sleep(1)
     with open("tests/test_data/config2.yml", "r") as f:
         yaml_string = f.read()
 
@@ -177,6 +214,7 @@ def test_config_with_greedy_strategy(experiment_enviroment):
         experiment_id="Test_config",
         save_path="tests/experiments"
     )
+    sleep(1)
     experiment.run(dataset)
 
     final_models = experiment.select()
@@ -206,6 +244,8 @@ def test_pipeline_with_new_cube_after(experiment_enviroment):
     tm, dataset, experiment, dictionary, cube_settings = experiment_enviroment
 
     experiment.build(cube_settings)
+    # an ugly workaround for strange multithreading issue
+    sleep(2)
     with pytest.warns(UserWarning, match="Not enough models for"):
         models = experiment.run(dataset, verbose=False, nb_verbose=False)
     models = list(models)
@@ -217,7 +257,7 @@ def test_pipeline_with_new_cube_after(experiment_enviroment):
             "tau_grid": [0.1, 0.5, 1]
         },
         reg_search="grid",
-        relative_coefficients=False,
+        use_relative_coefficients=False,
     )
 
     new_models = cube(models[-1], dataset)

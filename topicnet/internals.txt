@@ -1,0 +1,137 @@
+== Some Notes on Internals ==
+-----------------------------
+
+To inialize `Experiment`, one needs to provide a topic model. The `model_constructor` module provides some convenience methods for building such models: `init_simple_default_model` and `add_standard_scores`. The following will expand on their philosophy.
+
+Background topics
+-----------------
+
+Following the tradition dating back to the [1], the best practice in ARTM formalism is to subdivide set of topics into specific topics and background topics.
+
+Intuitively, background topics should capture common non-selective words and rare exotic words (including weird typos) not belonging elsewhere.
+
+The difference between background and specific topics is not caused by some intrinsic property but rather the fact that we treat them differently during the inference. It is very common to define regularizers acting separately on these two kinds of topics. Most notably:
+
+* Word-topic distribution of specific topics should be sparse. We expect specific topics to be narrow and precise.
+* Word-topic distribution of background topics should be smooth. They are not focusing on something in particular; instead, they cover large pieces of vocabulary.
+* Topic-document distribution of specific topics should be sparse. Aside from *Encyclopædia Britannica*, it is not possible for a single document to contain information on everything at once.
+* Topic-document distribution of background topics should be smooth. Most common words  (like "the" or "which") are sprinkled throughout each document.
+
+Modalities
+----------
+
+Modalities are a way to model additional properties of document (e.g. timestamps, authors, tags etc). This is the most easy way to enhance topic model with additional features. An example of a document with multiple modalities would look like so:
+
+>> 1.txt |@word for sale baby shoes never worn |@tag flash_fiction |@author Ernest_Hemingway
+
+In this case, we have three different vocabularies: the set of possible words, the set of possible tags (e.g. "flash_fiction" and "mystery_novel") and the set of all known authors (e.g. "Ernest_Hemingway" or "Franz_Kafka"). Naturally, they are of different significance, but this issue is muddled by different frequencies each modality has in dataset (usually, each document has a single author and a handful of tags, but a huge number of words). Hence, we recommend starting with a model which will "care about each modality equally" and continue by adjusting it as needed afterwards.
+
+The `init_simple_default_model` function attempts to create a model taking into account all modalities provided:
+
+>> model = init_simple_default_model(dataset, modalities_to_use=["@word", "@tag", "@author"], main_modality="@word", ...)
+
+Scores
+------
+
+The following scores are provided by `add_standard_scores` function:
+
+Perplexity
+----------
+
+For each modality, a corresponding perplexity score is created (in the case above: PerplexityScore@word, PerplexityScore@tag and PerplexityScore@author). Additionally, PerplexityScore@all is created (it should be roughly equal to the product of each individual PerplexityScore).
+
+Sparsity
+--------
+
+Sparsity is a fraction of zero entries in probability distribution. Generaly, more sparse models are preferred. An individual document usually focuses on only a small number of topics. Similarly, each topic usually supports a limited number of words. 
+
+The sparsity of Phi matrix measures the fraction of zeros in topic-word distribution. For each modality, a corresponding sparsity score is created (in the case above: SparsityPhiScore@word, SparsityPhiScore@tag and SparsityPhiScore@author). 
+
+Additionally, the SparsityThetaScore controls the sparsity of document-topic distribution.
+
+Lexical Kernel
+--------------
+
+The **lexical kernel** `W_t` of a topic `t` is defined as a set of terms `w` such that `p(t|w) > threshold`. Intuitively, such terms are characteristic for topic `t` and help to distinguish it from the other topics. We use default ARTM threshold of `0.3` (TODO: experiments) to determine lexical kernel.
+
+Given Phi distribution and lexical kernel, it is possible to calculate several measures of topic quality:
+
+* Kernel size: the number of terms belonging to lexical kernel.
+
+* Kernel purity: sum of the `p(w|t)` for all `w` belonging to lexical kernel. The higher the better. Intuitively, high purity means that topic 'respects' its own lexical kernel.
+
+* Kernel contrast: sum of the `p(t|w)` for all `w` belonging to lexical kernel. The higher the better. Intuitively, high contrast means that this topic is not duplicated by other topics of topic models.
+
+TopicNet automatically creates a number of scores related to these metrics, which we will demonstrate with examples:
+
+>> model.scores["TopicKernel@word.average_purity"][-1]
+
+The value of kernel purity from the last iteration, averaged over all topics.
+
+>> model.scores["TopicKernel@word.average_contrast"][-1]
+
+The value of kernel contrast from the last iteration, averaged over all topics.
+
+>> pd.DataFrame.from_dict(model.scores["TopicKernel@word.contrast"])
+
+The DataFrame with shape (number of iterations, number of topics). This is useful for comparing values between different topics (e.g. checking whether the background topic has the lowest contrast)
+
+>> pd.DataFrame.from_dict(model.scores["TopicKernel@word.size"])
+
+The DataFrame with shape (number of iterations, number of topics). This is useful for selecting the "most interesting" topics: for example, topics with the largest or smallest lexical kernel.
+
+
+
+Parallelism
+-----------
+
+When asked to apply a cube to a set of `TopicModel`s, the default behaviour of TopicNet is to perform training in a separate thread, save the results and then dispose of the thread.
+
+This is done in order to reduce RAM usage: [3]
+
+
+Cubes and Regularizers
+----------------------
+
+An ARTM model consists of Phi matrix (together with an optional Theta matrix) and a set of regularizers. Cubes available in `cooking_machine` module enable user to find best regularization coefficients for particular task. As a rule, if cube introduces a new regularizer into a model, the model "keeps" this regularizer indefinetely (unless explicitly removed).
+
+When a regularizer is already present in a model, user can alter it's parameters using `"reg_name"`:
+
+>>  cube = RegularizersModifierCube(
+>>      num_iter=10,
+>>      regularizer_parameters={
+>>          "name": 'some_regularizer',
+>>          "tau_grid": [-0.2, -0.4, -0.6, -0.7]
+>>      },
+>>      reg_search="pair",
+>>      relative_coefficients=False,
+>>  )
+
+Alternatively, if one wishes to introduce a new regularizer (or overwrite the existing one), then the following approach is recomended:
+
+>>  cube = RegularizersModifierCube(
+>>      num_iter=10,
+>>      regularizer_parameters={
+>>          "regularizer": artm.regularizers.SmoothSparsePhiRegularizer(...),
+>>          "tau_grid": [-0.2, -0.4, -0.6, -0.7]
+>>      },
+>>      reg_search="pair",
+>>      relative_coefficients=False,
+>>  )
+
+Relative Coefficients
+---------------------
+
+By default, TopicNet makes use of relative regularization coefficients, which is a way to make generic model hyperparameters, robust to change of the dataset. Most of the body of existing work in topic modeling does not use relative coefficients. Therefore, when reproducing exisiting research, one shoud set `relative_coefficients=False` when defining a cube.
+
+See [4] for details.
+
+REFERENCES
+----------
+
+[1] Chemudugunta, C., Smyth, P., Steyvers, M.: Modeling general and specific aspects of documents with a probabilistic topic model.
+[2] The Dual-Sparse Topic Model: Mining Focused Topics and Focused Terms in Short Text
+[3] https://stackoverflow.com/questions/31089451/force-python-to-release-objects-to-free-up-memory
+[4] Link Pending
+
+

@@ -5,9 +5,10 @@ import os
 import json
 import glob
 import shutil
-import pickle
+import dill as pickle
 import pandas as pd
 import warnings
+import inspect
 
 import artm
 from artm.wrapper.exceptions import ArtmException
@@ -26,6 +27,11 @@ SUPPORTED_SCORES_WITHOUT_VALUE_PROPERTY = (
 )
 
 
+class EmptyScore:
+    def __init__(self):
+        self.value = []
+
+
 class TopicModel(BaseModel):
     """
     Topic Model contains artm model and all necessary information: scores, training pipeline, etc.
@@ -34,6 +40,7 @@ class TopicModel(BaseModel):
     def __init__(self, artm_model=None, model_id=None,
                  parent_model_id=None, data_path=None,
                  description=None, experiment=None,
+                 callbacks=list(), depth=0, scores=dict(),
                  custom_scores=dict(), *args, **kwargs):
         """
         Initialize stage, also used for loading previously saved experiments.
@@ -52,6 +59,9 @@ class TopicModel(BaseModel):
             description of the model (Default value = None)
         experiment : Experiment
             the experiment to which the model is bound (Default value = None)
+        callbacks : list of objects with invoke() method
+            function called inside _fit which alters model parameters
+            mainly used for fancy regularizer coefficients manipulation
         custom_scores : dict
             dictionary with score names as keys and score classes as functions
             (score class with functionality like those of BaseScore)
@@ -59,8 +69,12 @@ class TopicModel(BaseModel):
         """
         super().__init__(model_id=model_id, parent_model_id=parent_model_id,
                          experiment=experiment, *args, **kwargs)
+        self.callbacks = list(callbacks)
 
         if artm_model is None:
+            artm_ARTM_args = inspect.getfullargspec(artm.ARTM).args
+            kwargs = {k: v for k, v in kwargs.items() if k in artm_ARTM_args}
+
             try:
                 self._model = artm.ARTM(**kwargs)
             except ArtmException as e:
@@ -89,6 +103,8 @@ class TopicModel(BaseModel):
         return getattr(self._model, attr_name)
 
     def _get_all_scores(self):
+        if len(self._model.score_tracker.items()) == 0:
+            yield from {key: EmptyScore() for key in self._model.scores.data.keys()}.items()
         yield from self._model.score_tracker.items()
 
         if self.custom_scores is not None:  # default is dict(), but maybe better to set None?
@@ -98,34 +114,34 @@ class TopicModel(BaseModel):
         self._score_caches = None
 
     def _compute_score_values(self):
-        def get_score_properties_and_values(score_name, score_class):
-            for internal_name in dir(score_class):
+        def get_score_properties_and_values(score_name, score_object):
+            for internal_name in dir(score_object):
                 if internal_name.startswith('_') or internal_name.startswith('last'):
                     continue
 
                 score_property_name = score_name + '.' + internal_name
 
-                yield score_property_name, getattr(score_class, internal_name)
+                yield score_property_name, getattr(score_object, internal_name)
 
         score_values = dict()
 
-        for score_name, score_class in self._get_all_scores():
+        for score_name, score_object in self._get_all_scores():
             try:
-                score_values[score_name] = getattr(score_class, 'value')
+                score_values[score_name] = getattr(score_object, 'value')
             except AttributeError:
-                if not isinstance(score_class, SUPPORTED_SCORES_WITHOUT_VALUE_PROPERTY):
-                    warnings.warn(f'Score "{str(score_class.__class__)}" is not supported')
+                if not isinstance(score_object, SUPPORTED_SCORES_WITHOUT_VALUE_PROPERTY):
+                    warnings.warn(f'Score "{str(score_object.__class__)}" is not supported')
                     continue
 
                 for score_property_name, value in get_score_properties_and_values(
-                        score_name, score_class):
+                        score_name, score_object):
 
                     score_values[score_property_name] = value
 
         return score_values
 
     def _fit(self, dataset_trainable, num_iterations):
-        for _ in range(num_iterations):
+        for cur_iter in range(num_iterations):
             self._model.fit_offline(batch_vectorizer=dataset_trainable,
                                     num_collection_passes=1)
 
@@ -137,7 +153,11 @@ class TopicModel(BaseModel):
                 except AttributeError:  # TODO: means no "call" attribute?
                     raise AttributeError(f'Score {name} doesn\'t have a desired attribute')
 
-        self._reset_score_caches()
+            # TODO: think about performance issues
+            for callback_agent in self.callbacks:
+                callback_agent.invoke(self, cur_iter)
+
+            self._reset_score_caches()
 
     def get_jsonable_from_parameters(self):
         """
@@ -216,9 +236,13 @@ class TopicModel(BaseModel):
         self._model.dump_artm_model(model_itself_save_path)
         self.save_parameters(model_save_path)
 
-        for score_name, score_class in self.custom_scores.items():
+        for score_name, score_object in self.custom_scores.items():
             save_path = os.path.join(model_save_path, score_name + '.p')
-            pickle.dump(score_class, open(save_path, 'wb'))
+            pickle.dump(score_object, open(save_path, 'wb'))
+
+        for i, agent in enumerate(self.callbacks):
+            save_path = os.path.join(model_save_path, f"callback_{i}.pkl")
+            pickle.dump(agent, open(save_path, 'wb'))
 
     @staticmethod
     def load(path, experiment=None):
@@ -236,30 +260,30 @@ class TopicModel(BaseModel):
         TopicModel
 
         """
-        from ..experiment import Experiment, START
 
         if "model" in os.listdir(f"{path}"):
             model = artm.load_artm_model(f"{path}/model")
         else:
             model = None
             print("There is no dumped model. You should train it again.")
-        params = json.load(open(f"{path}/params.json", "r"))  # TODO: add property with such name?
+        params = json.load(open(f"{path}/params.json", "r"))
         topic_model = TopicModel(model, **params)
-
-        crunch_resolve = experiment or topic_model.model_id == START
-        if crunch_resolve:
-            topic_model.experiment = experiment
-        elif params["experiment_id"] is not None:
-            experiment_path = path[:path.rfind(topic_model.model_id)]
-            if params["experiment_id"] in experiment_path.split('/'):
-                topic_model.experiment = Experiment.load(experiment_path)
+        topic_model.experiment = experiment
 
         custom_scores = {}
         for score_path in glob.glob(os.path.join(path, '*.p')):
             score_name = os.path.basename(score_path).split('.')[0]
             custom_scores[score_name] = pickle.load(open(score_path, 'rb'))
-
         topic_model.custom_scores = custom_scores
+
+        all_agents = glob.glob(os.path.join(path, 'callback*.pkl'))
+        topic_model.callbacks = [None for _ in enumerate(all_agents)]
+        for agent_path in all_agents:
+            filename = os.path.basename(agent_path).split('.')[0]
+            original_index = int(filename.partition("_")[2])
+            topic_model.callbacks[original_index] = pickle.load(open(agent_path, 'rb'))
+
+        topic_model._reset_score_caches()
         return topic_model
 
     def clone(self, model_id=None):
@@ -284,6 +308,7 @@ class TopicModel(BaseModel):
                                  experiment=self.experiment)
         topic_model._score_functions = deepcopy(topic_model.score_functions)
         topic_model._scores = deepcopy(topic_model.scores)
+        topic_model.callbacks = deepcopy(self.callbacks)
 
         return topic_model
 
@@ -311,6 +336,8 @@ class TopicModel(BaseModel):
         """
         if ARTM_NINE:
             phi_parts_array = []
+            if isinstance(class_ids, str):
+                class_ids = [class_ids]
             class_ids_iter = class_ids or self._model.class_ids
             # TODO: this workaround seems to be a correct solution to this problem
             if not class_ids_iter:
@@ -547,3 +574,17 @@ class TopicModel(BaseModel):
     def class_ids(self):
         """ """
         return self._model.class_ids
+
+    def describe_scores(self):
+        data = []
+        for score_name, score in self.scores.items():
+            data.append([self.model_id, score_name, score[-1]])
+        result = pd.DataFrame(columns=["model_id", "score_name", "last_value"], data=data)
+        return result.set_index(["model_id", "score_name"])
+
+    def describe_regularizers(self):
+        data = []
+        for reg_name, reg in self.regularizers._data.items():
+            data.append([self.model_id, reg_name, reg.tau, reg.gamma])
+        result = pd.DataFrame(columns=["model_id", "regularizer_name", "tau", "gamma"], data=data)
+        return result.set_index(["model_id", "regularizer_name"])

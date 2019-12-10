@@ -78,8 +78,9 @@ def test_initial_save_load(two_experiment_enviroments):
     tm_1, experiment_1, tm_2, experiment_2, dataset, dictionary = two_experiment_enviroments
 
     experiment_1.set_criteria(0, 'test_criteria')
-    experiment_1.save('tests/experiments/test_1')
-    experiment = Experiment.load('tests/experiments/test_1')
+    experiment_1.save_path = 'tests/experiments/test'
+    experiment_1.save()
+    experiment = Experiment.load('tests/experiments/test/test_1')
     tm_id = START
     tm_load = experiment.models[tm_id]
     tm_save = experiment_1.models[tm_id]
@@ -93,8 +94,9 @@ def test_simple_experiment(two_experiment_enviroments):
     """ """
     tm_1, experiment_1, tm_2, experiment_2, dataset, dictionary = two_experiment_enviroments
 
-    experiment_1.save('tests/experiments/test_1')
-    experiment = Experiment.load('tests/experiments/test_1')
+    experiment_1.save_path = 'tests/experiments/test'
+    experiment_1.save()
+    experiment = Experiment.load('tests/experiments/test/test_1')
     tm_id = START
     tm = experiment.models[tm_id]
 
@@ -108,19 +110,19 @@ def test_simple_experiment(two_experiment_enviroments):
     cube = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
-        relative_coefficients=False,
+        use_relative_coefficients=False,
         reg_search="grid"
     )
 
     cube_2 = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
-        relative_coefficients=False,
+        use_relative_coefficients=False,
         reg_search="grid"
     )
 
-    tmodels = cube(tm, dataset)
-    tmodels_2 = cube_2(tm_2, dataset)
+    tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
+    tmodels_2 = [dummy.restore() for dummy in cube_2(tm_2, dataset)]
 
     assert len(tmodels) == len(tmodels_2)
     assert cube.strategy.score == cube_2.strategy.score
@@ -145,24 +147,25 @@ def test_double_steps_experiment(two_experiment_enviroments):
     cube_first_1 = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
-        relative_coefficients=False,
+        use_relative_coefficients=False,
         reg_search="grid"
     )
 
     cube_first_2 = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
-        relative_coefficients=False,
+        use_relative_coefficients=False,
         reg_search="grid"
     )
 
-    tmodels_lvl2_1 = cube_first_1(tm_1, dataset)
-    tmodels_lvl2_2 = cube_first_2(tm_2, dataset)
+    tmodels_lvl2_1 = [dummy.restore() for dummy in cube_first_1(tm_1, dataset)]
+    tmodels_lvl2_2 = [dummy.restore() for dummy in cube_first_2(tm_2, dataset)]
 
-    experiment_1.save('tests/experiments/test_1')
+    experiment_1.save_path = 'tests/experiments/test'
+    experiment_1.save()
     experiment = Experiment.load('tests/experiments/test_1')
-    print('original experiment ', experiment_1.models.keys())
-    print('loaded experiment ', experiment.models.keys())
+    print('original experiment ', experiment_1.models.items())
+    print('loaded experiment ', experiment.models.items())
     tmodels_lvl2 = experiment.get_models_by_depth(2)
 
     TAU_GRID_LVL2 = [0.1, 0.5, 1]
@@ -175,19 +178,19 @@ def test_double_steps_experiment(two_experiment_enviroments):
     cube_second = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
-        relative_coefficients=False,
+        use_relative_coefficients=False,
         reg_search="grid"
     )
 
     cube_second_2 = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
-        relative_coefficients=False,
+        use_relative_coefficients=False,
         reg_search="grid"
     )
 
-    tmodels_lvl3 = cube_second(tmodels_lvl2[0], dataset)
-    tmodels_lvl3_2 = cube_second_2(tmodels_lvl2_2[0], dataset)
+    tmodels_lvl3 = [dummy.restore() for dummy in cube_second(tmodels_lvl2[0], dataset)]
+    tmodels_lvl3_2 = [dummy.restore() for dummy in cube_second_2(tmodels_lvl2_2[0], dataset)]
 
     assert len(tmodels_lvl3) == len(tmodels_lvl3_2)
     assert cube_second.strategy.score == cube_second_2.strategy.score
@@ -217,7 +220,7 @@ def test_describe(two_experiment_enviroments):
     cube_first = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
-        relative_coefficients=False,
+        use_relative_coefficients=False,
         reg_search="grid"
     )
 
@@ -229,7 +232,7 @@ def test_describe(two_experiment_enviroments):
     cube_second = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
-        relative_coefficients=False,
+        use_relative_coefficients=False,
         reg_search="grid"
     )
 

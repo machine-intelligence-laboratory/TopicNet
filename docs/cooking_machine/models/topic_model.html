@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.3" />
+<title>topicnet.cooking_machine.models.topic_model API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>topicnet.cooking_machine.models.topic_model</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="topicnet.cooking_machine.models.topic_model.EmptyScore"><code class="flex name class">
+<span>class <span class="ident">EmptyScore</span></span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel"><code class="flex name class">
+<span>class <span class="ident">TopicModel</span></span>
+<span>(</span><span>artm_model=None, model_id=None, parent_model_id=None, data_path=None, description=None, experiment=None, callbacks=[], depth=0, scores={}, custom_scores={}, custom_regularizers={}, *args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Topic Model contains artm model and all necessary information: scores, training pipeline, etc.</p>
+<p>Initialize stage, also used for loading previously saved experiments.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>artm_model</code></strong> :&ensp;<code>artm</code> <code>model</code> or <code>None</code></dt>
+<dd>model to use, None if you want to create model (Default value = None)</dd>
+<dt><strong><code>model_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>model id (Default value = None)</dd>
+<dt><strong><code>parent_model_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>model id from which current model was created (Default value = None)</dd>
+<dt><strong><code>data_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the data (Default value = None)</dd>
+<dt><strong><code>description</code></strong> :&ensp;<code>list</code> of <code>dict</code></dt>
+<dd>description of the model (Default value = None)</dd>
+<dt><strong><code>experiment</code></strong> :&ensp;<code>Experiment</code></dt>
+<dd>the experiment to which the model is bound (Default value = None)</dd>
+<dt><strong><code>callbacks</code></strong> :&ensp;<code>list</code> of <code>objects</code> <code>with</code> <code>invoke</code>() <code>method</code></dt>
+<dd>function called inside _fit which alters model parameters
+mainly used for fancy regularizer coefficients manipulation</dd>
+<dt><strong><code>custom_scores</code></strong> :&ensp;<code>dict</code></dt>
+<dd>dictionary with score names as keys and score classes as functions
+(score class with functionality like those of BaseScore)</dd>
+<dt><strong><code>custom_regularizers</code></strong> :&ensp;<code>dict</code></dt>
+<dd>dictionary with regularizer names as keys and regularizer classes as values</dd>
+</dl></section>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="topicnet.cooking_machine.models.base_model.BaseModel" href="base_model.html#topicnet.cooking_machine.models.base_model.BaseModel">BaseModel</a></li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="topicnet.cooking_machine.models.dummy_topic_model.DummyTopicModel" href="dummy_topic_model.html#topicnet.cooking_machine.models.dummy_topic_model.DummyTopicModel">DummyTopicModel</a></li>
+<li><a title="topicnet.tests.test_experiment_select.MockTopicModel" href="../../tests/test_experiment_select.html#topicnet.tests.test_experiment_select.MockTopicModel">MockTopicModel</a></li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.load"><code class="name flex">
+<span>def <span class="ident">load</span></span>(<span>path, experiment=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Loads the model.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>path</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the model's folder</dd>
+<dt><strong><code>experiment</code></strong> :&ensp;<code>Experiment</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><a title="topicnet.cooking_machine.models.topic_model.TopicModel" href="#topicnet.cooking_machine.models.topic_model.TopicModel"><code>TopicModel</code></a></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.all_regularizers"><code class="name">var <span class="ident">all_regularizers</span></code></dt>
+<dd>
+<section class="desc"><p>Gets all regularizers with custom regularizers.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>regularizers_dict</code></strong> :&ensp;<code>dict</code></dt>
+<dd>dict with artm.regularizer and BaseRegularizer instances</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.class_ids"><code class="name">var <span class="ident">class_ids</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.description"><code class="name">var <span class="ident">description</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.regularizers"><code class="name">var <span class="ident">regularizers</span></code></dt>
+<dd>
+<section class="desc"><p>Gets regularizers from model.</p></section>
+</dd>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.scores"><code class="name">var <span class="ident">scores</span></code></dt>
+<dd>
+<section class="desc"><p>Gets score values by name.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>score_values</code></strong> :&ensp;<code>dict</code> : <code>string</code> -&gt; <code>list</code></dt>
+<dd>dictionary with scores and corresponding values</dd>
+</dl></section>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.clone"><code class="name flex">
+<span>def <span class="ident">clone</span></span>(<span>self, model_id=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Creates a copy of the model except model_id.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>model_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>(Default value = None)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><a title="topicnet.cooking_machine.models.topic_model.TopicModel" href="#topicnet.cooking_machine.models.topic_model.TopicModel"><code>TopicModel</code></a></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.describe_regularizers"><code class="name flex">
+<span>def <span class="ident">describe_regularizers</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.describe_scores"><code class="name flex">
+<span>def <span class="ident">describe_scores</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.get_init_parameters"><code class="name flex">
+<span>def <span class="ident">get_init_parameters</span></span>(<span>self, not_include=[])</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.get_jsonable_from_parameters"><code class="name flex">
+<span>def <span class="ident">get_jsonable_from_parameters</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Gets artm model params.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>artm model parameters</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.get_phi"><code class="name flex">
+<span>def <span class="ident">get_phi</span></span>(<span>self, topic_names=None, class_ids=None, model_name=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Gets custom Phi matrix of model.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>topic_names</code></strong> :&ensp;<code>list</code> of <code>str</code> or <code>str</code></dt>
+<dd>list with topics or single topic to extract,
+None value means all topics (Default value = None)</dd>
+<dt><strong><code>class_ids</code></strong> :&ensp;<code>list</code> of <code>str</code> or <code>str</code></dt>
+<dd>list with class_ids or single class_id to extract,
+None means all class ids (Default value = None)</dd>
+<dt><strong><code>model_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>self.model.model_pwt by default, self.model.model_nwt is also
+reasonable to extract unnormalized counters</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame</code></dt>
+<dd>phi matrix</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.get_phi_dense"><code class="name flex">
+<span>def <span class="ident">get_phi_dense</span></span>(<span>self, topic_names=None, class_ids=None, model_name=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Gets custom Phi matrix of model.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>topic_names</code></strong> :&ensp;<code>list</code> of <code>str</code> or <code>str</code></dt>
+<dd>list with topics or single topic to extract,
+None value means all topics (Default value = None)</dd>
+<dt><strong><code>class_ids</code></strong> :&ensp;<code>list</code> of <code>str</code> or <code>str</code></dt>
+<dd>list with class_ids or single class_id to extract,
+None means all class ids (Default value = None)</dd>
+<dt><strong><code>model_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>self.model.model_pwt by default, self.model.model_nwt is also
+reasonable to extract unnormalized counters</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>3</code>-<code>tuple</code></dt>
+<dd>dense phi matrix</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.get_phi_sparse"><code class="name flex">
+<span>def <span class="ident">get_phi_sparse</span></span>(<span>self, topic_names=None, class_ids=None, model_name=None, eps=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Gets custom Phi matrix of model as sparse scipy matrix.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>topic_names</code></strong> :&ensp;<code>list</code> of <code>str</code> or <code>str</code></dt>
+<dd>list with topics or single topic to extract,
+None value means all topics (Default value = None)</dd>
+<dt><strong><code>class_ids</code></strong> :&ensp;<code>list</code> of <code>str</code> or <code>str</code></dt>
+<dd>list with class_ids or single class_id to extract,
+None means all class ids (Default value = None)</dd>
+<dt><strong><code>model_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>self.model.model_pwt by default, self.model.model_nwt is also
+reasonable to extract unnormalized counters</dd>
+<dt><strong><code>eps</code></strong> :&ensp;<code>float</code></dt>
+<dd>threshold to consider values as zero (Default value = None)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>3</code>-<code>tuple</code></dt>
+<dd>sparse phi matrix</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.get_theta"><code class="name flex">
+<span>def <span class="ident">get_theta</span></span>(<span>self, topic_names=None, dataset=None, theta_matrix_type='dense_theta', predict_class_id=None, sparse=False, eps=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Gets Theta matrix as pandas DataFrame
+or sparse scipy matrix.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>topic_names</code></strong> :&ensp;<code>list</code> of <code>str</code> or <code>str</code></dt>
+<dd>list with topics or single topic to extract,
+None value means all topics (Default value = None)</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dd>an instance of Dataset class (Default value = None)</dd>
+<dt><strong><code>theta_matrix_type</code></strong> :&ensp;<code>str</code></dt>
+<dd>type of matrix to be returned, possible values:
+‘dense_theta’, ‘dense_ptdw’, ‘cache’, None (Default value = ’dense_theta’)</dd>
+<dt><strong><code>predict_class_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>class_id of a target modality to predict. When this option
+is enabled the resulting columns of theta matrix will
+correspond to unique labels of a target modality. The values
+will represent p(c|d), which give the probability of class
+label c for document d (Default value = None)</dd>
+<dt><strong><code>sparse</code></strong> :&ensp;<code>bool</code></dt>
+<dd>if method returns sparse representation of the data (Default value = False)</dd>
+<dt><strong><code>eps</code></strong> :&ensp;<code>float</code></dt>
+<dd>threshold to consider values as zero. Required for sparse matrix.
+depends on the collection (Default value = None)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame</code></dt>
+<dd>theta matrix</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.make_dummy"><code class="name flex">
+<span>def <span class="ident">make_dummy</span></span>(<span>self, save_to_drive=True, save_path=None, dataset=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Makes topic model dummy in-place</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>save_to_drive</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Whether to save model to drive or not. If not, the info will be lost</dd>
+<dt><strong><code>save_path</code></strong> :&ensp;<code>str</code> (or <code>None</code>)</dt>
+<dd>Path to folder to dump info to</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dd>Dataset with text collection on which the model was trained.
+Needed for saving Theta matrix</dd>
+</dl>
+<h2 id="notes">Notes</h2>
+<p>After calling the method, the model is still of type TopicModel,
+but all its attributes are now like DummyTopicModel's</p></section>
+</dd>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.save"><code class="name flex">
+<span>def <span class="ident">save</span></span>(<span>self, model_save_path=None, phi=True, theta=False, dataset=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Saves model description and dumps artm model.
+Use this method if you want to dump the model.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>model_save_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the folder with dumped info about model</dd>
+<dt><strong><code>phi</code></strong> :&ensp;<code>bool</code></dt>
+<dd>save phi in csv format if True</dd>
+<dt><strong><code>theta</code></strong> :&ensp;<code>bool</code></dt>
+<dd>save theta in csv format if True</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dd>dataset</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.save_custom_regularizers"><code class="name flex">
+<span>def <span class="ident">save_custom_regularizers</span></span>(<span>self, model_save_path=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.to_dummy"><code class="name flex">
+<span>def <span class="ident">to_dummy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Creates dummy model</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>DummyTopicModel</code></dt>
+<dd>Dummy model: without inner ARTM model,
+but with scores and init parameters of calling TopicModel</dd>
+</dl>
+<h2 id="notes">Notes</h2>
+<p>Dummy model has the same model_id as the original model,
+but "model_id" key in experiment.models contains original model, not dummy</p></section>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="topicnet.cooking_machine.models.base_model.BaseModel" href="base_model.html#topicnet.cooking_machine.models.base_model.BaseModel">BaseModel</a></b></code>:
+<ul class="hlist">
+<li><code><a title="topicnet.cooking_machine.models.base_model.BaseModel.add_cube" href="base_model.html#topicnet.cooking_machine.models.base_model.BaseModel.add_cube">add_cube</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.base_model.BaseModel.depth" href="base_model.html#topicnet.cooking_machine.models.base_model.BaseModel.depth">depth</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.base_model.BaseModel.get_parameters" href="base_model.html#topicnet.cooking_machine.models.base_model.BaseModel.get_parameters">get_parameters</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.base_model.BaseModel.save_parameters" href="base_model.html#topicnet.cooking_machine.models.base_model.BaseModel.save_parameters">save_parameters</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="topicnet.cooking_machine.models" href="index.html">topicnet.cooking_machine.models</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="topicnet.cooking_machine.models.topic_model.EmptyScore" href="#topicnet.cooking_machine.models.topic_model.EmptyScore">EmptyScore</a></code></h4>
+</li>
+<li>
+<h4><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel" href="#topicnet.cooking_machine.models.topic_model.TopicModel">TopicModel</a></code></h4>
+<ul class="">
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.all_regularizers" href="#topicnet.cooking_machine.models.topic_model.TopicModel.all_regularizers">all_regularizers</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.class_ids" href="#topicnet.cooking_machine.models.topic_model.TopicModel.class_ids">class_ids</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.clone" href="#topicnet.cooking_machine.models.topic_model.TopicModel.clone">clone</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.describe_regularizers" href="#topicnet.cooking_machine.models.topic_model.TopicModel.describe_regularizers">describe_regularizers</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.describe_scores" href="#topicnet.cooking_machine.models.topic_model.TopicModel.describe_scores">describe_scores</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.description" href="#topicnet.cooking_machine.models.topic_model.TopicModel.description">description</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.get_init_parameters" href="#topicnet.cooking_machine.models.topic_model.TopicModel.get_init_parameters">get_init_parameters</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.get_jsonable_from_parameters" href="#topicnet.cooking_machine.models.topic_model.TopicModel.get_jsonable_from_parameters">get_jsonable_from_parameters</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.get_phi" href="#topicnet.cooking_machine.models.topic_model.TopicModel.get_phi">get_phi</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.get_phi_dense" href="#topicnet.cooking_machine.models.topic_model.TopicModel.get_phi_dense">get_phi_dense</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.get_phi_sparse" href="#topicnet.cooking_machine.models.topic_model.TopicModel.get_phi_sparse">get_phi_sparse</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.get_theta" href="#topicnet.cooking_machine.models.topic_model.TopicModel.get_theta">get_theta</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.load" href="#topicnet.cooking_machine.models.topic_model.TopicModel.load">load</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.make_dummy" href="#topicnet.cooking_machine.models.topic_model.TopicModel.make_dummy">make_dummy</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.regularizers" href="#topicnet.cooking_machine.models.topic_model.TopicModel.regularizers">regularizers</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.save" href="#topicnet.cooking_machine.models.topic_model.TopicModel.save">save</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.save_custom_regularizers" href="#topicnet.cooking_machine.models.topic_model.TopicModel.save_custom_regularizers">save_custom_regularizers</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.scores" href="#topicnet.cooking_machine.models.topic_model.TopicModel.scores">scores</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.to_dummy" href="#topicnet.cooking_machine.models.topic_model.TopicModel.to_dummy">to_dummy</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+</footer>
+</body>
+</html>

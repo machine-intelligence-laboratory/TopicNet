@@ -24,12 +24,14 @@ class DummyTopicModel(TopicModel):
     _dummy_attribute = '_is_dummy'
 
     def __init__(self,
-                 init_parameters,
                  scores,
+                 init_parameters=None,
                  model_id=None,
                  parent_model_id=None,
                  description=None,
-                 experiment=None):
+                 experiment=None,
+                 *args,
+                 **kwargs):
         """
         Notes
         -----
@@ -41,24 +43,30 @@ class DummyTopicModel(TopicModel):
             model_id=model_id,
             parent_model_id=parent_model_id,
             description=description,
-            experiment=experiment
+            experiment=experiment,
+            **kwargs,
         )
 
         self._model.dispose()
+        self._save_folder_path = None
         self._model = _DummyArtmModel(self._save_folder_path)
-
         self._init_parameters = init_parameters
+
         self._scores = scores
 
         setattr(self, DummyTopicModel._dummy_attribute, True)
-
-        self._save_folder_path = None
 
         self._original_model_save_folder_path = None
 
     def __getattr__(self, name):
         # Don't redirect the stuff to artm_model (as TopicModel does)
+        if name in self._init_parameters:
+            return self._init_parameters[name]
         raise AttributeError(f'Dummy model has no attribute "{name}"')
+
+    def get_init_parameters(self, not_include=None):
+        """"""
+        return self._init_parameters
 
     @property
     def model_default_save_path(self):
@@ -80,10 +88,6 @@ class DummyTopicModel(TopicModel):
         """"""
         return self._model.class_ids
 
-    def get_init_parameters(self, not_include=None):
-        """"""
-        return self._init_parameters
-
     def save(self, model_save_path=None, **kwargs):
         """"""
         # kwargs - for compatibility with super()'s method
@@ -101,24 +105,14 @@ class DummyTopicModel(TopicModel):
     @staticmethod
     def load(path, experiment=None):
         """"""
-        # TODO: again a bit copy-paste from TopicModel's method
-        from ..experiment import Experiment
-
         params = json.load(open(f'{path}/params.json', 'r'))
         model = DummyTopicModel(**params)
-
-        if experiment:
-            model.experiment = experiment
-
-        elif params['experiment_id'] is not None:
-            experiment_path = path[:path.rfind(model.model_id)]
-
-            if params['experiment_id'] in experiment_path.split('/'):
-                model.experiment = Experiment.load(experiment_path)
+        model.experiment = experiment
+        model._original_model_save_folder_path = path
 
         return model
 
-    def restore(self, in_experiment=True, dataset: Dataset = None):
+    def restore(self, dataset: Dataset = None):
         """Restores dummy to original TopicModel
 
         Tries to load the data from drive (if model was saved).
@@ -126,9 +120,6 @@ class DummyTopicModel(TopicModel):
 
         Parameters
         ----------
-        in_experiment : bool
-            Whether to place the restored model in experiment.models by key "model_id".
-            If false, dummy remains in experiment.models
         dataset : Dataset
             Dataset on which the model was trained.
             If the original model was saved to drive, the parameter won't be used.
@@ -149,9 +140,6 @@ class DummyTopicModel(TopicModel):
 
         if topic_model is None:
             topic_model = self._train_to_original_model(dataset)
-
-        if in_experiment:
-            topic_model.experiment.models[self.model_id] = topic_model
 
         return topic_model
 

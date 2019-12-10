@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.3" />
+<title>topicnet.tests.test_experiment_select API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>topicnet.tests.test_experiment_select</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="topicnet.tests.test_experiment_select.combine_constraints"><code class="name flex">
+<span>def <span class="ident">combine_constraints</span></span>(<span>*constraints, connector='and', symbol_before=' ', symbol_after=' ')</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.format_init_parameter"><code class="name flex">
+<span>def <span class="ident">format_init_parameter</span></span>(<span>init_parameter)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.format_score"><code class="name flex">
+<span>def <span class="ident">format_score</span></span>(<span>score)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.get_models"><code class="name flex">
+<span>def <span class="ident">get_models</span></span>(<span>scores=None, init_parameters=None, score_range=None, init_parameters_range=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.get_models_with_one_init_parameter"><code class="name flex">
+<span>def <span class="ident">get_models_with_one_init_parameter</span></span>(<span>init_parameter=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.get_models_with_one_score"><code class="name flex">
+<span>def <span class="ident">get_models_with_one_score</span></span>(<span>score=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.get_models_with_two_scores_two_init_parameters"><code class="name flex">
+<span>def <span class="ident">get_models_with_two_scores_two_init_parameters</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="topicnet.tests.test_experiment_select.MockTopicModel"><code class="flex name class">
+<span>class <span class="ident">MockTopicModel</span></span>
+<span>(</span><span>name, depth=1)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Topic Model contains artm model and all necessary information: scores, training pipeline, etc.</p>
+<p>Initialize stage, also used for loading previously saved experiments.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>artm_model</code></strong> :&ensp;<code>artm</code> <code>model</code> or <code>None</code></dt>
+<dd>model to use, None if you want to create model (Default value = None)</dd>
+<dt><strong><code>model_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>model id (Default value = None)</dd>
+<dt><strong><code>parent_model_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>model id from which current model was created (Default value = None)</dd>
+<dt><strong><code>data_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the data (Default value = None)</dd>
+<dt><strong><code>description</code></strong> :&ensp;<code>list</code> of <code>dict</code></dt>
+<dd>description of the model (Default value = None)</dd>
+<dt><strong><code>experiment</code></strong> :&ensp;<code>Experiment</code></dt>
+<dd>the experiment to which the model is bound (Default value = None)</dd>
+<dt><strong><code>callbacks</code></strong> :&ensp;<code>list</code> of <code>objects</code> <code>with</code> <code>invoke</code>() <code>method</code></dt>
+<dd>function called inside _fit which alters model parameters
+mainly used for fancy regularizer coefficients manipulation</dd>
+<dt><strong><code>custom_scores</code></strong> :&ensp;<code>dict</code></dt>
+<dd>dictionary with score names as keys and score classes as functions
+(score class with functionality like those of BaseScore)</dd>
+</dl></section>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="topicnet.cooking_machine.models.topic_model.TopicModel" href="../cooking_machine/models/topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel">TopicModel</a></li>
+<li><a title="topicnet.cooking_machine.models.base_model.BaseModel" href="../cooking_machine/models/base_model.html#topicnet.cooking_machine.models.base_model.BaseModel">BaseModel</a></li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="topicnet.tests.test_experiment_select.MockTopicModel.generate_specified_models"><code class="name flex">
+<span>def <span class="ident">generate_specified_models</span></span>(<span>scores_ranges=None, init_parameters_ranges=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.MockTopicModel.get_start_model"><code class="name flex">
+<span>def <span class="ident">get_start_model</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="topicnet.tests.test_experiment_select.MockTopicModel.init_parameters"><code class="name">var <span class="ident">init_parameters</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.MockTopicModel.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="topicnet.tests.test_experiment_select.MockTopicModel.get_init_parameters"><code class="name flex">
+<span>def <span class="ident">get_init_parameters</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.MockTopicModel.set_init_parameter"><code class="name flex">
+<span>def <span class="ident">set_init_parameter</span></span>(<span>self, name, value)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.MockTopicModel.set_score"><code class="name flex">
+<span>def <span class="ident">set_score</span></span>(<span>self, name, values)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="topicnet.cooking_machine.models.topic_model.TopicModel" href="../cooking_machine/models/topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel">TopicModel</a></b></code>:
+<ul class="hlist">
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.add_cube" href="../cooking_machine/models/base_model.html#topicnet.cooking_machine.models.base_model.BaseModel.add_cube">add_cube</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.clone" href="../cooking_machine/models/topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel.clone">clone</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.depth" href="../cooking_machine/models/base_model.html#topicnet.cooking_machine.models.base_model.BaseModel.depth">depth</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.get_jsonable_from_parameters" href="../cooking_machine/models/topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel.get_jsonable_from_parameters">get_jsonable_from_parameters</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.get_parameters" href="../cooking_machine/models/base_model.html#topicnet.cooking_machine.models.base_model.BaseModel.get_parameters">get_parameters</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.get_phi" href="../cooking_machine/models/topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel.get_phi">get_phi</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.get_phi_dense" href="../cooking_machine/models/topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel.get_phi_dense">get_phi_dense</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.get_phi_sparse" href="../cooking_machine/models/topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel.get_phi_sparse">get_phi_sparse</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.get_theta" href="../cooking_machine/models/topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel.get_theta">get_theta</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.load" href="../cooking_machine/models/topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel.load">load</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.make_dummy" href="../cooking_machine/models/topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel.make_dummy">make_dummy</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.save" href="../cooking_machine/models/topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel.save">save</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.save_parameters" href="../cooking_machine/models/base_model.html#topicnet.cooking_machine.models.base_model.BaseModel.save_parameters">save_parameters</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.scores" href="../cooking_machine/models/topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel.scores">scores</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.to_dummy" href="../cooking_machine/models/topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel.to_dummy">to_dummy</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect"><code class="flex name class">
+<span>class <span class="ident">TestExperimentSelect</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<h3>Class variables</h3>
+<dl>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.current_experiment_id"><code class="name">var <span class="ident">current_experiment_id</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.experiments_folder"><code class="name">var <span class="ident">experiments_folder</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.query_sample"><code class="name">var <span class="ident">query_sample</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.get_experiment"><code class="name flex">
+<span>def <span class="ident">get_experiment</span></span>(<span>with_models=True)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.get_filter_for_init_parameter"><code class="name flex">
+<span>def <span class="ident">get_filter_for_init_parameter</span></span>(<span>query, parameter, threshold)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.get_filter_for_score"><code class="name flex">
+<span>def <span class="ident">get_filter_for_score</span></span>(<span>query, score, threshold, models)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.set_models"><code class="name flex">
+<span>def <span class="ident">set_models</span></span>(<span>experiment, models)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.setup_class"><code class="name flex">
+<span>def <span class="ident">setup_class</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.teardown_class"><code class="name flex">
+<span>def <span class="ident">teardown_class</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_blank_query"><code class="name flex">
+<span>def <span class="ident">test_blank_query</span></span>(<span>self, with_models)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_change_order"><code class="name flex">
+<span>def <span class="ident">test_change_order</span></span>(<span>self, constraints)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_constrained_optimization"><code class="name flex">
+<span>def <span class="ident">test_constrained_optimization</span></span>(<span>self, score, threshold, constraint_template, optimization_template)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_constraints_on_same_attribute"><code class="name flex">
+<span>def <span class="ident">test_constraints_on_same_attribute</span></span>(<span>self, parameter, soft_constraint_template, hard_constraint_template)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_constraints_on_same_attribute_contradict"><code class="name flex">
+<span>def <span class="ident">test_constraints_on_same_attribute_contradict</span></span>(<span>self, parameter, threshold, signs)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_default_level"><code class="name flex">
+<span>def <span class="ident">test_default_level</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_default_num_models"><code class="name flex">
+<span>def <span class="ident">test_default_num_models</span></span>(<span>self, score, init_parameter, score_threshold, init_parameter_threshold)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_duplicate_constraint"><code class="name flex">
+<span>def <span class="ident">test_duplicate_constraint</span></span>(<span>self, constraint)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_duplicate_constraint_after_another"><code class="name flex">
+<span>def <span class="ident">test_duplicate_constraint_after_another</span></span>(<span>self, constraint_to_duplicate, constraint_other)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_empty_level"><code class="name flex">
+<span>def <span class="ident">test_empty_level</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_error_optimizations_contradict"><code class="name flex">
+<span>def <span class="ident">test_error_optimizations_contradict</span></span>(<span>self, score)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_invalid_level_with_models"><code class="name flex">
+<span>def <span class="ident">test_invalid_level_with_models</span></span>(<span>self, level)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_invalid_level_without_models"><code class="name flex">
+<span>def <span class="ident">test_invalid_level_without_models</span></span>(<span>self, level)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_invalid_num_models_with_models"><code class="name flex">
+<span>def <span class="ident">test_invalid_num_models_with_models</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_not_a_number"><code class="name flex">
+<span>def <span class="ident">test_not_a_number</span></span>(<span>self, query_template, not_a_number)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_num_and_models"><code class="name flex">
+<span>def <span class="ident">test_num_and_models</span></span>(<span>self, query_template, init_parameter, threshold_satisfying_all, num_models)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_num_models"><code class="name flex">
+<span>def <span class="ident">test_num_models</span></span>(<span>self, num_models, total_num_models, difference_with_num_satisfying, score, target_value, other_value, query_template)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_blank_start_model_by_defined_init_parameter"><code class="name flex">
+<span>def <span class="ident">test_select_blank_start_model_by_defined_init_parameter</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_blank_start_model_by_score"><code class="name flex">
+<span>def <span class="ident">test_select_blank_start_model_by_score</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_blank_start_model_by_undefined_init_parameter"><code class="name flex">
+<span>def <span class="ident">test_select_blank_start_model_by_undefined_init_parameter</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_by_init_parameters"><code class="name flex">
+<span>def <span class="ident">test_select_by_init_parameters</span></span>(<span>self, constraint_a_template, constraint_b_template, init_parameter_a, threshold_a, init_parameter_b, threshold_b)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_by_parameter"><code class="name flex">
+<span>def <span class="ident">test_select_by_parameter</span></span>(<span>self, init_parameter, threshold, query_template, get_models_func)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_by_score"><code class="name flex">
+<span>def <span class="ident">test_select_by_score</span></span>(<span>self, score, threshold, query_template, get_models_func)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_by_score_and_init_parameter"><code class="name flex">
+<span>def <span class="ident">test_select_by_score_and_init_parameter</span></span>(<span>self, constraint_score_template, constraint_init_parameter_template, score, threshold_score, init_parameter, threshold_init_parameter)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_by_scores"><code class="name flex">
+<span>def <span class="ident">test_select_by_scores</span></span>(<span>self, constraint_a_template, constraint_b_template, score_a, threshold_a, score_b, threshold_b)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_several_times"><code class="name flex">
+<span>def <span class="ident">test_select_several_times</span></span>(<span>self, query)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_two_optimizations"><code class="name flex">
+<span>def <span class="ident">test_two_optimizations</span></span>(<span>self, constraint_a_template, constraint_b_template, score_a, score_b)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_unknown_init_parameter"><code class="name flex">
+<span>def <span class="ident">test_unknown_init_parameter</span></span>(<span>self, query_template, get_models_func)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_unknown_score"><code class="name flex">
+<span>def <span class="ident">test_unknown_score</span></span>(<span>self, query_template, get_models_func)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_warning_constraints_contradict"><code class="name flex">
+<span>def <span class="ident">test_warning_constraints_contradict</span></span>(<span>self, parameter, opposite_constraints)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_warning_fewer_than_requested"><code class="name flex">
+<span>def <span class="ident">test_warning_fewer_than_requested</span></span>(<span>self, query_satisfying_all)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_whitespace"><code class="name flex">
+<span>def <span class="ident">test_whitespace</span></span>(<span>self, score, threshold)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_arrow"><code class="name flex">
+<span>def <span class="ident">test_wrong_arrow</span></span>(<span>self, query_template, wrong_arrow)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_case_in_constraints_connector"><code class="name flex">
+<span>def <span class="ident">test_wrong_case_in_constraints_connector</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_case_in_max_min"><code class="name flex">
+<span>def <span class="ident">test_wrong_case_in_max_min</span></span>(<span>self, max_min)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_case_in_parameter"><code class="name flex">
+<span>def <span class="ident">test_wrong_case_in_parameter</span></span>(<span>self, init_parameter)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_case_in_score"><code class="name flex">
+<span>def <span class="ident">test_wrong_case_in_score</span></span>(<span>self, score)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_comparison_sign"><code class="name flex">
+<span>def <span class="ident">test_wrong_comparison_sign</span></span>(<span>self, query_template, wrong_sign)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_constraints_connector"><code class="name flex">
+<span>def <span class="ident">test_wrong_constraints_connector</span></span>(<span>self, constraint_a, constraint_b, wrong_connector)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_max_min"><code class="name flex">
+<span>def <span class="ident">test_wrong_max_min</span></span>(<span>self, query_template, wrong_max_min)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_num_models"><code class="name flex">
+<span>def <span class="ident">test_wrong_num_models</span></span>(<span>self, with_models)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_parameter_prefix"><code class="name flex">
+<span>def <span class="ident">test_wrong_parameter_prefix</span></span>(<span>self, init_parameter, threshold, wrong_prefix)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.tests.test_experiment_select.TestExperimentSelect.test_zero_num_models"><code class="name flex">
+<span>def <span class="ident">test_zero_num_models</span></span>(<span>self, with_models)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="topicnet.tests" href="index.html">topicnet.tests</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="topicnet.tests.test_experiment_select.combine_constraints" href="#topicnet.tests.test_experiment_select.combine_constraints">combine_constraints</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.format_init_parameter" href="#topicnet.tests.test_experiment_select.format_init_parameter">format_init_parameter</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.format_score" href="#topicnet.tests.test_experiment_select.format_score">format_score</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.get_models" href="#topicnet.tests.test_experiment_select.get_models">get_models</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.get_models_with_one_init_parameter" href="#topicnet.tests.test_experiment_select.get_models_with_one_init_parameter">get_models_with_one_init_parameter</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.get_models_with_one_score" href="#topicnet.tests.test_experiment_select.get_models_with_one_score">get_models_with_one_score</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.get_models_with_two_scores_two_init_parameters" href="#topicnet.tests.test_experiment_select.get_models_with_two_scores_two_init_parameters">get_models_with_two_scores_two_init_parameters</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="topicnet.tests.test_experiment_select.MockTopicModel" href="#topicnet.tests.test_experiment_select.MockTopicModel">MockTopicModel</a></code></h4>
+<ul class="">
+<li><code><a title="topicnet.tests.test_experiment_select.MockTopicModel.generate_specified_models" href="#topicnet.tests.test_experiment_select.MockTopicModel.generate_specified_models">generate_specified_models</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.MockTopicModel.get_init_parameters" href="#topicnet.tests.test_experiment_select.MockTopicModel.get_init_parameters">get_init_parameters</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.MockTopicModel.get_start_model" href="#topicnet.tests.test_experiment_select.MockTopicModel.get_start_model">get_start_model</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.MockTopicModel.init_parameters" href="#topicnet.tests.test_experiment_select.MockTopicModel.init_parameters">init_parameters</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.MockTopicModel.name" href="#topicnet.tests.test_experiment_select.MockTopicModel.name">name</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.MockTopicModel.set_init_parameter" href="#topicnet.tests.test_experiment_select.MockTopicModel.set_init_parameter">set_init_parameter</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.MockTopicModel.set_score" href="#topicnet.tests.test_experiment_select.MockTopicModel.set_score">set_score</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect" href="#topicnet.tests.test_experiment_select.TestExperimentSelect">TestExperimentSelect</a></code></h4>
+<ul class="">
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.current_experiment_id" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.current_experiment_id">current_experiment_id</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.experiments_folder" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.experiments_folder">experiments_folder</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.get_experiment" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.get_experiment">get_experiment</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.get_filter_for_init_parameter" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.get_filter_for_init_parameter">get_filter_for_init_parameter</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.get_filter_for_score" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.get_filter_for_score">get_filter_for_score</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.query_sample" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.query_sample">query_sample</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.set_models" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.set_models">set_models</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.setup_class" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.setup_class">setup_class</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.teardown_class" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.teardown_class">teardown_class</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_blank_query" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_blank_query">test_blank_query</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_change_order" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_change_order">test_change_order</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_constrained_optimization" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_constrained_optimization">test_constrained_optimization</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_constraints_on_same_attribute" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_constraints_on_same_attribute">test_constraints_on_same_attribute</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_constraints_on_same_attribute_contradict" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_constraints_on_same_attribute_contradict">test_constraints_on_same_attribute_contradict</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_default_level" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_default_level">test_default_level</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_default_num_models" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_default_num_models">test_default_num_models</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_duplicate_constraint" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_duplicate_constraint">test_duplicate_constraint</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_duplicate_constraint_after_another" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_duplicate_constraint_after_another">test_duplicate_constraint_after_another</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_empty_level" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_empty_level">test_empty_level</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_error_optimizations_contradict" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_error_optimizations_contradict">test_error_optimizations_contradict</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_invalid_level_with_models" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_invalid_level_with_models">test_invalid_level_with_models</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_invalid_level_without_models" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_invalid_level_without_models">test_invalid_level_without_models</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_invalid_num_models_with_models" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_invalid_num_models_with_models">test_invalid_num_models_with_models</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_not_a_number" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_not_a_number">test_not_a_number</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_num_and_models" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_num_and_models">test_num_and_models</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_num_models" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_num_models">test_num_models</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_blank_start_model_by_defined_init_parameter" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_blank_start_model_by_defined_init_parameter">test_select_blank_start_model_by_defined_init_parameter</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_blank_start_model_by_score" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_blank_start_model_by_score">test_select_blank_start_model_by_score</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_blank_start_model_by_undefined_init_parameter" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_blank_start_model_by_undefined_init_parameter">test_select_blank_start_model_by_undefined_init_parameter</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_by_init_parameters" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_by_init_parameters">test_select_by_init_parameters</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_by_parameter" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_by_parameter">test_select_by_parameter</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_by_score" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_by_score">test_select_by_score</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_by_score_and_init_parameter" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_by_score_and_init_parameter">test_select_by_score_and_init_parameter</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_by_scores" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_by_scores">test_select_by_scores</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_several_times" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_select_several_times">test_select_several_times</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_two_optimizations" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_two_optimizations">test_two_optimizations</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_unknown_init_parameter" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_unknown_init_parameter">test_unknown_init_parameter</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_unknown_score" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_unknown_score">test_unknown_score</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_warning_constraints_contradict" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_warning_constraints_contradict">test_warning_constraints_contradict</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_warning_fewer_than_requested" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_warning_fewer_than_requested">test_warning_fewer_than_requested</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_whitespace" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_whitespace">test_whitespace</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_arrow" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_arrow">test_wrong_arrow</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_case_in_constraints_connector" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_case_in_constraints_connector">test_wrong_case_in_constraints_connector</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_case_in_max_min" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_case_in_max_min">test_wrong_case_in_max_min</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_case_in_parameter" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_case_in_parameter">test_wrong_case_in_parameter</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_case_in_score" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_case_in_score">test_wrong_case_in_score</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_comparison_sign" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_comparison_sign">test_wrong_comparison_sign</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_constraints_connector" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_constraints_connector">test_wrong_constraints_connector</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_max_min" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_max_min">test_wrong_max_min</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_num_models" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_num_models">test_wrong_num_models</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_parameter_prefix" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_wrong_parameter_prefix">test_wrong_parameter_prefix</a></code></li>
+<li><code><a title="topicnet.tests.test_experiment_select.TestExperimentSelect.test_zero_num_models" href="#topicnet.tests.test_experiment_select.TestExperimentSelect.test_zero_num_models">test_zero_num_models</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+</footer>
+</body>
+</html>

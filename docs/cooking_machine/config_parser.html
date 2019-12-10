@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.3" />
+<title>topicnet.cooking_machine.config_parser API documentation</title>
+<meta name="description" content="Parsing text file into Experiment instance using strictyaml
+(github.com/crdoconnor/strictyaml/) …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>topicnet.cooking_machine.config_parser</code></h1>
+</header>
+<section id="section-intro">
+<p>Parsing text file into Experiment instance using strictyaml
+(github.com/crdoconnor/strictyaml/)</p>
+<p>The aim here is to make config:
+* possible to use even for non-programmers
+* hard to misuse
+* easy debuggable</p>
+<p>Hence, the process of parsing config is a bit more complicated than
+it could be, but it produces more useful error messages. For example:</p>
+<pre><code>File $YOUR_CONFIG.yaml, line 42
+    topic_names: 10
+    ^ this value should be a 'list' instead of 'int'
+YAMLValidationError: 'int' passed instead of 'list'
+</code></pre>
+<p>instead of:</p>
+<pre><code>File $SOME_FILE.py, line 666, in $SOME_FUNCTION
+    for topic_name in topic_names:
+TypeError: 'int' object is not iterable
+</code></pre>
+<p>To achieve this, strictyaml makes use of various validators which
+keep track of individual line numbers and which fragments are already
+checked and which aren't quite here yet.</p>
+<p>Our process consists of three stages:
+1) we check the high-level structure using <code>base_schema</code>.
+The presence of each required key is ensured.
+After this stage we could be sure than we can create a valid model
+using specified parameters.</p>
+<p>2) we make a second pass and revalidate 'regularizers' and 'stages'
+This step is performed semi-automatically: using <code>inspect</code>,
+we extract everything from <code>__init__</code> method signature.
+For example:
+def <strong>init</strong>(self, num_iters: int = 5)
+allows us to infer that num_iters parameter should be int,
+but it isn't strictly required.</p>
+<p>3) we construct instances of classes required, convert types manually
+and implement some shortcuts.
+Ideally, this stage should be performed using revalidate() as well,
+but it's a work-in-progress currently.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="topicnet.cooking_machine.config_parser.build_cube_settings"><code class="name flex">
+<span>def <span class="ident">build_cube_settings</span></span>(<span>elemtype, elem_args)</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>elemtype</code></strong> :&ensp;<code>str</code></dt>
+<dd>name of regularizer</dd>
+<dt><strong><code>elem_args</code></strong> :&ensp;<code>strictyaml.YAML</code> <code>object</code></dt>
+<dd>(contains dict inside)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code> of <code>dict</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.config_parser.build_experiment_environment_from_yaml_config"><code class="name flex">
+<span>def <span class="ident">build_experiment_environment_from_yaml_config</span></span>(<span>yaml_string, experiment_id, save_path, force_single_thread=False)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.cooking_machine.config_parser.build_regularizer"><code class="name flex">
+<span>def <span class="ident">build_regularizer</span></span>(<span>elemtype, elem_args, specific_topic_names, background_topic_names)</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>elemtype</code></strong> :&ensp;<code>str</code></dt>
+<dd>name of regularizer</dd>
+<dt><strong><code>elem_args</code></strong> :&ensp;<code>dict</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>parsed</code></strong> :&ensp;<code>strictyaml.YAML</code> <code>object</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>instance</code> of <code>artm.Regularizer</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.config_parser.build_schema_for_cubes"><code class="name flex">
+<span>def <span class="ident">build_schema_for_cubes</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>each element is str -&gt; strictyaml.Map
+where key is name of cube,
+value is a schema used for validation and type-coercion</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.config_parser.build_schema_for_regs"><code class="name flex">
+<span>def <span class="ident">build_schema_for_regs</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="returns">Returns</h2>
+<dl>
+<dt><code>strictyaml.Map</code></dt>
+<dd>schema used for validation and type-coercion</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.config_parser.build_schema_for_scores"><code class="name flex">
+<span>def <span class="ident">build_schema_for_scores</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="returns">Returns</h2>
+<dl>
+<dt><code>strictyaml.Map</code></dt>
+<dd>schema used for validation and type-coercion</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.config_parser.build_schema_from_signature"><code class="name flex">
+<span>def <span class="ident">build_schema_from_signature</span></span>(<span>class_of_object, use_optional=True)</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>class_of_object</code></strong> :&ensp;<code>class</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>each element is either str -&gt; Validator or Optional(str) -&gt; Validator</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.config_parser.build_score"><code class="name flex">
+<span>def <span class="ident">build_score</span></span>(<span>elemtype, elem_args, is_artm_score)</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>elemtype</code></strong> :&ensp;<code>str</code></dt>
+<dd>name of score</dd>
+<dt><strong><code>elem_args</code></strong> :&ensp;<code>dict</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>is_artm_score</code></strong> :&ensp;<code>bool</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>instance</code> of <code>artm.Score</code> or <code>topicnet.BaseScore</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.config_parser.choose_key"><code class="name flex">
+<span>def <span class="ident">choose_key</span></span>(<span>param)</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>param</code></strong> :&ensp;<code>inspect.Parameter</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code> or <code>strictyaml.Optional</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.config_parser.choose_validator"><code class="name flex">
+<span>def <span class="ident">choose_validator</span></span>(<span>param)</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>param</code></strong> :&ensp;<code>inspect.Parameter</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>instance</code> of <code>strictyaml.Validator</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.config_parser.handle_special_cases"><code class="name flex">
+<span>def <span class="ident">handle_special_cases</span></span>(<span>elem_args, kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>In-place fixes kwargs, handling special cases and shortcuts
+(only strategy for now)
+Parameters</p>
+<hr>
+<dl>
+<dt><strong><code>elem_args</code></strong> :&ensp;<code>dict</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>kwargs</code></strong> :&ensp;<code>dict</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.config_parser.is_key_in_schema"><code class="name flex">
+<span>def <span class="ident">is_key_in_schema</span></span>(<span>key, schema)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="topicnet.cooking_machine.config_parser.parse"><code class="name flex">
+<span>def <span class="ident">parse</span></span>(<span>yaml_string, force_single_thread=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>yaml_string</code></strong> :&ensp;<code>str</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>force_single_thread</code></strong> :&ensp;<code>bool</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>cube_settings</code></strong> :&ensp;<code>list</code> of <code>dict</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>regularizers</code></strong> :&ensp;<code>list</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>topic_model</code></strong> :&ensp;<code>TopicModel</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.config_parser.preprocess_parameters_for_cube_creator"><code class="name flex">
+<span>def <span class="ident">preprocess_parameters_for_cube_creator</span></span>(<span>elem_args)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This function does two things:
+1) convert class_ids from
+name: class_ids@text, values: [0, 1, 2, 3]
+to
+name: class_ids, values: {"@text": [0, 1, 2, 3]}
+2) type conversion for "values" field.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>elem_args</code></strong> :&ensp;<code>strictyaml.YAML</code> <code>object</code></dt>
+<dd>(contains dict inside)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>new_elem_args</code></strong> :&ensp;<code>dict</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.config_parser.revalidate_section"><code class="name flex">
+<span>def <span class="ident">revalidate_section</span></span>(<span>parsed, section)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Perofrms in-place type coercion and validation</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>parsed</code></strong> :&ensp;<code>strictyaml.YAML</code> <code>object</code></dt>
+<dd>(half-parsed, half-validated chunk of config)</dd>
+<dt><strong><code>section</code></strong> :&ensp;<code>str</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+<dt id="topicnet.cooking_machine.config_parser.wrap_in_map"><code class="name flex">
+<span>def <span class="ident">wrap_in_map</span></span>(<span>dictionary)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="topicnet.cooking_machine" href="index.html">topicnet.cooking_machine</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="topicnet.cooking_machine.config_parser.build_cube_settings" href="#topicnet.cooking_machine.config_parser.build_cube_settings">build_cube_settings</a></code></li>
+<li><code><a title="topicnet.cooking_machine.config_parser.build_experiment_environment_from_yaml_config" href="#topicnet.cooking_machine.config_parser.build_experiment_environment_from_yaml_config">build_experiment_environment_from_yaml_config</a></code></li>
+<li><code><a title="topicnet.cooking_machine.config_parser.build_regularizer" href="#topicnet.cooking_machine.config_parser.build_regularizer">build_regularizer</a></code></li>
+<li><code><a title="topicnet.cooking_machine.config_parser.build_schema_for_cubes" href="#topicnet.cooking_machine.config_parser.build_schema_for_cubes">build_schema_for_cubes</a></code></li>
+<li><code><a title="topicnet.cooking_machine.config_parser.build_schema_for_regs" href="#topicnet.cooking_machine.config_parser.build_schema_for_regs">build_schema_for_regs</a></code></li>
+<li><code><a title="topicnet.cooking_machine.config_parser.build_schema_for_scores" href="#topicnet.cooking_machine.config_parser.build_schema_for_scores">build_schema_for_scores</a></code></li>
+<li><code><a title="topicnet.cooking_machine.config_parser.build_schema_from_signature" href="#topicnet.cooking_machine.config_parser.build_schema_from_signature">build_schema_from_signature</a></code></li>
+<li><code><a title="topicnet.cooking_machine.config_parser.build_score" href="#topicnet.cooking_machine.config_parser.build_score">build_score</a></code></li>
+<li><code><a title="topicnet.cooking_machine.config_parser.choose_key" href="#topicnet.cooking_machine.config_parser.choose_key">choose_key</a></code></li>
+<li><code><a title="topicnet.cooking_machine.config_parser.choose_validator" href="#topicnet.cooking_machine.config_parser.choose_validator">choose_validator</a></code></li>
+<li><code><a title="topicnet.cooking_machine.config_parser.handle_special_cases" href="#topicnet.cooking_machine.config_parser.handle_special_cases">handle_special_cases</a></code></li>
+<li><code><a title="topicnet.cooking_machine.config_parser.is_key_in_schema" href="#topicnet.cooking_machine.config_parser.is_key_in_schema">is_key_in_schema</a></code></li>
+<li><code><a title="topicnet.cooking_machine.config_parser.parse" href="#topicnet.cooking_machine.config_parser.parse">parse</a></code></li>
+<li><code><a title="topicnet.cooking_machine.config_parser.preprocess_parameters_for_cube_creator" href="#topicnet.cooking_machine.config_parser.preprocess_parameters_for_cube_creator">preprocess_parameters_for_cube_creator</a></code></li>
+<li><code><a title="topicnet.cooking_machine.config_parser.revalidate_section" href="#topicnet.cooking_machine.config_parser.revalidate_section">revalidate_section</a></code></li>
+<li><code><a title="topicnet.cooking_machine.config_parser.wrap_in_map" href="#topicnet.cooking_machine.config_parser.wrap_in_map">wrap_in_map</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+</footer>
+</body>
+</html>

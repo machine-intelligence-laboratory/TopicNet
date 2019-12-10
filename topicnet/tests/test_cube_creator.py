@@ -1,12 +1,11 @@
 import pytest
 import warnings
-
 import os
 import shutil
-from time import sleep
 
 import artm
 
+from time import sleep
 from ..cooking_machine.cubes import RegularizersModifierCube, CubeCreator
 from ..cooking_machine.models.topic_model import TopicModel
 from ..cooking_machine.models.example_score import ScoreExample
@@ -23,15 +22,11 @@ def resource_teardown():
 
 
 def setup_function():
-    sleep(1)
     resource_teardown()
-    sleep(1)
 
 
 def teardown_function():
-    sleep(1)
     resource_teardown()
-    sleep(1)
 
 
 # to run all test
@@ -55,7 +50,6 @@ def experiment_enviroment(request):
     tm = TopicModel(model_artm, model_id='new_id', custom_scores={'example_score': ex_score})
     # experiment starts without model
     experiment = Experiment(tm, experiment_id="test", save_path="tests/experiments")
-
     return tm, dataset, experiment, dictionary
 
 
@@ -77,15 +71,21 @@ def test_simple_experiment(experiment_enviroment):
     cube = CubeCreator(
         num_iter=10,
         parameters=parameters,
-        reg_search="grid"
+        reg_search="grid",
+        separate_thread=False,
     )
-
-    tmodels = cube(experiment.root, dataset)
+    dummies = cube(experiment.root, dataset)
+    tmodels = [dummy.restore() for dummy in dummies]
     right_parameters = [(2, 1), (2, 3), (2, 5), (3, 1), (3, 3), (3, 5),
                         (4, 1), (4, 3), (4, 5)]
     assert len(tmodels) == 9
 
     for i, one_model in enumerate(tmodels):
+        assert len(one_model.scores.keys()) == 4, 'Some scores are missing'
+        assert 'PerplexityScore' in one_model.scores.keys(), 'PerplexityScore is missing'
+        assert 'SparsityPhiScore' in one_model.scores.keys(), 'SparsityPhiScore is missing'
+        assert 'SparsityThetaScore' in one_model.scores.keys(), 'SparsityThetaScore is missing'
+        assert 'example_score' in one_model.scores.keys(), 'example_score is missing'
         assert one_model._model.num_topics == right_parameters[i][0]
         assert one_model._model.num_document_passes == right_parameters[i][1]
         assert len(one_model.scores['PerplexityScore']) > 0, 'Smth wrong with scores'
@@ -113,10 +113,12 @@ def test_two_cubes_experiment(experiment_enviroment):
     cube = CubeCreator(
         num_iter=10,
         parameters=parameters,
-        reg_search="grid"
+        reg_search="grid",
+        separate_thread=False,
     )
 
-    tmodels = cube(experiment.root, dataset)
+    dummies = cube(experiment.root, dataset)
+    tmodels = [dummy.restore() for dummy in dummies]
 
     TAU_GRID = [0.1, 0.5, 1, 5, 10]
     regularizer_parameters = {
@@ -129,10 +131,11 @@ def test_two_cubes_experiment(experiment_enviroment):
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         reg_search="grid",
-        relative_coefficients=False,
+        use_relative_coefficients=False,
+        separate_thread=False,
     )
-
-    tmodels = cube(tmodels[2], dataset)
+    dummies = cube(tmodels[2], dataset)
+    tmodels = [dummy.restore() for dummy in dummies]
 
     assert len(tmodels) == 5
 
@@ -144,11 +147,16 @@ def test_two_cubes_experiment(experiment_enviroment):
     assert len(experiment.models) == 15
 
 
-@pytest.mark.xfail
-def test_three_cubes_hier_model(experiment_enviroment):
+sleep(1)
+
+
+# @pytest.mark.xfail
+@pytest.mark.parametrize('thread_flag', [True, False])
+def test_three_cubes_hier_model(experiment_enviroment, thread_flag):
     """ """
     # experiment with two levels: first one is CubeCreator,
     # second one is RegularizersModifierCube, third one is CubeCreator for hier model
+
     tm, dataset, experiment, dictionary = experiment_enviroment
 
     parameters = [{
@@ -165,10 +173,12 @@ def test_three_cubes_hier_model(experiment_enviroment):
     cube = CubeCreator(
         num_iter=10,
         parameters=parameters,
-        reg_search="grid"
+        reg_search="grid",
+        separate_thread=thread_flag,
     )
 
-    tmodels_first_level = cube(experiment.root, dataset)
+    dummies = cube(experiment.root, dataset)
+    tmodels_first_level = [dummy.restore() for dummy in dummies]
 
     TAU_GRID = [0.1, 0.5, 1, 5, 10]
     regularizer_parameters = {
@@ -180,11 +190,13 @@ def test_three_cubes_hier_model(experiment_enviroment):
     cube = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
-        relative_coefficients=False,
-        reg_search="grid"
+        use_relative_coefficients=False,
+        reg_search="grid",
+        separate_thread=thread_flag,
     )
 
-    tmodels_second_level = cube(tmodels_first_level[2], dataset)
+    dummies = cube(tmodels_first_level[2], dataset)
+    tmodels_second_level = [dummy.restore() for dummy in dummies]
 
     parameters = [{
             'name': 'num_topics',
@@ -199,15 +211,16 @@ def test_three_cubes_hier_model(experiment_enviroment):
         num_iter=10,
         second_level=True,
         parameters=parameters,
-        reg_search="grid"
+        reg_search="grid",
+        separate_thread=thread_flag,
     )
 
-    tmodels_third_level = cube(tmodels_second_level[3], dataset)
-    parent_test_id = str(tmodels_second_level[3]._model.master.__dict__['master_id'])
+    dummies = cube(tmodels_second_level[3], dataset)
+    tmodels_third_level = [dummy.restore() for dummy in dummies]
 
     for model in tmodels_third_level:
-        model_config = str(model._model.master.__dict__['_config'])
-        assert parent_test_id in model_config, 'Smth went wrong.'
+        # TODO: Failing SparsityPhiScore
+        print(model.scores)
         assert len(model.scores['PerplexityScore']) > 0, 'Smth wrong with scores'
         assert len(model.scores['SparsityPhiScore']) > 0, 'Smth wrong with scores'
         assert len(model.scores['SparsityThetaScore']) > 0, 'Smth wrong with scores'
@@ -226,7 +239,8 @@ def test_scores_are_different_after_cube(experiment_enviroment):
     cube = CubeCreator(
         num_iter=10,
         parameters=parameters,
-        reg_search="grid"
+        reg_search="grid",
+        separate_thread=False,
     )
 
     def check_scores(tmodels):
@@ -241,7 +255,8 @@ def test_scores_are_different_after_cube(experiment_enviroment):
                     tmodels[j]._model.score_tracker['PerplexityScore']
                 ), 'ARTM score object (PerplexityScore) is the same for different models.'
 
-    tmodels = cube(experiment.root, dataset)
+    dummies = cube(experiment.root, dataset)
+    tmodels = [dummy.restore() for dummy in dummies]
     check_scores(tmodels)
 
     TAU_GRID = [0.1, 1, 10]
@@ -254,9 +269,11 @@ def test_scores_are_different_after_cube(experiment_enviroment):
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         reg_search="grid",
-        relative_coefficients=False,
-        verbose=True
+        use_relative_coefficients=False,
+        verbose=True,
+        separate_thread=False,
     )
 
-    tmodels = cube(tmodels[1], dataset)
+    dummies = cube(tmodels[1], dataset)
+    tmodels = [dummy.restore() for dummy in dummies]
     check_scores(tmodels)

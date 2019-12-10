@@ -11,9 +11,9 @@ class CubeCreator(BaseCube):
     """
     DEFAULT_SEED_VALUE = 4
 
-    def __init__(self, num_iter: int, parameters, reg_search, strategy=None,
+    def __init__(self, num_iter: int, parameters, reg_search="grid", strategy=None,
                  model_class='TopicModel', second_level=False,
-                 tracked_score_function=None, verbose=False):
+                 tracked_score_function=None, verbose=False, separate_thread=True):
         """
 
         Parameters
@@ -34,6 +34,8 @@ class CubeCreator(BaseCube):
             optimizable function for strategy (Default value = None)
         verbose : bool
             visualization flag (Default value = False)
+        separate_thread : bool
+            will train models inside a separate thread if True
 
         """
         import topicnet.cooking_machine.models as tnmodels
@@ -44,7 +46,7 @@ class CubeCreator(BaseCube):
             action = 'INIT + TRAIN'
         super().__init__(num_iter=num_iter, action=action, strategy=strategy,
                          tracked_score_function=tracked_score_function,
-                         reg_search=reg_search, verbose=verbose)
+                         reg_search=reg_search, verbose=verbose, separate_thread=separate_thread)
 
         if isinstance(parameters, dict):
             parameters = [parameters]
@@ -215,7 +217,6 @@ class CubeCreator(BaseCube):
             parent_model_id = experiment.tree.tree['model_id']
             description = None
 
-        new_model_parameters['scores'] = list(topic_model._model._scores._data.values())
         new_model_parameters['dictionary'] = dictionary
         new_model = model_class(
             experiment=experiment,
@@ -225,6 +226,8 @@ class CubeCreator(BaseCube):
             custom_scores=deepcopy(topic_model.custom_scores),
             **new_model_parameters
         )
-        for reg_name, reg in topic_model.regularizers.data.items():
-            new_model.regularizers.add(deepcopy(reg))
+        for reg_name, reg in topic_model._model.regularizers.data.items():
+            new_model._model.regularizers.add(deepcopy(reg))
+        for score_name, score in topic_model._model._scores.data.items():
+            new_model._model.scores.add(deepcopy(score))
         return new_model

@@ -1,21 +1,38 @@
-# TopicNet 
+# TopicNet
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/TopicNet)
+![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/machine-intelligence-laboratory/TopicNet)
+![GitHub issues](https://img.shields.io/github/issues/machine-intelligence-laboratory/TopicNet)
+![PyPI - License](https://img.shields.io/pypi/l/TopicNet?color=Black)
+
+
 [Русская версия](README-rus.md)
 
 ---
 ### What is TopicNet?
-```topicnet```  library was created to assist in the task of building topic models. It aims at automating model training routine freeing more time for artistic process of constructing a target functional for the task at hand.
-### How does it work?
-The work starts with defining ```TopicModel``` from an ARTM model at hand or with help from ```model_constructor``` module. This model is then assigned a root position for the ```Experiment``` that will provide infrastructure for the model building process. Further, the user can define a set of training stages by the functionality provided by the ```cooking_machine.cubes``` modules and observe results of their actions via ```viewers``` module.
-### Who will use this repo?
-This repo is intended to be used by people that want to explore BigARTM functionality without writing an essential overhead for model training pipelines and information retrieval. It might be helpful for the experienced users to help with rapid solution prototyping
+TopicNet is a high-level interface running on top of [BigARTM](https://github.com/bigartm/bigartm) developed in [Machine Intelligence Laboratory](https://mipt.ai/en). 
+
+```TopicNet```  library was created to assist in the task of building topic models. It aims at automating model training routine freeing more time for artistic process of constructing a target functional for the task at hand.
+
+Consider using TopicNet if:
+
+* you want to explore BigARTM functionality without writing an overhead.
+* you need help with rapid solution prototyping.
+* you want to build a good topic model quickly (out-of-box, with default parameters).
+* you have an ARTM model at hand and you want to explore it's topics.
+
+```TopicNet``` provides an infrastructure for your prototyping (```Experiment``` class) and helps to observe results of your actions via ```viewers``` module.
+
+![GitHub contributors](https://img.shields.io/github/contributors/machine-intelligence-laboratory/TopicNet)
+![GitHub last commit](https://img.shields.io/github/last-commit/machine-intelligence-laboratory/TopicNet)
+### How to start?
+Define `TopicModel` from an ARTM model at hand or with help from `model_constructor` module, where you can set models main parameters. Then create an `Experiment`, assigning a root position to this model and path to store your experiment. Further, you can define a set of training stages by the functionality provided by the `cooking_machine.cubes` module.
+
+Further you can read documentation [here](https://machine-intelligence-laboratory.github.io/TopicNet/). Currently we are in the process of imporving it. 
 
 ---
 ## How to install TopicNet
 **Core library functionality is based on BigARTM library** which requires manual installation.  
-To avoid that you can use [docker images](https://hub.docker.com/r/xtonev/bigartm/tags) with preinstalled BigARTM library in them. 
-
-Alternatively, you can follow [BigARTM installation manual](https://bigartm.readthedocs.io/en/stable/installation/index.html)
-After setting up the environment you can fork this repository or use ```pip install topicnet``` to install the library.  
+To avoid that you can use [docker images](https://hub.docker.com/r/xtonev/bigartm/tags) with preinstalled different versions of BigARTM library in them. 
 
 #### Using docker image
 ```
@@ -29,85 +46,16 @@ import artm
 artm.version()
 ```
 
+Alternatively, you can follow [BigARTM installation manual](https://bigartm.readthedocs.io/en/stable/installation/index.html).
+After setting up the environment you can fork this repository or use ```pip install topicnet``` to install the library.  
+
 ---
 ## How to use TopicNet
 Let's say you have a handful of raw text mined from some source and you want to perform some topic modelling on them. Where should you start? 
 ### Data Preparation
-Every ML problem starts with data preprocess step. TopicNet does not perform data preprocessing itself. Instead, it demands data being prepared by the user and loaded via [Dataset (no link yet)]() class.
-Here is a basic example of how one can achieve that:
-```
-import nltk
-import artm
-import string
+Every ML problem starts with data preprocess step. TopicNet does not perform data preprocessing itself. Instead, it demands data being prepared by the user and loaded via [Dataset class.](topicnet/cooking_machine/dataset.py)
+Here is a basic example of how one can achieve that: [rtl_wiki_preprocessing](topicnet/demos/RTL-WIKI-PREPROCESSING.ipynb).
 
-import pandas as pd
-from glob import glob
-
-WIKI_DATA_PATH = '/Wiki_raw_set/raw_plaintexts/'
-files = glob(WIKI_DATA_PATH+'*.txt')
-```
-Loading all texts from files and leaving only alphabetical characters and spaces:
-```
-right_symbols = string.ascii_letters + ' '
-data = []
-for path in files:
-    entry = {}
-    entry['id'] = path.split('/')[-1].split('.')[0]
-    with open(path,'r') as f:
-        text = ''.join([char for char in f.read() if char in right_symbols])
-        entry['raw_text'] = ''.join(text.split('\n'))
-    data.append(entry)
-wiki_texts = pd.DataFrame(data)
-```
-#### Perform tokenization:
-```
-tokenized_text = []
-for text in wiki_texts['raw_text'].values:
-    tokenized_text.append(' '.join(nltk.word_tokenize(text)))
-wiki_texts['tokenized'] = tokenized_text
-```
-#### Perform lemmatization:
-```
-from nltk.stem import WordNetLemmatizer
-lemmatized_text = []
-wnl = WordNetLemmatizer()
-for text in wiki_texts['raw_text'].values:
-    lemmatized = [wnl.lemmatize(word) for word in text.split()]
-    lemmatized_text.append(lemmatized)
-wiki_texts['lemmatized'] = lemmatized_text
-```
-#### Get bigrams:
-```
-from nltk.collocations import BigramAssocMeasures, BigramCollocationFinder
-
-bigram_measures = BigramAssocMeasures()
-finder = BigramCollocationFinder.from_documents(wiki_texts['lemmatized'])
-finder.apply_freq_filter(5)
-set_dict = set(finder.nbest(bigram_measures.pmi,32100)[100:])
-documents = wiki_texts['lemmatized']
-bigrams = []
-for doc in documents:
-    entry = ['_'.join([word_first, word_second])
-             for word_first, word_second in zip(doc[:-1],doc[1:])
-             if (word_first, word_second) in set_dict]
-    bigrams.append(entry)
-wiki_texts['bigram'] = bigrams
-```
-
-#### Write them all to Vowpal Wabbit format and save result to disk:
-```
-vw_text = []
-for index, data in wiki_texts.iterrows():
-    vw_string = ''    
-    doc_id = data.id
-    lemmatized = '@lemmatized ' + ' '.join(data.lemmatized)
-    bigram = '@bigram ' + ' '.join(data.bigram)
-    vw_string = ' |'.join([doc_id, lemmatized, bigram])
-    vw_text.append(vw_string)
-wiki_texts['vw_text'] = vw_text
-
-wiki_texts[['id','raw_text', 'vw_text']].to_csv('/Wiki_raw_set/wiki_data.csv')
-```
 ### Training topic model
 Here we can finally get on the main part: making your own, best of them all, manually crafted Topic Model
 #### Get your data
@@ -121,11 +69,11 @@ In case you want to start from a fresh model we suggest you use this code:
 from topicnet.cooking_machine.model_constructor import init_simple_default_model
 
 model_artm = init_simple_default_model(
-    dataset=demo_data,
+    dataset=data,
     modalities_to_use={'@lemmatized': 1.0, '@bigram':0.5},
     main_modality='@lemmatized',
-    n_specific_topics=14,
-    n_background_topics=1,
+    specific_topics=14,
+    background_topics=1,
 )
 ```
 Note that here we have model with two modalities: `'@lemmatized'` and `'@bigram'`.  
@@ -133,7 +81,7 @@ Further, if needed, one can define a custom score to be calculated during the mo
 ```
 from topicnet.cooking_machine.models.base_score import BaseScore
 
-class ThatCustomScore(BaseScore):
+class CustomScore(BaseScore):
     def __init__(self):
         super().__init__()
 
@@ -148,22 +96,23 @@ Now, `TopicModel` with custom score can be defined:
 ```
 from topicnet.cooking_machine.models.topic_model import TopicModel
 
-custom_score_dict = {'SpecificSparsity': ThatCustomScore()}
+custom_score_dict = {'SpecificSparsity': CustomScore()}
 tm = TopicModel(model_artm, model_id='Groot', custom_scores=custom_score_dict)
 ```
 #### Define experiment
+For further model training and tuning `Experiment` is necessary:
 ```
 from topicnet.cooking_machine.experiment import Experiment
 experiment = Experiment(experiment_id="simple_experiment", save_path="experiments", topic_model=tm)
 ```
 #### Toy with the cubes
-Defining a next stage of the model training:
+Defining a next stage of the model training to select a decorrelator parameter:
 ```
 from topicnet.cooking_machine.cubes import RegularizersModifierCube
 
 my_first_cube = RegularizersModifierCube(
     num_iter=5,
-    tracked_score_function=retrieve_score_for_strategy('PerplexityScore@lemmatized'),
+    tracked_score_function='PerplexityScore@lemmatized',
     regularizer_parameters={
         'regularizer': artm.DecorrelatorPhiRegularizer(name='decorrelation_phi', tau=1),
         'tau_grid': [0,1,2,3,4,5],
@@ -191,7 +140,7 @@ for line in first_model_html:
 ---
 ## FAQ
 
-#### In the example we used to write vw modality like **@modality** is it a VowpallWabbit format?
+#### In the example we used to write vw modality like **@modality**, is it a VowpallWabbit format?
 
 It is a convention to write data designating modalities with @ sign taken by TopicNet from BigARTM.
 
@@ -199,18 +148,31 @@ It is a convention to write data designating modalities with @ sign taken by Top
 
 Modality search space can be defined using standart library logic like:
 ```
-name: 'class_ids',
-values: {
-'@text': [1, 2, 3],
-'@ngrams': [4, 5, 6],
-},
+class_ids_cube = CubeCreator(
+    num_iter=5,
+    parameters: [
+        name: 'class_ids',
+        values: {
+        '@text': [1, 2, 3],
+        '@ngrams': [4, 5, 6],
+        },
+    ]
+    reg_search='grid',
+    verbose=True
+)
+
 ```
 However for the case of modalities a couple of slightly more convenient methods are availiable:
 
 ```
-[{'name': 'class_ids@text', 'values': [1, 2, 3]},
-{'name': 'class_ids@ngrams', 'values': [4, 5, 6]}]
-{'class_ids@text': [1, 2, 3],
-'class_ids@ngrams': [4, 5, 6]}
-
+parameters : [
+    {'name': 'class_ids@text', 'values': [1, 2, 3]},
+    {'name': 'class_ids@ngrams', 'values': [4, 5, 6]}
+    ]
+parameters:[
+    {
+    'class_ids@text': [1, 2, 3],
+    'class_ids@ngrams': [4, 5, 6]
+    }
+]
 ```

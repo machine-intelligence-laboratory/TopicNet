@@ -378,15 +378,20 @@ class IntratextCoherenceScore(BaseScore):
         topic_index = word_topic_relatednesses.columns.get_loc(topic)
         word_topic_indices = np.argmax(word_topic_relatednesses.values, axis=1)
 
-        def get_word_index_in_matrix(word):
-            return word_topic_relatednesses.index.get_loc(word)
+        def get_word_topic_index(word):
+            if word not in word_topic_relatednesses.index:
+                return -1
+            else:
+                return word_topic_indices[
+                    word_topic_relatednesses.index.get_loc(word)
+                ]
 
         index = 0
 
         while index < len(words):
             original_index = index
 
-            if word_topic_indices[get_word_index_in_matrix(words[index])] != topic_index:
+            if get_word_topic_index(words[index]) != topic_index:
                 index += 1
 
                 continue
@@ -401,7 +406,7 @@ class IntratextCoherenceScore(BaseScore):
             index += 1
 
             while index < len(words) and num_out_of_topic_words < self._max_num_out_of_topic_words:
-                if word_topic_indices[get_word_index_in_matrix(words[index])] != topic_index:
+                if get_word_topic_index(words[index]) != topic_index:
                     num_out_of_topic_words += 1
                 else:
                     segment_length += 1
@@ -429,14 +434,19 @@ class IntratextCoherenceScore(BaseScore):
         topic_index = word_topic_relatednesses.columns.get_loc(topic)
         word_topic_indices = np.argmax(word_topic_relatednesses.values, axis=1)
 
-        def get_word_index_in_matrix(word):
-            return word_topic_relatednesses.index.get_loc(word)
+        def get_word_topic_index(word):
+            if word not in word_topic_relatednesses.index:
+                return -1
+            else:
+                return word_topic_indices[
+                    word_topic_relatednesses.index.get_loc(word)
+                ]
 
         def find_next_topic_word(starting_index: int) -> int:
             index = starting_index
 
             while index < len(words) and\
-                    word_topic_indices[get_word_index_in_matrix(words[index])] != topic_index:
+                    get_word_topic_index(words[index]) != topic_index:
                 index += 1
 
             if index == len(words):

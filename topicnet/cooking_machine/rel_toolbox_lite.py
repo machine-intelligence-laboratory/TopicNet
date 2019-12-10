@@ -158,3 +158,48 @@ def modality_weight_rel2abs(tokens_data, weights, default_modality):
         else:
             taus[modality] = 0
     return taus
+
+
+def handle_regularizer(use_relative_coefficients, model, regularizer, data_stats):
+    """
+    Handles the case of various regularizers that
+    contain 'Regularizer' in their name, namely all artm regularizers
+
+    Parameters
+    ----------
+    use_relative_coefficients : bool
+        indicates whether regularizer should be altered
+    model : TopicModel or artm.ARTM
+        to be changed in place
+    regularizer : an instance of Regularizer from artm library
+    data_stats : dict
+        collection-specific data
+
+    Returns
+    -------
+    None
+
+    """
+
+    fallback_options = (AttributeError, TypeError, AssertionError)
+    try:
+        n_topics = len(regularizer.topic_names)
+        assert n_topics > 0
+    except fallback_options:
+        n_topics = len(model.topic_names)
+
+    regularizer_type = str(type(regularizer))
+    if use_relative_coefficients and 'SmoothSparse' in regularizer_type:
+        regularizer = transform_regularizer(
+            data_stats,
+            regularizer,
+            model.class_ids,
+            n_topics,
+        )
+
+    model.regularizers.add(regularizer, overwrite=True)
+    if 'Decorrelator' in regularizer_type:
+        if use_relative_coefficients:
+            model.regularizers[regularizer.name].gamma = 0
+        else:
+            model.regularizers[regularizer.name].gamma = None

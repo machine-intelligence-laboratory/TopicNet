@@ -59,6 +59,46 @@ def init_model(topic_names, seed=None, class_ids=None):
     return model
 
 
+def create_default_topics(specific_topics, background_topics):
+    """
+    Creates list of background topics and specific topics
+
+    Parameters
+    ----------
+    specific_topics : list or int
+    background_topics : list or int
+
+    Returns
+    -------
+    (list, list)
+    """
+    # TODO: what if specific_topics = 4
+    # and background_topics = ["topic_0"] ?
+    if isinstance(specific_topics, list):
+        specific_topic_names = list(specific_topics)
+    else:
+        specific_topics = int(specific_topics)
+        specific_topic_names = [
+            f'topic_{i}'
+            for i in range(specific_topics)
+        ]
+    n_specific_topics = len(specific_topic_names)
+    if isinstance(background_topics, list):
+        background_topic_names = list(background_topics)
+    else:
+        background_topics = int(background_topics)
+        background_topic_names = [
+            f'background_{n_specific_topics + i}'
+            for i in range(background_topics)
+        ]
+    if set(specific_topic_names) & set(background_topic_names):
+        raise ValueError(
+            "Specific topic names and background topic names should be distinct from each other!"
+        )
+
+    return specific_topic_names, background_topic_names
+
+
 def init_simple_default_model(
         dataset, modalities_to_use, main_modality,
         specific_topics, background_topics,
@@ -78,24 +118,9 @@ def init_simple_default_model(
     -------
     model: artm.ARTM() instance
     """
-    if isinstance(specific_topics, list):
-        specific_topic_names = list(specific_topics)
-    else:
-        specific_topics = int(specific_topics)
-        specific_topic_names = [
-            f'topic_{i}'
-            for i in range(specific_topics)
-        ]
-    n_specific_topics = len(specific_topic_names)
-    if isinstance(background_topics, list):
-        background_topic_names = list(background_topics)
-    else:
-        background_topics = int(background_topics)
-        background_topic_names = [
-            f'background_{n_specific_topics + i}'
-            for i in range(background_topics)
-        ]
-    n_background_topics = len(background_topic_names)
+    specific_topic_names, background_topic_names = create_default_topics(
+        specific_topics, background_topics
+    )
     dictionary = dataset.get_dictionary()
 
     baseline_class_ids = {class_id: 1 for class_id in modalities_to_use}
@@ -107,7 +132,7 @@ def init_simple_default_model(
         class_ids=abs_weights,
     )
 
-    if n_background_topics > 0:
+    if len(background_topic_names) > 0:
         model.regularizers.add(
             artm.SmoothSparsePhiRegularizer(
                  name='smooth_phi_bcg',

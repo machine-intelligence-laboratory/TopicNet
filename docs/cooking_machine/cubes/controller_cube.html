@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.3" />
+<title>topicnet.cooking_machine.cubes.controller_cube API documentation</title>
+<meta name="description" content="Allows to add `ControllerAgent` (with unknown parameters) to the model, which enables user to
+change `tau` during the `_fit` method …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>topicnet.cooking_machine.cubes.controller_cube</code></h1>
+</header>
+<section id="section-intro">
+<p>Allows to add <a title="topicnet.cooking_machine.cubes.controller_cube.ControllerAgent" href="#topicnet.cooking_machine.cubes.controller_cube.ControllerAgent"><code>ControllerAgent</code></a> (with unknown parameters) to the model, which enables user to
+change <code>tau</code> during the <code>_fit</code> method.</p>
+<p><code>parameters</code> is a dict with four fields:</p>
+<h2 id="fields">Fields</h2>
+<dl>
+<dt><strong><code>reg_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>The name of regularizer. We want to change the tau coefficient of it during training
+Note that only one of ("reg_name", "regularizer") should be provided</dd>
+<dt><strong><code>regularizer</code></strong> :&ensp;<code>artm.regularizer.Regularizer</code></dt>
+<dd>Regularizer object (if we want to add non-existing regularizer to the model)
+Note that only one of ("reg_name", "regularizer") should be provided</dd>
+<dt><strong><code>score_to_track</code></strong> :&ensp;<code>str</code></dt>
+<dd>
+<p>The name of metric which we will track.
+We assume that if that metric is 'sort of decreasing', then everything is OK
+and we are allowed to change tau coefficient further; otherwise we revert back
+to the last "safe" value and stop</p>
+<p>More formal definition of "sort of decreasing": if we divide a curve into two parts like so:
+#####################################
+#. . . .. . . . ..
+. .. . .
+&hellip; . #
+#%. . .
+. . . .
+.. . . . . .
+. ..#
+#:t . . . . . . . . . . . . . . .
+.#
+# t: . . . . . . . . . . . . . . &hellip;#
+#. %. . . . . . . . . . . . . . .
+.#
+#. :t. . . . . . . . .
+.
+. . . . .#
+#.. ;; . .
+. . . .
+. . . .
+. . ..#
+#
+..t..
+. .
+. . . . . . . . . . .#
+#. . :t .. . . .
+. . . . . . . . ..#
+#. .. t: . . . . . . . . . . . . . .#
+#.
+..S: . . . . . . . . . . . . ..#
+#. . . .:;: . . . . .
+. . . . . . .#
+#. . .
+. :;;
+. . . . . . . . . . .#
+#. . . . .. :%.
+nmmMMmmn
+.
+.#
+# .
+. .
+. .tt%.ztttt"' '""ttttttt#
+#. . .
+. . . '"' . . . . . . . . #
+#####################################
+|
+|
+|
+|
+left part
+|
+|
+global minimum
+|
+|
+right part
+|
+then the right part is no higher than 5% of global minimum
+(you can change 5% if you like by adjusting <code>fraction_threshold</code>
+in <a title="topicnet.cooking_machine.cubes.controller_cube.is_score_out_of_control" href="#topicnet.cooking_machine.cubes.controller_cube.is_score_out_of_control"><code>is_score_out_of_control()</code></a> function)</p>
+<p>If score_to_track is None, then <a title="topicnet.cooking_machine.cubes.controller_cube.ControllerAgent" href="#topicnet.cooking_machine.cubes.controller_cube.ControllerAgent"><code>ControllerAgent</code></a> will never stop
+(useful for e.g. decaying coefficients)</p>
+</dd>
+<dt><strong><code>tau_converter</code></strong> :&ensp;<code>str</code> or <code>callable</code></dt>
+<dd>
+<p>Notably, def-style functions and lambda functions are allowed
+If it is function, then it should accept four arguments:
+(initial_tau, prev_tau, cur_iter, user_value)
+For example:</p>
+<blockquote>
+<blockquote>
+<p>lambda initial_tau, prev_tau, cur_iter, user_value:
+initial_tau if cur_iter % 2 == 0 else 0</p>
+</blockquote>
+</blockquote>
+<pre><code>(Note that experiment description might display lambda functions incorrectly;
+ Try to keep them to a single line or use def-style functions instead)
+</code></pre>
+<blockquote>
+<blockquote>
+<p>def func(initial_tau, prev_tau, cur_iter, user_value):
+relu_grower = user_value * (cur_iter - 8) if cur_iter &gt; 8 else 0
+return 0 if cur_iter % 2 else relu_grower</p>
+</blockquote>
+</blockquote>
+<p>If it is a string, then it should be an expression consisting of numbers, operations
+and variables (four are allowed: initial_tau, prev_tau, cur_iter, user_value)
+For example:</p>
+<blockquote>
+<blockquote>
+<p>"initial_tau * ((cur_iter + 1) % 2)"
+or
+"prev_tau * user_value"</p>
+</blockquote>
+</blockquote>
+</dd>
+<dt><strong><code>user_value_grid</code></strong> :&ensp;<code>list</code> of <code>numeric</code></dt>
+<dd>
+<p>Values for user_value variable
+When writing <code>tau_converter</code>, you can use user_value variable.</p>
+<p>For example:</p>
+<blockquote>
+<blockquote>
+<p>tau_converter: "prev_tau * user_value"
+user_value_grid: [1, 0.99, 0.95, 0.90, 0.80, 0.5]
+(I know that tau should decay exponentially, but I'm unsure of exact half-life)</p>
+<p>tau_converter: "prev_tau + user_value"
+user_value_grid: [50, 100, 150, 200, 250]
+(I know that tau should increase linearly, but I'm unsure of exact speed)</p>
+<p>def func(initial_tau, prev_tau, cur_iter, user_value):
+new_tau = 50 * (cur_iter - user_value) if cur_iter &gt; user_value else 0
+return new_tau
+tau_converter: func
+user_value_grid: [10, 15, 20, 25, 30]
+(Tau should start with zero, then increase linearly. I don't know when to start this process)</p>
+</blockquote>
+</blockquote>
+</dd>
+<dt><strong><code>max_iter</code></strong> :&ensp;<code>numeric</code></dt>
+<dd>Optional (default value is <code>num_iter</code> specified for cube)
+Agent will stop changing tau after <code>max_iters</code> iterations
+<code>max_iters</code> could be <code>float("NaN")</code> and <code>float("inf")</code> values:
+that way agent will continue operating even outside this <a title="topicnet.cooking_machine.cubes.controller_cube.RegularizationControllerCube" href="#topicnet.cooking_machine.cubes.controller_cube.RegularizationControllerCube"><code>RegularizationControllerCube</code></a></dd>
+</dl>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="topicnet.cooking_machine.cubes.controller_cube.is_score_out_of_control"><code class="name flex">
+<span>def <span class="ident">is_score_out_of_control</span></span>(<span>model, score_name, fraction_threshold=0.05)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns True if score isn't 'sort of decreasing' anymore.</p>
+<p>See docstring for RegularizationControllerCube for details</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>model</code></strong> :&ensp;<code>TopicModel</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>score_name</code></strong> :&ensp;<code>str</code> or <code>None</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>fraction_threshold</code></strong> :&ensp;<code>float</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="topicnet.cooking_machine.cubes.controller_cube.ControllerAgent"><code class="flex name class">
+<span>class <span class="ident">ControllerAgent</span></span>
+<span>(</span><span>reg_name, score_to_track, tau_converter, max_iters, local_dict={})</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Allows to change <code>tau</code> during the <code>_fit</code> method.</p>
+<p>Each <code>TopicModel</code> has a <code>.callbacks</code> attribute.
+This is a list consisting of various <a title="topicnet.cooking_machine.cubes.controller_cube.ControllerAgent" href="#topicnet.cooking_machine.cubes.controller_cube.ControllerAgent"><code>ControllerAgent</code></a>s.
+Each agent is described by:</p>
+<ul>
+<li>reg_name: the name of regularizer having <code>tau</code> which needs to be changed</li>
+<li>score_to_track: score providing control of the callback execution</li>
+<li>tau_converter: function or string describing how to get new <code>tau</code> from old <code>tau</code></li>
+<li>local_dict: dictionary containing values of several variables,
+most notably, <code>user_value</code></li>
+<li>is_working:
+if True, agent will attempt to change tau until something breaks.
+if False, agent will assume that something had been broken and will
+revert to the last known safe value (without trying to change anything further)</li>
+</ul>
+<p>See top-level docstring for details.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>reg_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>score_to_track</code></strong> :&ensp;<code>str</code> or <code>None</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>tau_converter</code></strong> :&ensp;<code>callable</code> or <code>str</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>local_dict</code></strong> :&ensp;<code>dict</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>max_iters</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
+<dd>Agent will stop changing tau after <code>max_iters</code> iterations
+<code>max_iters</code> could be <code>float("NaN")</code> and <code>float("inf")</code> values:
+that way agent will continue operating even outside this <a title="topicnet.cooking_machine.cubes.controller_cube.RegularizationControllerCube" href="#topicnet.cooking_machine.cubes.controller_cube.RegularizationControllerCube"><code>RegularizationControllerCube</code></a></dd>
+</dl></section>
+<h3>Methods</h3>
+<dl>
+<dt id="topicnet.cooking_machine.cubes.controller_cube.ControllerAgent.invoke"><code class="name flex">
+<span>def <span class="ident">invoke</span></span>(<span>self, model, cur_iter)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Attempts to change tau if <code>is_working == True</code>. Otherwise, keeps to the last safe value.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>model</code></strong> :&ensp;<code>TopicModel</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>cur_iter</code></strong> :&ensp;<code>int</code></dt>
+<dd>Note that zero means "cube just started", not "the model is brand new"</dd>
+</dl></section>
+</dd>
+</dl>
+</dd>
+<dt id="topicnet.cooking_machine.cubes.controller_cube.RegularizationControllerCube"><code class="flex name class">
+<span>class <span class="ident">RegularizationControllerCube</span></span>
+<span>(</span><span>num_iter, parameters, reg_search='grid', use_relative_coefficients=True, strategy=None, tracked_score_function=None, verbose=False, separate_thread=True)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Abstract class for all cubes.</p>
+<p>Initialize stage. Checks params and update internal attributes.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>num_iter</code></strong> :&ensp;<code>int</code></dt>
+<dd>number of iterations or method</dd>
+<dt><strong><code>parameters</code></strong> :&ensp;<code>list</code>[<code>dict</code>] or <code>dict</code></dt>
+<dd>
+<p>regularizers params
+each dict should contain the following fields:
+("reg_name" or "regularizer"),
+"score_to_track" (optional),
+"tau_converter",
+"user_value_grid"
+See top-level docstring for details.
+Examples:</p>
+<blockquote>
+<blockquote>
+<p>{"regularizer": artm.regularizers.&lt;&hellip;&gt;,
+"score_to_track": "PerplexityScore@all",
+"tau_converter": "prev_tau * user_value",
+"user_value_grid": [0.5, 1, 2]}</p>
+<p>{"reg_name": "decorrelator_for_ngramms",
+"score_to_track": None,
+"tau_converter": (
+lambda initial_tau, prev_tau, cur_iter, user_value:
+initial_tau * (cur_iter % 2) + user_value
+)
+"user_value_grid": [0, 1]}</p>
+</blockquote>
+</blockquote>
+</dd>
+<dt><strong><code>reg_search</code></strong> :&ensp;<code>str</code></dt>
+<dd>"grid", "pair", "add" or "mul".
+"pair" for elementwise grid search in the case of several regularizers
+"grid" for the fullgrid search in the case of several regularizers
+"add" and "mul" for the ariphmetic and geometric progression
+respectively for PerplexityStrategy
+(Default value = "grid")</dd>
+<dt><strong><code>use_relative_coefficients</code></strong> :&ensp;<code>bool</code></dt>
+<dd>forces the regularizer coefficient to be in relative form
+i.e. normalized over collection properties</dd>
+<dt><strong><code>strategy</code></strong> :&ensp;<code>BaseStrategy</code></dt>
+<dd>optimization approach (Default value = None)</dd>
+<dt><strong><code>tracked_score_function</code></strong> :&ensp;<code>str</code> <code>ot</code> <code>callable</code></dt>
+<dd>optimizable function for strategy (Default value = None)</dd>
+<dt><strong><code>verbose</code></strong> :&ensp;<code>bool</code></dt>
+<dd>visualization flag (Default value = False)</dd>
+</dl></section>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="topicnet.cooking_machine.cubes.base_cube.BaseCube" href="base_cube.html#topicnet.cooking_machine.cubes.base_cube.BaseCube">BaseCube</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="topicnet.cooking_machine.cubes.controller_cube.RegularizationControllerCube.apply"><code class="name flex">
+<span>def <span class="ident">apply</span></span>(<span>self, topic_model, one_model_parameter, dictionary=None, model_id=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Applies regularizers and controller agents to model</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>topic_model</code></strong> :&ensp;<code>TopicModel</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>one_model_parameter</code></strong> :&ensp;<code>list</code> or <code>tuple</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>dictionary</code></strong> :&ensp;<code>Dictionary</code></dt>
+<dd>(Default value = None)</dd>
+<dt><strong><code>model_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>(Default value = None)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>TopicModel</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="topicnet.cooking_machine.cubes.base_cube.BaseCube" href="base_cube.html#topicnet.cooking_machine.cubes.base_cube.BaseCube">BaseCube</a></b></code>:
+<ul class="hlist">
+<li><code><a title="topicnet.cooking_machine.cubes.base_cube.BaseCube.get_jsonable_from_parameters" href="base_cube.html#topicnet.cooking_machine.cubes.base_cube.BaseCube.get_jsonable_from_parameters">get_jsonable_from_parameters</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul>
+<li><a href="#fields">Fields</a></li>
+</ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="topicnet.cooking_machine.cubes" href="index.html">topicnet.cooking_machine.cubes</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="topicnet.cooking_machine.cubes.controller_cube.is_score_out_of_control" href="#topicnet.cooking_machine.cubes.controller_cube.is_score_out_of_control">is_score_out_of_control</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="topicnet.cooking_machine.cubes.controller_cube.ControllerAgent" href="#topicnet.cooking_machine.cubes.controller_cube.ControllerAgent">ControllerAgent</a></code></h4>
+<ul class="">
+<li><code><a title="topicnet.cooking_machine.cubes.controller_cube.ControllerAgent.invoke" href="#topicnet.cooking_machine.cubes.controller_cube.ControllerAgent.invoke">invoke</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="topicnet.cooking_machine.cubes.controller_cube.RegularizationControllerCube" href="#topicnet.cooking_machine.cubes.controller_cube.RegularizationControllerCube">RegularizationControllerCube</a></code></h4>
+<ul class="">
+<li><code><a title="topicnet.cooking_machine.cubes.controller_cube.RegularizationControllerCube.apply" href="#topicnet.cooking_machine.cubes.controller_cube.RegularizationControllerCube.apply">apply</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+</footer>
+</body>
+</html>

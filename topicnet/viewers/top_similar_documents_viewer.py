@@ -4,7 +4,7 @@ from scipy.spatial.distance import cdist as sp_cdist
 import warnings
 
 from .base_viewer import BaseViewer
-from ..cooking_machine.dataset import BaseDataset
+from ..cooking_machine import BaseDataset
 
 
 # If change, also modify docstring for view()
@@ -70,7 +70,7 @@ class TopSimilarDocumentsViewer(BaseViewer):
         self._dataset = dataset
         self._theta = self.model.get_theta(dataset=self._dataset)
 
-        self._documents_ids = list(self._dataset.get_dataset().index)
+        self._documents_ids = list(self._theta.columns)
 
         if len(self._documents_ids) == 0:
             warnings.warn('No documents in given dataset', UserWarning)
@@ -130,7 +130,7 @@ class TopSimilarDocumentsViewer(BaseViewer):
               num_top_similar,
               keep_similar_by_words):
 
-        documents_indices = [i for i in range(0, len(self._documents_ids)) if i != document_index]
+        documents_indices = [i for i, _ in enumerate(self._documents_ids) if i != document_index]
         distances = self._get_documents_distances(documents_indices, document_index, metric)
 
         documents_indices, distances = \
@@ -342,7 +342,9 @@ class TopSimilarDocumentsViewer(BaseViewer):
         assert document_vector.shape[0] == 1
         assert document_vector.shape[1] == documents_vectors.shape[1]
 
-        return sp_cdist(documents_vectors, document_vector, metric).flatten()
+        answer = sp_cdist(documents_vectors, document_vector, metric)
+
+        return answer.flatten()
 
     def _get_documents_with_similar_words_frequencies_indices(
             self, documents_indices, document_index_to_compare_with,
