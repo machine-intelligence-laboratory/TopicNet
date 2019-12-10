@@ -37,9 +37,9 @@ before_install:
   - pip install -U numpy scipy pandas tqdm --only-binary numpy,scipy,pandas
   - pip install -U protobuf
   # install boost
-  - add-apt-repository universe
-  - apt-get update
-  - apt-get install libboost-all-dev
+  - sudo add-apt-repository universe
+  - sudo apt-get update
+  - sudo apt-get install libboost-all-dev
  
   # configure ccache
   # code from https://github.com/urho3d/Urho3D/blob/master/.travis.yml
