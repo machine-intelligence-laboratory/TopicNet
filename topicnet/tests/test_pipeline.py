@@ -24,15 +24,11 @@ def resource_teardown():
 
 
 def setup_function():
-    sleep(1)
     resource_teardown()
-    sleep(1)
 
 
 def teardown_function():
-    sleep(1)
     resource_teardown()
-    sleep(1)
 
 
 @pytest.fixture(scope="function")
@@ -225,6 +221,8 @@ def test_simple_pipeline(experiment_enviroment):
     tm, dataset, experiment, dictionary, cube_settings = experiment_enviroment
 
     experiment.build(cube_settings)
+    # an ugly workaround for strange multithreading issue
+    sleep(2)
     with pytest.warns(UserWarning, match="Not enough models for"):
         final_models = experiment.run(dataset, verbose=False, nb_verbose=False)
 

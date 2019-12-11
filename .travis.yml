@@ -1,0 +1,61 @@
+sudo: true
+
+language:
+  - python
+# Currently Travis doesn't support multiple values for language variable
+#  - cpp
+
+#compiler:
+#  - gcc
+
+# not sure whether the following configuration will be available
+# with non-C/C++ language (e.g python)
+#cache: ccache
+
+cache:
+  directories:
+    - $HOME/.ccache
+
+python:
+  - "3.6"
+
+env:
+  global:
+    # variables for caching
+    - CCACHE_DIR=$HOME/.ccache
+    - CCACHE_COMPILERCHECK=content
+    - CCACHE_COMPRESS=true
+    - CCACHE_NODISABLE=true
+    - CCACHE_MAXSIZE=500M
+  matrix:
+    - GCC_VER=4.8
+
+before_install:
+  # we need latest pip to work with only-binary option
+  - pip install -U pip
+  - pip install -U pytest pep8 wheel pytest-forked
+  - pip install -U numpy scipy pandas tqdm --only-binary numpy,scipy,pandas
+  - pip install -U protobuf
+  - pip install -r requirements.txt
+  # install boost
+  - sudo add-apt-repository universe
+  - sudo apt-get update
+  - sudo apt-get install libboost-all-dev
+ 
+  - cd ..
+  - git clone --branch v0.9.1 --depth=1 https://github.com/bigartm/bigartm.git
+  - cd bigartm
+  # configure ccache
+  # code from https://github.com/urho3d/Urho3D/blob/master/.travis.yml
+  - export PATH=$(whereis -b ccache |grep -o '\S*lib\S*'):$PATH
+  - export CXX=g++
+  - ln -s $(which ccache) $HOME/g++ && export PATH=$HOME:$PATH
+
+install:
+  - mkdir build
+  - pushd build && cmake .. && make -j2 && file ./bin/bigartm && popd
+  - pushd python && python setup.py install && popd
+
+script:
+  - cd ../TopicNet/topicnet
+  - py.test . --timeout=20

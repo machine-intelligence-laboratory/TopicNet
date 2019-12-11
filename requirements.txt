@@ -1,0 +1,18 @@
+dill
+dask[dataframe]
+numpy
+six
+scipy
+numexpr
+pytest
+pytest-timeout
+pandas
+tqdm
+dask
+scikit_learn
+typing
+ipython
+strictyaml
+numexpr
+# artm
+
