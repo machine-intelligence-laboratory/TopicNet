@@ -49,7 +49,6 @@ before_install:
   - export PATH=$(whereis -b ccache |grep -o '\S*lib\S*'):$PATH
   - export CXX=g++
   - ln -s $(which ccache) $HOME/g++ && export PATH=$HOME:$PATH
-  - ./home/travis/g++-4.8
 
 install:
   - mkdir build
