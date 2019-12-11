@@ -6,6 +6,11 @@ scipy
 numexpr
 pytest
 pytest-timeout
+# coverage
+coverage
+pytest-cov
+codecov
+
 pandas
 tqdm
 dask
