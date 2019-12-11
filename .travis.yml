@@ -57,6 +57,5 @@ install:
   - pushd python && python setup.py install && popd
 
 script:
-  - ls
   - cd ../TopicNet/topicnet
-  - py.test .
+  - py.test . --timeout=20

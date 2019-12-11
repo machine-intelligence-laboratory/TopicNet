@@ -5,6 +5,7 @@ six
 scipy
 numexpr
 pytest
+pytest-timeout
 pandas
 tqdm
 dask
