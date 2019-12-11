@@ -36,6 +36,7 @@ before_install:
   - pip install -U pytest pep8 wheel pytest-forked
   - pip install -U numpy scipy pandas tqdm --only-binary numpy,scipy,pandas
   - pip install -U protobuf
+  - pip install -r requirements.txt
   # install boost
   - sudo add-apt-repository universe
   - sudo apt-get update
