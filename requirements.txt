@@ -12,5 +12,6 @@ scikit_learn
 typing
 ipython
 strictyaml
+numexpr
 # artm
 
