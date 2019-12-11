@@ -37,9 +37,9 @@ before_install:
   - pip install -U numpy scipy pandas tqdm --only-binary numpy,scipy,pandas
   - pip install -U protobuf
   # install boost
-  #- sudo add-apt-repository universe
-  #- sudo apt-get update
-  #- sudo apt-get install libboost-all-dev
+  - sudo add-apt-repository universe
+  - sudo apt-get update
+  - sudo apt-get install libboost-all-dev
  
   - cd ..
   - git clone --branch v0.9.1 --depth=1 https://github.com/bigartm/bigartm.git
