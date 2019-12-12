@@ -1,16 +1,4 @@
-sudo: true
-
-language:
-  - python
-# Currently Travis doesn't support multiple values for language variable
-#  - cpp
-
-#compiler:
-#  - gcc
-
-# not sure whether the following configuration will be available
-# with non-C/C++ language (e.g python)
-#cache: ccache
+language: python
 
 cache:
   directories:
