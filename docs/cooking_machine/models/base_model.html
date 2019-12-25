@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.6.3" />
+<meta name="generator" content="pdoc 0.7.2" />
 <title>topicnet.cooking_machine.models.base_model API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
 <style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
 </head>
@@ -19,6 +20,296 @@
 <h1 class="title">Module <code>topicnet.cooking_machine.models.base_model</code></h1>
 </header>
 <section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import json
+import os
+from copy import deepcopy
+
+from ..routine import get_timestamp_in_str_format
+from ..routine import transform_topic_model_description_to_jsonable
+
+MODEL_NAME_LENGTH = 26
+
+
+def padd_model_name(model_id):
+    padding = MODEL_NAME_LENGTH - len(model_id)
+    if padding &gt; 0:
+        add = padding // 2
+        odd = padding % 2
+        return &#39;#&#39; * add + model_id + &#39;#&#39; * (add + odd)
+    else:
+        return model_id[:MODEL_NAME_LENGTH]
+
+
+class BaseModel(object):
+    def __init__(self, model_id=None, parent_model_id=None, experiment=None, *args, **kwargs):
+        &#34;&#34;&#34;
+        Initialize stage, also used for loading previously saved experiments.
+
+        Parameters
+        ----------
+        model_id : str
+            model id (Default value = None)
+        parent_model_id : str
+            model id from which current model was created (Default value = None)
+        experiment : Experiment
+            the experiment to which the model is bound (Default value = None)
+
+        &#34;&#34;&#34;
+        self._parent_model_id = parent_model_id
+        self.experiment = experiment
+
+        # set unique model_id in the experiment
+        if self.experiment is None:
+            if model_id is None:
+                self.set_model_id_as_timestamp()
+            else:
+                self.model_id = padd_model_name(model_id)
+        else:
+            experiment_save_path = getattr(experiment, &#39;save_path&#39;, None)
+            experiment_id = getattr(experiment, &#39;experiment_id&#39;, None)
+            save_folder = os.path.join(experiment_save_path, experiment_id)
+            if model_id is None:
+                candidate_name = get_timestamp_in_str_format()
+            else:
+                candidate_name = model_id
+            model_index = 0
+            new_model_id = padd_model_name(candidate_name)
+            new_model_save_path = os.path.join(save_folder, new_model_id)
+            while os.path.exists(new_model_save_path):
+                model_index += 1
+                new_model_id = padd_model_name(&#34;{0}{1:_&gt;5}&#34;.format(candidate_name, model_index))
+
+            self.model_id = new_model_id
+
+        self._description = []
+        self._scores = dict()
+        self._score_functions = dict()
+        self._custom_scores = []
+
+    def __str__(self):
+        return f&#39;id={self.model_id}, &#39; \
+               f&#39;parent_id={self.parent_model_id}, &#39; \
+               f&#39;experiment_id={self.experiment.experiment_id if self.experiment is not None else None}&#39;  # noqa long line
+
+    def _fit(self, dataset_trainable, num_iterations):
+        &#34;&#34;&#34;
+        Fitting stage.
+
+        Parameters
+        ----------
+        dataset_trainable : optional
+            TODO: describe after dataset implementation
+        num_iterations : int
+            number of iteration for fitting.
+
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    def get_phi(self, *args, **kwargs):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        raise NotImplementedError
+
+    def get_theta(self, dataset=None, *args, **kwargs):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        dataset : Dataset
+             (Default value = None)
+
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    def save(self, path, *args, **kwargs):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        path : str
+
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    @staticmethod
+    def load(path, *args, **kwargs):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        path : str
+
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    def clone(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        return deepcopy(self)
+
+    def get_jsonable_from_parameters(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        raise NotImplementedError
+
+    @property
+    def score_functions(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        return self._score_functions
+
+    @property
+    def scores(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        return self._scores
+
+    def add_cube(self, cube):
+        &#34;&#34;&#34;
+        Adds cube to the model.
+
+        Parameters
+        ----------
+        cube : dict
+            training cube params.
+
+        &#34;&#34;&#34;
+        self.description.append(cube)
+        self.save_parameters()
+
+    @property
+    def depth(self):
+        &#34;&#34;&#34;
+        Returns depth of the model.
+
+        &#34;&#34;&#34;
+        return len(self.description)
+
+    @property
+    def description(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        return self._description
+
+    @property
+    def parent_model_id(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        return self._parent_model_id
+
+    @parent_model_id.setter
+    def parent_model_id(self, new_id):
+        &#34;&#34;&#34;
+        Returns parent model id.
+
+        Parameters
+        ----------
+        new_id : str
+
+        &#34;&#34;&#34;
+        if self._check_is_model_id_in_experiment(new_id):
+            self._parent_model_id = new_id
+        else:
+            raise ValueError(f&#39;Model with id: {new_id} does not exist.&#39;)
+
+    def save_parameters(self, model_save_path=None):
+        &#34;&#34;&#34;
+        Saves params of the model.
+
+        &#34;&#34;&#34;
+        if model_save_path is None:
+            model_save_path = self.model_default_save_path
+        if not os.path.exists(model_save_path):
+            os.makedirs(model_save_path)
+        parameters = self.get_parameters()
+        json.dump(parameters, open(f&#34;{model_save_path}/params.json&#34;, &#34;w&#34;),
+                  default=transform_topic_model_description_to_jsonable)
+
+    def get_parameters(self):
+        &#34;&#34;&#34;
+        Gets all params of the model.
+
+        Returns
+        -------
+        dict
+            parameters of the model
+
+        &#34;&#34;&#34;
+        parameters = {
+            &#34;model_id&#34;: self.model_id,
+            &#34;init_parameters&#34;: self.get_init_parameters(),
+            &#34;parent_model_id&#34;: self.parent_model_id,
+            &#34;data_path&#34;: self.data_path,
+            &#34;description&#34;: self.description,
+            &#34;depth&#34;: self.depth,
+            &#34;scores&#34;: self.scores
+        }
+        if self.experiment is None:
+            parameters[&#34;experiment_id&#34;] = None
+        else:
+            parameters[&#34;experiment_id&#34;] = self.experiment.experiment_id
+
+        return parameters
+
+    @property
+    def model_default_save_path(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        # Experiment may be None. If so, AttributeError is raised
+        # __getattr__ catches it in case of TopicModel and redirects to artm_model
+        experiment_save_path = getattr(self.experiment, &#39;save_path&#39;, None)
+        experiment_id = getattr(self.experiment, &#39;experiment_id&#39;, None)
+
+        assert self.model_id is not None
+
+        path_components = [
+            experiment_save_path,
+            experiment_id,
+            self.model_id
+        ]
+
+        path_possible = all(path_components)
+
+        if path_possible:
+            path_to_save = os.path.join(*path_components)
+        else:
+            path_to_save = self.model_id
+
+        return path_to_save
+
+    @property
+    def model_id(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        return self._model_id
+
+    @model_id.setter
+    def model_id(self, new_id):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        new_id : str
+
+        &#34;&#34;&#34;
+        if self._check_is_model_id_in_experiment(new_id):
+            raise ValueError(f&#39;Model with id: {new_id} already exists.&#39;)
+        else:
+            self._model_id = new_id
+
+    def set_model_id_as_timestamp(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        self._model_id = padd_model_name(get_timestamp_in_str_format())
+
+    def _check_is_model_id_in_experiment(self, model_id):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        model_id : str
+
+        &#34;&#34;&#34;
+        if self.experiment is None:
+            return False
+        if model_id in self.experiment.models_info.keys():
+            return True
+        return False</code></pre>
+</details>
 </section>
 <section>
 </section>
@@ -32,6 +323,19 @@
 </code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def padd_model_name(model_id):
+    padding = MODEL_NAME_LENGTH - len(model_id)
+    if padding &gt; 0:
+        add = padding // 2
+        odd = padding % 2
+        return &#39;#&#39; * add + model_id + &#39;#&#39; * (add + odd)
+    else:
+        return model_id[:MODEL_NAME_LENGTH]</code></pre>
+</details>
 </dd>
 </dl>
 </section>
@@ -53,11 +357,281 @@
 <dt><strong><code>experiment</code></strong> :&ensp;<code>Experiment</code></dt>
 <dd>the experiment to which the model is bound (Default value = None)</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BaseModel(object):
+    def __init__(self, model_id=None, parent_model_id=None, experiment=None, *args, **kwargs):
+        &#34;&#34;&#34;
+        Initialize stage, also used for loading previously saved experiments.
+
+        Parameters
+        ----------
+        model_id : str
+            model id (Default value = None)
+        parent_model_id : str
+            model id from which current model was created (Default value = None)
+        experiment : Experiment
+            the experiment to which the model is bound (Default value = None)
+
+        &#34;&#34;&#34;
+        self._parent_model_id = parent_model_id
+        self.experiment = experiment
+
+        # set unique model_id in the experiment
+        if self.experiment is None:
+            if model_id is None:
+                self.set_model_id_as_timestamp()
+            else:
+                self.model_id = padd_model_name(model_id)
+        else:
+            experiment_save_path = getattr(experiment, &#39;save_path&#39;, None)
+            experiment_id = getattr(experiment, &#39;experiment_id&#39;, None)
+            save_folder = os.path.join(experiment_save_path, experiment_id)
+            if model_id is None:
+                candidate_name = get_timestamp_in_str_format()
+            else:
+                candidate_name = model_id
+            model_index = 0
+            new_model_id = padd_model_name(candidate_name)
+            new_model_save_path = os.path.join(save_folder, new_model_id)
+            while os.path.exists(new_model_save_path):
+                model_index += 1
+                new_model_id = padd_model_name(&#34;{0}{1:_&gt;5}&#34;.format(candidate_name, model_index))
+
+            self.model_id = new_model_id
+
+        self._description = []
+        self._scores = dict()
+        self._score_functions = dict()
+        self._custom_scores = []
+
+    def __str__(self):
+        return f&#39;id={self.model_id}, &#39; \
+               f&#39;parent_id={self.parent_model_id}, &#39; \
+               f&#39;experiment_id={self.experiment.experiment_id if self.experiment is not None else None}&#39;  # noqa long line
+
+    def _fit(self, dataset_trainable, num_iterations):
+        &#34;&#34;&#34;
+        Fitting stage.
+
+        Parameters
+        ----------
+        dataset_trainable : optional
+            TODO: describe after dataset implementation
+        num_iterations : int
+            number of iteration for fitting.
+
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    def get_phi(self, *args, **kwargs):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        raise NotImplementedError
+
+    def get_theta(self, dataset=None, *args, **kwargs):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        dataset : Dataset
+             (Default value = None)
+
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    def save(self, path, *args, **kwargs):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        path : str
+
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    @staticmethod
+    def load(path, *args, **kwargs):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        path : str
+
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    def clone(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        return deepcopy(self)
+
+    def get_jsonable_from_parameters(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        raise NotImplementedError
+
+    @property
+    def score_functions(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        return self._score_functions
+
+    @property
+    def scores(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        return self._scores
+
+    def add_cube(self, cube):
+        &#34;&#34;&#34;
+        Adds cube to the model.
+
+        Parameters
+        ----------
+        cube : dict
+            training cube params.
+
+        &#34;&#34;&#34;
+        self.description.append(cube)
+        self.save_parameters()
+
+    @property
+    def depth(self):
+        &#34;&#34;&#34;
+        Returns depth of the model.
+
+        &#34;&#34;&#34;
+        return len(self.description)
+
+    @property
+    def description(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        return self._description
+
+    @property
+    def parent_model_id(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        return self._parent_model_id
+
+    @parent_model_id.setter
+    def parent_model_id(self, new_id):
+        &#34;&#34;&#34;
+        Returns parent model id.
+
+        Parameters
+        ----------
+        new_id : str
+
+        &#34;&#34;&#34;
+        if self._check_is_model_id_in_experiment(new_id):
+            self._parent_model_id = new_id
+        else:
+            raise ValueError(f&#39;Model with id: {new_id} does not exist.&#39;)
+
+    def save_parameters(self, model_save_path=None):
+        &#34;&#34;&#34;
+        Saves params of the model.
+
+        &#34;&#34;&#34;
+        if model_save_path is None:
+            model_save_path = self.model_default_save_path
+        if not os.path.exists(model_save_path):
+            os.makedirs(model_save_path)
+        parameters = self.get_parameters()
+        json.dump(parameters, open(f&#34;{model_save_path}/params.json&#34;, &#34;w&#34;),
+                  default=transform_topic_model_description_to_jsonable)
+
+    def get_parameters(self):
+        &#34;&#34;&#34;
+        Gets all params of the model.
+
+        Returns
+        -------
+        dict
+            parameters of the model
+
+        &#34;&#34;&#34;
+        parameters = {
+            &#34;model_id&#34;: self.model_id,
+            &#34;init_parameters&#34;: self.get_init_parameters(),
+            &#34;parent_model_id&#34;: self.parent_model_id,
+            &#34;data_path&#34;: self.data_path,
+            &#34;description&#34;: self.description,
+            &#34;depth&#34;: self.depth,
+            &#34;scores&#34;: self.scores
+        }
+        if self.experiment is None:
+            parameters[&#34;experiment_id&#34;] = None
+        else:
+            parameters[&#34;experiment_id&#34;] = self.experiment.experiment_id
+
+        return parameters
+
+    @property
+    def model_default_save_path(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        # Experiment may be None. If so, AttributeError is raised
+        # __getattr__ catches it in case of TopicModel and redirects to artm_model
+        experiment_save_path = getattr(self.experiment, &#39;save_path&#39;, None)
+        experiment_id = getattr(self.experiment, &#39;experiment_id&#39;, None)
+
+        assert self.model_id is not None
+
+        path_components = [
+            experiment_save_path,
+            experiment_id,
+            self.model_id
+        ]
+
+        path_possible = all(path_components)
+
+        if path_possible:
+            path_to_save = os.path.join(*path_components)
+        else:
+            path_to_save = self.model_id
+
+        return path_to_save
+
+    @property
+    def model_id(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        return self._model_id
+
+    @model_id.setter
+    def model_id(self, new_id):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        new_id : str
+
+        &#34;&#34;&#34;
+        if self._check_is_model_id_in_experiment(new_id):
+            raise ValueError(f&#39;Model with id: {new_id} already exists.&#39;)
+        else:
+            self._model_id = new_id
+
+    def set_model_id_as_timestamp(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        self._model_id = padd_model_name(get_timestamp_in_str_format())
+
+    def _check_is_model_id_in_experiment(self, model_id):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        model_id : str
+
+        &#34;&#34;&#34;
+        if self.experiment is None:
+            return False
+        if model_id in self.experiment.models_info.keys():
+            return True
+        return False</code></pre>
+</details>
 <h3>Subclasses</h3>
 <ul class="hlist">
 <li><a title="topicnet.cooking_machine.models.topic_model.TopicModel" href="topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel">TopicModel</a></li>
-<li><a title="topicnet.tests.test_intratext_coherence_score.MockModel" href="../../tests/test_intratext_coherence_score.html#topicnet.tests.test_intratext_coherence_score.MockModel">MockModel</a></li>
-<li><a title="topicnet.tests.test_topic_mapping.dummy_model" href="../../tests/test_topic_mapping.html#topicnet.tests.test_topic_mapping.dummy_model">dummy_model</a></li>
+<li>topicnet.tests.test_topic_mapping.dummy_model</li>
+<li>topicnet.tests.test_intratext_coherence_score.MockModel</li>
 </ul>
 <h3>Static methods</h3>
 <dl>
@@ -70,6 +644,21 @@
 <dt><strong><code>path</code></strong> :&ensp;<code>str</code></dt>
 <dd>&nbsp;</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def load(path, *args, **kwargs):
+    &#34;&#34;&#34;
+
+    Parameters
+    ----------
+    path : str
+
+    &#34;&#34;&#34;
+    raise NotImplementedError</code></pre>
+</details>
 </dd>
 </dl>
 <h3>Instance variables</h3>
@@ -77,30 +666,116 @@
 <dt id="topicnet.cooking_machine.models.base_model.BaseModel.depth"><code class="name">var <span class="ident">depth</span></code></dt>
 <dd>
 <section class="desc"><p>Returns depth of the model.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def depth(self):
+    &#34;&#34;&#34;
+    Returns depth of the model.
+
+    &#34;&#34;&#34;
+    return len(self.description)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.base_model.BaseModel.description"><code class="name">var <span class="ident">description</span></code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def description(self):
+    &#34;&#34;&#34; &#34;&#34;&#34;
+    return self._description</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.base_model.BaseModel.model_default_save_path"><code class="name">var <span class="ident">model_default_save_path</span></code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def model_default_save_path(self):
+    &#34;&#34;&#34; &#34;&#34;&#34;
+    # Experiment may be None. If so, AttributeError is raised
+    # __getattr__ catches it in case of TopicModel and redirects to artm_model
+    experiment_save_path = getattr(self.experiment, &#39;save_path&#39;, None)
+    experiment_id = getattr(self.experiment, &#39;experiment_id&#39;, None)
+
+    assert self.model_id is not None
+
+    path_components = [
+        experiment_save_path,
+        experiment_id,
+        self.model_id
+    ]
+
+    path_possible = all(path_components)
+
+    if path_possible:
+        path_to_save = os.path.join(*path_components)
+    else:
+        path_to_save = self.model_id
+
+    return path_to_save</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.base_model.BaseModel.model_id"><code class="name">var <span class="ident">model_id</span></code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def model_id(self):
+    &#34;&#34;&#34; &#34;&#34;&#34;
+    return self._model_id</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.base_model.BaseModel.parent_model_id"><code class="name">var <span class="ident">parent_model_id</span></code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def parent_model_id(self):
+    &#34;&#34;&#34; &#34;&#34;&#34;
+    return self._parent_model_id</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.base_model.BaseModel.score_functions"><code class="name">var <span class="ident">score_functions</span></code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def score_functions(self):
+    &#34;&#34;&#34; &#34;&#34;&#34;
+    return self._score_functions</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.base_model.BaseModel.scores"><code class="name">var <span class="ident">scores</span></code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def scores(self):
+    &#34;&#34;&#34; &#34;&#34;&#34;
+    return self._scores</code></pre>
+</details>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -115,18 +790,51 @@
 <dt><strong><code>cube</code></strong> :&ensp;<code>dict</code></dt>
 <dd>training cube params.</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_cube(self, cube):
+    &#34;&#34;&#34;
+    Adds cube to the model.
+
+    Parameters
+    ----------
+    cube : dict
+        training cube params.
+
+    &#34;&#34;&#34;
+    self.description.append(cube)
+    self.save_parameters()</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.base_model.BaseModel.clone"><code class="name flex">
 <span>def <span class="ident">clone</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def clone(self):
+    &#34;&#34;&#34; &#34;&#34;&#34;
+    return deepcopy(self)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.base_model.BaseModel.get_jsonable_from_parameters"><code class="name flex">
 <span>def <span class="ident">get_jsonable_from_parameters</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_jsonable_from_parameters(self):
+    &#34;&#34;&#34; &#34;&#34;&#34;
+    raise NotImplementedError</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.base_model.BaseModel.get_parameters"><code class="name flex">
 <span>def <span class="ident">get_parameters</span></span>(<span>self)</span>
@@ -138,12 +846,50 @@
 <dt><code>dict</code></dt>
 <dd>parameters of the model</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_parameters(self):
+    &#34;&#34;&#34;
+    Gets all params of the model.
+
+    Returns
+    -------
+    dict
+        parameters of the model
+
+    &#34;&#34;&#34;
+    parameters = {
+        &#34;model_id&#34;: self.model_id,
+        &#34;init_parameters&#34;: self.get_init_parameters(),
+        &#34;parent_model_id&#34;: self.parent_model_id,
+        &#34;data_path&#34;: self.data_path,
+        &#34;description&#34;: self.description,
+        &#34;depth&#34;: self.depth,
+        &#34;scores&#34;: self.scores
+    }
+    if self.experiment is None:
+        parameters[&#34;experiment_id&#34;] = None
+    else:
+        parameters[&#34;experiment_id&#34;] = self.experiment.experiment_id
+
+    return parameters</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.base_model.BaseModel.get_phi"><code class="name flex">
 <span>def <span class="ident">get_phi</span></span>(<span>self, *args, **kwargs)</span>
 </code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_phi(self, *args, **kwargs):
+    &#34;&#34;&#34; &#34;&#34;&#34;
+    raise NotImplementedError</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.base_model.BaseModel.get_theta"><code class="name flex">
 <span>def <span class="ident">get_theta</span></span>(<span>self, dataset=None, *args, **kwargs)</span>
@@ -154,6 +900,21 @@
 <dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
 <dd>(Default value = None)</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_theta(self, dataset=None, *args, **kwargs):
+    &#34;&#34;&#34;
+
+    Parameters
+    ----------
+    dataset : Dataset
+         (Default value = None)
+
+    &#34;&#34;&#34;
+    raise NotImplementedError</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.base_model.BaseModel.save"><code class="name flex">
 <span>def <span class="ident">save</span></span>(<span>self, path, *args, **kwargs)</span>
@@ -164,18 +925,57 @@
 <dt><strong><code>path</code></strong> :&ensp;<code>str</code></dt>
 <dd>&nbsp;</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def save(self, path, *args, **kwargs):
+    &#34;&#34;&#34;
+
+    Parameters
+    ----------
+    path : str
+
+    &#34;&#34;&#34;
+    raise NotImplementedError</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.base_model.BaseModel.save_parameters"><code class="name flex">
 <span>def <span class="ident">save_parameters</span></span>(<span>self, model_save_path=None)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Saves params of the model.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def save_parameters(self, model_save_path=None):
+    &#34;&#34;&#34;
+    Saves params of the model.
+
+    &#34;&#34;&#34;
+    if model_save_path is None:
+        model_save_path = self.model_default_save_path
+    if not os.path.exists(model_save_path):
+        os.makedirs(model_save_path)
+    parameters = self.get_parameters()
+    json.dump(parameters, open(f&#34;{model_save_path}/params.json&#34;, &#34;w&#34;),
+              default=transform_topic_model_description_to_jsonable)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.base_model.BaseModel.set_model_id_as_timestamp"><code class="name flex">
 <span>def <span class="ident">set_model_id_as_timestamp</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_model_id_as_timestamp(self):
+    &#34;&#34;&#34; &#34;&#34;&#34;
+    self._model_id = padd_model_name(get_timestamp_in_str_format())</code></pre>
+</details>
 </dd>
 </dl>
 </dd>
@@ -228,7 +1028,9 @@
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>

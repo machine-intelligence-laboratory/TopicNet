@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.6.3" />
+<meta name="generator" content="pdoc 0.7.2" />
 <title>topicnet.cooking_machine.cubes.base_cube API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
 <style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
 </head>
@@ -19,6 +20,355 @@
 <h1 class="title">Module <code>topicnet.cooking_machine.cubes.base_cube</code></h1>
 </header>
 <section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import os
+from tqdm import tqdm
+import warnings
+from multiprocessing import Queue, Process
+from queue import Empty
+from artm.wrapper.exceptions import ArtmException
+
+from .strategy import BaseStrategy
+from ..models.base_model import padd_model_name
+from ..routine import get_timestamp_in_str_format
+
+NUM_MODELS_ERROR = &#34;Failed to retrive number of trained models&#34;
+MODEL_RETRIEVE_ERROR = &#34;Retrieved only {0} models out of {1}&#34;
+STRATEGY_RETRIEVE_ERROR = &#39;Failed to retrieve strategy parameters&#39;
+WARNINGS_RETRIEVE_ERROR = &#39;Failed to return warnings&#39;
+
+
+def check_experiment_existence(topic_model):
+    &#34;&#34;&#34;
+    Checks if topic_model has experiment.
+
+    Parameters
+    ----------
+    topic_model : TopicModel
+        topic model
+
+    Returns
+    -------
+    bool
+        True if experiment exists, in other case False.
+
+    &#34;&#34;&#34;
+    is_experiment = topic_model.experiment is not None
+
+    return is_experiment
+
+
+class retrieve_score_for_strategy:
+    def __init__(self, score_name):
+        self.score_name = score_name
+
+    def __call__(self, model):
+        if isinstance(model, str):
+            self.score_name = model
+        else:
+            return model.scores[self.score_name][-1]
+
+
+def get_from_queue_till_fail(queue,  error_message=&#39;&#39;, fail_margin=1,):
+    fail_counter = 0
+    while fail_counter &lt; fail_margin:
+        try:
+            return queue.get(timeout=0.1)
+        except Empty:
+            fail_counter += 1
+    raise Empty(error_message)
+
+
+class BaseCube:
+    &#34;&#34;&#34;
+    Abstract class for all cubes.
+
+    &#34;&#34;&#34;
+    def __init__(self, num_iter, action=None, reg_search=&#34;grid&#34;,
+                 strategy=None, tracked_score_function=None,
+                 verbose=False, separate_thread=True):
+        &#34;&#34;&#34;
+        Initialize stage.
+        Checks params and update .parameters attribute.
+
+        Parameters
+        ----------
+        num_iter : int
+            number of iterations or method
+        action : str
+            stage of creation
+        reg_search : str
+            &#34;grid&#34; or &#34;pair&#34;. &#34;pair&#34; for elementwise grid search in the case
+            of several regularizers, &#34;grid&#34; for the fullgrid search in the
+            case of several regularizers
+        strategy : BaseStrategy
+            optimization approach
+        tracked_score_function : str or callable
+            optimizable function for strategy
+        verbose : bool
+            visualization flag
+        separate_thread : bool
+            will train models inside a separate thread if True
+
+        &#34;&#34;&#34;
+        self.num_iter = num_iter
+        self.parameters = []
+        self.action = action
+        self.reg_search = reg_search
+        if not strategy:
+            strategy = BaseStrategy()
+        self.strategy = strategy
+        self.verbose = verbose
+        self.separate_thread = separate_thread
+
+        if isinstance(tracked_score_function, str):
+            tracked_score_function = retrieve_score_for_strategy(tracked_score_function)
+        self.tracked_score_function = tracked_score_function
+
+    def apply(self, topic_model, one_cube_parameter, dictionary=None, model_id=None):
+        &#34;&#34;&#34;
+        &#34;apply&#34; method changes topic_model in way that is defined by one_cube_parameter.
+
+        Parameters
+        ----------
+        topic_model : TopicModel
+            topic model
+        one_cube_parameter : optional
+            parameters of one experiment
+        dictionary : dict
+            dictionary so that the it can be used
+            on the basis of the model (Default value = None)
+        model_id : str
+            id of created model if necessary (Default value = None)
+
+        Returns
+        -------
+
+        &#34;&#34;&#34;
+        raise NotImplementedError(&#39;must be implemented in subclass&#39;)
+
+    # TODO: из-за метода get_description на эту фунцию налагется больше требований чем тут написано
+    def get_jsonable_from_parameters(self):
+        &#34;&#34;&#34;
+        Transform self.parameters to something that can be downloaded as json.
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        optional
+            something jsonable
+
+        &#34;&#34;&#34;
+        return self.parameters
+
+    def _train_models(self, experiment, topic_model, dataset, search_space):
+        &#34;&#34;&#34;
+        This function trains models
+        &#34;&#34;&#34;
+        dataset_trainable = dataset._transform_data_for_training()
+        dataset_dictionary = dataset.get_dictionary()
+        returned_paths = []
+        experiment_save_path = experiment.save_path
+        experiment_id = experiment.experiment_id
+        save_folder = os.path.join(experiment_save_path, experiment_id)
+        for search_point in search_space:
+            candidate_name = get_timestamp_in_str_format()
+            new_model_id = padd_model_name(candidate_name)
+            new_model_save_path = os.path.join(save_folder, new_model_id)
+            model_index = 0
+            while os.path.exists(new_model_save_path):
+                model_index += 1
+                new_model_id = padd_model_name(&#34;{0}{1:_&gt;5}&#34;.format(candidate_name, model_index))
+                new_model_save_path = os.path.join(save_folder, new_model_id)
+
+            model_cube = {
+                &#34;action&#34;: self.action,
+                &#34;num_iter&#34;: self.num_iter,
+                &#34;params&#34;: repr(search_point)
+            }
+
+            try:
+                # alter the model according to cube parameters
+                new_model = self.apply(topic_model, search_point, dataset_dictionary, new_model_id)
+                # train new model for a number of iterations (might be zero)
+                new_model._fit(
+                    dataset_trainable=dataset_trainable,
+                    num_iterations=self.num_iter
+                )
+            except ArtmException as e:
+                error_message = repr(e)
+                raise ValueError(
+                    f&#39;Cannot alter and fit artm model with parameters {search_point}.\n&#39;
+                    &#34;ARTM failed with following: &#34; + error_message
+                )
+            # add cube description to the model history
+            new_model.add_cube(model_cube)
+            new_model.experiment = experiment
+            new_model.save()
+
+            returned_paths.append(new_model.model_default_save_path)
+
+            # some strategies depend on previous train results, therefore scores must be updated
+            if self.tracked_score_function:
+                current_score = self.tracked_score_function(new_model)
+            else:
+                # we return number of iterations as a placeholder
+                current_score = len(returned_paths)
+            self.strategy.update_scores(current_score)
+        return returned_paths
+
+    def _retrieve_results_from_process(self, queue, experiment):
+        from ..models import DummyTopicModel
+        models_num = get_from_queue_till_fail(queue, NUM_MODELS_ERROR)
+        topic_models = []
+        for _ in range(models_num):
+            path = get_from_queue_till_fail(queue, MODEL_RETRIEVE_ERROR.format(_, models_num))
+            topic_models.append(DummyTopicModel.load(path, experiment=experiment))
+
+        strategy_parameters = get_from_queue_till_fail(queue, STRATEGY_RETRIEVE_ERROR)
+        caught_warnings = get_from_queue_till_fail(queue, WARNINGS_RETRIEVE_ERROR)
+        self.strategy._set_strategy_parameters(strategy_parameters)
+
+        for (warning_message, warning_class) in caught_warnings:
+            # if issubclass(warning_class, UserWarning):
+            warnings.warn(warning_message)
+        return topic_models
+
+    def _train_models_and_report_results(self, queue, experiment, topic_model, dataset,
+                                         search_space, search_length):
+        &#34;&#34;&#34;
+        This function trains models in separate thread, saves them
+        and returns all paths for save with respect to train order.
+        To preserve train order model number is also returned.
+
+        &#34;&#34;&#34;
+        with warnings.catch_warnings(record=True) as caught_warnings:
+            returned_paths = self._train_models(experiment, topic_model, dataset, search_space)
+
+            queue.put(len(returned_paths))
+            for path in returned_paths:
+                queue.put(path)
+
+            # to work with strategy we recover consistency by sending important parameters
+            strategy_parameters = self.strategy._get_strategy_parameters(saveable_only=True)
+            queue.put(strategy_parameters)
+
+            caught_warnings = [(warning.message, warning.category)
+                               for warning in caught_warnings]
+            queue.put(caught_warnings)
+
+    def _run_cube(self, topic_model, dataset):
+        &#34;&#34;&#34;
+        Apply cube to topic_model. Get new models and fit them on batch_vectorizer.
+        Return list of all trained models.
+
+        Parameters
+        ----------
+        topic_model : TopicModel
+        dataset : Dataset
+
+        Returns
+        -------
+        TopicModel
+
+        &#34;&#34;&#34;
+
+        from ..models import DummyTopicModel
+        if isinstance(topic_model, DummyTopicModel):
+            topic_model = topic_model.restore()
+
+        # create log
+        # TODO: будет странно работать, если бесконечный список
+        parameter_description = self.get_jsonable_from_parameters()
+        cube_description = {
+                &#39;action&#39;: self.action,
+                &#39;params&#39;: parameter_description
+        }
+
+        # at one level only one cube can be implemented
+        if not check_experiment_existence(topic_model):
+            raise ValueError(&#34;TopicModel has no experiment. You should create Experiment.&#34;)
+        experiment = topic_model.experiment
+        topic_model_depth_in_tree = topic_model.depth
+        if topic_model_depth_in_tree &lt; len(experiment.cubes):
+            existed_cube = experiment.cubes[topic_model_depth_in_tree]
+            if existed_cube[&#39;params&#39;] != cube_description[&#39;params&#39;] or \
+                    existed_cube[&#39;action&#39;] != cube_description[&#39;action&#39;]:
+                error_message = (
+                    &#34;\nYou can not change strategy to another on this level in &#34;
+                    &#34;this experiment.\n&#34;
+                    &#34;If you want you can create another experiment with this &#34;
+                    &#34;model with parameter new_experiment=True.&#34;
+                    f&#34;the existing cube is \n {existed_cube[&#39;params&#39;]} \n, &#34;
+                    f&#34;but the proposed cube is \n {cube_description[&#39;params&#39;]} \n&#34;
+                )
+                raise ValueError(error_message)
+            is_new_exp_cube = False
+        else:
+            is_new_exp_cube = True
+
+        # perform all experiments
+        self.strategy.prepare_grid(self.parameters, self.reg_search)
+        search_space = self.strategy.grid_visit_generator(self.parameters, self.reg_search)
+        search_length = getattr(self.strategy, &#39;grid_len&#39;, None)
+
+        if self.verbose:
+            search_space = tqdm(search_space, total=search_length)
+
+        if self.separate_thread:
+            queue = Queue()
+            process = Process(
+                target=self._train_models_and_report_results,
+                args=(queue, experiment, topic_model, dataset,
+                      search_space, search_length)
+            )
+            process.start()
+            process.join()
+            topic_models = self._retrieve_results_from_process(queue, experiment)
+        else:
+            returned_paths = self._train_models(experiment, topic_model, dataset, search_space)
+            topic_models = [
+                DummyTopicModel.load(path, experiment=experiment)
+                for path in returned_paths
+            ]
+
+        for topic_model in topic_models:
+            topic_model.data_path = dataset._data_path
+            experiment.add_model(topic_model)
+
+        if is_new_exp_cube:
+            experiment.add_cube(cube_description)
+
+        return topic_models
+
+    def __call__(self, topic_model_input, dataset):
+        &#34;&#34;&#34;
+        Apply cube to topic_model. Get new models and fit them on batch_vectorizer.
+        Return list of all trained models.
+
+        Parameters
+        ----------
+        topic_model_input: TopicModel or list of TopicModel
+        dataset: Dataset
+
+        Returns
+        -------
+        list of TopicModel
+
+        &#34;&#34;&#34;
+        if isinstance(topic_model_input, (list, set)):
+            results = [
+                self._run_cube(topic_model, dataset)
+                for topic_model in topic_model_input
+            ]
+            return results
+        return self._run_cube(topic_model_input, dataset)</code></pre>
+</details>
 </section>
 <section>
 </section>
@@ -42,12 +392,48 @@
 <dt><code>bool</code></dt>
 <dd>True if experiment exists, in other case False.</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def check_experiment_existence(topic_model):
+    &#34;&#34;&#34;
+    Checks if topic_model has experiment.
+
+    Parameters
+    ----------
+    topic_model : TopicModel
+        topic model
+
+    Returns
+    -------
+    bool
+        True if experiment exists, in other case False.
+
+    &#34;&#34;&#34;
+    is_experiment = topic_model.experiment is not None
+
+    return is_experiment</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.cubes.base_cube.get_from_queue_till_fail"><code class="name flex">
 <span>def <span class="ident">get_from_queue_till_fail</span></span>(<span>queue, error_message='', fail_margin=1)</span>
 </code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_from_queue_till_fail(queue,  error_message=&#39;&#39;, fail_margin=1,):
+    fail_counter = 0
+    while fail_counter &lt; fail_margin:
+        try:
+            return queue.get(timeout=0.1)
+        except Empty:
+            fail_counter += 1
+    raise Empty(error_message)</code></pre>
+</details>
 </dd>
 </dl>
 </section>
@@ -81,6 +467,297 @@ case of several regularizers</dd>
 <dt><strong><code>separate_thread</code></strong> :&ensp;<code>bool</code></dt>
 <dd>will train models inside a separate thread if True</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BaseCube:
+    &#34;&#34;&#34;
+    Abstract class for all cubes.
+
+    &#34;&#34;&#34;
+    def __init__(self, num_iter, action=None, reg_search=&#34;grid&#34;,
+                 strategy=None, tracked_score_function=None,
+                 verbose=False, separate_thread=True):
+        &#34;&#34;&#34;
+        Initialize stage.
+        Checks params and update .parameters attribute.
+
+        Parameters
+        ----------
+        num_iter : int
+            number of iterations or method
+        action : str
+            stage of creation
+        reg_search : str
+            &#34;grid&#34; or &#34;pair&#34;. &#34;pair&#34; for elementwise grid search in the case
+            of several regularizers, &#34;grid&#34; for the fullgrid search in the
+            case of several regularizers
+        strategy : BaseStrategy
+            optimization approach
+        tracked_score_function : str or callable
+            optimizable function for strategy
+        verbose : bool
+            visualization flag
+        separate_thread : bool
+            will train models inside a separate thread if True
+
+        &#34;&#34;&#34;
+        self.num_iter = num_iter
+        self.parameters = []
+        self.action = action
+        self.reg_search = reg_search
+        if not strategy:
+            strategy = BaseStrategy()
+        self.strategy = strategy
+        self.verbose = verbose
+        self.separate_thread = separate_thread
+
+        if isinstance(tracked_score_function, str):
+            tracked_score_function = retrieve_score_for_strategy(tracked_score_function)
+        self.tracked_score_function = tracked_score_function
+
+    def apply(self, topic_model, one_cube_parameter, dictionary=None, model_id=None):
+        &#34;&#34;&#34;
+        &#34;apply&#34; method changes topic_model in way that is defined by one_cube_parameter.
+
+        Parameters
+        ----------
+        topic_model : TopicModel
+            topic model
+        one_cube_parameter : optional
+            parameters of one experiment
+        dictionary : dict
+            dictionary so that the it can be used
+            on the basis of the model (Default value = None)
+        model_id : str
+            id of created model if necessary (Default value = None)
+
+        Returns
+        -------
+
+        &#34;&#34;&#34;
+        raise NotImplementedError(&#39;must be implemented in subclass&#39;)
+
+    # TODO: из-за метода get_description на эту фунцию налагется больше требований чем тут написано
+    def get_jsonable_from_parameters(self):
+        &#34;&#34;&#34;
+        Transform self.parameters to something that can be downloaded as json.
+
+        Parameters
+        ----------
+
+        Returns
+        -------
+        optional
+            something jsonable
+
+        &#34;&#34;&#34;
+        return self.parameters
+
+    def _train_models(self, experiment, topic_model, dataset, search_space):
+        &#34;&#34;&#34;
+        This function trains models
+        &#34;&#34;&#34;
+        dataset_trainable = dataset._transform_data_for_training()
+        dataset_dictionary = dataset.get_dictionary()
+        returned_paths = []
+        experiment_save_path = experiment.save_path
+        experiment_id = experiment.experiment_id
+        save_folder = os.path.join(experiment_save_path, experiment_id)
+        for search_point in search_space:
+            candidate_name = get_timestamp_in_str_format()
+            new_model_id = padd_model_name(candidate_name)
+            new_model_save_path = os.path.join(save_folder, new_model_id)
+            model_index = 0
+            while os.path.exists(new_model_save_path):
+                model_index += 1
+                new_model_id = padd_model_name(&#34;{0}{1:_&gt;5}&#34;.format(candidate_name, model_index))
+                new_model_save_path = os.path.join(save_folder, new_model_id)
+
+            model_cube = {
+                &#34;action&#34;: self.action,
+                &#34;num_iter&#34;: self.num_iter,
+                &#34;params&#34;: repr(search_point)
+            }
+
+            try:
+                # alter the model according to cube parameters
+                new_model = self.apply(topic_model, search_point, dataset_dictionary, new_model_id)
+                # train new model for a number of iterations (might be zero)
+                new_model._fit(
+                    dataset_trainable=dataset_trainable,
+                    num_iterations=self.num_iter
+                )
+            except ArtmException as e:
+                error_message = repr(e)
+                raise ValueError(
+                    f&#39;Cannot alter and fit artm model with parameters {search_point}.\n&#39;
+                    &#34;ARTM failed with following: &#34; + error_message
+                )
+            # add cube description to the model history
+            new_model.add_cube(model_cube)
+            new_model.experiment = experiment
+            new_model.save()
+
+            returned_paths.append(new_model.model_default_save_path)
+
+            # some strategies depend on previous train results, therefore scores must be updated
+            if self.tracked_score_function:
+                current_score = self.tracked_score_function(new_model)
+            else:
+                # we return number of iterations as a placeholder
+                current_score = len(returned_paths)
+            self.strategy.update_scores(current_score)
+        return returned_paths
+
+    def _retrieve_results_from_process(self, queue, experiment):
+        from ..models import DummyTopicModel
+        models_num = get_from_queue_till_fail(queue, NUM_MODELS_ERROR)
+        topic_models = []
+        for _ in range(models_num):
+            path = get_from_queue_till_fail(queue, MODEL_RETRIEVE_ERROR.format(_, models_num))
+            topic_models.append(DummyTopicModel.load(path, experiment=experiment))
+
+        strategy_parameters = get_from_queue_till_fail(queue, STRATEGY_RETRIEVE_ERROR)
+        caught_warnings = get_from_queue_till_fail(queue, WARNINGS_RETRIEVE_ERROR)
+        self.strategy._set_strategy_parameters(strategy_parameters)
+
+        for (warning_message, warning_class) in caught_warnings:
+            # if issubclass(warning_class, UserWarning):
+            warnings.warn(warning_message)
+        return topic_models
+
+    def _train_models_and_report_results(self, queue, experiment, topic_model, dataset,
+                                         search_space, search_length):
+        &#34;&#34;&#34;
+        This function trains models in separate thread, saves them
+        and returns all paths for save with respect to train order.
+        To preserve train order model number is also returned.
+
+        &#34;&#34;&#34;
+        with warnings.catch_warnings(record=True) as caught_warnings:
+            returned_paths = self._train_models(experiment, topic_model, dataset, search_space)
+
+            queue.put(len(returned_paths))
+            for path in returned_paths:
+                queue.put(path)
+
+            # to work with strategy we recover consistency by sending important parameters
+            strategy_parameters = self.strategy._get_strategy_parameters(saveable_only=True)
+            queue.put(strategy_parameters)
+
+            caught_warnings = [(warning.message, warning.category)
+                               for warning in caught_warnings]
+            queue.put(caught_warnings)
+
+    def _run_cube(self, topic_model, dataset):
+        &#34;&#34;&#34;
+        Apply cube to topic_model. Get new models and fit them on batch_vectorizer.
+        Return list of all trained models.
+
+        Parameters
+        ----------
+        topic_model : TopicModel
+        dataset : Dataset
+
+        Returns
+        -------
+        TopicModel
+
+        &#34;&#34;&#34;
+
+        from ..models import DummyTopicModel
+        if isinstance(topic_model, DummyTopicModel):
+            topic_model = topic_model.restore()
+
+        # create log
+        # TODO: будет странно работать, если бесконечный список
+        parameter_description = self.get_jsonable_from_parameters()
+        cube_description = {
+                &#39;action&#39;: self.action,
+                &#39;params&#39;: parameter_description
+        }
+
+        # at one level only one cube can be implemented
+        if not check_experiment_existence(topic_model):
+            raise ValueError(&#34;TopicModel has no experiment. You should create Experiment.&#34;)
+        experiment = topic_model.experiment
+        topic_model_depth_in_tree = topic_model.depth
+        if topic_model_depth_in_tree &lt; len(experiment.cubes):
+            existed_cube = experiment.cubes[topic_model_depth_in_tree]
+            if existed_cube[&#39;params&#39;] != cube_description[&#39;params&#39;] or \
+                    existed_cube[&#39;action&#39;] != cube_description[&#39;action&#39;]:
+                error_message = (
+                    &#34;\nYou can not change strategy to another on this level in &#34;
+                    &#34;this experiment.\n&#34;
+                    &#34;If you want you can create another experiment with this &#34;
+                    &#34;model with parameter new_experiment=True.&#34;
+                    f&#34;the existing cube is \n {existed_cube[&#39;params&#39;]} \n, &#34;
+                    f&#34;but the proposed cube is \n {cube_description[&#39;params&#39;]} \n&#34;
+                )
+                raise ValueError(error_message)
+            is_new_exp_cube = False
+        else:
+            is_new_exp_cube = True
+
+        # perform all experiments
+        self.strategy.prepare_grid(self.parameters, self.reg_search)
+        search_space = self.strategy.grid_visit_generator(self.parameters, self.reg_search)
+        search_length = getattr(self.strategy, &#39;grid_len&#39;, None)
+
+        if self.verbose:
+            search_space = tqdm(search_space, total=search_length)
+
+        if self.separate_thread:
+            queue = Queue()
+            process = Process(
+                target=self._train_models_and_report_results,
+                args=(queue, experiment, topic_model, dataset,
+                      search_space, search_length)
+            )
+            process.start()
+            process.join()
+            topic_models = self._retrieve_results_from_process(queue, experiment)
+        else:
+            returned_paths = self._train_models(experiment, topic_model, dataset, search_space)
+            topic_models = [
+                DummyTopicModel.load(path, experiment=experiment)
+                for path in returned_paths
+            ]
+
+        for topic_model in topic_models:
+            topic_model.data_path = dataset._data_path
+            experiment.add_model(topic_model)
+
+        if is_new_exp_cube:
+            experiment.add_cube(cube_description)
+
+        return topic_models
+
+    def __call__(self, topic_model_input, dataset):
+        &#34;&#34;&#34;
+        Apply cube to topic_model. Get new models and fit them on batch_vectorizer.
+        Return list of all trained models.
+
+        Parameters
+        ----------
+        topic_model_input: TopicModel or list of TopicModel
+        dataset: Dataset
+
+        Returns
+        -------
+        list of TopicModel
+
+        &#34;&#34;&#34;
+        if isinstance(topic_model_input, (list, set)):
+            results = [
+                self._run_cube(topic_model, dataset)
+                for topic_model in topic_model_input
+            ]
+            return results
+        return self._run_cube(topic_model_input, dataset)</code></pre>
+</details>
 <h3>Subclasses</h3>
 <ul class="hlist">
 <li><a title="topicnet.cooking_machine.cubes.regularizer_cube.RegularizersModifierCube" href="regularizer_cube.html#topicnet.cooking_machine.cubes.regularizer_cube.RegularizersModifierCube">RegularizersModifierCube</a></li>
@@ -107,6 +784,32 @@ on the basis of the model (Default value = None)</dd>
 <dd>id of created model if necessary (Default value = None)</dd>
 </dl>
 <h2 id="returns">Returns</h2></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def apply(self, topic_model, one_cube_parameter, dictionary=None, model_id=None):
+    &#34;&#34;&#34;
+    &#34;apply&#34; method changes topic_model in way that is defined by one_cube_parameter.
+
+    Parameters
+    ----------
+    topic_model : TopicModel
+        topic model
+    one_cube_parameter : optional
+        parameters of one experiment
+    dictionary : dict
+        dictionary so that the it can be used
+        on the basis of the model (Default value = None)
+    model_id : str
+        id of created model if necessary (Default value = None)
+
+    Returns
+    -------
+
+    &#34;&#34;&#34;
+    raise NotImplementedError(&#39;must be implemented in subclass&#39;)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.cubes.base_cube.BaseCube.get_jsonable_from_parameters"><code class="name flex">
 <span>def <span class="ident">get_jsonable_from_parameters</span></span>(<span>self)</span>
@@ -119,6 +822,25 @@ on the basis of the model (Default value = None)</dd>
 <dt>optional</dt>
 <dd>something jsonable</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_jsonable_from_parameters(self):
+    &#34;&#34;&#34;
+    Transform self.parameters to something that can be downloaded as json.
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+    optional
+        something jsonable
+
+    &#34;&#34;&#34;
+    return self.parameters</code></pre>
+</details>
 </dd>
 </dl>
 </dd>
@@ -128,6 +850,20 @@ on the basis of the model (Default value = None)</dd>
 </code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class retrieve_score_for_strategy:
+    def __init__(self, score_name):
+        self.score_name = score_name
+
+    def __call__(self, model):
+        if isinstance(model, str):
+            self.score_name = model
+        else:
+            return model.scores[self.score_name][-1]</code></pre>
+</details>
 </dd>
 </dl>
 </section>
@@ -167,7 +903,9 @@ on the basis of the model (Default value = None)</dd>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>

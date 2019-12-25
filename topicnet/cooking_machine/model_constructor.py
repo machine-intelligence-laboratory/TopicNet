@@ -49,7 +49,8 @@ def init_model(topic_names, seed=None, class_ids=None):
     """
     model = artm.ARTM(
         topic_names=topic_names,
-        num_processors=3,
+        # Commented for performance uncomment if has zombie issues
+        # num_processors=3,
         theta_columns_naming='title',
         show_progress_bars=False,
         class_ids=class_ids,
@@ -102,6 +103,7 @@ def create_default_topics(specific_topics, background_topics):
 def init_simple_default_model(
         dataset, modalities_to_use, main_modality,
         specific_topics, background_topics,
+        modalities_weights=None
 ):
     """
     Creates simple artm model with standard scores.
@@ -113,19 +115,27 @@ def init_simple_default_model(
     main_modality : str
     specific_topics : list or int
     background_topics : list or int
+    modalities_weights : dict or None
 
     Returns
     -------
     model: artm.ARTM() instance
     """
+    if modalities_weights is not None:
+        assert sorted(list(modalities_to_use)) == sorted(list(modalities_weights.keys()))
+    baseline_class_ids = {class_id: 1 for class_id in modalities_to_use}
+
     specific_topic_names, background_topic_names = create_default_topics(
         specific_topics, background_topics
     )
     dictionary = dataset.get_dictionary()
 
-    baseline_class_ids = {class_id: 1 for class_id in modalities_to_use}
     tokens_data = count_vocab_size(dictionary, modalities_to_use)
-    abs_weights = modality_weight_rel2abs(tokens_data, baseline_class_ids, main_modality)
+    abs_weights = modality_weight_rel2abs(
+        tokens_data,
+        modalities_weights if modalities_weights is not None else baseline_class_ids,
+        main_modality
+    )
 
     model = init_model(
         topic_names=specific_topic_names + background_topic_names,

@@ -54,4 +54,4 @@ stages:
         max_len: 50
     tracked_score_function: PerplexityScore@all
     verbose: false
-    relative_coefficients: true
+    use_relative_coefficients: true

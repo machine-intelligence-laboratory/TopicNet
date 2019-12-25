@@ -62,6 +62,7 @@ class BaseModel(object):
         self._description = []
         self._scores = dict()
         self._score_functions = dict()
+        self._custom_scores = []
 
     def __str__(self):
         return f'id={self.model_id}, ' \

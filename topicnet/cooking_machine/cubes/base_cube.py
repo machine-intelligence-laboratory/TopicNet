@@ -1,8 +1,9 @@
 import os
 from tqdm import tqdm
 import warnings
-from multiprocessing import Queue, Process
-from queue import Empty
+from multiprocessing import Queue, Process, Lock, Condition
+# from queue import Empty
+from artm.wrapper.exceptions import ArtmException
 
 from .strategy import BaseStrategy
 from ..models.base_model import padd_model_name
@@ -45,14 +46,22 @@ class retrieve_score_for_strategy:
             return model.scores[self.score_name][-1]
 
 
-def get_from_queue_till_fail(queue,  error_message='', fail_margin=1,):
-    fail_counter = 0
-    while fail_counter < fail_margin:
-        try:
-            return queue.get(timeout=0.1)
-        except Empty:
-            fail_counter += 1
-    raise Empty(error_message)
+def put_to_queue(queue, condition, puttable):
+    # condition.acquire()
+    queue.put(puttable)
+    # condition.notify()
+    # condition.release()
+
+
+def get_from_queue_till_fail(queue, condition, error_message='',):
+    while True:
+        # condition.acquire()
+        # while queue.empty():
+        #    condition.wait()
+        result = queue.get()
+        # condition.notify()
+        # condition.release()
+        return result
 
 
 class BaseCube:
@@ -159,24 +168,32 @@ class BaseCube:
                 new_model_id = padd_model_name("{0}{1:_>5}".format(candidate_name, model_index))
                 new_model_save_path = os.path.join(save_folder, new_model_id)
 
-            # alter the model according to cube parameters
-            new_model = self.apply(topic_model, search_point, dataset_dictionary, new_model_id)
-
             model_cube = {
                 "action": self.action,
                 "num_iter": self.num_iter,
                 "params": repr(search_point)
             }
 
-            # train new model for a number of iterations (might be zero)
-            new_model._fit(
-                dataset_trainable=dataset_trainable,
-                num_iterations=self.num_iter
-            )
+            try:
+                # alter the model according to cube parameters
+                new_model = self.apply(topic_model, search_point, dataset_dictionary, new_model_id)
+                # train new model for a number of iterations (might be zero)
+                new_model._fit(
+                    dataset_trainable=dataset_trainable,
+                    num_iterations=self.num_iter
+                )
+            except ArtmException as e:
+                error_message = repr(e)
+                raise ValueError(
+                    f'Cannot alter and fit artm model with parameters {search_point}.\n'
+                    "ARTM failed with following: " + error_message
+
+                )
             # add cube description to the model history
             new_model.add_cube(model_cube)
             new_model.experiment = experiment
             new_model.save()
+            assert os.path.exists(new_model.model_default_save_path)
 
             returned_paths.append(new_model.model_default_save_path)
 
@@ -189,24 +206,27 @@ class BaseCube:
             self.strategy.update_scores(current_score)
         return returned_paths
 
-    def _retrieve_results_from_process(self, queue, experiment):
+    def _retrieve_results_from_process(self, queue, condition, experiment):
         from ..models import DummyTopicModel
-        models_num = get_from_queue_till_fail(queue, NUM_MODELS_ERROR)
+        models_num = get_from_queue_till_fail(queue, condition, NUM_MODELS_ERROR)
         topic_models = []
         for _ in range(models_num):
-            path = get_from_queue_till_fail(queue, MODEL_RETRIEVE_ERROR.format(_, models_num))
+            path = get_from_queue_till_fail(queue,
+                                            condition,
+                                            MODEL_RETRIEVE_ERROR.format(_, models_num))
             topic_models.append(DummyTopicModel.load(path, experiment=experiment))
 
-        strategy_parameters = get_from_queue_till_fail(queue, STRATEGY_RETRIEVE_ERROR)
-        caught_warnings = get_from_queue_till_fail(queue, WARNINGS_RETRIEVE_ERROR)
+        strategy_parameters = get_from_queue_till_fail(queue, condition, STRATEGY_RETRIEVE_ERROR)
+        caught_warnings = get_from_queue_till_fail(queue, condition, WARNINGS_RETRIEVE_ERROR)
         self.strategy._set_strategy_parameters(strategy_parameters)
 
         for (warning_message, warning_class) in caught_warnings:
             # if issubclass(warning_class, UserWarning):
             warnings.warn(warning_message)
+
         return topic_models
 
-    def _train_models_and_report_results(self, queue, experiment, topic_model, dataset,
+    def _train_models_and_report_results(self, queue, not_empty, experiment, topic_model, dataset,
                                          search_space, search_length):
         """
         This function trains models in separate thread, saves them
@@ -216,18 +236,17 @@ class BaseCube:
         """
         with warnings.catch_warnings(record=True) as caught_warnings:
             returned_paths = self._train_models(experiment, topic_model, dataset, search_space)
-
-            queue.put(len(returned_paths))
-            for path in returned_paths:
-                queue.put(path)
+            put_to_queue(queue, not_empty, len(returned_paths))
+            for i, path in enumerate(returned_paths):
+                put_to_queue(queue, not_empty, path)
 
             # to work with strategy we recover consistency by sending important parameters
             strategy_parameters = self.strategy._get_strategy_parameters(saveable_only=True)
-            queue.put(strategy_parameters)
+            put_to_queue(queue, not_empty, strategy_parameters)
 
             caught_warnings = [(warning.message, warning.category)
                                for warning in caught_warnings]
-            queue.put(caught_warnings)
+            put_to_queue(queue, not_empty, caught_warnings)
 
     def _run_cube(self, topic_model, dataset):
         """
@@ -289,14 +308,27 @@ class BaseCube:
 
         if self.separate_thread:
             queue = Queue()
+            not_empty = Condition(Lock())
             process = Process(
                 target=self._train_models_and_report_results,
-                args=(queue, experiment, topic_model, dataset,
-                      search_space, search_length)
+                args=(queue, not_empty, experiment, topic_model, dataset,
+                      search_space, search_length),
+                daemon=True
             )
             process.start()
+            """
+            attempts_left = 100
+            while process.is_alive():
+                sleep(0.5)
+                attempts_left -= 1
+                print(process.is_alive(), attempts_left)
+                if attempts_left <= 0:
+                    process.terminate()
+                    break
+            """
+
             process.join()
-            topic_models = self._retrieve_results_from_process(queue, experiment)
+            topic_models = self._retrieve_results_from_process(queue, not_empty, experiment)
         else:
             returned_paths = self._train_models(experiment, topic_model, dataset, search_space)
             topic_models = [

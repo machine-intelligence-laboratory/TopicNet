@@ -3,7 +3,6 @@ import warnings
 
 import os
 import shutil
-from time import sleep
 
 import artm
 
@@ -15,6 +14,11 @@ from ..cooking_machine.dataset import Dataset, W_DIFF_BATCHES_1
 from ..cooking_machine.config_parser import build_experiment_environment_from_yaml_config
 
 
+# MULTIPROCESSING_FLAGS = [True, False]
+MULTIPROCESSING_FLAGS = [True]
+USE_MULTIPROCESS = True
+
+
 def resource_teardown():
     """ """
     if os.path.exists("tests/experiments"):
@@ -24,7 +28,8 @@ def resource_teardown():
 
 
 def setup_function():
-    resource_teardown()
+    # resource_teardown()
+    pass
 
 
 def teardown_function():
@@ -40,7 +45,7 @@ def experiment_enviroment(request):
         dictionary = dataset.get_dictionary()
 
     model_artm = artm.ARTM(
-        num_processors=1,
+        num_processors=3,
         num_topics=5, cache_theta=True,
         num_document_passes=1, dictionary=dictionary,
         scores=[artm.PerplexityScore(name='PerplexityScore')]
@@ -63,6 +68,7 @@ def experiment_enviroment(request):
                 },
             ],
             'reg_search': 'grid',
+            'separate_thread': USE_MULTIPROCESS,
         },
         'selection': [
             'model.seed = 82019 and PerplexityScore -> min COLLECT 2',
@@ -77,6 +83,7 @@ def experiment_enviroment(request):
             },
             'reg_search': 'grid',
             'use_relative_coefficients': False,
+            'separate_thread': USE_MULTIPROCESS,
         },
         'selection': [
             'PerplexityScore -> max COLLECT 2',
@@ -86,14 +93,16 @@ def experiment_enviroment(request):
     return tm, dataset, experiment, dictionary, cube_settings
 
 
-def test_bad_empty_config(experiment_enviroment):
-    with open("tests/test_data/bad_empty_config.yml", "r") as f:
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_bad_empty_config(experiment_enviroment, thread_flag):
+    with open("tests/test_data/bad_empty_config.yml", "r", encoding='utf-8') as f:
         yaml_string = f.read()
 
     experiment, dataset = build_experiment_environment_from_yaml_config(
         yaml_string,
         experiment_id="Test_config",
-        save_path="tests/experiments"
+        save_path="tests/experiments",
+        force_single_thread=not thread_flag
     )
     with pytest.warns(UserWarning, match='Unable to calculate special'):
         experiment.run(dataset)
@@ -101,26 +110,30 @@ def test_bad_empty_config(experiment_enviroment):
     assert len(final_models) == 0
 
 
-def test_bad_config(experiment_enviroment):
-    with open("tests/test_data/bad_config.yml", "r") as f:
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_bad_config(experiment_enviroment, thread_flag):
+    with open("tests/test_data/bad_config.yml", "r", encoding='utf-8') as f:
         yaml_string = f.read()
 
     with pytest.raises(ValueError, match='Unsupported stages value: SecondStageCube at line 53'):
         experiment, dataset = build_experiment_environment_from_yaml_config(
             yaml_string,
             experiment_id="Test_config",
-            save_path="tests/experiments"
+            save_path="tests/experiments",
+            force_single_thread=not thread_flag
         )
 
 
-def test_pipeline_from_config(experiment_enviroment):
-    with open("tests/test_data/config.yml", "r") as f:
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_pipeline_from_config(experiment_enviroment, thread_flag):
+    with open("tests/test_data/config.yml", "r", encoding='utf-8') as f:
         yaml_string = f.read()
 
     experiment, dataset = build_experiment_environment_from_yaml_config(
         yaml_string,
         experiment_id="Test_config",
-        save_path="tests/experiments"
+        save_path="tests/experiments",
+        force_single_thread=not thread_flag
     )
     with pytest.warns(UserWarning, match="Max progression length") as record:
         experiment.run(dataset)
@@ -164,16 +177,17 @@ def test_pipeline_from_config(experiment_enviroment):
     assert "PerplexityScore@all" in description
 
 
-def test_config_with_blei_score(experiment_enviroment):
-    with open("tests/test_data/config_blei.yml", "r") as f:
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_config_with_blei_score(experiment_enviroment, thread_flag):
+    with open("tests/test_data/config_blei.yml", "r", encoding='utf-8') as f:
         yaml_string = f.read()
 
     experiment, dataset = build_experiment_environment_from_yaml_config(
         yaml_string,
         experiment_id="Test_config",
-        save_path="tests/experiments"
+        save_path="tests/experiments",
+        force_single_thread=not thread_flag
     )
-    sleep(2)
     experiment.run(dataset)
 
     final_models = experiment.select()
@@ -182,14 +196,16 @@ def test_config_with_blei_score(experiment_enviroment):
     assert final_models[0].scores["BleiLaffertyScore"][-1] > 0
 
 
-def test_config_with_scores(experiment_enviroment):
-    with open("tests/test_data/config_short.yml", "r") as f:
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_config_with_scores(experiment_enviroment, thread_flag):
+    with open("tests/test_data/config_short.yml", "r", encoding='utf-8') as f:
         yaml_string = f.read()
 
     experiment, dataset = build_experiment_environment_from_yaml_config(
         yaml_string,
         experiment_id="Test_config",
-        save_path="tests/experiments"
+        save_path="tests/experiments",
+        force_single_thread=not thread_flag
     )
     experiment.run(dataset)
 
@@ -200,17 +216,17 @@ def test_config_with_scores(experiment_enviroment):
     assert "BTRS" in final_models[0].scores
 
 
-def test_config_with_greedy_strategy(experiment_enviroment):
-    sleep(1)
-    with open("tests/test_data/config2.yml", "r") as f:
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_config_with_greedy_strategy(experiment_enviroment, thread_flag):
+    with open("tests/test_data/config2.yml", "r", encoding='utf-8') as f:
         yaml_string = f.read()
 
     experiment, dataset = build_experiment_environment_from_yaml_config(
         yaml_string,
         experiment_id="Test_config",
-        save_path="tests/experiments"
+        save_path="tests/experiments",
+        force_single_thread=not thread_flag
     )
-    sleep(1)
     experiment.run(dataset)
 
     final_models = experiment.select()
@@ -221,8 +237,6 @@ def test_simple_pipeline(experiment_enviroment):
     tm, dataset, experiment, dictionary, cube_settings = experiment_enviroment
 
     experiment.build(cube_settings)
-    # an ugly workaround for strange multithreading issue
-    sleep(2)
     with pytest.warns(UserWarning, match="Not enough models for"):
         final_models = experiment.run(dataset, verbose=False, nb_verbose=False)
 
@@ -238,12 +252,11 @@ def test_simple_pipeline(experiment_enviroment):
     assert len(set(scores)) == 2, 'Incorrect number of final models.'
 
 
-def test_pipeline_with_new_cube_after(experiment_enviroment):
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_pipeline_with_new_cube_after(experiment_enviroment, thread_flag):
     tm, dataset, experiment, dictionary, cube_settings = experiment_enviroment
 
     experiment.build(cube_settings)
-    # an ugly workaround for strange multithreading issue
-    sleep(2)
     with pytest.warns(UserWarning, match="Not enough models for"):
         models = experiment.run(dataset, verbose=False, nb_verbose=False)
     models = list(models)
@@ -256,6 +269,7 @@ def test_pipeline_with_new_cube_after(experiment_enviroment):
         },
         reg_search="grid",
         use_relative_coefficients=False,
+        separate_thread=thread_flag,
     )
 
     new_models = cube(models[-1], dataset)

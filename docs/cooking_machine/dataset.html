@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.6.3" />
+<meta name="generator" content="pdoc 0.7.2" />
 <title>topicnet.cooking_machine.dataset API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
 <style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
 </head>
@@ -19,6 +20,448 @@
 <h1 class="title">Module <code>topicnet.cooking_machine.dataset</code></h1>
 </header>
 <section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import pandas as pd
+import os
+import warnings
+import artm
+import shutil
+
+from glob import glob
+from .routine import blake2bchecksum
+
+W_DIFF_BATCHES_1 = &#34;Attempted to use batches for different dataset.&#34;
+W_DIFF_BATCHES_2 = &#34;Overwriting batches in {0}&#34;
+
+DEFAULT_ARTM_MODALITY = &#39;@default_class&#39;  # TODO: how to get this value from artm library?
+MODALITY_START_SYMBOL = &#39;|&#39;
+
+
+def get_modality_names(vw_string):
+    &#34;&#34;&#34;
+    Gets modality names from vw_string.
+
+    Parameters
+    ----------
+    vw_string : str
+        string in vw format
+
+    Returns
+    -------
+    str
+        document id
+    list of str
+        modalities in document
+
+    &#34;&#34;&#34;
+    modalities = vw_string.split(MODALITY_START_SYMBOL)
+    modality_names = [mod.split(&#39; &#39;)[0] for mod in modalities]
+    doc_id = modality_names[0]
+    modality_names = list(set(modality_names[1:]))
+    return doc_id, modality_names
+
+
+def get_modality_vw(vw_string, modality_name):
+    &#34;&#34;&#34;
+    Gets modality string from document vw string.
+
+    Parameters
+    ----------
+    vw_string : str
+        string in vw format
+    modality_name : str
+        name of the modality
+
+    Returns
+    -------
+    str
+        content of modality_name modality
+
+    &#34;&#34;&#34;
+    modality_contents = vw_string.split(MODALITY_START_SYMBOL)
+    for one_modality_content in modality_contents:
+        if one_modality_content[:len(modality_name)] == modality_name:
+            return one_modality_content[len(modality_name):]
+    return &#34;&#34;
+
+
+VW_TEXT_COL = &#39;vw_text&#39;
+RAW_TEXT_COL = &#39;raw_text&#39;
+
+
+class BaseDataset:
+    &#34;&#34;&#34; &#34;&#34;&#34;
+    def get_source_document(self, document_id):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        document_id : str
+
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    def _transform_data_for_training(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        raise NotImplementedError
+
+
+class Dataset(BaseDataset):
+    &#34;&#34;&#34;
+    Class for keeping training data and documents for creation models.
+
+    &#34;&#34;&#34;
+    def __init__(self, data_path,
+                 keep_in_memory=True,
+                 batch_vectorizer_path=None,
+                 batch_size=1000):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        data_path : str
+            path to a CSV file with input data for training models,
+            format of the file is &lt;id&gt;,&lt;raw text&gt;,&lt;Vowpal Wabbit text&gt;
+        keep_in_memory: bool
+            a flag determining if the collection is small enough to
+            be kept in memory.
+        batch_vectorizer_path : str
+            path to the directory with collection batches
+        batch_size : int
+            number of documents in one batch
+
+        &#34;&#34;&#34;
+        # set main data
+        self._data_path = data_path
+        self._small_data = keep_in_memory
+        self._data_hash = None
+        self._cached_dict = None
+        if os.path.exists(data_path):
+            self._data = self._read_data(data_path)
+        else:
+            raise ValueError(&#39;File {!r} doesn\&#39;t exist&#39;.format(data_path))
+
+        # set batch vectorizer path
+        if batch_vectorizer_path is not None:
+            self._batch_vectorizer_path = batch_vectorizer_path
+        else:
+            dot_position = data_path.rfind(&#39;.&#39;)
+            dot_position = dot_position if dot_position &gt; 0 else len(data_path)
+            self._batch_vectorizer_path = data_path[:dot_position] + &#39;_batches&#39;
+
+        self._modalities = self._extract_possible_modalities()
+        self.batch_size = batch_size
+
+    def _read_data(self, data_path):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        data_path : str
+
+        Returns
+        -------
+        pd.DataFrame
+            data from data_path
+
+        &#34;&#34;&#34;
+        dot_position = data_path.rfind(&#39;.&#39;)
+        if dot_position == -1:
+            raise TypeError(&#39;filename should contain . to define type&#39;)
+
+        file_type = data_path[dot_position + 1:]
+        if self._small_data:
+            import pandas as data_handle
+        else:
+            import dask.dataframe as data_handle
+
+        if file_type == &#39;csv&#39;:
+            data = data_handle.read_csv(
+                data_path,
+                engine=&#39;python&#39;,
+                error_bad_lines=False,
+            )
+        elif file_type == &#39;pkl&#39;:
+            try:
+                data = data_handle.read_pickle(
+                    data_path,
+                    engine=&#39;python&#39;,
+                    error_bad_lines=False,
+                )
+            except AttributeError:
+                raise(&#39;Cant handle big *.pkl files&#39;)
+        elif file_type == &#39;txt&#39; or file_type == &#39;vw&#39;:
+            data = data_handle.read_csv(
+                data_path,
+                engine=&#39;python&#39;,
+                error_bad_lines=False,
+                sep=&#39;\n&#39;,
+                header=None,
+                names=[VW_TEXT_COL]
+            )
+            data[RAW_TEXT_COL] = &#39;&#39;
+
+            data[&#39;id&#39;] = data[VW_TEXT_COL].str.partition(&#39; &#39;)[0]
+        else:
+            raise TypeError(&#39;Unknown file type&#39;)
+        data[&#39;id&#39;] = data[&#39;id&#39;].astype(&#39;str&#39;)
+        data = data.set_index(&#39;id&#39;)
+        if VW_TEXT_COL not in data.columns:
+            raise ValueError(&#39;data should contain VW field&#39;)
+        return data
+
+    def get_dataset(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        return self._data
+
+    def get_vw_document(self, document_id):
+        &#34;&#34;&#34;
+        Get &#39;vw_text&#39; for the document with document_id.
+
+        Parameters
+        ----------
+        document_id : str
+
+        Returns
+        -------
+        list of str
+            document id and content of &#39;vw_text&#39; column
+
+        &#34;&#34;&#34;
+        if not isinstance(document_id, list):
+            document_id = [document_id]
+        if self._small_data:
+            in_index = self._data.index.intersection(document_id)
+            back_pd = pd.DataFrame(
+                self._data.loc[in_index, VW_TEXT_COL]
+                .reindex(document_id)
+                .fillna(&#39;Not Found&#39;)
+            )
+            return back_pd
+        else:
+            data_indices = self._data.index.compute()
+            in_index = [
+                doc_id for doc_id in document_id
+                if doc_id in data_indices
+            ]
+            back_pd = pd.DataFrame(
+                self._data.loc[in_index, VW_TEXT_COL].compute()
+                .reindex(document_id)
+                .fillna(&#39;Not Found&#39;)
+            )
+            return back_pd
+
+    def get_source_document(self, document_id):
+        &#34;&#34;&#34;
+        Get &#39;raw_text&#39; for the document with document_id.
+
+        Parameters
+        ----------
+        document_id : str
+
+        Returns
+        -------
+        list of str
+            document id and content of &#39;raw_text&#39; column
+
+        &#34;&#34;&#34;
+        if not isinstance(document_id, list):
+            document_id = [document_id]
+        if self._small_data:
+            in_index = self._data.index.intersection(document_id)
+            back_pd = pd.DataFrame(
+                self._data.loc[in_index, RAW_TEXT_COL]
+                .reindex(document_id)
+                .fillna(&#39;Not Found&#39;)
+            )
+            return back_pd
+        else:
+            data_indices = self._data.index.compute()
+            in_index = [
+                doc_id for doc_id in document_id
+                if doc_id in data_indices
+            ]
+            back_pd = pd.DataFrame(
+                self._data.loc[in_index, RAW_TEXT_COL].compute()
+                .reindex(document_id)
+                .fillna(&#39;Not Found&#39;)
+            )
+            return back_pd
+
+    def write_vw(self, file_path):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        with open(file_path, &#39;w&#39;, encoding=&#39;utf-8&#39;) as f:
+            for index, data in self._data.iterrows():
+                vw_string = data[VW_TEXT_COL]
+                f.write(vw_string + &#39;\n&#39;)
+
+    def _check_collection(self, data_path):
+        &#34;&#34;&#34;
+        Checks if folder with collection:
+        1) Exists
+        2) Same as the one this dataset holds
+
+        Parameters
+        ----------
+        data_path : str
+            folder for the checking
+        Returns
+        -------
+        same_collection : bool
+        &#34;&#34;&#34;
+        path_to_collection = os.path.join(data_path, &#39;vw.txt&#39;)
+        if not os.path.exists(data_path):
+            os.mkdir(data_path)
+            return False, path_to_collection
+
+        if self._data_hash is None:
+            temp_file_path = os.path.join(data_path, &#39;temp_vw.txt&#39;)
+            self.write_vw(temp_file_path)
+            self._data_hash = blake2bchecksum(temp_file_path)
+            os.remove(temp_file_path)
+
+        if os.path.isfile(path_to_collection):
+            same_collection = blake2bchecksum(path_to_collection) == self._data_hash
+        else:
+            same_collection = False
+        return same_collection, path_to_collection
+
+    def get_batch_vectorizer(self, batch_vectorizer_path=None):
+        &#34;&#34;&#34;
+        Get batch vectorizer.
+
+        Parameters
+        ----------
+        batch_vectorizer_path : str
+             (Default value = None)
+
+        Returns
+        -------
+        batch_vectorizer :
+
+        &#34;&#34;&#34;
+        if batch_vectorizer_path is None:
+            batch_vectorizer_path = self._batch_vectorizer_path
+
+        same_collection, path_to_collection = self._check_collection(
+            batch_vectorizer_path
+        )
+
+        if same_collection:
+            batches_exist = len(glob(os.path.join(batch_vectorizer_path, &#39;*.batch&#39;))) &gt; 0
+            if not batches_exist:
+                self.write_vw(path_to_collection)
+                batch_vectorizer = artm.BatchVectorizer(
+                    data_path=path_to_collection,
+                    data_format=&#39;vowpal_wabbit&#39;,
+                    target_folder=batch_vectorizer_path,
+                    batch_size=self.batch_size
+                )
+            else:
+                batch_vectorizer = artm.BatchVectorizer(
+                    data_path=batch_vectorizer_path,
+                    data_format=&#39;batches&#39;
+                )
+        else:
+            warnings.warn(W_DIFF_BATCHES_1 + W_DIFF_BATCHES_2.format(batch_vectorizer_path))
+            try:
+                shutil.rmtree(batch_vectorizer_path)
+            except FileNotFoundError:
+                pass
+            os.mkdir(batch_vectorizer_path)
+            self.write_vw(path_to_collection)
+
+            batch_vectorizer = artm.BatchVectorizer(
+                data_path=path_to_collection,
+                data_format=&#39;vowpal_wabbit&#39;,
+                target_folder=batch_vectorizer_path,
+                batch_size=self.batch_size
+            )
+
+        return batch_vectorizer
+
+    def get_dictionary(self, batch_vectorizer_path=None):
+        &#34;&#34;&#34;
+        Get dictionary.
+
+        Parameters
+        ----------
+        batch_vectorizer_path : str
+             (Default value = None)
+
+        Returns
+        -------
+        dictionary :
+
+        &#34;&#34;&#34;
+        if self._cached_dict is not None:
+            return self._cached_dict
+
+        if batch_vectorizer_path is None:
+            batch_vectorizer_path = self._batch_vectorizer_path
+
+        dictionary = artm.Dictionary()
+        dict_path = os.path.join(batch_vectorizer_path, &#39;dict.dict&#39;)
+
+        same_collection, path_to_collection = self._check_collection(
+            batch_vectorizer_path
+        )
+
+        if same_collection:
+            if not os.path.isfile(dict_path):
+                dictionary.gather(data_path=batch_vectorizer_path)
+                dictionary.save(dictionary_path=dict_path)
+            dictionary.load(dictionary_path=dict_path)
+            self._cached_dict = dictionary
+            return dictionary
+        else:
+            _ = self.get_batch_vectorizer(batch_vectorizer_path)
+            dictionary.gather(data_path=batch_vectorizer_path)
+            dictionary.save(dictionary_path=dict_path)
+            dictionary.load(dictionary_path=dict_path)
+            self._cached_dict = dictionary
+            return dictionary
+
+    def _transform_data_for_training(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        return self.get_batch_vectorizer()
+
+    def _extract_possible_modalities(self):
+        &#34;&#34;&#34;
+        Extracts all modalities from data.
+
+        Returns
+        -------
+        set
+            all modalities in Dataset
+
+        &#34;&#34;&#34;
+        modalities_list = [
+            get_modality_names(vw_string[VW_TEXT_COL])[1]
+            for _, vw_string in self._data.iterrows()
+        ]
+        all_modalities = set([
+            modality
+            for modalities in modalities_list
+            for modality in modalities
+        ])
+        return all_modalities
+
+    def get_possible_modalities(self):
+        &#34;&#34;&#34;
+        Returns extracted modalities.
+
+        Returns
+        -------
+        set
+            all modalities in Dataset
+
+        &#34;&#34;&#34;
+        return self._modalities</code></pre>
+</details>
 </section>
 <section>
 </section>
@@ -44,6 +487,33 @@
 <dt><code>list</code> of <code>str</code></dt>
 <dd>modalities in document</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_modality_names(vw_string):
+    &#34;&#34;&#34;
+    Gets modality names from vw_string.
+
+    Parameters
+    ----------
+    vw_string : str
+        string in vw format
+
+    Returns
+    -------
+    str
+        document id
+    list of str
+        modalities in document
+
+    &#34;&#34;&#34;
+    modalities = vw_string.split(MODALITY_START_SYMBOL)
+    modality_names = [mod.split(&#39; &#39;)[0] for mod in modalities]
+    doc_id = modality_names[0]
+    modality_names = list(set(modality_names[1:]))
+    return doc_id, modality_names</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.dataset.get_modality_vw"><code class="name flex">
 <span>def <span class="ident">get_modality_vw</span></span>(<span>vw_string, modality_name)</span>
@@ -62,6 +532,33 @@
 <dt><code>str</code></dt>
 <dd>content of modality_name modality</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_modality_vw(vw_string, modality_name):
+    &#34;&#34;&#34;
+    Gets modality string from document vw string.
+
+    Parameters
+    ----------
+    vw_string : str
+        string in vw format
+    modality_name : str
+        name of the modality
+
+    Returns
+    -------
+    str
+        content of modality_name modality
+
+    &#34;&#34;&#34;
+    modality_contents = vw_string.split(MODALITY_START_SYMBOL)
+    for one_modality_content in modality_contents:
+        if one_modality_content[:len(modality_name)] == modality_name:
+            return one_modality_content[len(modality_name):]
+    return &#34;&#34;</code></pre>
+</details>
 </dd>
 </dl>
 </section>
@@ -74,6 +571,26 @@
 </code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BaseDataset:
+    &#34;&#34;&#34; &#34;&#34;&#34;
+    def get_source_document(self, document_id):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        document_id : str
+
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    def _transform_data_for_training(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        raise NotImplementedError</code></pre>
+</details>
 <h3>Subclasses</h3>
 <ul class="hlist">
 <li><a title="topicnet.cooking_machine.dataset.Dataset" href="#topicnet.cooking_machine.dataset.Dataset">Dataset</a></li>
@@ -89,6 +606,20 @@
 <dt><strong><code>document_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>&nbsp;</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_source_document(self, document_id):
+    &#34;&#34;&#34;
+
+    Parameters
+    ----------
+    document_id : str
+
+    &#34;&#34;&#34;
+    raise NotImplementedError</code></pre>
+</details>
 </dd>
 </dl>
 </dd>
@@ -111,6 +642,363 @@ be kept in memory.</dd>
 <dt><strong><code>batch_size</code></strong> :&ensp;<code>int</code></dt>
 <dd>number of documents in one batch</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Dataset(BaseDataset):
+    &#34;&#34;&#34;
+    Class for keeping training data and documents for creation models.
+
+    &#34;&#34;&#34;
+    def __init__(self, data_path,
+                 keep_in_memory=True,
+                 batch_vectorizer_path=None,
+                 batch_size=1000):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        data_path : str
+            path to a CSV file with input data for training models,
+            format of the file is &lt;id&gt;,&lt;raw text&gt;,&lt;Vowpal Wabbit text&gt;
+        keep_in_memory: bool
+            a flag determining if the collection is small enough to
+            be kept in memory.
+        batch_vectorizer_path : str
+            path to the directory with collection batches
+        batch_size : int
+            number of documents in one batch
+
+        &#34;&#34;&#34;
+        # set main data
+        self._data_path = data_path
+        self._small_data = keep_in_memory
+        self._data_hash = None
+        self._cached_dict = None
+        if os.path.exists(data_path):
+            self._data = self._read_data(data_path)
+        else:
+            raise ValueError(&#39;File {!r} doesn\&#39;t exist&#39;.format(data_path))
+
+        # set batch vectorizer path
+        if batch_vectorizer_path is not None:
+            self._batch_vectorizer_path = batch_vectorizer_path
+        else:
+            dot_position = data_path.rfind(&#39;.&#39;)
+            dot_position = dot_position if dot_position &gt; 0 else len(data_path)
+            self._batch_vectorizer_path = data_path[:dot_position] + &#39;_batches&#39;
+
+        self._modalities = self._extract_possible_modalities()
+        self.batch_size = batch_size
+
+    def _read_data(self, data_path):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        data_path : str
+
+        Returns
+        -------
+        pd.DataFrame
+            data from data_path
+
+        &#34;&#34;&#34;
+        dot_position = data_path.rfind(&#39;.&#39;)
+        if dot_position == -1:
+            raise TypeError(&#39;filename should contain . to define type&#39;)
+
+        file_type = data_path[dot_position + 1:]
+        if self._small_data:
+            import pandas as data_handle
+        else:
+            import dask.dataframe as data_handle
+
+        if file_type == &#39;csv&#39;:
+            data = data_handle.read_csv(
+                data_path,
+                engine=&#39;python&#39;,
+                error_bad_lines=False,
+            )
+        elif file_type == &#39;pkl&#39;:
+            try:
+                data = data_handle.read_pickle(
+                    data_path,
+                    engine=&#39;python&#39;,
+                    error_bad_lines=False,
+                )
+            except AttributeError:
+                raise(&#39;Cant handle big *.pkl files&#39;)
+        elif file_type == &#39;txt&#39; or file_type == &#39;vw&#39;:
+            data = data_handle.read_csv(
+                data_path,
+                engine=&#39;python&#39;,
+                error_bad_lines=False,
+                sep=&#39;\n&#39;,
+                header=None,
+                names=[VW_TEXT_COL]
+            )
+            data[RAW_TEXT_COL] = &#39;&#39;
+
+            data[&#39;id&#39;] = data[VW_TEXT_COL].str.partition(&#39; &#39;)[0]
+        else:
+            raise TypeError(&#39;Unknown file type&#39;)
+        data[&#39;id&#39;] = data[&#39;id&#39;].astype(&#39;str&#39;)
+        data = data.set_index(&#39;id&#39;)
+        if VW_TEXT_COL not in data.columns:
+            raise ValueError(&#39;data should contain VW field&#39;)
+        return data
+
+    def get_dataset(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        return self._data
+
+    def get_vw_document(self, document_id):
+        &#34;&#34;&#34;
+        Get &#39;vw_text&#39; for the document with document_id.
+
+        Parameters
+        ----------
+        document_id : str
+
+        Returns
+        -------
+        list of str
+            document id and content of &#39;vw_text&#39; column
+
+        &#34;&#34;&#34;
+        if not isinstance(document_id, list):
+            document_id = [document_id]
+        if self._small_data:
+            in_index = self._data.index.intersection(document_id)
+            back_pd = pd.DataFrame(
+                self._data.loc[in_index, VW_TEXT_COL]
+                .reindex(document_id)
+                .fillna(&#39;Not Found&#39;)
+            )
+            return back_pd
+        else:
+            data_indices = self._data.index.compute()
+            in_index = [
+                doc_id for doc_id in document_id
+                if doc_id in data_indices
+            ]
+            back_pd = pd.DataFrame(
+                self._data.loc[in_index, VW_TEXT_COL].compute()
+                .reindex(document_id)
+                .fillna(&#39;Not Found&#39;)
+            )
+            return back_pd
+
+    def get_source_document(self, document_id):
+        &#34;&#34;&#34;
+        Get &#39;raw_text&#39; for the document with document_id.
+
+        Parameters
+        ----------
+        document_id : str
+
+        Returns
+        -------
+        list of str
+            document id and content of &#39;raw_text&#39; column
+
+        &#34;&#34;&#34;
+        if not isinstance(document_id, list):
+            document_id = [document_id]
+        if self._small_data:
+            in_index = self._data.index.intersection(document_id)
+            back_pd = pd.DataFrame(
+                self._data.loc[in_index, RAW_TEXT_COL]
+                .reindex(document_id)
+                .fillna(&#39;Not Found&#39;)
+            )
+            return back_pd
+        else:
+            data_indices = self._data.index.compute()
+            in_index = [
+                doc_id for doc_id in document_id
+                if doc_id in data_indices
+            ]
+            back_pd = pd.DataFrame(
+                self._data.loc[in_index, RAW_TEXT_COL].compute()
+                .reindex(document_id)
+                .fillna(&#39;Not Found&#39;)
+            )
+            return back_pd
+
+    def write_vw(self, file_path):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        with open(file_path, &#39;w&#39;, encoding=&#39;utf-8&#39;) as f:
+            for index, data in self._data.iterrows():
+                vw_string = data[VW_TEXT_COL]
+                f.write(vw_string + &#39;\n&#39;)
+
+    def _check_collection(self, data_path):
+        &#34;&#34;&#34;
+        Checks if folder with collection:
+        1) Exists
+        2) Same as the one this dataset holds
+
+        Parameters
+        ----------
+        data_path : str
+            folder for the checking
+        Returns
+        -------
+        same_collection : bool
+        &#34;&#34;&#34;
+        path_to_collection = os.path.join(data_path, &#39;vw.txt&#39;)
+        if not os.path.exists(data_path):
+            os.mkdir(data_path)
+            return False, path_to_collection
+
+        if self._data_hash is None:
+            temp_file_path = os.path.join(data_path, &#39;temp_vw.txt&#39;)
+            self.write_vw(temp_file_path)
+            self._data_hash = blake2bchecksum(temp_file_path)
+            os.remove(temp_file_path)
+
+        if os.path.isfile(path_to_collection):
+            same_collection = blake2bchecksum(path_to_collection) == self._data_hash
+        else:
+            same_collection = False
+        return same_collection, path_to_collection
+
+    def get_batch_vectorizer(self, batch_vectorizer_path=None):
+        &#34;&#34;&#34;
+        Get batch vectorizer.
+
+        Parameters
+        ----------
+        batch_vectorizer_path : str
+             (Default value = None)
+
+        Returns
+        -------
+        batch_vectorizer :
+
+        &#34;&#34;&#34;
+        if batch_vectorizer_path is None:
+            batch_vectorizer_path = self._batch_vectorizer_path
+
+        same_collection, path_to_collection = self._check_collection(
+            batch_vectorizer_path
+        )
+
+        if same_collection:
+            batches_exist = len(glob(os.path.join(batch_vectorizer_path, &#39;*.batch&#39;))) &gt; 0
+            if not batches_exist:
+                self.write_vw(path_to_collection)
+                batch_vectorizer = artm.BatchVectorizer(
+                    data_path=path_to_collection,
+                    data_format=&#39;vowpal_wabbit&#39;,
+                    target_folder=batch_vectorizer_path,
+                    batch_size=self.batch_size
+                )
+            else:
+                batch_vectorizer = artm.BatchVectorizer(
+                    data_path=batch_vectorizer_path,
+                    data_format=&#39;batches&#39;
+                )
+        else:
+            warnings.warn(W_DIFF_BATCHES_1 + W_DIFF_BATCHES_2.format(batch_vectorizer_path))
+            try:
+                shutil.rmtree(batch_vectorizer_path)
+            except FileNotFoundError:
+                pass
+            os.mkdir(batch_vectorizer_path)
+            self.write_vw(path_to_collection)
+
+            batch_vectorizer = artm.BatchVectorizer(
+                data_path=path_to_collection,
+                data_format=&#39;vowpal_wabbit&#39;,
+                target_folder=batch_vectorizer_path,
+                batch_size=self.batch_size
+            )
+
+        return batch_vectorizer
+
+    def get_dictionary(self, batch_vectorizer_path=None):
+        &#34;&#34;&#34;
+        Get dictionary.
+
+        Parameters
+        ----------
+        batch_vectorizer_path : str
+             (Default value = None)
+
+        Returns
+        -------
+        dictionary :
+
+        &#34;&#34;&#34;
+        if self._cached_dict is not None:
+            return self._cached_dict
+
+        if batch_vectorizer_path is None:
+            batch_vectorizer_path = self._batch_vectorizer_path
+
+        dictionary = artm.Dictionary()
+        dict_path = os.path.join(batch_vectorizer_path, &#39;dict.dict&#39;)
+
+        same_collection, path_to_collection = self._check_collection(
+            batch_vectorizer_path
+        )
+
+        if same_collection:
+            if not os.path.isfile(dict_path):
+                dictionary.gather(data_path=batch_vectorizer_path)
+                dictionary.save(dictionary_path=dict_path)
+            dictionary.load(dictionary_path=dict_path)
+            self._cached_dict = dictionary
+            return dictionary
+        else:
+            _ = self.get_batch_vectorizer(batch_vectorizer_path)
+            dictionary.gather(data_path=batch_vectorizer_path)
+            dictionary.save(dictionary_path=dict_path)
+            dictionary.load(dictionary_path=dict_path)
+            self._cached_dict = dictionary
+            return dictionary
+
+    def _transform_data_for_training(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        return self.get_batch_vectorizer()
+
+    def _extract_possible_modalities(self):
+        &#34;&#34;&#34;
+        Extracts all modalities from data.
+
+        Returns
+        -------
+        set
+            all modalities in Dataset
+
+        &#34;&#34;&#34;
+        modalities_list = [
+            get_modality_names(vw_string[VW_TEXT_COL])[1]
+            for _, vw_string in self._data.iterrows()
+        ]
+        all_modalities = set([
+            modality
+            for modalities in modalities_list
+            for modality in modalities
+        ])
+        return all_modalities
+
+    def get_possible_modalities(self):
+        &#34;&#34;&#34;
+        Returns extracted modalities.
+
+        Returns
+        -------
+        set
+            all modalities in Dataset
+
+        &#34;&#34;&#34;
+        return self._modalities</code></pre>
+</details>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="topicnet.cooking_machine.dataset.BaseDataset" href="#topicnet.cooking_machine.dataset.BaseDataset">BaseDataset</a></li>
@@ -132,12 +1020,78 @@ be kept in memory.</dd>
 <dt><code>batch_vectorizer</code> :</dt>
 <dd>&nbsp;</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_batch_vectorizer(self, batch_vectorizer_path=None):
+    &#34;&#34;&#34;
+    Get batch vectorizer.
+
+    Parameters
+    ----------
+    batch_vectorizer_path : str
+         (Default value = None)
+
+    Returns
+    -------
+    batch_vectorizer :
+
+    &#34;&#34;&#34;
+    if batch_vectorizer_path is None:
+        batch_vectorizer_path = self._batch_vectorizer_path
+
+    same_collection, path_to_collection = self._check_collection(
+        batch_vectorizer_path
+    )
+
+    if same_collection:
+        batches_exist = len(glob(os.path.join(batch_vectorizer_path, &#39;*.batch&#39;))) &gt; 0
+        if not batches_exist:
+            self.write_vw(path_to_collection)
+            batch_vectorizer = artm.BatchVectorizer(
+                data_path=path_to_collection,
+                data_format=&#39;vowpal_wabbit&#39;,
+                target_folder=batch_vectorizer_path,
+                batch_size=self.batch_size
+            )
+        else:
+            batch_vectorizer = artm.BatchVectorizer(
+                data_path=batch_vectorizer_path,
+                data_format=&#39;batches&#39;
+            )
+    else:
+        warnings.warn(W_DIFF_BATCHES_1 + W_DIFF_BATCHES_2.format(batch_vectorizer_path))
+        try:
+            shutil.rmtree(batch_vectorizer_path)
+        except FileNotFoundError:
+            pass
+        os.mkdir(batch_vectorizer_path)
+        self.write_vw(path_to_collection)
+
+        batch_vectorizer = artm.BatchVectorizer(
+            data_path=path_to_collection,
+            data_format=&#39;vowpal_wabbit&#39;,
+            target_folder=batch_vectorizer_path,
+            batch_size=self.batch_size
+        )
+
+    return batch_vectorizer</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.dataset.Dataset.get_dataset"><code class="name flex">
 <span>def <span class="ident">get_dataset</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_dataset(self):
+    &#34;&#34;&#34; &#34;&#34;&#34;
+    return self._data</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.dataset.Dataset.get_dictionary"><code class="name flex">
 <span>def <span class="ident">get_dictionary</span></span>(<span>self, batch_vectorizer_path=None)</span>
@@ -154,6 +1108,52 @@ be kept in memory.</dd>
 <dt><code>dictionary</code> :</dt>
 <dd>&nbsp;</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_dictionary(self, batch_vectorizer_path=None):
+    &#34;&#34;&#34;
+    Get dictionary.
+
+    Parameters
+    ----------
+    batch_vectorizer_path : str
+         (Default value = None)
+
+    Returns
+    -------
+    dictionary :
+
+    &#34;&#34;&#34;
+    if self._cached_dict is not None:
+        return self._cached_dict
+
+    if batch_vectorizer_path is None:
+        batch_vectorizer_path = self._batch_vectorizer_path
+
+    dictionary = artm.Dictionary()
+    dict_path = os.path.join(batch_vectorizer_path, &#39;dict.dict&#39;)
+
+    same_collection, path_to_collection = self._check_collection(
+        batch_vectorizer_path
+    )
+
+    if same_collection:
+        if not os.path.isfile(dict_path):
+            dictionary.gather(data_path=batch_vectorizer_path)
+            dictionary.save(dictionary_path=dict_path)
+        dictionary.load(dictionary_path=dict_path)
+        self._cached_dict = dictionary
+        return dictionary
+    else:
+        _ = self.get_batch_vectorizer(batch_vectorizer_path)
+        dictionary.gather(data_path=batch_vectorizer_path)
+        dictionary.save(dictionary_path=dict_path)
+        dictionary.load(dictionary_path=dict_path)
+        self._cached_dict = dictionary
+        return dictionary</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.dataset.Dataset.get_possible_modalities"><code class="name flex">
 <span>def <span class="ident">get_possible_modalities</span></span>(<span>self)</span>
@@ -165,6 +1165,22 @@ be kept in memory.</dd>
 <dt><code>set</code></dt>
 <dd>all modalities in Dataset</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_possible_modalities(self):
+    &#34;&#34;&#34;
+    Returns extracted modalities.
+
+    Returns
+    -------
+    set
+        all modalities in Dataset
+
+    &#34;&#34;&#34;
+    return self._modalities</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.dataset.Dataset.get_source_document"><code class="name flex">
 <span>def <span class="ident">get_source_document</span></span>(<span>self, document_id)</span>
@@ -181,6 +1197,47 @@ be kept in memory.</dd>
 <dt><code>list</code> of <code>str</code></dt>
 <dd>document id and content of 'raw_text' column</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_source_document(self, document_id):
+    &#34;&#34;&#34;
+    Get &#39;raw_text&#39; for the document with document_id.
+
+    Parameters
+    ----------
+    document_id : str
+
+    Returns
+    -------
+    list of str
+        document id and content of &#39;raw_text&#39; column
+
+    &#34;&#34;&#34;
+    if not isinstance(document_id, list):
+        document_id = [document_id]
+    if self._small_data:
+        in_index = self._data.index.intersection(document_id)
+        back_pd = pd.DataFrame(
+            self._data.loc[in_index, RAW_TEXT_COL]
+            .reindex(document_id)
+            .fillna(&#39;Not Found&#39;)
+        )
+        return back_pd
+    else:
+        data_indices = self._data.index.compute()
+        in_index = [
+            doc_id for doc_id in document_id
+            if doc_id in data_indices
+        ]
+        back_pd = pd.DataFrame(
+            self._data.loc[in_index, RAW_TEXT_COL].compute()
+            .reindex(document_id)
+            .fillna(&#39;Not Found&#39;)
+        )
+        return back_pd</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.dataset.Dataset.get_vw_document"><code class="name flex">
 <span>def <span class="ident">get_vw_document</span></span>(<span>self, document_id)</span>
@@ -197,12 +1254,64 @@ be kept in memory.</dd>
 <dt><code>list</code> of <code>str</code></dt>
 <dd>document id and content of 'vw_text' column</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_vw_document(self, document_id):
+    &#34;&#34;&#34;
+    Get &#39;vw_text&#39; for the document with document_id.
+
+    Parameters
+    ----------
+    document_id : str
+
+    Returns
+    -------
+    list of str
+        document id and content of &#39;vw_text&#39; column
+
+    &#34;&#34;&#34;
+    if not isinstance(document_id, list):
+        document_id = [document_id]
+    if self._small_data:
+        in_index = self._data.index.intersection(document_id)
+        back_pd = pd.DataFrame(
+            self._data.loc[in_index, VW_TEXT_COL]
+            .reindex(document_id)
+            .fillna(&#39;Not Found&#39;)
+        )
+        return back_pd
+    else:
+        data_indices = self._data.index.compute()
+        in_index = [
+            doc_id for doc_id in document_id
+            if doc_id in data_indices
+        ]
+        back_pd = pd.DataFrame(
+            self._data.loc[in_index, VW_TEXT_COL].compute()
+            .reindex(document_id)
+            .fillna(&#39;Not Found&#39;)
+        )
+        return back_pd</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.dataset.Dataset.write_vw"><code class="name flex">
 <span>def <span class="ident">write_vw</span></span>(<span>self, file_path)</span>
 </code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def write_vw(self, file_path):
+    &#34;&#34;&#34; &#34;&#34;&#34;
+    with open(file_path, &#39;w&#39;, encoding=&#39;utf-8&#39;) as f:
+        for index, data in self._data.iterrows():
+            vw_string = data[VW_TEXT_COL]
+            f.write(vw_string + &#39;\n&#39;)</code></pre>
+</details>
 </dd>
 </dl>
 </dd>
@@ -252,7 +1361,9 @@ be kept in memory.</dd>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>

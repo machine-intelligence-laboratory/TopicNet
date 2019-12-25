@@ -5,6 +5,7 @@ Availiable models:
 * `BaseModel` — Parent class for model creation
 * `TopicModel` — a wrapper class for bigartm topic model
 * `DummyTopicModel` — a fake model that contains training information but not actual artm model. Needed to save memory space during the training.
+
 ---
 
 Availiable scores:
@@ -13,6 +14,8 @@ Availiable scores:
 * `ExampleScore` — Example of minimal working example of custom score
 * `IntratextCoherenceScore` — score that calculates coherence as a measure of interpretability of the model using raw documents from dataset. Calculation-heavy score. Recommended to be used **after** model training 
 * `BleiLaffertyScore` — An experimental light-weight score to estimate interpretability of the topics
+* `SemanticRaduisScore` — An experimental score reflecting whether collection is adequately described by topics. Lower if better. Calculation-heavy score.
+
 ---
 
 ## Internal model structure
@@ -27,9 +30,14 @@ each list corresponds to the score value or list of values at certain training s
 
 * `custom_scores` — variable providing custom scores for the model
 
+* `custom_regularizers` — variable providing custom regularizers for the model.
+An example is provided in `topic_prior_regularizer.py`.
+
 **main model methods**:
 
 * `_fit` — function performing model training. Takes the dataset and number of iterations.
+Optionally, you can pass `custom_regularizers` here, if you wish to apply them to a single
+iteration.
 
     **Important Notice!**
     We assume that the model training happens through Cube interface and this method, while 

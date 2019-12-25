@@ -49,7 +49,7 @@ stages:
         max_len: 6
     tracked_score_function: PerplexityScore@all
     verbose: false
-    relative_coefficients: false
+    use_relative_coefficients: false
 - RegularizersModifierCube:
     num_iter: 8
     reg_search: add
@@ -64,7 +64,7 @@ stages:
         max_len: 6
     tracked_score_function: PerplexityScore{modality}
     verbose: false
-    relative_coefficients: false
+    use_relative_coefficients: false
 #last cube is independent of modalities and can be used only once
 - RegularizersModifierCube:
     num_iter: 8
@@ -80,4 +80,4 @@ stages:
         max_len: 6
     tracked_score_function: PerplexityScore@all
     verbose: false
-    relative_coefficients: false
+    use_relative_coefficients: false

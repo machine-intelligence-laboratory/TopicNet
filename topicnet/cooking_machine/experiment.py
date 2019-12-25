@@ -222,7 +222,7 @@ class Experiment(object):
         if "params.html" not in files:
             print("The file params.html was removed. Recover...", end=" ")
             html = get_html(self,)
-            with open(f"{experiment_save_path}/params.html", "w") as f:
+            with open(f"{experiment_save_path}/params.html", "w", encoding='utf-8') as f:
                 f.write(html)
             print("Recovered.")
         for model_id in self.models_info:
@@ -431,7 +431,7 @@ class Experiment(object):
                   default=transform_topic_model_description_to_jsonable)
         html = get_html(self, window_size)
         html_path = os.path.join(experiment_save_path, 'params.html')
-        with open(html_path, "w") as f:
+        with open(html_path, "w", encoding='utf-8') as f:
             f.write(html)
 
     @staticmethod

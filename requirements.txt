@@ -19,5 +19,7 @@ typing
 ipython
 strictyaml
 numexpr
+plotly
+colorlover
 # artm
 

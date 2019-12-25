@@ -104,7 +104,7 @@ When a regularizer is already present in a model, user can alter it's parameters
 >>          "tau_grid": [-0.2, -0.4, -0.6, -0.7]
 >>      },
 >>      reg_search="pair",
->>      relative_coefficients=False,
+>>      use_relative_coefficients=False,
 >>  )
 
 Alternatively, if one wishes to introduce a new regularizer (or overwrite the existing one), then the following approach is recomended:
@@ -116,13 +116,13 @@ Alternatively, if one wishes to introduce a new regularizer (or overwrite the ex
 >>          "tau_grid": [-0.2, -0.4, -0.6, -0.7]
 >>      },
 >>      reg_search="pair",
->>      relative_coefficients=False,
+>>      use_relative_coefficients=False,
 >>  )
 
 Relative Coefficients
 ---------------------
 
-By default, TopicNet makes use of relative regularization coefficients, which is a way to make generic model hyperparameters, robust to change of the dataset. Most of the body of existing work in topic modeling does not use relative coefficients. Therefore, when reproducing exisiting research, one shoud set `relative_coefficients=False` when defining a cube.
+By default, TopicNet makes use of relative regularization coefficients, which is a way to make generic model hyperparameters, robust to change of the dataset. Most of the body of existing work in topic modeling does not use relative coefficients. Therefore, when reproducing exisiting research, one shoud set `use_relative_coefficients=False` when defining a cube.
 
 See [4] for details.
 

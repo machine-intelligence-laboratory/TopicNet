@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.6.3" />
+<meta name="generator" content="pdoc 0.7.2" />
 <title>topicnet.cooking_machine.models.dummy_topic_model API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
 <style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
 </head>
@@ -19,6 +20,379 @@
 <h1 class="title">Module <code>topicnet.cooking_machine.models.dummy_topic_model</code></h1>
 </header>
 <section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import artm
+import json
+import os
+import re
+import warnings
+
+from ..dataset import Dataset
+from .topic_model import TopicModel
+
+
+class InvalidOperationError(RuntimeError):
+    def __init__(self, message=&#39;Dummy model can\&#39;t do this&#39;):
+        super().__init__(message)
+
+
+SIMPLE_ARTM_MODEL = artm.ARTM(num_topics=1, num_processors=1)
+JSON_KEY_REGULARIZERS = &#39;regularizers&#39;
+JSON_KEY_CLASS_IDS = &#39;class_ids&#39;
+WARNING_ALREADY_DUMMY = &#39;Already dummy&#39;
+
+
+class DummyTopicModel(TopicModel):
+    _save_path_suffix = &#39;__dummy&#39;
+    _dummy_attribute = &#39;_is_dummy&#39;
+
+    def __init__(self,
+                 scores,
+                 init_parameters=None,
+                 model_id=None,
+                 parent_model_id=None,
+                 description=None,
+                 experiment=None,
+                 *args,
+                 **kwargs):
+        &#34;&#34;&#34;
+        Notes
+        -----
+        Only TopicModel supposed to be able to create DummyTopicModel
+        (&#34;private&#34; &lt; access &lt; &#34;public&#34;)
+        &#34;&#34;&#34;
+        super().__init__(
+            artm_model=SIMPLE_ARTM_MODEL,
+            model_id=model_id,
+            parent_model_id=parent_model_id,
+            description=description,
+            experiment=experiment,
+            **kwargs,
+        )
+
+        self._model.dispose()
+        self._save_folder_path = None
+        self._model = _DummyArtmModel(self._save_folder_path)
+        self._init_parameters = init_parameters
+
+        self._scores = scores
+
+        setattr(self, DummyTopicModel._dummy_attribute, True)
+
+        self._original_model_save_folder_path = None
+
+    def __getattr__(self, name):
+        # Don&#39;t redirect the stuff to artm_model (as TopicModel does)
+        if name in self._init_parameters:
+            return self._init_parameters[name]
+        raise AttributeError(f&#39;Dummy model has no attribute &#34;{name}&#34;&#39;)
+
+    def get_init_parameters(self, not_include=None):
+        &#34;&#34;&#34;&#34;&#34;&#34;
+        return self._init_parameters
+
+    @property
+    def model_default_save_path(self):
+        &#34;&#34;&#34;&#34;&#34;&#34;
+        return super().model_default_save_path + DummyTopicModel._save_path_suffix
+
+    @property
+    def scores(self):
+        &#34;&#34;&#34;&#34;&#34;&#34;
+        return self._scores
+
+    @property
+    def regularizers(self):
+        &#34;&#34;&#34;&#34;&#34;&#34;
+        return self._model.regularizers
+
+    @property
+    def class_ids(self):
+        &#34;&#34;&#34;&#34;&#34;&#34;
+        return self._model.class_ids
+
+    def save(self, model_save_path=None, **kwargs):
+        &#34;&#34;&#34;&#34;&#34;&#34;
+        # kwargs - for compatibility with super()&#39;s method
+
+        # TODO: a bit copy-paste from TopicModel:
+        #  can&#39;t call super()&#39;s, because artm_model is being saved by default there
+
+        self._save_folder_path = model_save_path or self.model_default_save_path
+
+        if not os.path.exists(self._save_folder_path):
+            os.makedirs(self._save_folder_path)
+
+        self.save_parameters(self._save_folder_path)
+
+    @staticmethod
+    def load(path, experiment=None):
+        &#34;&#34;&#34;&#34;&#34;&#34;
+        params = json.load(open(f&#39;{path}/params.json&#39;, &#39;r&#39;))
+        model = DummyTopicModel(**params)
+        model.experiment = experiment
+        model._original_model_save_folder_path = path
+
+        return model
+
+    def restore(self, dataset: Dataset = None):
+        &#34;&#34;&#34;Restores dummy to original TopicModel
+
+        Tries to load the data from drive (if model was saved).
+        Otherwise tries to train the model using parent model, experiment and dataset.
+
+        Parameters
+        ----------
+        dataset : Dataset
+            Dataset on which the model was trained.
+            If the original model was saved to drive, the parameter won&#39;t be used.
+            If not, dataset should be provided for training.
+
+        Returns
+        -------
+        TopicModel
+            Restored topic model
+        &#34;&#34;&#34;
+        # Not in-place, as TopicModel&#39;s make_dummy() because (seems like) TopicModel can be empty
+        # But it would be really strange if DummyTopicModel actually had all the stuff inside
+
+        topic_model = None
+
+        if self._original_model_save_folder_path is not None:
+            topic_model = self._load_original_model()
+
+        if topic_model is None:
+            topic_model = self._train_to_original_model(dataset)
+
+        return topic_model
+
+    def to_dummy(self, save_to_drive=True, save_path=None, **kwargs):
+        warnings.warn(WARNING_ALREADY_DUMMY, UserWarning)
+
+        if save_to_drive:
+            self.save(save_path, **kwargs)
+
+        return self
+
+    def make_dummy(self, save_to_drive=True, save_path=None, **kwargs):
+        warnings.warn(WARNING_ALREADY_DUMMY, UserWarning)
+
+        if save_to_drive:
+            self.save(save_path, **kwargs)
+
+    def _load_original_model(self):
+        # TODO: custom_scores not restored currently
+        #  modify model&#39;s save()-load() methods?
+        topic_model = None
+
+        try:
+            topic_model = super().load(
+                self._original_model_save_folder_path,
+                self.experiment
+            )
+        except FileNotFoundError as e:
+            warnings.warn(f&#39;Failed to read data from drive: &#34;{e.args}&#34;&#39;)
+
+        return topic_model
+
+    def _train_to_original_model(self, dataset: Dataset):
+        # TODO: refactor: big bunch of code, a lot of obscure and highly-likely-fo-fail places
+        #  (parsing params, connecting one params with other params, restoring cube, running cube)
+
+        if len(self.description) == 0:
+            raise RuntimeError(
+                &#39;Dummy model has empty description. So seems like nothing to restore&#39;
+            )
+
+        if self.parent_model_id is None:
+            raise ValueError(
+                &#39;Dummy model has no parent. Can\&#39;t restore model in such a case&#39;
+            )
+
+        if self.parent_model_id not in self.experiment.models:
+            raise ValueError(
+                f&#39;Parent model &#34;{self.parent_model_id}&#34; not found in models &#39;
+                f&#39;associated with the experiment&#39;
+            )
+
+        if dataset is None:
+            raise ValueError(&#39;Can\&#39;t restore the model via training without dataset&#39;)
+
+        parent_model = self.experiment.models[self.parent_model_id]
+
+        if hasattr(parent_model, DummyTopicModel._dummy_attribute):
+            assert hasattr(parent_model, &#39;restore&#39;)
+
+            parent_model.restore(True, dataset)  # also restore in experiment.models
+
+            delattr(parent_model, DummyTopicModel._dummy_attribute)
+
+        last_cube_description = self.description[-1]
+        # {
+        #   &#39;action&#39;: &#39;reg_modifier&#39;,
+        #   &#39;num_iter&#39;: 1,
+        #   &#39;params&#39;: &lt;some string with some description of regularizers&gt;
+        # }
+        #
+        # Example of &#39;params&#39; (it is string):
+        #   &#34;([&lt;artm.regularizers.SmoothSparseThetaRegularizer object at 0x7faba8363ac8&gt;,
+        #     &#39;tau&#39;, 10.0],)&#34;
+
+        # Currently need to parse the string with params
+        cube_parameters_from_description = last_cube_description[&#39;params&#39;]
+        cube_parameters_from_description = re.findall(
+            &#39;\\[.*?\\]&#39;,
+            cube_parameters_from_description
+        )
+        cube_parameters_from_description = list(map(
+            lambda p: p[1:-1].split(&#39;, &#39;),
+            cube_parameters_from_description
+        ))
+        cube_parameters_from_description = list(map(
+            lambda p: dict(zip([&#39;object&#39;, &#39;field&#39;, &#39;value&#39;], p)),
+            cube_parameters_from_description
+        ))
+
+        assert len(self.experiment.cubes) &gt;= len(self.description)
+
+        last_cube_parameters = self.experiment.cubes[len(self.description) - 1]
+        # {
+        #   &#39;action&#39;: &#39;reg_modifier&#39;,
+        #   &#39;params&#39;: [
+        #     {
+        #       &#39;tau_grid&#39;: [0, 0.0],
+        #       &#39;regularizer&#39;: { &#39;name&#39;: &#39;smooth_theta_bcg&#39;, &#39;tau&#39;: 1, ... }
+        #     },
+        #     ...
+        #  ],
+        #  &#39;cube&#39;: &lt;Cube object&gt;
+        # }
+
+        # For some reason some cubes seemed to not have this &#39;cube&#39; parameter
+        # and not just the first two cubes
+        assert &#39;cube&#39; in last_cube_parameters
+
+        cube = last_cube_parameters[&#39;cube&#39;]
+
+        # Example of cube.parameters:
+        # [
+        #   { &#39;object&#39;: &lt;Regularizer object&gt;, &#39;field&#39;: &#39;tau&#39;, &#39;values&#39;: [0, 0.0] }
+        # ]
+
+        # TODO: assume order in cube.parameters is the same as in self.description[-1][&#39;params]
+        #  otherwise need to sort both lists?
+        for i in range(len(cube.parameters)):
+            assert str(cube.parameters[i][&#39;object&#39;]) == \
+                   cube_parameters_from_description[i][&#39;object&#39;]
+            # one is object, another is string
+
+            cube.parameters[i][&#39;values&#39;] = float(
+                cube_parameters_from_description[i][&#39;value&#39;]
+            )
+
+        cube_parameters_for_apply = list(
+            map(lambda p: list(p.values()), cube.parameters)
+        )
+
+        being_restored_model = cube.apply(
+            parent_model,
+            cube_parameters_for_apply,
+            dataset.get_dictionary()
+        )
+        being_restored_model._fit(
+            dataset_trainable=dataset.get_batch_vectorizer(),
+            num_iterations=cube.num_iter
+        )
+        model_cube = {
+            &#39;action&#39;: cube.action,
+            &#39;num_iter&#39;: cube.num_iter,
+            &#39;params&#39;: repr(tuple(cube_parameters_for_apply))  # trying to make it look like before
+        }
+        being_restored_model.add_cube(model_cube)  # restoring description
+        being_restored_model._model_id = self.model_id  # using private field
+
+        return being_restored_model
+
+
+class _DummyArtmModel:
+    def __init__(self, save_folder_path):
+        self.master = None
+
+        self._save_folder_path = save_folder_path
+        self._artm_params = None
+
+    def __getattr__(self, attr):
+        raise AttributeError(f&#39;Dummy ARTM model doesn\&#39;t have such attribute &#34;{attr}&#34;&#39;)
+
+    def dispose(self):
+        pass
+
+    @property
+    def regularizers(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        assert JSON_KEY_REGULARIZERS in self._artm_parameters
+
+        return self._artm_parameters[JSON_KEY_REGULARIZERS]
+
+    @property
+    def class_ids(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        assert JSON_KEY_CLASS_IDS in self._artm_parameters
+
+        return self._artm_parameters[JSON_KEY_CLASS_IDS]
+
+    def _load_artm_parameters(self):
+        if self._save_folder_path is None:
+            raise ValueError(&#39;Model has never been saved. Can\&#39;t load parameters&#39;)
+
+        artm_parameters_file_path = os.path.join(
+            self._save_folder_path,
+            &#39;model&#39;,  # TODO: need some const-s for these names
+            &#39;parameters.json&#39;
+        )
+
+        if not os.path.isfile(artm_parameters_file_path):
+            raise FileNotFoundError(
+                f&#39;File with artm model parameters not found on path &#34;{artm_parameters_file_path}&#34;&#39;)
+
+        return json.loads(
+            open(artm_parameters_file_path, &#39;r&#39;).read()
+        )
+
+    @property
+    def _artm_parameters(self):
+        if self._artm_params is None:
+            self._artm_params = self._load_artm_parameters()
+
+        return self._artm_params
+
+    def _fit(self, dataset_trainable, num_iterations):
+        raise InvalidOperationError()
+
+    def get_jsonable_from_parameters(self):
+        raise InvalidOperationError()
+
+    def clone(self):
+        raise InvalidOperationError()
+
+    def get_phi(self, *args, **kwargs):
+        raise InvalidOperationError()
+
+    def get_phi_dense(self, *args, **kwargs):
+        raise InvalidOperationError()
+
+    def get_phi_sparse(self, *args, **kwargs):
+        raise InvalidOperationError()
+
+    def get_theta(self, *args, **kwargs):
+        raise InvalidOperationError()
+
+    def add_cube(self, cube):
+        raise InvalidOperationError()</code></pre>
+</details>
 </section>
 <section>
 </section>
@@ -38,6 +412,281 @@
 <h2 id="notes">Notes</h2>
 <p>Only TopicModel supposed to be able to create DummyTopicModel
 ("private" &lt; access &lt; "public")</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DummyTopicModel(TopicModel):
+    _save_path_suffix = &#39;__dummy&#39;
+    _dummy_attribute = &#39;_is_dummy&#39;
+
+    def __init__(self,
+                 scores,
+                 init_parameters=None,
+                 model_id=None,
+                 parent_model_id=None,
+                 description=None,
+                 experiment=None,
+                 *args,
+                 **kwargs):
+        &#34;&#34;&#34;
+        Notes
+        -----
+        Only TopicModel supposed to be able to create DummyTopicModel
+        (&#34;private&#34; &lt; access &lt; &#34;public&#34;)
+        &#34;&#34;&#34;
+        super().__init__(
+            artm_model=SIMPLE_ARTM_MODEL,
+            model_id=model_id,
+            parent_model_id=parent_model_id,
+            description=description,
+            experiment=experiment,
+            **kwargs,
+        )
+
+        self._model.dispose()
+        self._save_folder_path = None
+        self._model = _DummyArtmModel(self._save_folder_path)
+        self._init_parameters = init_parameters
+
+        self._scores = scores
+
+        setattr(self, DummyTopicModel._dummy_attribute, True)
+
+        self._original_model_save_folder_path = None
+
+    def __getattr__(self, name):
+        # Don&#39;t redirect the stuff to artm_model (as TopicModel does)
+        if name in self._init_parameters:
+            return self._init_parameters[name]
+        raise AttributeError(f&#39;Dummy model has no attribute &#34;{name}&#34;&#39;)
+
+    def get_init_parameters(self, not_include=None):
+        &#34;&#34;&#34;&#34;&#34;&#34;
+        return self._init_parameters
+
+    @property
+    def model_default_save_path(self):
+        &#34;&#34;&#34;&#34;&#34;&#34;
+        return super().model_default_save_path + DummyTopicModel._save_path_suffix
+
+    @property
+    def scores(self):
+        &#34;&#34;&#34;&#34;&#34;&#34;
+        return self._scores
+
+    @property
+    def regularizers(self):
+        &#34;&#34;&#34;&#34;&#34;&#34;
+        return self._model.regularizers
+
+    @property
+    def class_ids(self):
+        &#34;&#34;&#34;&#34;&#34;&#34;
+        return self._model.class_ids
+
+    def save(self, model_save_path=None, **kwargs):
+        &#34;&#34;&#34;&#34;&#34;&#34;
+        # kwargs - for compatibility with super()&#39;s method
+
+        # TODO: a bit copy-paste from TopicModel:
+        #  can&#39;t call super()&#39;s, because artm_model is being saved by default there
+
+        self._save_folder_path = model_save_path or self.model_default_save_path
+
+        if not os.path.exists(self._save_folder_path):
+            os.makedirs(self._save_folder_path)
+
+        self.save_parameters(self._save_folder_path)
+
+    @staticmethod
+    def load(path, experiment=None):
+        &#34;&#34;&#34;&#34;&#34;&#34;
+        params = json.load(open(f&#39;{path}/params.json&#39;, &#39;r&#39;))
+        model = DummyTopicModel(**params)
+        model.experiment = experiment
+        model._original_model_save_folder_path = path
+
+        return model
+
+    def restore(self, dataset: Dataset = None):
+        &#34;&#34;&#34;Restores dummy to original TopicModel
+
+        Tries to load the data from drive (if model was saved).
+        Otherwise tries to train the model using parent model, experiment and dataset.
+
+        Parameters
+        ----------
+        dataset : Dataset
+            Dataset on which the model was trained.
+            If the original model was saved to drive, the parameter won&#39;t be used.
+            If not, dataset should be provided for training.
+
+        Returns
+        -------
+        TopicModel
+            Restored topic model
+        &#34;&#34;&#34;
+        # Not in-place, as TopicModel&#39;s make_dummy() because (seems like) TopicModel can be empty
+        # But it would be really strange if DummyTopicModel actually had all the stuff inside
+
+        topic_model = None
+
+        if self._original_model_save_folder_path is not None:
+            topic_model = self._load_original_model()
+
+        if topic_model is None:
+            topic_model = self._train_to_original_model(dataset)
+
+        return topic_model
+
+    def to_dummy(self, save_to_drive=True, save_path=None, **kwargs):
+        warnings.warn(WARNING_ALREADY_DUMMY, UserWarning)
+
+        if save_to_drive:
+            self.save(save_path, **kwargs)
+
+        return self
+
+    def make_dummy(self, save_to_drive=True, save_path=None, **kwargs):
+        warnings.warn(WARNING_ALREADY_DUMMY, UserWarning)
+
+        if save_to_drive:
+            self.save(save_path, **kwargs)
+
+    def _load_original_model(self):
+        # TODO: custom_scores not restored currently
+        #  modify model&#39;s save()-load() methods?
+        topic_model = None
+
+        try:
+            topic_model = super().load(
+                self._original_model_save_folder_path,
+                self.experiment
+            )
+        except FileNotFoundError as e:
+            warnings.warn(f&#39;Failed to read data from drive: &#34;{e.args}&#34;&#39;)
+
+        return topic_model
+
+    def _train_to_original_model(self, dataset: Dataset):
+        # TODO: refactor: big bunch of code, a lot of obscure and highly-likely-fo-fail places
+        #  (parsing params, connecting one params with other params, restoring cube, running cube)
+
+        if len(self.description) == 0:
+            raise RuntimeError(
+                &#39;Dummy model has empty description. So seems like nothing to restore&#39;
+            )
+
+        if self.parent_model_id is None:
+            raise ValueError(
+                &#39;Dummy model has no parent. Can\&#39;t restore model in such a case&#39;
+            )
+
+        if self.parent_model_id not in self.experiment.models:
+            raise ValueError(
+                f&#39;Parent model &#34;{self.parent_model_id}&#34; not found in models &#39;
+                f&#39;associated with the experiment&#39;
+            )
+
+        if dataset is None:
+            raise ValueError(&#39;Can\&#39;t restore the model via training without dataset&#39;)
+
+        parent_model = self.experiment.models[self.parent_model_id]
+
+        if hasattr(parent_model, DummyTopicModel._dummy_attribute):
+            assert hasattr(parent_model, &#39;restore&#39;)
+
+            parent_model.restore(True, dataset)  # also restore in experiment.models
+
+            delattr(parent_model, DummyTopicModel._dummy_attribute)
+
+        last_cube_description = self.description[-1]
+        # {
+        #   &#39;action&#39;: &#39;reg_modifier&#39;,
+        #   &#39;num_iter&#39;: 1,
+        #   &#39;params&#39;: &lt;some string with some description of regularizers&gt;
+        # }
+        #
+        # Example of &#39;params&#39; (it is string):
+        #   &#34;([&lt;artm.regularizers.SmoothSparseThetaRegularizer object at 0x7faba8363ac8&gt;,
+        #     &#39;tau&#39;, 10.0],)&#34;
+
+        # Currently need to parse the string with params
+        cube_parameters_from_description = last_cube_description[&#39;params&#39;]
+        cube_parameters_from_description = re.findall(
+            &#39;\\[.*?\\]&#39;,
+            cube_parameters_from_description
+        )
+        cube_parameters_from_description = list(map(
+            lambda p: p[1:-1].split(&#39;, &#39;),
+            cube_parameters_from_description
+        ))
+        cube_parameters_from_description = list(map(
+            lambda p: dict(zip([&#39;object&#39;, &#39;field&#39;, &#39;value&#39;], p)),
+            cube_parameters_from_description
+        ))
+
+        assert len(self.experiment.cubes) &gt;= len(self.description)
+
+        last_cube_parameters = self.experiment.cubes[len(self.description) - 1]
+        # {
+        #   &#39;action&#39;: &#39;reg_modifier&#39;,
+        #   &#39;params&#39;: [
+        #     {
+        #       &#39;tau_grid&#39;: [0, 0.0],
+        #       &#39;regularizer&#39;: { &#39;name&#39;: &#39;smooth_theta_bcg&#39;, &#39;tau&#39;: 1, ... }
+        #     },
+        #     ...
+        #  ],
+        #  &#39;cube&#39;: &lt;Cube object&gt;
+        # }
+
+        # For some reason some cubes seemed to not have this &#39;cube&#39; parameter
+        # and not just the first two cubes
+        assert &#39;cube&#39; in last_cube_parameters
+
+        cube = last_cube_parameters[&#39;cube&#39;]
+
+        # Example of cube.parameters:
+        # [
+        #   { &#39;object&#39;: &lt;Regularizer object&gt;, &#39;field&#39;: &#39;tau&#39;, &#39;values&#39;: [0, 0.0] }
+        # ]
+
+        # TODO: assume order in cube.parameters is the same as in self.description[-1][&#39;params]
+        #  otherwise need to sort both lists?
+        for i in range(len(cube.parameters)):
+            assert str(cube.parameters[i][&#39;object&#39;]) == \
+                   cube_parameters_from_description[i][&#39;object&#39;]
+            # one is object, another is string
+
+            cube.parameters[i][&#39;values&#39;] = float(
+                cube_parameters_from_description[i][&#39;value&#39;]
+            )
+
+        cube_parameters_for_apply = list(
+            map(lambda p: list(p.values()), cube.parameters)
+        )
+
+        being_restored_model = cube.apply(
+            parent_model,
+            cube_parameters_for_apply,
+            dataset.get_dictionary()
+        )
+        being_restored_model._fit(
+            dataset_trainable=dataset.get_batch_vectorizer(),
+            num_iterations=cube.num_iter
+        )
+        model_cube = {
+            &#39;action&#39;: cube.action,
+            &#39;num_iter&#39;: cube.num_iter,
+            &#39;params&#39;: repr(tuple(cube_parameters_for_apply))  # trying to make it look like before
+        }
+        being_restored_model.add_cube(model_cube)  # restoring description
+        being_restored_model._model_id = self.model_id  # using private field
+
+        return being_restored_model</code></pre>
+</details>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="topicnet.cooking_machine.models.topic_model.TopicModel" href="topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel">TopicModel</a></li>
@@ -48,10 +697,28 @@
 <dt id="topicnet.cooking_machine.models.dummy_topic_model.DummyTopicModel.class_ids"><code class="name">var <span class="ident">class_ids</span></code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def class_ids(self):
+    &#34;&#34;&#34;&#34;&#34;&#34;
+    return self._model.class_ids</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.dummy_topic_model.DummyTopicModel.model_default_save_path"><code class="name">var <span class="ident">model_default_save_path</span></code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def model_default_save_path(self):
+    &#34;&#34;&#34;&#34;&#34;&#34;
+    return super().model_default_save_path + DummyTopicModel._save_path_suffix</code></pre>
+</details>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -61,6 +728,14 @@
 </code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_init_parameters(self, not_include=None):
+    &#34;&#34;&#34;&#34;&#34;&#34;
+    return self._init_parameters</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.dummy_topic_model.DummyTopicModel.restore"><code class="name flex">
 <span>def <span class="ident">restore</span></span>(<span>self, dataset=None)</span>
@@ -81,6 +756,41 @@ If not, dataset should be provided for training.</dd>
 <dt><code>TopicModel</code></dt>
 <dd>Restored topic model</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def restore(self, dataset: Dataset = None):
+    &#34;&#34;&#34;Restores dummy to original TopicModel
+
+    Tries to load the data from drive (if model was saved).
+    Otherwise tries to train the model using parent model, experiment and dataset.
+
+    Parameters
+    ----------
+    dataset : Dataset
+        Dataset on which the model was trained.
+        If the original model was saved to drive, the parameter won&#39;t be used.
+        If not, dataset should be provided for training.
+
+    Returns
+    -------
+    TopicModel
+        Restored topic model
+    &#34;&#34;&#34;
+    # Not in-place, as TopicModel&#39;s make_dummy() because (seems like) TopicModel can be empty
+    # But it would be really strange if DummyTopicModel actually had all the stuff inside
+
+    topic_model = None
+
+    if self._original_model_save_folder_path is not None:
+        topic_model = self._load_original_model()
+
+    if topic_model is None:
+        topic_model = self._train_to_original_model(dataset)
+
+    return topic_model</code></pre>
+</details>
 </dd>
 </dl>
 <h3>Inherited members</h3>
@@ -114,6 +824,14 @@ If not, dataset should be provided for training.</dd>
 </code></dt>
 <dd>
 <section class="desc"><p>Unspecified run-time error.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InvalidOperationError(RuntimeError):
+    def __init__(self, message=&#39;Dummy model can\&#39;t do this&#39;):
+        super().__init__(message)</code></pre>
+</details>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.RuntimeError</li>
@@ -155,7 +873,9 @@ If not, dataset should be provided for training.</dd>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>

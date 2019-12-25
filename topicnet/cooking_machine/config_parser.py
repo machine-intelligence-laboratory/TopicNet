@@ -78,6 +78,10 @@ ARTM_TYPES = {
     "theta_name": Str()
 }
 
+# change log style
+lc = artm.messages.ConfigureLoggingArgs()
+lc.minloglevel = 3
+lib = artm.wrapper.LibArtm(logging_config=lc)
 
 element = Any()
 base_schema = Map({
@@ -86,8 +90,9 @@ base_schema = Map({
     'stages': Seq(element),
     'model': Map({
         "dataset_path": Str(),
-        "modalities_to_use": Seq(Str()),
-        "main_modality": Str()
+        Optional("modalities_to_use"): Seq(Str()),
+        Optional("modalities_weights"): Any(),
+        "main_modality": Str(),
     }),
     'topics': Map({
         "background_topics": Seq(Str()) | Int() | EmptyList(),
@@ -429,6 +434,30 @@ def _add_parsed_regularizers(
     return regularizers
 
 
+def parse_modalities_data(parsed):
+    has_modalities_to_use = is_key_in_schema("modalities_to_use", parsed["model"])
+    has_weights = is_key_in_schema("modalities_weights", parsed["model"])
+    main_modality = parsed["model"]["main_modality"]
+
+    # exactly one should be specified
+    if has_modalities_to_use == has_weights:
+        raise ValueError(f"Either 'modalities_to_use' or 'modalities_weights' should be specified")
+
+    if has_weights:
+        modalities_to_use = list(parsed["model"]["modalities_weights"].data)
+        if main_modality not in modalities_to_use:
+            modalities_to_use.append(main_modality)
+        local_schema = Map({
+            key: Float() for key in modalities_to_use
+        })
+        parsed["model"]["modalities_weights"].revalidate(local_schema)
+        modalities_weights = parsed["model"]["modalities_weights"].data
+    else:
+        modalities_weights = None
+        modalities_to_use = parsed.data["model"]["modalities_to_use"]
+    return modalities_to_use, modalities_weights
+
+
 def parse(yaml_string, force_single_thread=False):
     """
     Parameters
@@ -458,7 +487,8 @@ def parse(yaml_string, force_single_thread=False):
     cube_settings = []
 
     dataset = Dataset(parsed.data["model"]["dataset_path"])
-    modalities_to_use = parsed.data["model"]["modalities_to_use"]
+
+    modalities_to_use, modalities_weights = parse_modalities_data(parsed)
 
     data_stats = count_vocab_size(dataset.get_dictionary(), modalities_to_use)
     model = init_simple_default_model(
@@ -467,6 +497,7 @@ def parse(yaml_string, force_single_thread=False):
         main_modality=parsed.data["model"]["main_modality"],
         specific_topics=parsed.data["topics"]["specific_topics"],
         background_topics=parsed.data["topics"]["background_topics"],
+        modalities_weights=modalities_weights
     )
 
     regularizers = _add_parsed_regularizers(

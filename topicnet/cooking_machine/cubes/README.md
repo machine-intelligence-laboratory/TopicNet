@@ -6,6 +6,7 @@ Cube types:
 * `RegularizersModifierCube` — cube that adds or alter model regularizers
 * `CubeCreator` — cube that allows to change model fundamental hyperparameters (topic number)
 * `RegularizationControllerCube` - cube that ties together a complicated usage of `RegularizersModifierCube`. This cube allows for change of regularization coefficients across the model training. This allows to obtain soemwhat unique results by combining contradictionary restrictions on the model.
+
 ---
 
 Strategy types:
@@ -13,6 +14,7 @@ Strategy types:
 * `BaseStrategy` — a parent class for all the Strategies
 * `PerplexityStrategy` — performs search in given hyperparameter space until certain score exceeds a boundary 
 * `GreedyStrategy` — strategy that performes search in hyperparameter space consequently changing dimensions to perform a 1D search for a minimum
+
 ---
 
 

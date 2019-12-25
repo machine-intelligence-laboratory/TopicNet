@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.6.3" />
+<meta name="generator" content="pdoc 0.7.2" />
 <title>topicnet.cooking_machine.cubes.regularizer_cube API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
 <style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
 </head>
@@ -19,6 +20,198 @@
 <h1 class="title">Module <code>topicnet.cooking_machine.cubes.regularizer_cube</code></h1>
 </header>
 <section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from .base_cube import BaseCube
+from ..routine import transform_complex_entity_to_dict
+from ..rel_toolbox_lite import count_vocab_size, handle_regularizer
+from copy import deepcopy
+
+
+class RegularizersModifierCube(BaseCube):
+    &#34;&#34;&#34;
+    Allows to create cubes of training and apply them to a topic model.
+
+    &#34;&#34;&#34;
+    def __init__(self, num_iter: int, regularizer_parameters,
+                 reg_search=&#39;grid&#39;, use_relative_coefficients: bool = True, strategy=None,
+                 tracked_score_function=None,
+                 verbose: bool = False, separate_thread: bool = True):
+        &#34;&#34;&#34;
+        Initialize stage. Checks params and update internal attributes.
+
+        Parameters
+        ----------
+        num_iter : int
+            number of iterations or method
+        regularizer_parameters : list[dict] or dict
+            regularizers params
+        reg_search : str
+            &#34;grid&#34;, &#34;pair&#34;, &#34;add&#34; or &#34;mul&#34;. 
+            &#34;pair&#34; for elementwise grid search in the case of several regularizers 
+            &#34;grid&#34; for the fullgrid search in the case of several regularizers 
+            &#34;add&#34; and &#34;mul&#34; for the ariphmetic and geometric progression
+            respectively for PerplexityStrategy 
+            (Default value = &#34;grid&#34;)
+        use_relative_coefficients : bool
+            forces the regularizer coefficient to be in relative form
+            i.e. normalized over collection properties
+        strategy : BaseStrategy
+            optimization approach (Default value = None)
+        tracked_score_function : retrieve_score_for_strategy
+            optimizable function for strategy (Default value = None)
+        verbose : bool
+            visualization flag (Default value = False)
+        separate_thread : bool
+            will train models inside a separate thread if True
+
+        &#34;&#34;&#34;  # noqa: W291
+        super().__init__(num_iter=num_iter, action=&#39;reg_modifier&#39;,
+                         reg_search=reg_search, strategy=strategy,
+                         tracked_score_function=tracked_score_function, verbose=verbose,
+                         separate_thread=separate_thread)
+        self._relative = use_relative_coefficients
+        if isinstance(regularizer_parameters, dict):
+            regularizer_parameters = [regularizer_parameters]
+        self._add_regularizers(regularizer_parameters)
+
+    def _check_all_regularizer_parameters(self, regularizer_parameters):
+        &#34;&#34;&#34;
+        Checks and updates params of all regularizers. Inplace.
+
+        Parameters
+        ----------
+        regularizer_parameters : list of dict
+
+        &#34;&#34;&#34;
+        if len(regularizer_parameters) &lt;= 0:
+            raise ValueError(&#34;There is no parameters.&#34;)
+
+        for i, one_regularizer_parameters in enumerate(regularizer_parameters):
+            if not isinstance(one_regularizer_parameters, dict):
+                wrong_type = type(one_regularizer_parameters)
+                raise ValueError(f&#34;One regularizer should be dict, not {wrong_type}&#34;)
+
+        if self.reg_search == &#34;pair&#34;:
+            # TODO: infinite length support
+            grid_size = len(regularizer_parameters[0][&#34;tau_grid&#34;])
+            for one_regularizer_parameters in regularizer_parameters:
+                if len(one_regularizer_parameters[&#34;tau_grid&#34;]) != grid_size:
+                    raise ValueError(&#34;Grid size is not the same.&#34;)
+
+    def _add_regularizers(self, all_regularizer_parameters):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        all_regularizer_parameters : list of dict
+
+        &#34;&#34;&#34;
+        self._check_all_regularizer_parameters(all_regularizer_parameters)
+        self.raw_parameters = all_regularizer_parameters
+
+        def _retrieve_object(params):
+            &#34;&#34;&#34;
+
+            Parameters
+            ----------
+            params : dict
+
+            Returns
+            -------
+
+            &#34;&#34;&#34;
+            if &#34;regularizer&#34; in params:
+                return params[&#34;regularizer&#34;]
+            else:
+                return {&#34;name&#34;: params[&#34;name&#34;]}
+
+        self.parameters = [
+            {
+                &#34;object&#34;: _retrieve_object(params),
+                &#34;field&#34;: &#34;tau&#34;,
+                &#34;values&#34;: params.get(&#39;tau_grid&#39;, [])
+            }
+            for params in all_regularizer_parameters
+        ]
+
+    def apply(self, topic_model, one_model_parameter, dictionary=None, model_id=None):
+        &#34;&#34;&#34;
+        Applies regularizers and parameters to model
+
+        Parameters
+        ----------
+        topic_model : TopicModel
+        one_model_parameter : list or tuple
+        dictionary : Dictionary
+            (Default value = None)
+        model_id : str
+            (Default value = None)
+
+        Returns
+        -------
+        TopicModel
+
+        &#34;&#34;&#34;
+        new_model = topic_model.clone(model_id)
+        new_model.parent_model_id = topic_model.model_id
+
+        modalities = dict()
+        self.data_stats = None
+        if self._relative:
+            modalities = new_model.class_ids
+            if not getattr(self, &#39;data_stats&#39;, None):
+                self.data_stats = count_vocab_size(dictionary, modalities)
+
+        for regularizer_data in one_model_parameter:
+            regularizer, field_name, params = regularizer_data
+            regularizer_type = str(type(regularizer))
+            if isinstance(regularizer, dict):
+                if regularizer[&#39;name&#39;] in new_model.all_regularizers.keys():
+                    new_regularizer = deepcopy(new_model.all_regularizers[regularizer[&#39;name&#39;]])
+                    new_regularizer._tau = params
+                    handle_regularizer(
+                        self._relative,
+                        new_model,
+                        new_regularizer,
+                        self.data_stats,
+                    )
+                else:
+                    error_msg = (f&#34;Regularizer {regularizer[&#39;name&#39;]} does not exist. &#34;
+                                 f&#34;Cannot be modified.&#34;)
+                    raise ValueError(error_msg)
+            elif &#39;Regularizer&#39; in regularizer_type:
+                new_regularizer = deepcopy(regularizer)
+                new_regularizer._tau = params
+                handle_regularizer(
+                    self._relative,
+                    new_model,
+                    new_regularizer,
+                    self.data_stats,
+                )
+            else:
+                error_msg = f&#34;Regularizer instance or name must be specified for {regularizer}.&#34;
+                raise ValueError(error_msg)
+        return new_model
+
+    def get_jsonable_from_parameters(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        jsonable_parameters = []
+        for one_model_parameters in self.raw_parameters:
+            one_jsonable = {&#34;tau_grid&#34;: one_model_parameters.get(&#34;tau_grid&#34;, [])}
+            if &#34;regularizer&#34; in one_model_parameters:
+                one_regularizer = one_model_parameters[&#39;regularizer&#39;]
+                if not isinstance(one_regularizer, dict):
+                    one_regularizer = transform_complex_entity_to_dict(one_regularizer)
+                one_jsonable[&#34;regularizer&#34;] = one_regularizer
+            else:
+                one_jsonable[&#34;name&#34;] = one_model_parameters[&#34;name&#34;]
+            jsonable_parameters.append(one_jsonable)
+
+        return jsonable_parameters</code></pre>
+</details>
 </section>
 <section>
 </section>
@@ -61,6 +254,192 @@ i.e. normalized over collection properties</dd>
 <dt><strong><code>separate_thread</code></strong> :&ensp;<code>bool</code></dt>
 <dd>will train models inside a separate thread if True</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RegularizersModifierCube(BaseCube):
+    &#34;&#34;&#34;
+    Allows to create cubes of training and apply them to a topic model.
+
+    &#34;&#34;&#34;
+    def __init__(self, num_iter: int, regularizer_parameters,
+                 reg_search=&#39;grid&#39;, use_relative_coefficients: bool = True, strategy=None,
+                 tracked_score_function=None,
+                 verbose: bool = False, separate_thread: bool = True):
+        &#34;&#34;&#34;
+        Initialize stage. Checks params and update internal attributes.
+
+        Parameters
+        ----------
+        num_iter : int
+            number of iterations or method
+        regularizer_parameters : list[dict] or dict
+            regularizers params
+        reg_search : str
+            &#34;grid&#34;, &#34;pair&#34;, &#34;add&#34; or &#34;mul&#34;. 
+            &#34;pair&#34; for elementwise grid search in the case of several regularizers 
+            &#34;grid&#34; for the fullgrid search in the case of several regularizers 
+            &#34;add&#34; and &#34;mul&#34; for the ariphmetic and geometric progression
+            respectively for PerplexityStrategy 
+            (Default value = &#34;grid&#34;)
+        use_relative_coefficients : bool
+            forces the regularizer coefficient to be in relative form
+            i.e. normalized over collection properties
+        strategy : BaseStrategy
+            optimization approach (Default value = None)
+        tracked_score_function : retrieve_score_for_strategy
+            optimizable function for strategy (Default value = None)
+        verbose : bool
+            visualization flag (Default value = False)
+        separate_thread : bool
+            will train models inside a separate thread if True
+
+        &#34;&#34;&#34;  # noqa: W291
+        super().__init__(num_iter=num_iter, action=&#39;reg_modifier&#39;,
+                         reg_search=reg_search, strategy=strategy,
+                         tracked_score_function=tracked_score_function, verbose=verbose,
+                         separate_thread=separate_thread)
+        self._relative = use_relative_coefficients
+        if isinstance(regularizer_parameters, dict):
+            regularizer_parameters = [regularizer_parameters]
+        self._add_regularizers(regularizer_parameters)
+
+    def _check_all_regularizer_parameters(self, regularizer_parameters):
+        &#34;&#34;&#34;
+        Checks and updates params of all regularizers. Inplace.
+
+        Parameters
+        ----------
+        regularizer_parameters : list of dict
+
+        &#34;&#34;&#34;
+        if len(regularizer_parameters) &lt;= 0:
+            raise ValueError(&#34;There is no parameters.&#34;)
+
+        for i, one_regularizer_parameters in enumerate(regularizer_parameters):
+            if not isinstance(one_regularizer_parameters, dict):
+                wrong_type = type(one_regularizer_parameters)
+                raise ValueError(f&#34;One regularizer should be dict, not {wrong_type}&#34;)
+
+        if self.reg_search == &#34;pair&#34;:
+            # TODO: infinite length support
+            grid_size = len(regularizer_parameters[0][&#34;tau_grid&#34;])
+            for one_regularizer_parameters in regularizer_parameters:
+                if len(one_regularizer_parameters[&#34;tau_grid&#34;]) != grid_size:
+                    raise ValueError(&#34;Grid size is not the same.&#34;)
+
+    def _add_regularizers(self, all_regularizer_parameters):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        all_regularizer_parameters : list of dict
+
+        &#34;&#34;&#34;
+        self._check_all_regularizer_parameters(all_regularizer_parameters)
+        self.raw_parameters = all_regularizer_parameters
+
+        def _retrieve_object(params):
+            &#34;&#34;&#34;
+
+            Parameters
+            ----------
+            params : dict
+
+            Returns
+            -------
+
+            &#34;&#34;&#34;
+            if &#34;regularizer&#34; in params:
+                return params[&#34;regularizer&#34;]
+            else:
+                return {&#34;name&#34;: params[&#34;name&#34;]}
+
+        self.parameters = [
+            {
+                &#34;object&#34;: _retrieve_object(params),
+                &#34;field&#34;: &#34;tau&#34;,
+                &#34;values&#34;: params.get(&#39;tau_grid&#39;, [])
+            }
+            for params in all_regularizer_parameters
+        ]
+
+    def apply(self, topic_model, one_model_parameter, dictionary=None, model_id=None):
+        &#34;&#34;&#34;
+        Applies regularizers and parameters to model
+
+        Parameters
+        ----------
+        topic_model : TopicModel
+        one_model_parameter : list or tuple
+        dictionary : Dictionary
+            (Default value = None)
+        model_id : str
+            (Default value = None)
+
+        Returns
+        -------
+        TopicModel
+
+        &#34;&#34;&#34;
+        new_model = topic_model.clone(model_id)
+        new_model.parent_model_id = topic_model.model_id
+
+        modalities = dict()
+        self.data_stats = None
+        if self._relative:
+            modalities = new_model.class_ids
+            if not getattr(self, &#39;data_stats&#39;, None):
+                self.data_stats = count_vocab_size(dictionary, modalities)
+
+        for regularizer_data in one_model_parameter:
+            regularizer, field_name, params = regularizer_data
+            regularizer_type = str(type(regularizer))
+            if isinstance(regularizer, dict):
+                if regularizer[&#39;name&#39;] in new_model.all_regularizers.keys():
+                    new_regularizer = deepcopy(new_model.all_regularizers[regularizer[&#39;name&#39;]])
+                    new_regularizer._tau = params
+                    handle_regularizer(
+                        self._relative,
+                        new_model,
+                        new_regularizer,
+                        self.data_stats,
+                    )
+                else:
+                    error_msg = (f&#34;Regularizer {regularizer[&#39;name&#39;]} does not exist. &#34;
+                                 f&#34;Cannot be modified.&#34;)
+                    raise ValueError(error_msg)
+            elif &#39;Regularizer&#39; in regularizer_type:
+                new_regularizer = deepcopy(regularizer)
+                new_regularizer._tau = params
+                handle_regularizer(
+                    self._relative,
+                    new_model,
+                    new_regularizer,
+                    self.data_stats,
+                )
+            else:
+                error_msg = f&#34;Regularizer instance or name must be specified for {regularizer}.&#34;
+                raise ValueError(error_msg)
+        return new_model
+
+    def get_jsonable_from_parameters(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        jsonable_parameters = []
+        for one_model_parameters in self.raw_parameters:
+            one_jsonable = {&#34;tau_grid&#34;: one_model_parameters.get(&#34;tau_grid&#34;, [])}
+            if &#34;regularizer&#34; in one_model_parameters:
+                one_regularizer = one_model_parameters[&#39;regularizer&#39;]
+                if not isinstance(one_regularizer, dict):
+                    one_regularizer = transform_complex_entity_to_dict(one_regularizer)
+                one_jsonable[&#34;regularizer&#34;] = one_regularizer
+            else:
+                one_jsonable[&#34;name&#34;] = one_model_parameters[&#34;name&#34;]
+            jsonable_parameters.append(one_jsonable)
+
+        return jsonable_parameters</code></pre>
+</details>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="topicnet.cooking_machine.cubes.base_cube.BaseCube" href="base_cube.html#topicnet.cooking_machine.cubes.base_cube.BaseCube">BaseCube</a></li>
@@ -88,6 +467,69 @@ i.e. normalized over collection properties</dd>
 <dt><code>TopicModel</code></dt>
 <dd>&nbsp;</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def apply(self, topic_model, one_model_parameter, dictionary=None, model_id=None):
+    &#34;&#34;&#34;
+    Applies regularizers and parameters to model
+
+    Parameters
+    ----------
+    topic_model : TopicModel
+    one_model_parameter : list or tuple
+    dictionary : Dictionary
+        (Default value = None)
+    model_id : str
+        (Default value = None)
+
+    Returns
+    -------
+    TopicModel
+
+    &#34;&#34;&#34;
+    new_model = topic_model.clone(model_id)
+    new_model.parent_model_id = topic_model.model_id
+
+    modalities = dict()
+    self.data_stats = None
+    if self._relative:
+        modalities = new_model.class_ids
+        if not getattr(self, &#39;data_stats&#39;, None):
+            self.data_stats = count_vocab_size(dictionary, modalities)
+
+    for regularizer_data in one_model_parameter:
+        regularizer, field_name, params = regularizer_data
+        regularizer_type = str(type(regularizer))
+        if isinstance(regularizer, dict):
+            if regularizer[&#39;name&#39;] in new_model.all_regularizers.keys():
+                new_regularizer = deepcopy(new_model.all_regularizers[regularizer[&#39;name&#39;]])
+                new_regularizer._tau = params
+                handle_regularizer(
+                    self._relative,
+                    new_model,
+                    new_regularizer,
+                    self.data_stats,
+                )
+            else:
+                error_msg = (f&#34;Regularizer {regularizer[&#39;name&#39;]} does not exist. &#34;
+                             f&#34;Cannot be modified.&#34;)
+                raise ValueError(error_msg)
+        elif &#39;Regularizer&#39; in regularizer_type:
+            new_regularizer = deepcopy(regularizer)
+            new_regularizer._tau = params
+            handle_regularizer(
+                self._relative,
+                new_model,
+                new_regularizer,
+                self.data_stats,
+            )
+        else:
+            error_msg = f&#34;Regularizer instance or name must be specified for {regularizer}.&#34;
+            raise ValueError(error_msg)
+    return new_model</code></pre>
+</details>
 </dd>
 </dl>
 <h3>Inherited members</h3>
@@ -127,7 +569,9 @@ i.e. normalized over collection properties</dd>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>

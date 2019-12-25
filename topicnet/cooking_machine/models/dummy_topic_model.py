@@ -7,6 +7,11 @@ import warnings
 from ..dataset import Dataset
 from .topic_model import TopicModel
 
+# change log style
+lc = artm.messages.ConfigureLoggingArgs()
+lc.minloglevel = 3
+lib = artm.wrapper.LibArtm(logging_config=lc)
+
 
 class InvalidOperationError(RuntimeError):
     def __init__(self, message='Dummy model can\'t do this'):

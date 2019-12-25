@@ -5,6 +5,13 @@ DIR=$(dirname "$1")
 DIR=${DIR#..\/..\/}
 
 pandoc -f markdown -t html $1 -o $DIR/htmled.html 
+# echo "created html-file from markdown $1 in $DIR"
+# ls $DIR
 sed -i '\|</header*|r '$DIR/htmled.html'' "$DIR/index.html"
+
 rm $DIR/htmled.html
-sed -i "s/<h1>Index.*/<h1>Документация к модулю <code>topicnet<\/code><\/h1>/" "$DIR/index.html"
+
+# echo "removed html-file and created index.html"
+# ls $DIR
+# echo ""
+sed -i "s/<h1>Index.*/<h1><code>TopicNet<\/code> library documentation <\/h1>/" "$DIR/index.html"

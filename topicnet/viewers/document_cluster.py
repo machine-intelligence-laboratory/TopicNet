@@ -82,7 +82,7 @@ class DocumentClusterViewer(BaseViewer):
                 text=data_dict['text'],)],
         )
         if save_path is not None:
-            with open(save_path, 'w') as f:
+            with open(save_path, 'w', encoding='utf-8') as f:
                 f.write(html_div)
 
         return reduced_data

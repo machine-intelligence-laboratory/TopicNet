@@ -1,9 +1,11 @@
-import pandas as pd
 import os
-import warnings
+import sys
+import csv
 import artm
 import shutil
+import warnings
 
+import pandas as pd
 from glob import glob
 from .routine import blake2bchecksum
 
@@ -12,6 +14,23 @@ W_DIFF_BATCHES_2 = "Overwriting batches in {0}"
 
 DEFAULT_ARTM_MODALITY = '@default_class'  # TODO: how to get this value from artm library?
 MODALITY_START_SYMBOL = '|'
+
+# change log style
+lc = artm.messages.ConfigureLoggingArgs()
+lc.minloglevel = 3
+lib = artm.wrapper.LibArtm(logging_config=lc)
+
+
+def _fix_max_string_size():
+    maxInt = sys.maxsize
+    while True:
+        # decrease the maxInt value by factor 10
+        # as long as the OverflowError occurs.
+        try:
+            csv.field_size_limit(maxInt)
+            break
+        except OverflowError:
+            maxInt = int(maxInt/10)
 
 
 def get_modality_names(vw_string):
@@ -111,6 +130,8 @@ class Dataset(BaseDataset):
         # set main data
         self._data_path = data_path
         self._small_data = keep_in_memory
+        # making document entry as big as possible
+        _fix_max_string_size()
         self._data_hash = None
         self._cached_dict = None
         if os.path.exists(data_path):
@@ -267,7 +288,7 @@ class Dataset(BaseDataset):
 
     def write_vw(self, file_path):
         """ """
-        with open(file_path, 'w') as f:
+        with open(file_path, 'w', encoding='utf-8') as f:
             for index, data in self._data.iterrows():
                 vw_string = data[VW_TEXT_COL]
                 f.write(vw_string + '\n')
