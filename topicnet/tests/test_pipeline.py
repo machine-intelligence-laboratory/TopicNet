@@ -56,7 +56,7 @@ def experiment_enviroment(request):
     ex_score = ScoreExample()
     tm = TopicModel(model_artm, model_id='new_id', custom_scores={'example_score': ex_score})
 
-    experiment = Experiment(tm, experiment_id="test", save_path="tests/experiments")
+    experiment = Experiment(tm, experiment_id="test_pipeline", save_path="tests/experiments")
     cube_settings = [{
         'CubeCreator':
         {

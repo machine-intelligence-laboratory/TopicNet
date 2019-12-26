@@ -8,6 +8,7 @@ import shutil
 import artm
 import numpy as np
 
+from time import sleep
 from ..cooking_machine.cubes.controller_cube import RegularizationControllerCube, W_HALT_CONTROL
 from ..cooking_machine.cubes import RegularizersModifierCube
 from ..cooking_machine.models.topic_model import TopicModel
@@ -277,8 +278,8 @@ def test_flicker_with_controller(experiment_enviroment, thread_flag):
         use_relative_coefficients=True,
         separate_thread=thread_flag
     )
-
-    tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
+    dummies = cube(tm, dataset)
+    tmodels = [dummy.restore() for dummy in dummies]
 
     assert len(tmodels) == 1
 
@@ -335,8 +336,8 @@ def test_flicker_with_controller_lambdas(experiment_enviroment, thread_flag):
         use_relative_coefficients=True,
         separate_thread=thread_flag
     )
-
-    tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
+    dummies = cube(tm, dataset)
+    tmodels = [dummy.restore() for dummy in dummies]
 
     for one_cube_part in cube.get_jsonable_from_parameters():
         source = one_cube_part["tau_converter"]
@@ -428,8 +429,8 @@ def test_inline_relative_regularizers(experiment_enviroment, thread_flag):
         use_relative_coefficients=True,
         separate_thread=thread_flag
     )
-
-    tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
+    dummies = cube(tm, dataset)
+    tmodels = [dummy.restore() for dummy in dummies]
 
     assert len(tmodels) == 1
 
@@ -463,8 +464,8 @@ def test_inline_regularizers(experiment_enviroment, thread_flag):
         use_relative_coefficients=False,
         separate_thread=thread_flag
     )
-
-    tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
+    dummies = cube(tm, dataset)
+    tmodels = [dummy.restore() for dummy in dummies]
 
     assert len(tmodels) == 1
 
@@ -477,9 +478,6 @@ def test_inline_regularizers(experiment_enviroment, thread_flag):
 @pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
 def test_max_iters(experiment_enviroment, num_iters, thread_flag):
     """ """
-    if thread_flag:
-        from time import sleep
-        sleep(2)
     tm, dataset, experiment, dictionary = experiment_enviroment
 
     reg = artm.regularizers.SmoothSparsePhiRegularizer(name='test', tau=1, class_ids=MAIN_MODALITY)
@@ -518,9 +516,6 @@ def test_max_iters(experiment_enviroment, num_iters, thread_flag):
         "tau_grid": TAU_GRID_LVL2
     }
 
-    if thread_flag:
-        sleep(2)
-
     cube_second = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
@@ -541,3 +536,4 @@ def test_max_iters(experiment_enviroment, num_iters, thread_flag):
             print(history)
             print(agent.is_working)
         assert one_model.regularizers['test'].tau == expected_tau
+    sleep(1)

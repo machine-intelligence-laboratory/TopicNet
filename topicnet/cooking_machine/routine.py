@@ -324,11 +324,13 @@ def extract_required_parameter(model, parameter):
                 f'Model \"{model}\" doesn\'t have the score \"{parameter}\". '
                 f'Expected score name {parameter} or model.parameter {parameter}')
 
-        try:
-            return scores[-1]
-
-        except IndexError:
+        if len(scores) == 0:
             raise ValueError(f'Empty score {parameter}.')
+
+        if scores[-1] is None:  # FrozenScore
+            return value_to_return_as_none
+
+        return scores[-1]
 
 
 def is_acceptable(model, requirement_lesser, requirement_greater, requirement_equal):

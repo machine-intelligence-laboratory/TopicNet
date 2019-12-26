@@ -1,7 +1,7 @@
 import os
 from tqdm import tqdm
 import warnings
-from multiprocessing import Queue, Process, Lock, Condition
+from multiprocessing import Queue, Process
 # from queue import Empty
 from artm.wrapper.exceptions import ArtmException
 
@@ -46,22 +46,15 @@ class retrieve_score_for_strategy:
             return model.scores[self.score_name][-1]
 
 
-def put_to_queue(queue, condition, puttable):
-    # condition.acquire()
+# exists for multiprocessing debug
+def put_to_queue(queue, puttable):
     queue.put(puttable)
-    # condition.notify()
-    # condition.release()
 
 
-def get_from_queue_till_fail(queue, condition, error_message='',):
+# exists for multiprocessing debug
+def get_from_queue_till_fail(queue,  error_message='',):
     while True:
-        # condition.acquire()
-        # while queue.empty():
-        #    condition.wait()
-        result = queue.get()
-        # condition.notify()
-        # condition.release()
-        return result
+        return queue.get()
 
 
 class BaseCube:
@@ -200,24 +193,24 @@ class BaseCube:
             # some strategies depend on previous train results, therefore scores must be updated
             if self.tracked_score_function:
                 current_score = self.tracked_score_function(new_model)
-            else:
+                self.strategy.update_scores(current_score)
+            # else:
                 # we return number of iterations as a placeholder
-                current_score = len(returned_paths)
-            self.strategy.update_scores(current_score)
+                # current_score = len(returned_paths)
+
         return returned_paths
 
-    def _retrieve_results_from_process(self, queue, condition, experiment):
+    def _retrieve_results_from_process(self, queue, experiment):
         from ..models import DummyTopicModel
-        models_num = get_from_queue_till_fail(queue, condition, NUM_MODELS_ERROR)
+        models_num = get_from_queue_till_fail(queue, NUM_MODELS_ERROR)
         topic_models = []
         for _ in range(models_num):
             path = get_from_queue_till_fail(queue,
-                                            condition,
                                             MODEL_RETRIEVE_ERROR.format(_, models_num))
             topic_models.append(DummyTopicModel.load(path, experiment=experiment))
 
-        strategy_parameters = get_from_queue_till_fail(queue, condition, STRATEGY_RETRIEVE_ERROR)
-        caught_warnings = get_from_queue_till_fail(queue, condition, WARNINGS_RETRIEVE_ERROR)
+        strategy_parameters = get_from_queue_till_fail(queue, STRATEGY_RETRIEVE_ERROR)
+        caught_warnings = get_from_queue_till_fail(queue, WARNINGS_RETRIEVE_ERROR)
         self.strategy._set_strategy_parameters(strategy_parameters)
 
         for (warning_message, warning_class) in caught_warnings:
@@ -226,7 +219,7 @@ class BaseCube:
 
         return topic_models
 
-    def _train_models_and_report_results(self, queue, not_empty, experiment, topic_model, dataset,
+    def _train_models_and_report_results(self, queue, experiment, topic_model, dataset,
                                          search_space, search_length):
         """
         This function trains models in separate thread, saves them
@@ -236,17 +229,17 @@ class BaseCube:
         """
         with warnings.catch_warnings(record=True) as caught_warnings:
             returned_paths = self._train_models(experiment, topic_model, dataset, search_space)
-            put_to_queue(queue, not_empty, len(returned_paths))
-            for i, path in enumerate(returned_paths):
-                put_to_queue(queue, not_empty, path)
+            put_to_queue(queue, len(returned_paths))
+            for path in returned_paths:
+                put_to_queue(queue, path)
 
             # to work with strategy we recover consistency by sending important parameters
             strategy_parameters = self.strategy._get_strategy_parameters(saveable_only=True)
-            put_to_queue(queue, not_empty, strategy_parameters)
+            put_to_queue(queue, strategy_parameters)
 
             caught_warnings = [(warning.message, warning.category)
                                for warning in caught_warnings]
-            put_to_queue(queue, not_empty, caught_warnings)
+            put_to_queue(queue, caught_warnings)
 
     def _run_cube(self, topic_model, dataset):
         """
@@ -308,27 +301,14 @@ class BaseCube:
 
         if self.separate_thread:
             queue = Queue()
-            not_empty = Condition(Lock())
             process = Process(
                 target=self._train_models_and_report_results,
-                args=(queue, not_empty, experiment, topic_model, dataset,
+                args=(queue, experiment, topic_model, dataset,
                       search_space, search_length),
                 daemon=True
             )
             process.start()
-            """
-            attempts_left = 100
-            while process.is_alive():
-                sleep(0.5)
-                attempts_left -= 1
-                print(process.is_alive(), attempts_left)
-                if attempts_left <= 0:
-                    process.terminate()
-                    break
-            """
-
-            process.join()
-            topic_models = self._retrieve_results_from_process(queue, not_empty, experiment)
+            topic_models = self._retrieve_results_from_process(queue, experiment)
         else:
             returned_paths = self._train_models(experiment, topic_model, dataset, search_space)
             topic_models = [

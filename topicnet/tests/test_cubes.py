@@ -70,7 +70,9 @@ def experiment_enviroment(request):
     )
 
     tm = TopicModel(model_artm, model_id='new_id')
-    experiment = Experiment(experiment_id="test", save_path="tests/experiments", topic_model=tm)
+    experiment = Experiment(experiment_id="test_cubes",
+                            save_path="tests/experiments",
+                            topic_model=tm)
 
     return tm, dataset, experiment, dictionary
 
@@ -103,8 +105,9 @@ def test_simple_experiment(experiment_enviroment, thread_flag):
         use_relative_coefficients=False,
         separate_thread=thread_flag
     )
+    dummies = cube(tm, dataset)
 
-    tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
+    tmodels = [dummy.restore() for dummy in dummies]
 
     assert len(tmodels) == len(TAU_GRID)
     for i, one_model in enumerate(tmodels):
@@ -177,8 +180,9 @@ def test_double_steps_experiment(experiment_enviroment, thread_flag):
         use_relative_coefficients=False,
         separate_thread=thread_flag
     )
+    dummies = cube_second(tmodels_lvl2[0], dataset)
 
-    tmodels_lvl3 = [dummy.restore() for dummy in cube_second(tmodels_lvl2[0], dataset)]
+    tmodels_lvl3 = [dummy.restore() for dummy in dummies]
 
     assert len(tmodels_lvl3) == len(TAU_GRID_LVL2)
     for i, one_model in enumerate(tmodels_lvl3):
@@ -283,8 +287,8 @@ def test_two_regularizers_on_step_experiment(experiment_enviroment, thread_flag)
         use_relative_coefficients=False,
         separate_thread=thread_flag
     )
-
-    tmodels_lvl2 = [dummy.restore() for dummy in cube(tm, dataset)]
+    dummies = cube(tm, dataset)
+    tmodels_lvl2 = [dummy.restore() for dummy in dummies]
 
     TAU_FOR_CHECKING = [
         (1, -0.1), (1, -0.5), (5, -0.1), (5, -0.5), (10, -0.1), (10, -0.5)
@@ -328,8 +332,9 @@ def test_two_regularizers_on_step_experiment_pair_grid(experiment_enviroment, th
         use_relative_coefficients=False,
         separate_thread=thread_flag
     )
+    dummies = cube_pair(tm, dataset)
 
-    tmodels_lvl2_pair = [dummy.restore() for dummy in cube_pair(tm, dataset)]
+    tmodels_lvl2_pair = [dummy.restore() for dummy in dummies]
 
     TAU_FOR_CHECKING = [
         (1, -0.1), (5, -0.5), (10, -0.3)
@@ -385,8 +390,8 @@ def test_modifier_cube_on_two_steps_experiment(experiment_enviroment, thread_fla
         use_relative_coefficients=False,
         separate_thread=thread_flag
     )
-
-    tmodels_second = [dummy.restore() for dummy in cube_second(tmodels_lvl2_pair[1], dataset)]
+    dummies = cube_second(tmodels_lvl2_pair[1], dataset)
+    tmodels_second = [dummy.restore() for dummy in dummies]
     TAU_FOR_CHECKING = [
         (5, -0.2), (5, -0.4), (5, -0.6), (5, -0.7)
     ]
@@ -416,8 +421,8 @@ def test_class_ids_cube(experiment_enviroment, thread_flag):
         reg_search="grid",
         separate_thread=thread_flag
     )
-
-    tmodels_lvl2 = [dummy.restore() for dummy in cube(tm, dataset)]
+    dummies = cube(tm, dataset)
+    tmodels_lvl2 = [dummy.restore() for dummy in dummies]
 
     CLASS_IDS_FOR_CHECKING = [(1, 1), (1, 2), (2, 1), (2, 2), (3, 1), (3, 2)]
     assert len(tmodels_lvl2) == 6
@@ -425,37 +430,6 @@ def test_class_ids_cube(experiment_enviroment, thread_flag):
     for i, one_model in enumerate(tmodels_lvl2):
         assert one_model.class_ids[MAIN_MODALITY] == CLASS_IDS_FOR_CHECKING[i][0]
         assert one_model.class_ids[NGRAM_MODALITY] == CLASS_IDS_FOR_CHECKING[i][1]
-
-
-'''
-# most likely fail
-@pytest.mark.xfail
-def test_phi_matrix_after_class_ids_cube(experiment_enviroment):
-    tm, dataset, experiment, dictionary = experiment_enviroment
-
-    class_id_params = {
-        "class_ids" + MAIN_MODALITY: [0, 1, 2],
-        "class_ids" + NGRAM_MODALITY: [1, 0, 2],
-    }
-
-    cube = CubeCreator(
-        num_iter=5,
-        parameters=class_id_params,
-        reg_search="pair",
-        use_relative_coefficients=False,
-    )
-
-    tmodels = cube(tm, dataset)
-    for first_ind in range(len(tmodels)):
-        for second_ind in range(first_ind + 1, len(tmodels)):
-            phi_first = tmodels[first_ind].get_phi_dense()[0]
-            phi_second = tmodels[second_ind].get_phi_dense()[0]
-            if phi_first.shape == phi_second.shape:
-                assert (np.prod(phi_first.shape) - np.sum(phi_first == phi_second)) > 0, \
-                    'Phi matrixes are the same after class_ids_cube.'
-
-    resource_teardown()
-'''
 
 
 @pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
@@ -484,8 +458,9 @@ def test_class_id_cube_strategy_elliptic_paraboloid(experiment_enviroment,
         tracked_score_function=retrieve_elliptic_paraboloid_score,
         separate_thread=thread_flag
     )
+    dummies = cube(tm, dataset)
 
-    tmodels_lvl2 = [dummy.restore() for dummy in cube(tm, dataset)]
+    tmodels_lvl2 = [dummy.restore() for dummy in dummies]
 
     if not renormalize:
         assert len(tmodels_lvl2) == sum(len(m) for m in class_id_params.values())
@@ -532,8 +507,8 @@ def test_class_id_cube_strategy_rosenbrock(experiment_enviroment, renormalize, t
         tracked_score_function=retrieve_rosenbrock_score,
         separate_thread=thread_flag
     )
-
-    tmodels_lvl2 = [dummy.restore() for dummy in cube(tm, dataset)]
+    dummies = cube(tm, dataset)
+    tmodels_lvl2 = [dummy.restore() for dummy in dummies]
 
     if not renormalize:
         assert len(tmodels_lvl2) == sum(len(m) for m in class_id_params.values())
@@ -583,8 +558,8 @@ def test_class_id_cube_strategy_3d_parabolic(experiment_enviroment, renormalize,
         verbose=True,
         separate_thread=thread_flag
     )
-
-    tmodels_lvl2 = [dummy.restore() for dummy in cube(tm, dataset)]
+    dummies = cube(tm, dataset)
+    tmodels_lvl2 = [dummy.restore() for dummy in dummies]
 
     if not renormalize:
         assert len(tmodels_lvl2) == sum(len(m) for m in class_id_params.values())
@@ -660,7 +635,8 @@ def test_perplexity_strategy_grid(experiment_enviroment, thread_flag):
         separate_thread=thread_flag
     )
     with pytest.warns(UserWarning, match='Grid would be used instead'):
-        tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
+        dummies = cube(tm, dataset)
+        tmodels = [dummy.restore() for dummy in dummies]
 
     visited_taus = extract_visited_taus(tmodels)
     expected_taus = [0] + TAU_GRID
@@ -697,7 +673,8 @@ def test_perplexity_strategy_add(experiment_enviroment, thread_flag):
         separate_thread=thread_flag
     )
     with pytest.warns(UserWarning, match="Max progression length"):
-        tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
+        dummies = cube(tm, dataset)
+        tmodels = [dummy.restore() for dummy in dummies]
 
     visited_taus = extract_visited_taus(tmodels)
     expected_taus = [0, 1, 2, 3, 4, 5]
@@ -735,7 +712,8 @@ def test_perplexity_strategy_mul(experiment_enviroment, thread_flag):
     )
 
     with pytest.warns(UserWarning, match="Perplexity is too high for threshold"):
-        tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
+        dummies = cube(tm, dataset)
+        tmodels = [dummy.restore() for dummy in dummies]
 
     visited_taus = extract_visited_taus(tmodels)
     expected_taus = [0, 0.001, 0.01, 0.1, 1.0, 10.0]
@@ -750,7 +728,6 @@ def test_perplexity_strategy_mul(experiment_enviroment, thread_flag):
     assert cube.strategy.best_point[0][2] == 1.0
 
 
-# @pytest.mark.skip(reason="we fail to cleanup")
 def test_phi_matrix_after_lda_regularizer(experiment_enviroment):
     with warnings.catch_warnings():
         warnings.filterwarnings(action="ignore", message=W_DIFF_BATCHES_1)
@@ -797,7 +774,6 @@ def test_phi_matrix_after_lda_regularizer(experiment_enviroment):
     assert any(phi_first != phi_second), 'Phi matrices are the same after regularization.'
 
 
-# @pytest.mark.skip(reason="we fail to cleanup")
 def test_phi_matrix_after_lda_sampled_regularizer(experiment_enviroment):
     with warnings.catch_warnings():
         warnings.filterwarnings(action="ignore", message=W_DIFF_BATCHES_1)

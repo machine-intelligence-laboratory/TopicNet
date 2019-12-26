@@ -124,9 +124,10 @@ def test_simple_experiment(two_experiment_enviroments, thread_flag):
         reg_search="grid",
         separate_thread=thread_flag,
     )
-
-    tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
-    tmodels_2 = [dummy.restore() for dummy in cube_2(tm_2, dataset)]
+    dummies = cube(tm, dataset)
+    tmodels = [dummy.restore() for dummy in dummies]
+    dummies_2 = cube_2(tm_2, dataset)
+    tmodels_2 = [dummy.restore() for dummy in dummies_2]
 
     assert len(tmodels) == len(tmodels_2)
     assert cube.strategy.score == cube_2.strategy.score
@@ -164,9 +165,10 @@ def test_double_steps_experiment(two_experiment_enviroments, thread_flag):
         reg_search="grid",
         separate_thread=thread_flag,
     )
-
-    tmodels_lvl2_1 = [dummy.restore() for dummy in cube_first_1(tm_1, dataset)]
-    tmodels_lvl2_2 = [dummy.restore() for dummy in cube_first_2(tm_2, dataset)]
+    dummies_first = cube_first_1(tm_1, dataset)
+    tmodels_lvl2_1 = [dummy.restore() for dummy in dummies_first]
+    dummies_second = cube_first_2(tm_2, dataset)
+    tmodels_lvl2_2 = [dummy.restore() for dummy in dummies_second]
 
     experiment_1.save_path = 'tests/experiments/test'
     experiment_1.save()
@@ -197,9 +199,10 @@ def test_double_steps_experiment(two_experiment_enviroments, thread_flag):
         reg_search="grid",
         separate_thread=thread_flag,
     )
-
-    tmodels_lvl3 = [dummy.restore() for dummy in cube_second(tmodels_lvl2[0], dataset)]
-    tmodels_lvl3_2 = [dummy.restore() for dummy in cube_second_2(tmodels_lvl2_2[0], dataset)]
+    dummies_lvl3 = cube_second(tmodels_lvl2[0], dataset)
+    tmodels_lvl3 = [dummy.restore() for dummy in dummies_lvl3]
+    dummies_lvl3_2 = cube_second_2(tmodels_lvl2_2[0], dataset)
+    tmodels_lvl3_2 = [dummy.restore() for dummy in dummies_lvl3_2]
 
     assert len(tmodels_lvl3) == len(tmodels_lvl3_2)
     assert cube_second.strategy.score == cube_second_2.strategy.score

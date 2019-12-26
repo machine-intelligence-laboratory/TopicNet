@@ -48,6 +48,35 @@
 <li>automaticly runs integrity check;</li>
 <li>able to copy itself.</li>
 </ul>
+<h1 id="cooking-machine">Cooking Machine</h1>
+<h4 id="cube">Cube</h4>
+<p>A unit of model training pipeline. This unit encapsulates an action over one or many model hyperparameters. This action and hyperparameter space are stored as cube properties and then saved in Experiment.</p>
+<p><strong>Input:</strong> model or list of models, regularizer or list of them, hyperparameter search sapce(grid), iterations number or a function defining it, custom metrics.<br />
+<strong>Output:</strong> models.<br />
+<strong>Body:</strong> performs actions over <code>artm</code> model. Can modify, create new models and alter their Experiment.</p>
+<h4 id="model">Model</h4>
+<p>A class containing Topic Model and its description:</p>
+<ul>
+<li>stores topic model description;</li>
+<li>outputs the description in human-readable form;</li>
+<li>the model can only load and copy itself, the artm-model is an attribute and in order to change it is should be extracted, modified and put back;</li>
+<li>stores experiment id;</li>
+<li>stores parent model id;</li>
+<li>stores model topic names;</li>
+<li>stores regularizers list with their parameters;</li>
+<li>stores modality weights;</li>
+<li>stores save path for data, model and model information;</li>
+<li>stores training metric values.</li>
+</ul>
+<h4 id="experiment">Experiment</h4>
+<p>Class providing experiment infrastructure:</p>
+<ul>
+<li>keeps the description of all actions on the models;</li>
+<li>provides human-readable log of experiment;</li>
+<li>keeps the model training sequence in memory;</li>
+<li>automaticly runs integrity check;</li>
+<li>able to copy itself.</li>
+</ul>
 <section id="section-intro">
 <details class="source">
 <summary>
