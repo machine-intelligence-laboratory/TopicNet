@@ -34,8 +34,14 @@ Further you can read documentation [here](https://machine-intelligence-laborator
 
 ---
 ## How to install TopicNet
-**Core library functionality is based on BigARTM library** which requires manual installation.  
-To avoid that you can use [docker images](https://hub.docker.com/r/xtonev/bigartm/tags) with preinstalled different versions of BigARTM library in them. 
+**Core library functionality is based on BigARTM library** which required manual installation on all systems.  
+Currently we have working solution for Linux users: 
+```
+pip install topicnet
+```
+as it is currently awailiable to install BigARTM on linux systems via `pip`. We hoping to bring `pip` installation support to other systems, hovewer right now you may find the following guide useful.
+
+To avoid installing BigARTM you can use [docker images](https://hub.docker.com/r/xtonev/bigartm/tags) with preinstalled different versions of BigARTM library in them. 
 
 #### Using docker image
 ```
