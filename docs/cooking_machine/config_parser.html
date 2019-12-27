@@ -142,6 +142,10 @@ ARTM_TYPES = {
     &#34;theta_name&#34;: Str()
 }
 
+# change log style
+lc = artm.messages.ConfigureLoggingArgs()
+lc.minloglevel = 3
+lib = artm.wrapper.LibArtm(logging_config=lc)
 
 element = Any()
 base_schema = Map({

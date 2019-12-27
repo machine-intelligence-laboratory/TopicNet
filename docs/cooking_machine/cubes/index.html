@@ -19,42 +19,7 @@
 <header>
 <h1 class="title">Module <code>topicnet.cooking_machine.cubes</code></h1>
 </header>
-<h1 id="cubes-and-their-strategies">Cubes and their Strategies</h1>
-<p>Cube types:</p>
-<ul>
-<li><code>BaseCube</code> — a parent class for all the Cubes</li>
-<li><code>RegularizersModifierCube</code> — cube that adds or alter model regularizers</li>
-<li><code>CubeCreator</code> — cube that allows to change model fundamental hyperparameters (topic number)</li>
-<li><code>RegularizationControllerCube</code> - cube that ties together a complicated usage of <code>RegularizersModifierCube</code>. This cube allows for change of regularization coefficients across the model training. This allows to obtain soemwhat unique results by combining contradictionary restrictions on the model.</li>
-</ul>
-<hr />
-<p>Strategy types:</p>
-<ul>
-<li><code>BaseStrategy</code> — a parent class for all the Strategies</li>
-<li><code>PerplexityStrategy</code> — performs search in given hyperparameter space until certain score exceeds a boundary</li>
-<li><code>GreedyStrategy</code> — strategy that performes search in hyperparameter space consequently changing dimensions to perform a 1D search for a minimum</li>
-</ul>
-<hr />
-<h2 id="cube-internal-structure">Cube internal structure</h2>
-<p><strong>The main cube attributes</strong>:</p>
-<ul>
-<li><code>parameters</code> — paramteres is an iterable object containing all the specific information about current cube. The class architecture implies that parameters should contain an iterable field describing the hyperparameters search space</li>
-</ul>
-<p><strong>Cube methods worth noticing</strong>:</p>
-<ul>
-<li><p><code>__call__</code> — performes the cube actions to the model using provided dataset. Always recieves instance of TopicModel class and instance of Dataset class. This method does the internal workings of training models with new hyperparameters. It is responsible for logging the events (which parameters where changed) happening during the model training.</p></li>
-<li><p><code>apply</code> — method of the cube that prepares model for further training. This method should be specified by the user as it contains an “essence” of what is happening at this stage of the training. It could be new type of model reinitialization, change of the regualarization coefficient, adding a new level of hierarchy etc. This function defines what the cube does in the training pipeline.</p></li>
-<li><p><code>get_jsonable_from_parameters</code> — is a cube-specific function that transforms it parameters to dict-like form which later is written in JSON format log of the experiment.</p></li>
-</ul>
-<hr />
-<h2 id="what-do-you-need-to-create-a-new-cube">What do you need to create a new cube?</h2>
-<p>Following this 3 easy steps you will be able to write down your own cube:</p>
-<ol type="1">
-<li><p>Inherit your Cube from BaseCube.</p></li>
-<li><p>Child class should define following methods <code>__init__</code>, <code>apply</code>, <code>get_jsonable_from_parameters</code>. It is strongly descouraged to change <code>__call__</code> method.</p></li>
-<li><p><code>get_jsonable_from_parameters()[i]</code> corresponds to the same cube step as <code>parameters[i]</code>.</p></li>
-</ol>
-<h1 id="cubes-and-their-strategies">Cubes and their Strategies</h1>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD # Cubes and their Strategies</p>
 <p>Cube types:</p>
 <ul>
 <li><code>BaseCube</code> — a parent class for all the Cubes</li>

@@ -39,29 +39,29 @@ We assume that if that metric is 'sort of decreasing', then everything is OK
 and we are allowed to change tau coefficient further; otherwise we revert back
 to the last "safe" value and stop</p>
 <p>More formal definition of "sort of decreasing": if we divide a curve into two parts like so:</p>
-<p>#####################################<br>
-#. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #<br>
-#: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #<br>
-#::. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #<br>
-#.:::. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #<br>
-#. ::: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #<br>
-#. . ::: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #<br>
-#. . . ::: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #<br>
-#. . . . ::::. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #<br>
-#. . . . . ::::. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #<br>
-#. . . . . . ::::. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #<br>
-#. . . . . . . ::::. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #<br>
-#. . . . . . . . ::::: . . . . . . . . . . . . . . . . . . . . . . . . . . . . #<br>
-#. . . . . . . . . . ::::: . . . . . . . . . . . . . . . . . . . . . . . . . . #<br>
-#. . . . . . . . . . . . :::::: . . . . . :::::::::::::. . . . . . . . . . . . #<br>
-#. . . . . . . . . . . . . . ::::: . .:::::. . . . . . :::::::::::::::::::::::#<br>
-#. . . . . . . . . . . . . . . . .:::: . . . . . . . . . . . . . . . . . . . . #<br>
-#####################################<br>
-#. . . . . . . . . . . . . . . . . . . # . . . . . . . . . . . . . . . . . . . #<br>
-#. . . . . . . left part . . . . . # . . . . . . . . . . . . . . . . . . . #<br>
-#. . . . . . . . . . . . . . global minimum . . . . . . . . . . . . #<br>
-#. . . . . . . . . . . . . . . . . . . # . . . . . . right part . . . . . #
-</p>
+<pre><code>##################################### 
+#. . . .. . . . ..  . .. . .  ... . # 
+#%. . .  . . . .  .. . . . . .  . ..# 
+#:t . . . . . . . . . . . . . . .  .# 
+# t: . . . . . . . . . . . . . . ...# 
+#. %. . . . . . . . . . . . . . .  .# 
+#. :t. . . . . . . . .  .  . . . . .# 
+#.. ;; . .  . . . .  . . . .  . . ..# 
+#  ..t..  . .  . . . . . . . . . . .# 
+#. . :t .. . . .  . . . . . . . . ..# 
+#. .. t: . . . . . . . . . . . . . .# 
+#.   ..S: . . . . . . . . . . . . ..# 
+#. . . .:;: . . . . .  . . . . . . .# 
+#. . .  . :;;  . . . . . . . . . . .# 
+#. . . . .. :%.      nmmMMmmn   .  .# 
+# .   . .  . .tt%.ztttt"' '""ttttttt# 
+#. . .    . . . '"' . . . . . . . . # 
+##################################### 
+|                |                  | 
+|   left part    |                  | 
+           global minimum           | 
+                 |     right part   |
+</code></pre>
 <p>then the right part is no higher than 5% of global minimum
 (you can change 5% if you like by adjusting <code>fraction_threshold</code>
 in <a title="topicnet.cooking_machine.cubes.controller_cube.is_score_out_of_control" href="#topicnet.cooking_machine.cubes.controller_cube.is_score_out_of_control"><code>is_score_out_of_control()</code></a> function)</p>
@@ -72,56 +72,44 @@ in <a title="topicnet.cooking_machine.cubes.controller_cube.is_score_out_of_cont
 <dd>
 <p>Notably, def-style functions and lambda functions are allowed
 If it is function, then it should accept four arguments:
-(initial_tau, prev_tau, cur_iter, user_value)
+<code>(initial_tau, prev_tau, cur_iter, user_value)</code>
 For example:</p>
-<blockquote>
-<blockquote>
-<p>lambda initial_tau, prev_tau, cur_iter, user_value:
-initial_tau if cur_iter % 2 == 0 else 0</p>
-</blockquote>
-</blockquote>
-<pre><code>(Note that experiment description might display lambda functions incorrectly;
- Try to keep them to a single line or use def-style functions instead)
+<pre><code>&gt;&gt; lambda initial_tau, prev_tau, cur_iter, user_value:
+&gt;&gt;     initial_tau if cur_iter % 2 == 0 else 0
 </code></pre>
-<blockquote>
-<blockquote>
-<p>def func(initial_tau, prev_tau, cur_iter, user_value):
-relu_grower = user_value * (cur_iter - 8) if cur_iter &gt; 8 else 0
-return 0 if cur_iter % 2 else relu_grower</p>
-</blockquote>
-</blockquote>
+<p>(Note that experiment description might display lambda functions incorrectly;
+Try to keep them to a single line or use def-style functions instead)</p>
+<pre><code>&gt;&gt; def func(initial_tau, prev_tau, cur_iter, user_value):
+&gt;&gt;     relu_grower = user_value * (cur_iter - 8) if cur_iter &gt; 8 else 0
+&gt;&gt;     return 0 if cur_iter % 2 else relu_grower
+</code></pre>
 <p>If it is a string, then it should be an expression consisting of numbers, operations
-and variables (four are allowed: initial_tau, prev_tau, cur_iter, user_value)
+and variables (four are allowed: <code>initial_tau, prev_tau, cur_iter, user_value</code>)
 For example:</p>
-<blockquote>
-<blockquote>
-<p>"initial_tau * ((cur_iter + 1) % 2)"
-or
-"prev_tau * user_value"</p>
-</blockquote>
-</blockquote>
+<p><code>&gt;&gt; "initial_tau * ((cur_iter + 1) % 2)"</code></p>
+<p>or</p>
+<p><code>&gt;&gt; "prev_tau * user_value"</code></p>
 </dd>
 <dt><strong><code>user_value_grid</code></strong> :&ensp;<code>list</code> of <code>numeric</code></dt>
 <dd>
 <p>Values for user_value variable
 When writing <code>tau_converter</code>, you can use user_value variable.</p>
 <p>For example:</p>
-<blockquote>
-<blockquote>
-<p>tau_converter: "prev_tau * user_value"
-user_value_grid: [1, 0.99, 0.95, 0.90, 0.80, 0.5]
-(I know that tau should decay exponentially, but I'm unsure of exact half-life)</p>
-<p>tau_converter: "prev_tau + user_value"
-user_value_grid: [50, 100, 150, 200, 250]
-(I know that tau should increase linearly, but I'm unsure of exact speed)</p>
-<p>def func(initial_tau, prev_tau, cur_iter, user_value):
-new_tau = 50 * (cur_iter - user_value) if cur_iter &gt; user_value else 0
-return new_tau
-tau_converter: func
-user_value_grid: [10, 15, 20, 25, 30]
-(Tau should start with zero, then increase linearly. I don't know when to start this process)</p>
-</blockquote>
-</blockquote>
+<pre><code>&gt;&gt; tau_converter: "prev_tau * user_value"
+&gt;&gt; user_value_grid: [1, 0.99, 0.95, 0.90, 0.80, 0.5]
+</code></pre>
+<p>(I know that tau should decay exponentially, but I'm unsure of exact half-life)</p>
+<pre><code>&gt;&gt; tau_converter: "prev_tau + user_value"
+&gt;&gt; user_value_grid: [50, 100, 150, 200, 250]
+</code></pre>
+<p>(I know that tau should increase linearly, but I'm unsure of exact speed)</p>
+<pre><code>&gt;&gt; def func(initial_tau, prev_tau, cur_iter, user_value):
+&gt;&gt;     new_tau = 50 * (cur_iter - user_value) if cur_iter &gt; user_value else 0
+&gt;&gt;     return new_tau
+&gt;&gt; tau_converter: func
+&gt;&gt; user_value_grid: [10, 15, 20, 25, 30]
+</code></pre>
+<p>(Tau should start with zero, then increase linearly. I don't know when to start this process)</p>
 </dd>
 <dt><strong><code>max_iter</code></strong> :&ensp;<code>numeric</code></dt>
 <dd>Optional (default value is <code>num_iter</code> specified for cube)
@@ -156,28 +144,29 @@ score_to_track: str
 
     More formal definition of &#34;sort of decreasing&#34;: if we divide a curve into two parts like so:
 
-       #####################################  
-       #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #  
-       #: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #  
-       #::. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #  
-       #.:::. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #  
-       #. ::: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #  
-       #. . ::: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #  
-       #. . . ::: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #  
-       #. . . . ::::. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #  
-       #. . . . . ::::. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #  
-       #. . . . . . ::::. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #  
-       #. . . . . . . ::::. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . #  
-       #. . . . . . . . ::::: . . . . . . . . . . . . . . . . . . . . . . . . . . . . #  
-       #. . . . . . . . . . ::::: . . . . . . . . . . . . . . . . . . . . . . . . . . #  
-       #. . . . . . . . . . . . :::::: . . . . . :::::::::::::. . . . . . . . . . . . #  
-       #. . . . . . . . . . . . . . ::::: . .:::::. . . . . . :::::::::::::::::::::::#  
-       #. . . . . . . . . . . . . . . . .:::: . . . . . . . . . . . . . . . . . . . . #  
-       #####################################  
-       #. . . . . . . . . . . . . . . . . . . # . . . . . . . . . . . . . . . . . . . #  
-       #. . . . . . . left part . . . . . # . . . . . . . . . . . . . . . . . . . #  
-       #. . . . . . . . . . . . . . global minimum . . . . . . . . . . . . #  
-       #. . . . . . . . . . . . . . . . . . . # . . . . . . right part . . . . . #  
+
+        ##################################### 
+        #. . . .. . . . ..  . .. . .  ... . # 
+        #%. . .  . . . .  .. . . . . .  . ..# 
+        #:t . . . . . . . . . . . . . . .  .# 
+        # t: . . . . . . . . . . . . . . ...# 
+        #. %. . . . . . . . . . . . . . .  .# 
+        #. :t. . . . . . . . .  .  . . . . .# 
+        #.. ;; . .  . . . .  . . . .  . . ..# 
+        #  ..t..  . .  . . . . . . . . . . .# 
+        #. . :t .. . . .  . . . . . . . . ..# 
+        #. .. t: . . . . . . . . . . . . . .# 
+        #.   ..S: . . . . . . . . . . . . ..# 
+        #. . . .:;: . . . . .  . . . . . . .# 
+        #. . .  . :;;  . . . . . . . . . . .# 
+        #. . . . .. :%.      nmmMMmmn   .  .# 
+        # .   . .  . .tt%.ztttt&#34;&#39; &#39;&#34;&#34;ttttttt# 
+        #. . .    . . . &#39;&#34;&#39; . . . . . . . . # 
+        ##################################### 
+        |                |                  | 
+        |   left part    |                  | 
+                   global minimum           | 
+                         |     right part   | 
 
     then the right part is no higher than 5% of global minimum
     (you can change 5% if you like by adjusting `fraction_threshold`
@@ -189,43 +178,51 @@ score_to_track: str
 tau_converter: str or callable
     Notably, def-style functions and lambda functions are allowed
     If it is function, then it should accept four arguments:
-        (initial_tau, prev_tau, cur_iter, user_value)
+        `(initial_tau, prev_tau, cur_iter, user_value)`
     For example:
-    &gt;&gt; lambda initial_tau, prev_tau, cur_iter, user_value:
-    &gt;&gt;     initial_tau if cur_iter % 2 == 0 else 0
 
-        (Note that experiment description might display lambda functions incorrectly;
-         Try to keep them to a single line or use def-style functions instead)
+        &gt;&gt; lambda initial_tau, prev_tau, cur_iter, user_value:
+        &gt;&gt;     initial_tau if cur_iter % 2 == 0 else 0
 
-    &gt;&gt; def func(initial_tau, prev_tau, cur_iter, user_value):
-    &gt;&gt;     relu_grower = user_value * (cur_iter - 8) if cur_iter &gt; 8 else 0
-    &gt;&gt;     return 0 if cur_iter % 2 else relu_grower
+    (Note that experiment description might display lambda functions incorrectly;
+     Try to keep them to a single line or use def-style functions instead)
+
+        &gt;&gt; def func(initial_tau, prev_tau, cur_iter, user_value):
+        &gt;&gt;     relu_grower = user_value * (cur_iter - 8) if cur_iter &gt; 8 else 0
+        &gt;&gt;     return 0 if cur_iter % 2 else relu_grower
 
     If it is a string, then it should be an expression consisting of numbers, operations
-        and variables (four are allowed: initial_tau, prev_tau, cur_iter, user_value)
+        and variables (four are allowed: `initial_tau, prev_tau, cur_iter, user_value`)
     For example:
-    &gt;&gt; &#34;initial_tau * ((cur_iter + 1) % 2)&#34;
+
+    `&gt;&gt; &#34;initial_tau * ((cur_iter + 1) % 2)&#34;`
+
     or
-    &gt;&gt; &#34;prev_tau * user_value&#34;
+
+    `&gt;&gt; &#34;prev_tau * user_value&#34;`
 
 user_value_grid: list of numeric
     Values for user_value variable
     When writing `tau_converter`, you can use user_value variable.
 
     For example:
-    &gt;&gt; tau_converter: &#34;prev_tau * user_value&#34;
-    &gt;&gt; user_value_grid: [1, 0.99, 0.95, 0.90, 0.80, 0.5]
+
+        &gt;&gt; tau_converter: &#34;prev_tau * user_value&#34;
+        &gt;&gt; user_value_grid: [1, 0.99, 0.95, 0.90, 0.80, 0.5]
+
     (I know that tau should decay exponentially, but I&#39;m unsure of exact half-life)
 
-    &gt;&gt; tau_converter: &#34;prev_tau + user_value&#34;
-    &gt;&gt; user_value_grid: [50, 100, 150, 200, 250]
+        &gt;&gt; tau_converter: &#34;prev_tau + user_value&#34;
+        &gt;&gt; user_value_grid: [50, 100, 150, 200, 250]
+
     (I know that tau should increase linearly, but I&#39;m unsure of exact speed)
 
-    &gt;&gt; def func(initial_tau, prev_tau, cur_iter, user_value):
-    &gt;&gt;     new_tau = 50 * (cur_iter - user_value) if cur_iter &gt; user_value else 0
-    &gt;&gt;     return new_tau
-    &gt;&gt; tau_converter: func
-    &gt;&gt; user_value_grid: [10, 15, 20, 25, 30]
+        &gt;&gt; def func(initial_tau, prev_tau, cur_iter, user_value):
+        &gt;&gt;     new_tau = 50 * (cur_iter - user_value) if cur_iter &gt; user_value else 0
+        &gt;&gt;     return new_tau
+        &gt;&gt; tau_converter: func
+        &gt;&gt; user_value_grid: [10, 15, 20, 25, 30]
+
     (Tau should start with zero, then increase linearly. I don&#39;t know when to start this process)
 
 max_iter: numeric
@@ -233,7 +230,8 @@ max_iter: numeric
     Agent will stop changing tau after `max_iters` iterations
     `max_iters` could be `float(&#34;NaN&#34;)` and `float(&#34;inf&#34;)` values:
     that way agent will continue operating even outside this `RegularizationControllerCube`
-&#34;&#34;&#34;
+&#34;&#34;&#34;  # noqa: W291
+
 from .base_cube import BaseCube
 from ..rel_toolbox_lite import count_vocab_size, handle_regularizer
 
@@ -402,18 +400,22 @@ class RegularizationControllerCube(BaseCube):
                 &#34;user_value_grid&#34;
                 See top-level docstring for details.
             Examples:
-            &gt;&gt;  {&#34;regularizer&#34;: artm.regularizers.&lt;...&gt;,
-            &gt;&gt;   &#34;score_to_track&#34;: &#34;PerplexityScore@all&#34;,
-            &gt;&gt;   &#34;tau_converter&#34;: &#34;prev_tau * user_value&#34;,
-            &gt;&gt;   &#34;user_value_grid&#34;: [0.5, 1, 2]}
 
-            &gt;&gt;  {&#34;reg_name&#34;: &#34;decorrelator_for_ngramms&#34;,
-            &gt;&gt;   &#34;score_to_track&#34;: None,
-            &gt;&gt;   &#34;tau_converter&#34;: (
-            &gt;&gt;       lambda initial_tau, prev_tau, cur_iter, user_value:
-            &gt;&gt;       initial_tau * (cur_iter % 2) + user_value
-            &gt;&gt;   )
-            &gt;&gt;   &#34;user_value_grid&#34;: [0, 1]}
+                    &gt;&gt;  {&#34;regularizer&#34;: artm.regularizers.&lt;...&gt;,
+                    &gt;&gt;   &#34;score_to_track&#34;: &#34;PerplexityScore@all&#34;,
+                    &gt;&gt;   &#34;tau_converter&#34;: &#34;prev_tau * user_value&#34;,
+                    &gt;&gt;   &#34;user_value_grid&#34;: [0.5, 1, 2]}
+
+
+            -----------
+
+                    &gt;&gt;  {&#34;reg_name&#34;: &#34;decorrelator_for_ngramms&#34;,
+                    &gt;&gt;   &#34;score_to_track&#34;: None,
+                    &gt;&gt;   &#34;tau_converter&#34;: (
+                    &gt;&gt;       lambda initial_tau, prev_tau, cur_iter, user_value:
+                    &gt;&gt;       initial_tau * (cur_iter % 2) + user_value
+                    &gt;&gt;   )
+                    &gt;&gt;   &#34;user_value_grid&#34;: [0, 1]}
 
         reg_search : str
             &#34;grid&#34;, &#34;pair&#34;, &#34;add&#34; or &#34;mul&#34;. 
@@ -528,17 +530,19 @@ class RegularizationControllerCube(BaseCube):
     def get_jsonable_from_parameters(self):
         &#34;&#34;&#34; &#34;&#34;&#34;
         jsonable_parameters = []
+
         for one_model_parameters in self.raw_parameters:
             one_jsonable = dict(one_model_parameters)
             converter = one_model_parameters[&#39;tau_converter&#39;]
-            if isinstance(converter, str):
-                pass
-            else:
+
+            if not isinstance(converter, str):
                 try:
                     # not always works, but this is not important
                     one_jsonable[&#34;tau_converter&#34;] = str(getsource(converter))
-                except TypeError:
+                except (TypeError, OSError):
+                    # OSError: may arise if working in Jupyter Notebook
                     one_jsonable[&#34;tau_converter&#34;] = &#34;&lt;NOT AVAILABLE&gt;&#34;
+
             jsonable_parameters.append(one_jsonable)
 
         return jsonable_parameters</code></pre>
@@ -827,21 +831,20 @@ each dict should contain the following fields:
 "user_value_grid"
 See top-level docstring for details.
 Examples:</p>
-<blockquote>
-<blockquote>
-<p>{"regularizer": artm.regularizers.&lt;&hellip;&gt;,
-"score_to_track": "PerplexityScore@all",
-"tau_converter": "prev_tau * user_value",
-"user_value_grid": [0.5, 1, 2]}</p>
-<p>{"reg_name": "decorrelator_for_ngramms",
-"score_to_track": None,
-"tau_converter": (
-lambda initial_tau, prev_tau, cur_iter, user_value:
-initial_tau * (cur_iter % 2) + user_value
-)
-"user_value_grid": [0, 1]}</p>
-</blockquote>
-</blockquote>
+<pre><code>    &gt;&gt;  {"regularizer": artm.regularizers.&lt;...&gt;,
+    &gt;&gt;   "score_to_track": "PerplexityScore@all",
+    &gt;&gt;   "tau_converter": "prev_tau * user_value",
+    &gt;&gt;   "user_value_grid": [0.5, 1, 2]}
+</code></pre>
+<hr>
+<pre><code>    &gt;&gt;  {"reg_name": "decorrelator_for_ngramms",
+    &gt;&gt;   "score_to_track": None,
+    &gt;&gt;   "tau_converter": (
+    &gt;&gt;       lambda initial_tau, prev_tau, cur_iter, user_value:
+    &gt;&gt;       initial_tau * (cur_iter % 2) + user_value
+    &gt;&gt;   )
+    &gt;&gt;   "user_value_grid": [0, 1]}
+</code></pre>
 </dd>
 <dt><strong><code>reg_search</code></strong> :&ensp;<code>str</code></dt>
 <dd>"grid", "pair", "add" or "mul".
@@ -884,18 +887,22 @@ i.e. normalized over collection properties</dd>
                 &#34;user_value_grid&#34;
                 See top-level docstring for details.
             Examples:
-            &gt;&gt;  {&#34;regularizer&#34;: artm.regularizers.&lt;...&gt;,
-            &gt;&gt;   &#34;score_to_track&#34;: &#34;PerplexityScore@all&#34;,
-            &gt;&gt;   &#34;tau_converter&#34;: &#34;prev_tau * user_value&#34;,
-            &gt;&gt;   &#34;user_value_grid&#34;: [0.5, 1, 2]}
 
-            &gt;&gt;  {&#34;reg_name&#34;: &#34;decorrelator_for_ngramms&#34;,
-            &gt;&gt;   &#34;score_to_track&#34;: None,
-            &gt;&gt;   &#34;tau_converter&#34;: (
-            &gt;&gt;       lambda initial_tau, prev_tau, cur_iter, user_value:
-            &gt;&gt;       initial_tau * (cur_iter % 2) + user_value
-            &gt;&gt;   )
-            &gt;&gt;   &#34;user_value_grid&#34;: [0, 1]}
+                    &gt;&gt;  {&#34;regularizer&#34;: artm.regularizers.&lt;...&gt;,
+                    &gt;&gt;   &#34;score_to_track&#34;: &#34;PerplexityScore@all&#34;,
+                    &gt;&gt;   &#34;tau_converter&#34;: &#34;prev_tau * user_value&#34;,
+                    &gt;&gt;   &#34;user_value_grid&#34;: [0.5, 1, 2]}
+
+
+            -----------
+
+                    &gt;&gt;  {&#34;reg_name&#34;: &#34;decorrelator_for_ngramms&#34;,
+                    &gt;&gt;   &#34;score_to_track&#34;: None,
+                    &gt;&gt;   &#34;tau_converter&#34;: (
+                    &gt;&gt;       lambda initial_tau, prev_tau, cur_iter, user_value:
+                    &gt;&gt;       initial_tau * (cur_iter % 2) + user_value
+                    &gt;&gt;   )
+                    &gt;&gt;   &#34;user_value_grid&#34;: [0, 1]}
 
         reg_search : str
             &#34;grid&#34;, &#34;pair&#34;, &#34;add&#34; or &#34;mul&#34;. 
@@ -1010,17 +1017,19 @@ i.e. normalized over collection properties</dd>
     def get_jsonable_from_parameters(self):
         &#34;&#34;&#34; &#34;&#34;&#34;
         jsonable_parameters = []
+
         for one_model_parameters in self.raw_parameters:
             one_jsonable = dict(one_model_parameters)
             converter = one_model_parameters[&#39;tau_converter&#39;]
-            if isinstance(converter, str):
-                pass
-            else:
+
+            if not isinstance(converter, str):
                 try:
                     # not always works, but this is not important
                     one_jsonable[&#34;tau_converter&#34;] = str(getsource(converter))
-                except TypeError:
+                except (TypeError, OSError):
+                    # OSError: may arise if working in Jupyter Notebook
                     one_jsonable[&#34;tau_converter&#34;] = &#34;&lt;NOT AVAILABLE&gt;&#34;
+
             jsonable_parameters.append(one_jsonable)
 
         return jsonable_parameters</code></pre>

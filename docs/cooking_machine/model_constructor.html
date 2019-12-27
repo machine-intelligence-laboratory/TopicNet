@@ -75,7 +75,8 @@ def init_model(topic_names, seed=None, class_ids=None):
     &#34;&#34;&#34;
     model = artm.ARTM(
         topic_names=topic_names,
-        num_processors=3,
+        # Commented for performance uncomment if has zombie issues
+        # num_processors=3,
         theta_columns_naming=&#39;title&#39;,
         show_progress_bars=False,
         class_ids=class_ids,
@@ -316,7 +317,8 @@ def init_simple_default_model(
     &#34;&#34;&#34;
     model = artm.ARTM(
         topic_names=topic_names,
-        num_processors=3,
+        # Commented for performance uncomment if has zombie issues
+        # num_processors=3,
         theta_columns_naming=&#39;title&#39;,
         show_progress_bars=False,
         class_ids=class_ids,

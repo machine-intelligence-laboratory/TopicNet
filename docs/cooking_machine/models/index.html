@@ -64,51 +64,6 @@
 <li><p>New model class is inherrited from BaseModel</p></li>
 <li><p>A child class should contain methods <code>__init__</code>, <code>_fit</code>, <code>get_phi</code>, <code>get_theta</code>, <code>save</code>, <code>load</code>, <code>clone</code>, <code>get_jsonable_from_parameters</code>.</p></li>
 </ol>
-<h1 id="models-and-scores">Models and scores</h1>
-<p>Availiable models:</p>
-<ul>
-<li><code>BaseModel</code> — Parent class for model creation</li>
-<li><code>TopicModel</code> — a wrapper class for bigartm topic model</li>
-<li><code>DummyTopicModel</code> — a fake model that contains training information but not actual artm model. Needed to save memory space during the training.</li>
-</ul>
-<hr />
-<p>Availiable scores:</p>
-<ul>
-<li><code>BaseScore</code> — a parent class for all the Strategies</li>
-<li><code>ExampleScore</code> — Example of minimal working example of custom score</li>
-<li><code>IntratextCoherenceScore</code> — score that calculates coherence as a measure of interpretability of the model using raw documents from dataset. Calculation-heavy score. Recommended to be used <strong>after</strong> model training</li>
-<li><code>BleiLaffertyScore</code> — An experimental light-weight score to estimate interpretability of the topics</li>
-<li><code>SemanticRaduisScore</code> — An experimental score reflecting whether collection is adequately described by topics. Lower if better. Calculation-heavy score.</li>
-</ul>
-<hr />
-<h2 id="internal-model-structure">Internal model structure</h2>
-<p><strong>main model attributes</strong>:</p>
-<ul>
-<li><p><code>model_id</code> — a model string id, unique for its Experiment.</p></li>
-<li><p><code>scores</code> — dict of lists, each list corresponds to the score value or list of values at certain training stage.</p></li>
-<li><p><code>custom_scores</code> — variable providing custom scores for the model</p></li>
-<li><p><code>custom_regularizers</code> — variable providing custom regularizers for the model. An example is provided in <code>topic_prior_regularizer.py</code>.</p></li>
-</ul>
-<p><strong>main model methods</strong>:</p>
-<ul>
-<li><p><code>_fit</code> — function performing model training. Takes the dataset and number of iterations. Optionally, you can pass <code>custom_regularizers</code> here, if you wish to apply them to a single iteration.</p>
-<p><strong>Important Notice!</strong> We assume that the model training happens through Cube interface and this method, while important should never be used by users if they are hope to have their actions logged</p></li>
-<li><p><code>get_phi</code> — function that returns p(token|topic/cluster) probability distributions that returns pandas.DataFrame with tokens as index and topics/clusters as columns</p>
-<p><strong>Important Notice!</strong> Strictly speaking the function returns degree to which token belongs to the topic/cluster and shouldn’t be a probability distribution. But scince its main use-case intended for topic models some of the functions using this method might work incorrectly in non-distribution case</p></li>
-<li><p><code>get_theta</code> — function that returns p(topic/cluster|document) probability distributions that returns pandas.DataFrame with topics/clusters as index and document ids as columns.</p>
-<p><strong>Important Notice!</strong> Strictly speaking the function returns degree to which document belongs to the topic/cluster and shouldn’t be a probability distribution. But scince its main use-case intended for topic models some of the functions using this method might work incorrectly in non-distribution case</p></li>
-<li><p><code>save</code> — saves model to the path directory.</p></li>
-<li><p><code>load</code> — loads model from the path directory</p></li>
-<li><p><code>clone</code> — creates copy of a model.</p></li>
-<li><p><code>get_jsonable_from_parameters</code> — turns model parameters to jsonable format for logging purposes</p></li>
-</ul>
-<hr />
-<h2 id="what-do-you-need-to-create-your-own-model">What do you need to create your own model?</h2>
-<p>Following this steps you should be able to code a model integrated with the library methods:</p>
-<ol type="1">
-<li><p>New model class is inherrited from BaseModel</p></li>
-<li><p>A child class should contain methods <code>__init__</code>, <code>_fit</code>, <code>get_phi</code>, <code>get_theta</code>, <code>save</code>, <code>load</code>, <code>clone</code>, <code>get_jsonable_from_parameters</code>.</p></li>
-</ol>
 <section id="section-intro">
 <details class="source">
 <summary>
@@ -149,6 +104,10 @@ SUPPORTED_MODEL_CLASSES = (
 <section class="desc"></section>
 </dd>
 <dt><code class="name"><a title="topicnet.cooking_machine.models.example_score" href="example_score.html">topicnet.cooking_machine.models.example_score</a></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt><code class="name"><a title="topicnet.cooking_machine.models.frozen_score" href="frozen_score.html">topicnet.cooking_machine.models.frozen_score</a></code></dt>
 <dd>
 <section class="desc"></section>
 </dd>
@@ -200,6 +159,7 @@ SUPPORTED_MODEL_CLASSES = (
 <li><code><a title="topicnet.cooking_machine.models.blei_lafferty_score" href="blei_lafferty_score.html">topicnet.cooking_machine.models.blei_lafferty_score</a></code></li>
 <li><code><a title="topicnet.cooking_machine.models.dummy_topic_model" href="dummy_topic_model.html">topicnet.cooking_machine.models.dummy_topic_model</a></code></li>
 <li><code><a title="topicnet.cooking_machine.models.example_score" href="example_score.html">topicnet.cooking_machine.models.example_score</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.frozen_score" href="frozen_score.html">topicnet.cooking_machine.models.frozen_score</a></code></li>
 <li><code><a title="topicnet.cooking_machine.models.intratext_coherence_score" href="intratext_coherence_score.html">topicnet.cooking_machine.models.intratext_coherence_score</a></code></li>
 <li><code><a title="topicnet.cooking_machine.models.scores" href="scores.html">topicnet.cooking_machine.models.scores</a></code></li>
 <li><code><a title="topicnet.cooking_machine.models.semantic_radius_score" href="semantic_radius_score.html">topicnet.cooking_machine.models.semantic_radius_score</a></code></li>

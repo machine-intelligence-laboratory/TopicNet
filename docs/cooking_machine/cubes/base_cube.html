@@ -28,7 +28,7 @@
 from tqdm import tqdm
 import warnings
 from multiprocessing import Queue, Process
-from queue import Empty
+# from queue import Empty
 from artm.wrapper.exceptions import ArtmException
 
 from .strategy import BaseStrategy
@@ -72,14 +72,15 @@ class retrieve_score_for_strategy:
             return model.scores[self.score_name][-1]
 
 
-def get_from_queue_till_fail(queue,  error_message=&#39;&#39;, fail_margin=1,):
-    fail_counter = 0
-    while fail_counter &lt; fail_margin:
-        try:
-            return queue.get(timeout=0.1)
-        except Empty:
-            fail_counter += 1
-    raise Empty(error_message)
+# exists for multiprocessing debug
+def put_to_queue(queue, puttable):
+    queue.put(puttable)
+
+
+# exists for multiprocessing debug
+def get_from_queue_till_fail(queue,  error_message=&#39;&#39;,):
+    while True:
+        return queue.get()
 
 
 class BaseCube:
@@ -205,21 +206,24 @@ class BaseCube:
                 raise ValueError(
                     f&#39;Cannot alter and fit artm model with parameters {search_point}.\n&#39;
                     &#34;ARTM failed with following: &#34; + error_message
+
                 )
             # add cube description to the model history
             new_model.add_cube(model_cube)
             new_model.experiment = experiment
             new_model.save()
+            assert os.path.exists(new_model.model_default_save_path)
 
             returned_paths.append(new_model.model_default_save_path)
 
             # some strategies depend on previous train results, therefore scores must be updated
             if self.tracked_score_function:
                 current_score = self.tracked_score_function(new_model)
-            else:
+                self.strategy.update_scores(current_score)
+            # else:
                 # we return number of iterations as a placeholder
-                current_score = len(returned_paths)
-            self.strategy.update_scores(current_score)
+                # current_score = len(returned_paths)
+
         return returned_paths
 
     def _retrieve_results_from_process(self, queue, experiment):
@@ -227,7 +231,8 @@ class BaseCube:
         models_num = get_from_queue_till_fail(queue, NUM_MODELS_ERROR)
         topic_models = []
         for _ in range(models_num):
-            path = get_from_queue_till_fail(queue, MODEL_RETRIEVE_ERROR.format(_, models_num))
+            path = get_from_queue_till_fail(queue,
+                                            MODEL_RETRIEVE_ERROR.format(_, models_num))
             topic_models.append(DummyTopicModel.load(path, experiment=experiment))
 
         strategy_parameters = get_from_queue_till_fail(queue, STRATEGY_RETRIEVE_ERROR)
@@ -237,6 +242,7 @@ class BaseCube:
         for (warning_message, warning_class) in caught_warnings:
             # if issubclass(warning_class, UserWarning):
             warnings.warn(warning_message)
+
         return topic_models
 
     def _train_models_and_report_results(self, queue, experiment, topic_model, dataset,
@@ -249,18 +255,17 @@ class BaseCube:
         &#34;&#34;&#34;
         with warnings.catch_warnings(record=True) as caught_warnings:
             returned_paths = self._train_models(experiment, topic_model, dataset, search_space)
-
-            queue.put(len(returned_paths))
+            put_to_queue(queue, len(returned_paths))
             for path in returned_paths:
-                queue.put(path)
+                put_to_queue(queue, path)
 
             # to work with strategy we recover consistency by sending important parameters
             strategy_parameters = self.strategy._get_strategy_parameters(saveable_only=True)
-            queue.put(strategy_parameters)
+            put_to_queue(queue, strategy_parameters)
 
             caught_warnings = [(warning.message, warning.category)
                                for warning in caught_warnings]
-            queue.put(caught_warnings)
+            put_to_queue(queue, caught_warnings)
 
     def _run_cube(self, topic_model, dataset):
         &#34;&#34;&#34;
@@ -325,10 +330,10 @@ class BaseCube:
             process = Process(
                 target=self._train_models_and_report_results,
                 args=(queue, experiment, topic_model, dataset,
-                      search_space, search_length)
+                      search_space, search_length),
+                daemon=True
             )
             process.start()
-            process.join()
             topic_models = self._retrieve_results_from_process(queue, experiment)
         else:
             returned_paths = self._train_models(experiment, topic_model, dataset, search_space)
@@ -417,7 +422,7 @@ class BaseCube:
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.cubes.base_cube.get_from_queue_till_fail"><code class="name flex">
-<span>def <span class="ident">get_from_queue_till_fail</span></span>(<span>queue, error_message='', fail_margin=1)</span>
+<span>def <span class="ident">get_from_queue_till_fail</span></span>(<span>queue, error_message='')</span>
 </code></dt>
 <dd>
 <section class="desc"></section>
@@ -425,14 +430,22 @@ class BaseCube:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_from_queue_till_fail(queue,  error_message=&#39;&#39;, fail_margin=1,):
-    fail_counter = 0
-    while fail_counter &lt; fail_margin:
-        try:
-            return queue.get(timeout=0.1)
-        except Empty:
-            fail_counter += 1
-    raise Empty(error_message)</code></pre>
+<pre><code class="python">def get_from_queue_till_fail(queue,  error_message=&#39;&#39;,):
+    while True:
+        return queue.get()</code></pre>
+</details>
+</dd>
+<dt id="topicnet.cooking_machine.cubes.base_cube.put_to_queue"><code class="name flex">
+<span>def <span class="ident">put_to_queue</span></span>(<span>queue, puttable)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def put_to_queue(queue, puttable):
+    queue.put(puttable)</code></pre>
 </details>
 </dd>
 </dl>
@@ -594,21 +607,24 @@ case of several regularizers</dd>
                 raise ValueError(
                     f&#39;Cannot alter and fit artm model with parameters {search_point}.\n&#39;
                     &#34;ARTM failed with following: &#34; + error_message
+
                 )
             # add cube description to the model history
             new_model.add_cube(model_cube)
             new_model.experiment = experiment
             new_model.save()
+            assert os.path.exists(new_model.model_default_save_path)
 
             returned_paths.append(new_model.model_default_save_path)
 
             # some strategies depend on previous train results, therefore scores must be updated
             if self.tracked_score_function:
                 current_score = self.tracked_score_function(new_model)
-            else:
+                self.strategy.update_scores(current_score)
+            # else:
                 # we return number of iterations as a placeholder
-                current_score = len(returned_paths)
-            self.strategy.update_scores(current_score)
+                # current_score = len(returned_paths)
+
         return returned_paths
 
     def _retrieve_results_from_process(self, queue, experiment):
@@ -616,7 +632,8 @@ case of several regularizers</dd>
         models_num = get_from_queue_till_fail(queue, NUM_MODELS_ERROR)
         topic_models = []
         for _ in range(models_num):
-            path = get_from_queue_till_fail(queue, MODEL_RETRIEVE_ERROR.format(_, models_num))
+            path = get_from_queue_till_fail(queue,
+                                            MODEL_RETRIEVE_ERROR.format(_, models_num))
             topic_models.append(DummyTopicModel.load(path, experiment=experiment))
 
         strategy_parameters = get_from_queue_till_fail(queue, STRATEGY_RETRIEVE_ERROR)
@@ -626,6 +643,7 @@ case of several regularizers</dd>
         for (warning_message, warning_class) in caught_warnings:
             # if issubclass(warning_class, UserWarning):
             warnings.warn(warning_message)
+
         return topic_models
 
     def _train_models_and_report_results(self, queue, experiment, topic_model, dataset,
@@ -638,18 +656,17 @@ case of several regularizers</dd>
         &#34;&#34;&#34;
         with warnings.catch_warnings(record=True) as caught_warnings:
             returned_paths = self._train_models(experiment, topic_model, dataset, search_space)
-
-            queue.put(len(returned_paths))
+            put_to_queue(queue, len(returned_paths))
             for path in returned_paths:
-                queue.put(path)
+                put_to_queue(queue, path)
 
             # to work with strategy we recover consistency by sending important parameters
             strategy_parameters = self.strategy._get_strategy_parameters(saveable_only=True)
-            queue.put(strategy_parameters)
+            put_to_queue(queue, strategy_parameters)
 
             caught_warnings = [(warning.message, warning.category)
                                for warning in caught_warnings]
-            queue.put(caught_warnings)
+            put_to_queue(queue, caught_warnings)
 
     def _run_cube(self, topic_model, dataset):
         &#34;&#34;&#34;
@@ -714,10 +731,10 @@ case of several regularizers</dd>
             process = Process(
                 target=self._train_models_and_report_results,
                 args=(queue, experiment, topic_model, dataset,
-                      search_space, search_length)
+                      search_space, search_length),
+                daemon=True
             )
             process.start()
-            process.join()
             topic_models = self._retrieve_results_from_process(queue, experiment)
         else:
             returned_paths = self._train_models(experiment, topic_model, dataset, search_space)
@@ -883,6 +900,7 @@ on the basis of the model (Default value = None)</dd>
 <ul class="">
 <li><code><a title="topicnet.cooking_machine.cubes.base_cube.check_experiment_existence" href="#topicnet.cooking_machine.cubes.base_cube.check_experiment_existence">check_experiment_existence</a></code></li>
 <li><code><a title="topicnet.cooking_machine.cubes.base_cube.get_from_queue_till_fail" href="#topicnet.cooking_machine.cubes.base_cube.get_from_queue_till_fail">get_from_queue_till_fail</a></code></li>
+<li><code><a title="topicnet.cooking_machine.cubes.base_cube.put_to_queue" href="#topicnet.cooking_machine.cubes.base_cube.put_to_queue">put_to_queue</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>

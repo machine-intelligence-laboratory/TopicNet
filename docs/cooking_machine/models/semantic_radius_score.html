@@ -31,6 +31,11 @@ from collections import Counter
 from scipy.optimize import curve_fit
 from .base_score import BaseScore
 
+# change log style
+lc = artm.messages.ConfigureLoggingArgs()
+lc.minloglevel = 3
+lib = artm.wrapper.LibArtm(logging_config=lc)
+
 
 def calculate_n(model, batch_vectorizer):
     &#34;&#34;&#34;

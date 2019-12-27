@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.7.2" />
-<title>topicnet API documentation</title>
+<title>topicnet.cooking_machine.recipes API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
@@ -17,38 +17,164 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>topicnet</code></h1>
+<h1 class="title">Module <code>topicnet.cooking_machine.recipes</code></h1>
 </header>
-<h2 id="topicnet">TopicNet</h2>
-<p><code>topicnet</code> library was created to assist in the task of building topic models. It aims to automate away many routine tasks related to topic model training, allowing a user to focus on the task at hand. Also, it provides additional tools to construct advanced topic models. The library consists of three modules:</p>
-<ul>
-<li><p><code>cooking_machine</code> - a module providing tools to design a topic model construction pipeline, or experiment with regularizers fitting</p></li>
-<li><p><code>viewers</code> - provides information about the topic model in an accessible format.</p></li>
-<li><p><code>tests</code> - provides a user with means to test library functionality and contains examples of intended library usage.</p></li>
-</ul>
-<hr />
-<h3 id="project-description">Project description</h3>
-<p>In TopicNet framework, advanced topic models are build using Experiment class. An experiment consists of stages (that we call “cubes”) which perform actions over the “models” which are objects of the Experiment. The experiment instance of Experiment class contains all the information about the experiment process and automatically updates its log when a cube is applied to the last level models. It is worth noting that the experiment is linear, meaning it does not support multiple different cubes at the same stage of the experiment. If that need arises one is recommended to create a new experiment with a new cube on the last level. The experiment instance of Experiment class contains all the information about the <em>experiment process</em> and automatically updates its log when the cube is applied to the last level models. Summarizing: the key entity Experiment is a sequence of cubes that produce models on each stage of the <em>experiment process</em></p>
+<h1 id="rapid-prototyping">Rapid prototyping</h1>
+<p>This module contains pipeline training recipes in .yml format</p>
 <section id="section-intro">
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">__pdoc__ = {&#34;tests&#34;: False}</code></pre>
+<pre><code class="python">ARTM_baseline = &#39;&#39;&#39;
+# This config follows a strategy described by Murat Apishev
+# one of the core programmers of BigARTM library in personal correspondence.
+# According to his letter &#39;decent&#39; topic model can be obtained by
+# Decorrelating model topics simultaneously looking at retrieved TopTokens
+
+
+# Use .format(modality_list=modality_list, main_modality=main_modality, dataset_path=dataset_path,
+# specific_topics=specific_topics, background_topics=background_topics)
+# when loading the recipe to adjust for your dataset
+
+topics:
+# Describes number of model topics, better left to the user to define optimal topic number
+    specific_topics: {specific_topics} 
+    background_topics: {background_topics}
+
+# Here is example of model with one modality
+regularizers:
+    - DecorrelatorPhiRegularizer:
+        name: decorrelation_phi
+        topic_names: specific_topics
+        class_ids: {modality_list}
+    - SmoothSparsePhiRegularizer:
+        name: smooth_phi_bcg
+        topic_names: background_topics
+        class_ids: {modality_list}
+        tau: 0.1
+        relative: true
+    - SmoothSparseThetaRegularizer:
+        name: smooth_theta_bcg
+        topic_names: background_topics
+        tau: 0.1
+        relative: true
+scores:
+    - BleiLaffertyScore:
+        num_top_tokens: 30
+model: 
+    dataset_path: {dataset_path}
+    modalities_to_use: {modality_list}
+    main_modality: &#39;{main_modality}&#39;
+
+stages:
+- RegularizersModifierCube:
+    num_iter: 20
+    reg_search: add
+    regularizer_parameters:
+        name: decorrelation_phi
+    selection:
+        - PerplexityScore@all &lt; 1.05 * MINIMUM(PerplexityScore@all) and BleiLaffertyScore -&gt; max
+    strategy: PerplexityStrategy
+    # parameters of this strategy are intended for revision
+    strategy_params:
+        start_point: 0
+        step: 0.01
+        max_len: 50
+    tracked_score_function: PerplexityScore@all
+    verbose: false
+    use_relative_coefficients: true
+&#39;&#39;&#39;
+
+exploratory_search = &#39;&#39;&#39;
+# This config follows a strategy described in the article
+# Multi-objective Topic Modeling for Exploratory Search in Tech News
+# by Anastasya Yanina, Lev Golitsyn and Konstantin Vorontsov, Jan 2018
+
+
+# Use .format(modality=modality, dataset_path=dataset_path,
+# specific_topics=specific_topics, background_topics=background_topics)
+# when loading the recipe to adjust for your dataset
+
+topics:
+# Describes number of model topics, in the actuall article 200 topics were found to be optimal
+    specific_topics: {specific_topics}
+    background_topics: {background_topics}
+
+regularizers:
+- DecorrelatorPhiRegularizer:
+    name: decorrelation_phi_{modality}
+    topic_names: specific_topics
+    tau: 1
+    class_ids: [&#39;{modality}&#39;]
+- SmoothSparsePhiRegularizer:
+    name: smooth_phi_{modality}
+    topic_names: specific_topics
+    tau: 1
+    class_ids: [&#39;{modality}&#39;]
+- SmoothSparseThetaRegularizer:
+    name: sparse_theta
+    topic_names: specific_topics
+    tau: 1
+
+model: 
+    dataset_path: {dataset_path}
+    modalities_to_use: [&#39;{modality}&#39;]
+    main_modality: &#39;{modality}&#39;
+
+stages:
+# repeat the following two cubes for every modality in the dataset
+- RegularizersModifierCube:
+    num_iter: 8
+    reg_search: mul
+    regularizer_parameters:
+        name: decorrelation_phi_{modality}
+    selection:
+        - PerplexityScore{modality} &lt; 1.01 * MINIMUM(PerplexityScore{modality}) and SparsityPhiScore{modality} -&gt; max
+    strategy: PerplexityStrategy
+    strategy_params:
+        start_point: 100000
+        step: 10
+        max_len: 6
+    tracked_score_function: PerplexityScore@all
+    verbose: false
+    use_relative_coefficients: false
+- RegularizersModifierCube:
+    num_iter: 8
+    reg_search: add
+    regularizer_parameters:
+        name: smooth_phi_{modality}
+    selection:
+        - PerplexityScore{modality} &lt; 1.01 * MINIMUM(PerplexityScore{modality}) and SparsityPhiScore{modality} -&gt; max
+    strategy: PerplexityStrategy
+    strategy_params:
+        start_point: 0.25
+        step: 0.25
+        max_len: 6
+    tracked_score_function: PerplexityScore{modality}
+    verbose: false
+    use_relative_coefficients: false
+#last cube is independent of modalities and can be used only once
+- RegularizersModifierCube:
+    num_iter: 8
+    reg_search: add
+    regularizer_parameters:
+        name: sparse_theta
+    selection:
+        - PerplexityScore@all &lt; 1.01 * MINIMUM(PerplexityScore@all) and SparsityPhiScore{modality} -&gt; max
+    strategy: PerplexityStrategy
+    strategy_params:
+        start_point: -0.5
+        step: -0.5
+        max_len: 6
+    tracked_score_function: PerplexityScore@all
+    verbose: false
+    use_relative_coefficients: false
+
+&#39;&#39;&#39;</code></pre>
 </details>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
-<dl>
-<dt><code class="name"><a title="topicnet.cooking_machine" href="cooking_machine/index.html">topicnet.cooking_machine</a></code></dt>
-<dd>
-<section class="desc"></section>
-</dd>
-<dt><code class="name"><a title="topicnet.viewers" href="viewers/index.html">topicnet.viewers</a></code></dt>
-<dd>
-<section class="desc"></section>
-</dd>
-</dl>
 </section>
 <section>
 </section>
@@ -63,10 +189,9 @@
 <ul></ul>
 </div>
 <ul id="index">
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<li><h3>Super-module</h3>
 <ul>
-<li><code><a title="topicnet.cooking_machine" href="cooking_machine/index.html">topicnet.cooking_machine</a></code></li>
-<li><code><a title="topicnet.viewers" href="viewers/index.html">topicnet.viewers</a></code></li>
+<li><code><a title="topicnet.cooking_machine" href="../index.html">topicnet.cooking_machine</a></code></li>
 </ul>
 </li>
 </ul>

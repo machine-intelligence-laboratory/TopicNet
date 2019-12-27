@@ -25,6 +25,7 @@
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">from .base_model import BaseModel
+from .frozen_score import FrozenScore
 from ..routine import transform_complex_entity_to_dict
 
 import os
@@ -45,6 +46,11 @@ from copy import deepcopy
 
 from inspect import signature
 
+# change log style
+lc = artm.messages.ConfigureLoggingArgs()
+lc.minloglevel = 3
+lib = artm.wrapper.LibArtm(logging_config=lc)
+
 ARTM_NINE = artm.version().split(&#34;.&#34;)[1] == &#34;9&#34;
 
 SUPPORTED_SCORES_WITHOUT_VALUE_PROPERTY = (
@@ -52,11 +58,6 @@ SUPPORTED_SCORES_WITHOUT_VALUE_PROPERTY = (
     artm.score_tracker.ThetaSnippetScoreTracker,
     artm.score_tracker.TopicKernelScoreTracker,
 )
-
-
-class EmptyScore:
-    def __init__(self):
-        self.value = []
 
 
 class TopicModel(BaseModel):
@@ -99,6 +100,7 @@ class TopicModel(BaseModel):
         &#34;&#34;&#34;
         super().__init__(model_id=model_id, parent_model_id=parent_model_id,
                          experiment=experiment, *args, **kwargs)
+
         self.callbacks = list(callbacks)
 
         if artm_model is None:
@@ -135,7 +137,10 @@ class TopicModel(BaseModel):
 
     def _get_all_scores(self):
         if len(self._model.score_tracker.items()) == 0:
-            yield from {key: EmptyScore() for key in self._model.scores.data.keys()}.items()
+            yield from {
+                key: FrozenScore(list())
+                for key in self._model.scores.data.keys()
+            }.items()
         yield from self._model.score_tracker.items()
 
         if self.custom_scores is not None:  # default is dict(), but maybe better to set None?
@@ -358,7 +363,16 @@ class TopicModel(BaseModel):
         for score_name, score_object in self.custom_scores.items():
             save_path = os.path.join(model_save_path, score_name + &#39;.p&#39;)
             with open(save_path, &#39;wb&#39;) as score_f:
-                dill.dump(score_object, score_f)
+                try:
+                    dill.dump(score_object, score_f)
+                except pickle.PicklingError:
+                    warnings.warn(
+                        f&#39;Failed to save custom score &#34;{score_object}&#34; correctly! &#39;
+                        f&#39;Freezing score (saving only its value)&#39;
+                    )
+
+                    frozen_score_object = FrozenScore(score_object.value)
+                    dill.dump(frozen_score_object, score_f)
 
         self.save_custom_regularizers(model_save_path)
 
@@ -392,17 +406,21 @@ class TopicModel(BaseModel):
 
         with open(f&#34;{path}/params.json&#34;, &#34;r&#34;, encoding=&#39;utf-8&#39;) as params_f:
             params = json.load(params_f)
+
         topic_model = TopicModel(model, **params)
         topic_model.experiment = experiment
 
         custom_scores = {}
+
         for score_path in glob.glob(os.path.join(path, &#39;*.p&#39;)):
             score_name = os.path.basename(score_path).split(&#39;.&#39;)[0]
             with open(score_path, &#39;rb&#39;) as score_f:
                 custom_scores[score_name] = dill.load(score_f)
+
         topic_model.custom_scores = custom_scores
 
         custom_regularizers = {}
+
         for regularizer_path in glob.glob(os.path.join(path, &#39;*.rd&#39;)):
             regularizer_name = os.path.basename(regularizer_path).split(&#39;.&#39;)[0]
             with open(regularizer_path, &#39;rb&#39;) as reg_f:
@@ -412,10 +430,12 @@ class TopicModel(BaseModel):
             regularizer_name = os.path.basename(regularizer_path).split(&#39;.&#39;)[0]
             with open(regularizer_path, &#39;rb&#39;) as reg_f:
                 custom_regularizers[regularizer_name] = pickle.load(reg_f)
+
         topic_model.custom_regularizers = custom_regularizers
 
         all_agents = glob.glob(os.path.join(path, &#39;callback*.pkl&#39;))
         topic_model.callbacks = [None for _ in enumerate(all_agents)]
+
         for agent_path in all_agents:
             filename = os.path.basename(agent_path).split(&#39;.&#39;)[0]
             original_index = int(filename.partition(&#34;_&#34;)[2])
@@ -423,6 +443,7 @@ class TopicModel(BaseModel):
                 topic_model.callbacks[original_index] = dill.load(agent_f)
 
         topic_model._reset_score_caches()
+
         return topic_model
 
     def clone(self, model_id=None):
@@ -762,20 +783,6 @@ class TopicModel(BaseModel):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="topicnet.cooking_machine.models.topic_model.EmptyScore"><code class="flex name class">
-<span>class <span class="ident">EmptyScore</span></span>
-</code></dt>
-<dd>
-<section class="desc"></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class EmptyScore:
-    def __init__(self):
-        self.value = []</code></pre>
-</details>
-</dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel"><code class="flex name class">
 <span>class <span class="ident">TopicModel</span></span>
 <span>(</span><span>artm_model=None, model_id=None, parent_model_id=None, data_path=None, description=None, experiment=None, callbacks=[], depth=0, scores={}, custom_scores={}, custom_regularizers={}, *args, **kwargs)</span>
@@ -850,6 +857,7 @@ mainly used for fancy regularizer coefficients manipulation</dd>
         &#34;&#34;&#34;
         super().__init__(model_id=model_id, parent_model_id=parent_model_id,
                          experiment=experiment, *args, **kwargs)
+
         self.callbacks = list(callbacks)
 
         if artm_model is None:
@@ -886,7 +894,10 @@ mainly used for fancy regularizer coefficients manipulation</dd>
 
     def _get_all_scores(self):
         if len(self._model.score_tracker.items()) == 0:
-            yield from {key: EmptyScore() for key in self._model.scores.data.keys()}.items()
+            yield from {
+                key: FrozenScore(list())
+                for key in self._model.scores.data.keys()
+            }.items()
         yield from self._model.score_tracker.items()
 
         if self.custom_scores is not None:  # default is dict(), but maybe better to set None?
@@ -1109,7 +1120,16 @@ mainly used for fancy regularizer coefficients manipulation</dd>
         for score_name, score_object in self.custom_scores.items():
             save_path = os.path.join(model_save_path, score_name + &#39;.p&#39;)
             with open(save_path, &#39;wb&#39;) as score_f:
-                dill.dump(score_object, score_f)
+                try:
+                    dill.dump(score_object, score_f)
+                except pickle.PicklingError:
+                    warnings.warn(
+                        f&#39;Failed to save custom score &#34;{score_object}&#34; correctly! &#39;
+                        f&#39;Freezing score (saving only its value)&#39;
+                    )
+
+                    frozen_score_object = FrozenScore(score_object.value)
+                    dill.dump(frozen_score_object, score_f)
 
         self.save_custom_regularizers(model_save_path)
 
@@ -1143,17 +1163,21 @@ mainly used for fancy regularizer coefficients manipulation</dd>
 
         with open(f&#34;{path}/params.json&#34;, &#34;r&#34;, encoding=&#39;utf-8&#39;) as params_f:
             params = json.load(params_f)
+
         topic_model = TopicModel(model, **params)
         topic_model.experiment = experiment
 
         custom_scores = {}
+
         for score_path in glob.glob(os.path.join(path, &#39;*.p&#39;)):
             score_name = os.path.basename(score_path).split(&#39;.&#39;)[0]
             with open(score_path, &#39;rb&#39;) as score_f:
                 custom_scores[score_name] = dill.load(score_f)
+
         topic_model.custom_scores = custom_scores
 
         custom_regularizers = {}
+
         for regularizer_path in glob.glob(os.path.join(path, &#39;*.rd&#39;)):
             regularizer_name = os.path.basename(regularizer_path).split(&#39;.&#39;)[0]
             with open(regularizer_path, &#39;rb&#39;) as reg_f:
@@ -1163,10 +1187,12 @@ mainly used for fancy regularizer coefficients manipulation</dd>
             regularizer_name = os.path.basename(regularizer_path).split(&#39;.&#39;)[0]
             with open(regularizer_path, &#39;rb&#39;) as reg_f:
                 custom_regularizers[regularizer_name] = pickle.load(reg_f)
+
         topic_model.custom_regularizers = custom_regularizers
 
         all_agents = glob.glob(os.path.join(path, &#39;callback*.pkl&#39;))
         topic_model.callbacks = [None for _ in enumerate(all_agents)]
+
         for agent_path in all_agents:
             filename = os.path.basename(agent_path).split(&#39;.&#39;)[0]
             original_index = int(filename.partition(&#34;_&#34;)[2])
@@ -1174,6 +1200,7 @@ mainly used for fancy regularizer coefficients manipulation</dd>
                 topic_model.callbacks[original_index] = dill.load(agent_f)
 
         topic_model._reset_score_caches()
+
         return topic_model
 
     def clone(self, model_id=None):
@@ -1560,17 +1587,21 @@ def load(path, experiment=None):
 
     with open(f&#34;{path}/params.json&#34;, &#34;r&#34;, encoding=&#39;utf-8&#39;) as params_f:
         params = json.load(params_f)
+
     topic_model = TopicModel(model, **params)
     topic_model.experiment = experiment
 
     custom_scores = {}
+
     for score_path in glob.glob(os.path.join(path, &#39;*.p&#39;)):
         score_name = os.path.basename(score_path).split(&#39;.&#39;)[0]
         with open(score_path, &#39;rb&#39;) as score_f:
             custom_scores[score_name] = dill.load(score_f)
+
     topic_model.custom_scores = custom_scores
 
     custom_regularizers = {}
+
     for regularizer_path in glob.glob(os.path.join(path, &#39;*.rd&#39;)):
         regularizer_name = os.path.basename(regularizer_path).split(&#39;.&#39;)[0]
         with open(regularizer_path, &#39;rb&#39;) as reg_f:
@@ -1580,10 +1611,12 @@ def load(path, experiment=None):
         regularizer_name = os.path.basename(regularizer_path).split(&#39;.&#39;)[0]
         with open(regularizer_path, &#39;rb&#39;) as reg_f:
             custom_regularizers[regularizer_name] = pickle.load(reg_f)
+
     topic_model.custom_regularizers = custom_regularizers
 
     all_agents = glob.glob(os.path.join(path, &#39;callback*.pkl&#39;))
     topic_model.callbacks = [None for _ in enumerate(all_agents)]
+
     for agent_path in all_agents:
         filename = os.path.basename(agent_path).split(&#39;.&#39;)[0]
         original_index = int(filename.partition(&#34;_&#34;)[2])
@@ -1591,6 +1624,7 @@ def load(path, experiment=None):
             topic_model.callbacks[original_index] = dill.load(agent_f)
 
     topic_model._reset_score_caches()
+
     return topic_model</code></pre>
 </details>
 </dd>
@@ -2260,7 +2294,16 @@ Use this method if you want to dump the model.</p>
     for score_name, score_object in self.custom_scores.items():
         save_path = os.path.join(model_save_path, score_name + &#39;.p&#39;)
         with open(save_path, &#39;wb&#39;) as score_f:
-            dill.dump(score_object, score_f)
+            try:
+                dill.dump(score_object, score_f)
+            except pickle.PicklingError:
+                warnings.warn(
+                    f&#39;Failed to save custom score &#34;{score_object}&#34; correctly! &#39;
+                    f&#39;Freezing score (saving only its value)&#39;
+                )
+
+                frozen_score_object = FrozenScore(score_object.value)
+                dill.dump(frozen_score_object, score_f)
 
     self.save_custom_regularizers(model_save_path)
 
@@ -2377,9 +2420,6 @@ but "model_id" key in experiment.models contains original model, not dummy</p></
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
-<li>
-<h4><code><a title="topicnet.cooking_machine.models.topic_model.EmptyScore" href="#topicnet.cooking_machine.models.topic_model.EmptyScore">EmptyScore</a></code></h4>
-</li>
 <li>
 <h4><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel" href="#topicnet.cooking_machine.models.topic_model.TopicModel">TopicModel</a></code></h4>
 <ul class="">
