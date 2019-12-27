@@ -20,28 +20,31 @@ score_to_track: str
     to the last "safe" value and stop
 
     More formal definition of "sort of decreasing": if we divide a curve into two parts like so:
-       #####################################
-       #. . . .. . . . ..  . .. . .  ... . #
-       #%. . .  . . . .  .. . . . . .  . ..#
-       #:t . . . . . . . . . . . . . . .  .#
-       # t: . . . . . . . . . . . . . . ...#
-       #. %. . . . . . . . . . . . . . .  .#
-       #. :t. . . . . . . . .  .  . . . . .#
-       #.. ;; . .  . . . .  . . . .  . . ..#
-       #  ..t..  . .  . . . . . . . . . . .#
-       #. . :t .. . . .  . . . . . . . . ..#
-       #. .. t: . . . . . . . . . . . . . .#
-       #.   ..S: . . . . . . . . . . . . ..#
-       #. . . .:;: . . . . .  . . . . . . .#
-       #. . .  . :;;  . . . . . . . . . . .#
-       #. . . . .. :%.      nmmMMmmn   .  .#
-       # .   . .  . .tt%.ztttt"' '""ttttttt#
-       #. . .    . . . '"' . . . . . . . . #
-       #####################################
-       |                |                  |
-       |   left part    |                  |
-                  global minimum           |
-                        |     right part   |
+
+
+        ##################################### 
+        #. . . .. . . . ..  . .. . .  ... . # 
+        #%. . .  . . . .  .. . . . . .  . ..# 
+        #:t . . . . . . . . . . . . . . .  .# 
+        # t: . . . . . . . . . . . . . . ...# 
+        #. %. . . . . . . . . . . . . . .  .# 
+        #. :t. . . . . . . . .  .  . . . . .# 
+        #.. ;; . .  . . . .  . . . .  . . ..# 
+        #  ..t..  . .  . . . . . . . . . . .# 
+        #. . :t .. . . .  . . . . . . . . ..# 
+        #. .. t: . . . . . . . . . . . . . .# 
+        #.   ..S: . . . . . . . . . . . . ..# 
+        #. . . .:;: . . . . .  . . . . . . .# 
+        #. . .  . :;;  . . . . . . . . . . .# 
+        #. . . . .. :%.      nmmMMmmn   .  .# 
+        # .   . .  . .tt%.ztttt"' '""ttttttt# 
+        #. . .    . . . '"' . . . . . . . . # 
+        ##################################### 
+        |                |                  | 
+        |   left part    |                  | 
+                   global minimum           | 
+                         |     right part   | 
+
     then the right part is no higher than 5% of global minimum
     (you can change 5% if you like by adjusting `fraction_threshold`
      in `is_score_out_of_control` function)
@@ -52,43 +55,51 @@ score_to_track: str
 tau_converter: str or callable
     Notably, def-style functions and lambda functions are allowed
     If it is function, then it should accept four arguments:
-        (initial_tau, prev_tau, cur_iter, user_value)
+        `(initial_tau, prev_tau, cur_iter, user_value)`
     For example:
-    >> lambda initial_tau, prev_tau, cur_iter, user_value:
-    >>     initial_tau if cur_iter % 2 == 0 else 0
 
-        (Note that experiment description might display lambda functions incorrectly;
-         Try to keep them to a single line or use def-style functions instead)
+        >> lambda initial_tau, prev_tau, cur_iter, user_value:
+        >>     initial_tau if cur_iter % 2 == 0 else 0
 
-    >> def func(initial_tau, prev_tau, cur_iter, user_value):
-    >>     relu_grower = user_value * (cur_iter - 8) if cur_iter > 8 else 0
-    >>     return 0 if cur_iter % 2 else relu_grower
+    (Note that experiment description might display lambda functions incorrectly;
+     Try to keep them to a single line or use def-style functions instead)
+
+        >> def func(initial_tau, prev_tau, cur_iter, user_value):
+        >>     relu_grower = user_value * (cur_iter - 8) if cur_iter > 8 else 0
+        >>     return 0 if cur_iter % 2 else relu_grower
 
     If it is a string, then it should be an expression consisting of numbers, operations
-        and variables (four are allowed: initial_tau, prev_tau, cur_iter, user_value)
+        and variables (four are allowed: `initial_tau, prev_tau, cur_iter, user_value`)
     For example:
-    >> "initial_tau * ((cur_iter + 1) % 2)"
+
+    `>> "initial_tau * ((cur_iter + 1) % 2)"`
+
     or
-    >> "prev_tau * user_value"
+
+    `>> "prev_tau * user_value"`
 
 user_value_grid: list of numeric
     Values for user_value variable
     When writing `tau_converter`, you can use user_value variable.
 
     For example:
-    >> tau_converter: "prev_tau * user_value"
-    >> user_value_grid: [1, 0.99, 0.95, 0.90, 0.80, 0.5]
+
+        >> tau_converter: "prev_tau * user_value"
+        >> user_value_grid: [1, 0.99, 0.95, 0.90, 0.80, 0.5]
+
     (I know that tau should decay exponentially, but I'm unsure of exact half-life)
 
-    >> tau_converter: "prev_tau + user_value"
-    >> user_value_grid: [50, 100, 150, 200, 250]
+        >> tau_converter: "prev_tau + user_value"
+        >> user_value_grid: [50, 100, 150, 200, 250]
+
     (I know that tau should increase linearly, but I'm unsure of exact speed)
 
-    >> def func(initial_tau, prev_tau, cur_iter, user_value):
-    >>     new_tau = 50 * (cur_iter - user_value) if cur_iter > user_value else 0
-    >>     return new_tau
-    >> tau_converter: func
-    >> user_value_grid: [10, 15, 20, 25, 30]
+        >> def func(initial_tau, prev_tau, cur_iter, user_value):
+        >>     new_tau = 50 * (cur_iter - user_value) if cur_iter > user_value else 0
+        >>     return new_tau
+        >> tau_converter: func
+        >> user_value_grid: [10, 15, 20, 25, 30]
+
     (Tau should start with zero, then increase linearly. I don't know when to start this process)
 
 max_iter: numeric
@@ -96,7 +107,8 @@ max_iter: numeric
     Agent will stop changing tau after `max_iters` iterations
     `max_iters` could be `float("NaN")` and `float("inf")` values:
     that way agent will continue operating even outside this `RegularizationControllerCube`
-"""
+"""  # noqa: W291
+
 from .base_cube import BaseCube
 from ..rel_toolbox_lite import count_vocab_size, handle_regularizer
 
@@ -265,18 +277,22 @@ class RegularizationControllerCube(BaseCube):
                 "user_value_grid"
                 See top-level docstring for details.
             Examples:
-            >>  {"regularizer": artm.regularizers.<...>,
-            >>   "score_to_track": "PerplexityScore@all",
-            >>   "tau_converter": "prev_tau * user_value",
-            >>   "user_value_grid": [0.5, 1, 2]}
 
-            >>  {"reg_name": "decorrelator_for_ngramms",
-            >>   "score_to_track": None,
-            >>   "tau_converter": (
-            >>       lambda initial_tau, prev_tau, cur_iter, user_value:
-            >>       initial_tau * (cur_iter % 2) + user_value
-            >>   )
-            >>   "user_value_grid": [0, 1]}
+                    >>  {"regularizer": artm.regularizers.<...>,
+                    >>   "score_to_track": "PerplexityScore@all",
+                    >>   "tau_converter": "prev_tau * user_value",
+                    >>   "user_value_grid": [0.5, 1, 2]}
+
+
+            -----------
+
+                    >>  {"reg_name": "decorrelator_for_ngramms",
+                    >>   "score_to_track": None,
+                    >>   "tau_converter": (
+                    >>       lambda initial_tau, prev_tau, cur_iter, user_value:
+                    >>       initial_tau * (cur_iter % 2) + user_value
+                    >>   )
+                    >>   "user_value_grid": [0, 1]}
 
         reg_search : str
             "grid", "pair", "add" or "mul". 
@@ -391,17 +407,19 @@ class RegularizationControllerCube(BaseCube):
     def get_jsonable_from_parameters(self):
         """ """
         jsonable_parameters = []
+
         for one_model_parameters in self.raw_parameters:
             one_jsonable = dict(one_model_parameters)
             converter = one_model_parameters['tau_converter']
-            if isinstance(converter, str):
-                pass
-            else:
+
+            if not isinstance(converter, str):
                 try:
                     # not always works, but this is not important
                     one_jsonable["tau_converter"] = str(getsource(converter))
-                except TypeError:
+                except (TypeError, OSError):
+                    # OSError: may arise if working in Jupyter Notebook
                     one_jsonable["tau_converter"] = "<NOT AVAILABLE>"
+
             jsonable_parameters.append(one_jsonable)
 
         return jsonable_parameters

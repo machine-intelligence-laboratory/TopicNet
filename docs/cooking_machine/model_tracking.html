@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.6.3" />
+<meta name="generator" content="pdoc 0.7.2" />
 <title>topicnet.cooking_machine.model_tracking API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
 <style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
 </head>
@@ -19,6 +20,337 @@
 <h1 class="title">Module <code>topicnet.cooking_machine.model_tracking</code></h1>
 </header>
 <section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import numpy as np
+
+from copy import deepcopy
+from .models.base_model import MODEL_NAME_LENGTH
+
+
+def padd_model_name(model_id):
+    padding = MODEL_NAME_LENGTH - len(model_id)
+    if padding &gt; 0:
+        add = padding // 2
+        odd = padding % 2
+        return &#39;&lt;&#39; * add + model_id + &#39;&gt;&#39; * (add + odd)
+    else:
+        return model_id[:MODEL_NAME_LENGTH]
+
+
+START = padd_model_name(&#39;root&#39;)
+
+UP_END = &#34;┌&#34;
+DOWN_END = &#34;└&#34;
+MIDDLE = &#34;├&#34;
+LAST = &#34;┤&#34;
+EMPTY = &#34;│&#34;
+START_END = &#34;┐&#34;
+SPACE = &#34; &#34;
+
+
+class Tree(object):
+    &#34;&#34;&#34;
+    Contains tree of an experiment and methods to work with it.
+
+    &#34;&#34;&#34;
+
+    def __init__(self, tree: dict = None):
+        &#34;&#34;&#34;
+        Initial stage.
+
+        Parameters
+        ----------
+        tree : dict
+            tree of an experiment (Default value = None)
+
+        &#34;&#34;&#34;
+        if tree is None:
+            self.tree = {&#39;model_id&#39;: START, &#39;models&#39;: []}
+        else:
+            self.tree = tree
+
+    def _append_description(self,
+                            tree: dict, current_part: list, leaf,
+                            up_sub_glue: str, down_sub_glue: str,
+                            branching_marker: str):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        tree : dict
+            tree of an experiment
+        current_part : list
+        leaf : dict
+        up_sub_glue : str
+        down_sub_glue : str
+        branching_marker : str
+
+        &#34;&#34;&#34;
+        cur_string = SPACE * len(tree[&#34;model_id&#34;])
+        up_sub_part, middle_sub_part, down_sub_part = self._get_description(leaf)
+        for string in up_sub_part:
+            current_part.append(SPACE * len(cur_string) + up_sub_glue + string)
+        current_part.append(cur_string + branching_marker + middle_sub_part[0])
+        for string in down_sub_part:
+            current_part.append(SPACE * len(cur_string) + down_sub_glue + string)
+
+    def _get_description(self, tree: dict):
+        &#34;&#34;&#34;
+        Internal method to create description of the tree.
+
+        Parameters
+        ----------
+        tree : dict
+            tree of an experiment
+
+        Returns
+        -------
+        3-list
+            strings of description for up, middle and down tree parts
+
+        &#34;&#34;&#34;
+        up_part, middle_part, down_part = [], [], []
+        num_leaves = len(tree[&#34;models&#34;])
+        if num_leaves &gt; 0:
+            for id_leaf, leaf in zip(range(num_leaves)[:num_leaves // 2],
+                                     tree[&#34;models&#34;][:num_leaves // 2]):
+                if id_leaf == 0:
+                    self._append_description(
+                        tree, up_part, leaf,
+                        up_sub_glue=SPACE, down_sub_glue=EMPTY, branching_marker=UP_END
+                    )
+                else:
+                    self._append_description(
+                        tree, up_part, leaf,
+                        up_sub_glue=EMPTY, down_sub_glue=EMPTY, branching_marker=MIDDLE
+                    )
+            if num_leaves == 1:
+                middle_part.append(tree[&#34;model_id&#34;] + START_END)
+            else:
+                middle_part.append(tree[&#34;model_id&#34;] + LAST)
+            for id_leaf, leaf in zip(range(num_leaves)[num_leaves // 2:],
+                                     tree[&#34;models&#34;][num_leaves // 2:]):
+                if id_leaf == num_leaves - 1:
+                    self._append_description(
+                        tree, down_part, leaf,
+                        up_sub_glue=EMPTY, down_sub_glue=SPACE, branching_marker=DOWN_END
+                    )
+                else:
+                    self._append_description(
+                        tree, down_part, leaf,
+                        up_sub_glue=EMPTY, down_sub_glue=EMPTY, branching_marker=MIDDLE
+                    )
+        else:
+            middle_part.append(tree[&#34;model_id&#34;])
+
+        return up_part, middle_part, down_part
+
+    def _get_depth(self, tree):
+        &#34;&#34;&#34;
+        Gets depth of the tree.
+
+        Parameters
+        ----------
+        tree : dict
+            tree of an experiment
+
+        Returns
+        -------
+        int
+            tree depth
+
+        &#34;&#34;&#34;
+        depths = [1]
+        for leaf in tree[&#34;models&#34;]:
+            depths += [self._get_depth(leaf)]
+
+        return np.array(depths).max() + 1 * (len(tree[&#34;models&#34;]) &gt; 0)
+
+    def _add_model_in_tree(self, tree, topic_model):
+        &#34;&#34;&#34;
+        Adds model in the tree of an experiment.
+
+        Parameters
+        ----------
+        tree : dict
+            tree of an experiment
+        topic_model : TopicModel
+            topic model
+
+        &#34;&#34;&#34;
+        if tree[&#34;model_id&#34;] == topic_model.parent_model_id:
+            tree[&#34;models&#34;].append(self.transform_to_leaf(topic_model))
+        else:
+            for leaf in tree[&#34;models&#34;]:
+                self._add_model_in_tree(leaf, topic_model)
+
+    def _prune(self, tree, depth, level: int = 1):
+        &#34;&#34;&#34;
+        Prunes tree to get particular depth.
+
+        Parameters
+        ----------
+        tree : dict
+            tree of an experiment.
+        depth : int
+            desired tree depth
+        level : int
+            internal variable (current depth) (Default value = 0)
+
+        Returns
+        -------
+        tree : dict
+            pruned tree with desired depth
+
+        &#34;&#34;&#34;
+        models = []
+        if level &lt;= depth:
+            for model in tree[&#34;models&#34;]:
+                pruned_model = self._prune(model, depth, level + 1)
+                if pruned_model is None:
+                    break
+                else:
+                    models.append(pruned_model)
+            tree[&#34;models&#34;] = models
+        else:
+            return None
+
+        return tree
+
+    def _get_model_ids(self, tree):
+        &#34;&#34;&#34;
+        Gets all model_ids of models in the tree.
+
+        Parameters
+        ----------
+        tree : dict
+            tree of an experiment
+
+        Returns
+        -------
+        list
+            model_ids of all models in the tree
+
+        &#34;&#34;&#34;
+        model_ids = [tree[&#34;model_id&#34;]]
+        for model in tree[&#34;models&#34;]:
+            model_ids += self._get_model_ids(model)
+
+        return model_ids
+
+    def get_depth(self):
+        &#34;&#34;&#34;
+        Gets current depth of the tree.
+
+        Returns
+        -------
+        int
+            depth of the tree
+
+        &#34;&#34;&#34;
+        return self._get_depth(self.tree)
+
+    def get_model_ids(self):
+        &#34;&#34;&#34;
+        Gets models_ids of all models in the tree.
+
+        Returns
+        -------
+        list
+            model_ids of all models in the tree
+
+        &#34;&#34;&#34;
+        return self._get_model_ids(self.tree)
+
+    @staticmethod
+    def transform_to_leaf(topic_model):
+        &#34;&#34;&#34;
+        Transforms TopicModel to a leaf for the tree for further integration in the tree.
+
+        Parameters
+        ----------
+        topic_model : TopicModel
+            topic model
+
+        Returns
+        -------
+        dict
+            leaf of the tree
+
+        &#34;&#34;&#34;
+        leaf = {&#34;model_id&#34;: topic_model.model_id,
+                &#34;models&#34;: []}
+
+        return leaf
+
+    def show(self):
+        &#34;&#34;&#34;
+        Shows the tree of an experiment in text format.
+        Shows description ot the tree.
+
+        Returns
+        -------
+        str
+            description in txt format
+
+        &#34;&#34;&#34;
+        up, middle, down = self._get_description(self.tree)
+        print(&#34;\n&#34;.join(up + middle + down))
+
+    def get_description(self):
+        &#34;&#34;&#34;
+        Creates description of the tree.
+
+        Returns
+        -------
+        list
+            strings of description
+
+        &#34;&#34;&#34;
+        up, middle, down = self._get_description(self.tree)
+
+        return up + middle + down
+
+    def add_model(self, topic_model):
+        &#34;&#34;&#34;
+        Adds model in the tree of an experiment.
+
+        Parameters
+        ----------
+        topic_model : TopicModel
+            topic model
+
+        &#34;&#34;&#34;
+        self._add_model_in_tree(self.tree, topic_model)
+
+    def prune(self, depth):
+        &#34;&#34;&#34;
+        Prunes tree to get particular depth and updates it.
+
+        Parameters
+        ----------
+        depth : int
+            desired tree depth
+
+        &#34;&#34;&#34;
+        self.tree = self._prune(self.tree, depth)
+
+    def clone(self):
+        &#34;&#34;&#34;
+        Clones Tree class object.
+
+        Returns
+        -------
+        tree : Tree
+            copy of Tree object
+        &#34;&#34;&#34;
+        tree = Tree(deepcopy(self.tree))
+
+        return tree</code></pre>
+</details>
 </section>
 <section>
 </section>
@@ -32,6 +364,19 @@
 </code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def padd_model_name(model_id):
+    padding = MODEL_NAME_LENGTH - len(model_id)
+    if padding &gt; 0:
+        add = padding // 2
+        odd = padding % 2
+        return &#39;&lt;&#39; * add + model_id + &#39;&gt;&#39; * (add + odd)
+    else:
+        return model_id[:MODEL_NAME_LENGTH]</code></pre>
+</details>
 </dd>
 </dl>
 </section>
@@ -50,6 +395,310 @@
 <dt><strong><code>tree</code></strong> :&ensp;<code>dict</code></dt>
 <dd>tree of an experiment (Default value = None)</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Tree(object):
+    &#34;&#34;&#34;
+    Contains tree of an experiment and methods to work with it.
+
+    &#34;&#34;&#34;
+
+    def __init__(self, tree: dict = None):
+        &#34;&#34;&#34;
+        Initial stage.
+
+        Parameters
+        ----------
+        tree : dict
+            tree of an experiment (Default value = None)
+
+        &#34;&#34;&#34;
+        if tree is None:
+            self.tree = {&#39;model_id&#39;: START, &#39;models&#39;: []}
+        else:
+            self.tree = tree
+
+    def _append_description(self,
+                            tree: dict, current_part: list, leaf,
+                            up_sub_glue: str, down_sub_glue: str,
+                            branching_marker: str):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        tree : dict
+            tree of an experiment
+        current_part : list
+        leaf : dict
+        up_sub_glue : str
+        down_sub_glue : str
+        branching_marker : str
+
+        &#34;&#34;&#34;
+        cur_string = SPACE * len(tree[&#34;model_id&#34;])
+        up_sub_part, middle_sub_part, down_sub_part = self._get_description(leaf)
+        for string in up_sub_part:
+            current_part.append(SPACE * len(cur_string) + up_sub_glue + string)
+        current_part.append(cur_string + branching_marker + middle_sub_part[0])
+        for string in down_sub_part:
+            current_part.append(SPACE * len(cur_string) + down_sub_glue + string)
+
+    def _get_description(self, tree: dict):
+        &#34;&#34;&#34;
+        Internal method to create description of the tree.
+
+        Parameters
+        ----------
+        tree : dict
+            tree of an experiment
+
+        Returns
+        -------
+        3-list
+            strings of description for up, middle and down tree parts
+
+        &#34;&#34;&#34;
+        up_part, middle_part, down_part = [], [], []
+        num_leaves = len(tree[&#34;models&#34;])
+        if num_leaves &gt; 0:
+            for id_leaf, leaf in zip(range(num_leaves)[:num_leaves // 2],
+                                     tree[&#34;models&#34;][:num_leaves // 2]):
+                if id_leaf == 0:
+                    self._append_description(
+                        tree, up_part, leaf,
+                        up_sub_glue=SPACE, down_sub_glue=EMPTY, branching_marker=UP_END
+                    )
+                else:
+                    self._append_description(
+                        tree, up_part, leaf,
+                        up_sub_glue=EMPTY, down_sub_glue=EMPTY, branching_marker=MIDDLE
+                    )
+            if num_leaves == 1:
+                middle_part.append(tree[&#34;model_id&#34;] + START_END)
+            else:
+                middle_part.append(tree[&#34;model_id&#34;] + LAST)
+            for id_leaf, leaf in zip(range(num_leaves)[num_leaves // 2:],
+                                     tree[&#34;models&#34;][num_leaves // 2:]):
+                if id_leaf == num_leaves - 1:
+                    self._append_description(
+                        tree, down_part, leaf,
+                        up_sub_glue=EMPTY, down_sub_glue=SPACE, branching_marker=DOWN_END
+                    )
+                else:
+                    self._append_description(
+                        tree, down_part, leaf,
+                        up_sub_glue=EMPTY, down_sub_glue=EMPTY, branching_marker=MIDDLE
+                    )
+        else:
+            middle_part.append(tree[&#34;model_id&#34;])
+
+        return up_part, middle_part, down_part
+
+    def _get_depth(self, tree):
+        &#34;&#34;&#34;
+        Gets depth of the tree.
+
+        Parameters
+        ----------
+        tree : dict
+            tree of an experiment
+
+        Returns
+        -------
+        int
+            tree depth
+
+        &#34;&#34;&#34;
+        depths = [1]
+        for leaf in tree[&#34;models&#34;]:
+            depths += [self._get_depth(leaf)]
+
+        return np.array(depths).max() + 1 * (len(tree[&#34;models&#34;]) &gt; 0)
+
+    def _add_model_in_tree(self, tree, topic_model):
+        &#34;&#34;&#34;
+        Adds model in the tree of an experiment.
+
+        Parameters
+        ----------
+        tree : dict
+            tree of an experiment
+        topic_model : TopicModel
+            topic model
+
+        &#34;&#34;&#34;
+        if tree[&#34;model_id&#34;] == topic_model.parent_model_id:
+            tree[&#34;models&#34;].append(self.transform_to_leaf(topic_model))
+        else:
+            for leaf in tree[&#34;models&#34;]:
+                self._add_model_in_tree(leaf, topic_model)
+
+    def _prune(self, tree, depth, level: int = 1):
+        &#34;&#34;&#34;
+        Prunes tree to get particular depth.
+
+        Parameters
+        ----------
+        tree : dict
+            tree of an experiment.
+        depth : int
+            desired tree depth
+        level : int
+            internal variable (current depth) (Default value = 0)
+
+        Returns
+        -------
+        tree : dict
+            pruned tree with desired depth
+
+        &#34;&#34;&#34;
+        models = []
+        if level &lt;= depth:
+            for model in tree[&#34;models&#34;]:
+                pruned_model = self._prune(model, depth, level + 1)
+                if pruned_model is None:
+                    break
+                else:
+                    models.append(pruned_model)
+            tree[&#34;models&#34;] = models
+        else:
+            return None
+
+        return tree
+
+    def _get_model_ids(self, tree):
+        &#34;&#34;&#34;
+        Gets all model_ids of models in the tree.
+
+        Parameters
+        ----------
+        tree : dict
+            tree of an experiment
+
+        Returns
+        -------
+        list
+            model_ids of all models in the tree
+
+        &#34;&#34;&#34;
+        model_ids = [tree[&#34;model_id&#34;]]
+        for model in tree[&#34;models&#34;]:
+            model_ids += self._get_model_ids(model)
+
+        return model_ids
+
+    def get_depth(self):
+        &#34;&#34;&#34;
+        Gets current depth of the tree.
+
+        Returns
+        -------
+        int
+            depth of the tree
+
+        &#34;&#34;&#34;
+        return self._get_depth(self.tree)
+
+    def get_model_ids(self):
+        &#34;&#34;&#34;
+        Gets models_ids of all models in the tree.
+
+        Returns
+        -------
+        list
+            model_ids of all models in the tree
+
+        &#34;&#34;&#34;
+        return self._get_model_ids(self.tree)
+
+    @staticmethod
+    def transform_to_leaf(topic_model):
+        &#34;&#34;&#34;
+        Transforms TopicModel to a leaf for the tree for further integration in the tree.
+
+        Parameters
+        ----------
+        topic_model : TopicModel
+            topic model
+
+        Returns
+        -------
+        dict
+            leaf of the tree
+
+        &#34;&#34;&#34;
+        leaf = {&#34;model_id&#34;: topic_model.model_id,
+                &#34;models&#34;: []}
+
+        return leaf
+
+    def show(self):
+        &#34;&#34;&#34;
+        Shows the tree of an experiment in text format.
+        Shows description ot the tree.
+
+        Returns
+        -------
+        str
+            description in txt format
+
+        &#34;&#34;&#34;
+        up, middle, down = self._get_description(self.tree)
+        print(&#34;\n&#34;.join(up + middle + down))
+
+    def get_description(self):
+        &#34;&#34;&#34;
+        Creates description of the tree.
+
+        Returns
+        -------
+        list
+            strings of description
+
+        &#34;&#34;&#34;
+        up, middle, down = self._get_description(self.tree)
+
+        return up + middle + down
+
+    def add_model(self, topic_model):
+        &#34;&#34;&#34;
+        Adds model in the tree of an experiment.
+
+        Parameters
+        ----------
+        topic_model : TopicModel
+            topic model
+
+        &#34;&#34;&#34;
+        self._add_model_in_tree(self.tree, topic_model)
+
+    def prune(self, depth):
+        &#34;&#34;&#34;
+        Prunes tree to get particular depth and updates it.
+
+        Parameters
+        ----------
+        depth : int
+            desired tree depth
+
+        &#34;&#34;&#34;
+        self.tree = self._prune(self.tree, depth)
+
+    def clone(self):
+        &#34;&#34;&#34;
+        Clones Tree class object.
+
+        Returns
+        -------
+        tree : Tree
+            copy of Tree object
+        &#34;&#34;&#34;
+        tree = Tree(deepcopy(self.tree))
+
+        return tree</code></pre>
+</details>
 <h3>Static methods</h3>
 <dl>
 <dt id="topicnet.cooking_machine.model_tracking.Tree.transform_to_leaf"><code class="name flex">
@@ -67,6 +716,31 @@
 <dt><code>dict</code></dt>
 <dd>leaf of the tree</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def transform_to_leaf(topic_model):
+    &#34;&#34;&#34;
+    Transforms TopicModel to a leaf for the tree for further integration in the tree.
+
+    Parameters
+    ----------
+    topic_model : TopicModel
+        topic model
+
+    Returns
+    -------
+    dict
+        leaf of the tree
+
+    &#34;&#34;&#34;
+    leaf = {&#34;model_id&#34;: topic_model.model_id,
+            &#34;models&#34;: []}
+
+    return leaf</code></pre>
+</details>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -81,6 +755,22 @@
 <dt><strong><code>topic_model</code></strong> :&ensp;<code>TopicModel</code></dt>
 <dd>topic model</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_model(self, topic_model):
+    &#34;&#34;&#34;
+    Adds model in the tree of an experiment.
+
+    Parameters
+    ----------
+    topic_model : TopicModel
+        topic model
+
+    &#34;&#34;&#34;
+    self._add_model_in_tree(self.tree, topic_model)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.model_tracking.Tree.clone"><code class="name flex">
 <span>def <span class="ident">clone</span></span>(<span>self)</span>
@@ -92,6 +782,23 @@
 <dt><strong><code>tree</code></strong> :&ensp;<a title="topicnet.cooking_machine.model_tracking.Tree" href="#topicnet.cooking_machine.model_tracking.Tree"><code>Tree</code></a></dt>
 <dd>copy of Tree object</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def clone(self):
+    &#34;&#34;&#34;
+    Clones Tree class object.
+
+    Returns
+    -------
+    tree : Tree
+        copy of Tree object
+    &#34;&#34;&#34;
+    tree = Tree(deepcopy(self.tree))
+
+    return tree</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.model_tracking.Tree.get_depth"><code class="name flex">
 <span>def <span class="ident">get_depth</span></span>(<span>self)</span>
@@ -103,6 +810,22 @@
 <dt><code>int</code></dt>
 <dd>depth of the tree</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_depth(self):
+    &#34;&#34;&#34;
+    Gets current depth of the tree.
+
+    Returns
+    -------
+    int
+        depth of the tree
+
+    &#34;&#34;&#34;
+    return self._get_depth(self.tree)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.model_tracking.Tree.get_description"><code class="name flex">
 <span>def <span class="ident">get_description</span></span>(<span>self)</span>
@@ -114,6 +837,24 @@
 <dt><code>list</code></dt>
 <dd>strings of description</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_description(self):
+    &#34;&#34;&#34;
+    Creates description of the tree.
+
+    Returns
+    -------
+    list
+        strings of description
+
+    &#34;&#34;&#34;
+    up, middle, down = self._get_description(self.tree)
+
+    return up + middle + down</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.model_tracking.Tree.get_model_ids"><code class="name flex">
 <span>def <span class="ident">get_model_ids</span></span>(<span>self)</span>
@@ -125,6 +866,22 @@
 <dt><code>list</code></dt>
 <dd>model_ids of all models in the tree</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_model_ids(self):
+    &#34;&#34;&#34;
+    Gets models_ids of all models in the tree.
+
+    Returns
+    -------
+    list
+        model_ids of all models in the tree
+
+    &#34;&#34;&#34;
+    return self._get_model_ids(self.tree)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.model_tracking.Tree.prune"><code class="name flex">
 <span>def <span class="ident">prune</span></span>(<span>self, depth)</span>
@@ -136,6 +893,22 @@
 <dt><strong><code>depth</code></strong> :&ensp;<code>int</code></dt>
 <dd>desired tree depth</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def prune(self, depth):
+    &#34;&#34;&#34;
+    Prunes tree to get particular depth and updates it.
+
+    Parameters
+    ----------
+    depth : int
+        desired tree depth
+
+    &#34;&#34;&#34;
+    self.tree = self._prune(self.tree, depth)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.model_tracking.Tree.show"><code class="name flex">
 <span>def <span class="ident">show</span></span>(<span>self)</span>
@@ -148,6 +921,24 @@ Shows description ot the tree.</p>
 <dt><code>str</code></dt>
 <dd>description in txt format</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show(self):
+    &#34;&#34;&#34;
+    Shows the tree of an experiment in text format.
+    Shows description ot the tree.
+
+    Returns
+    -------
+    str
+        description in txt format
+
+    &#34;&#34;&#34;
+    up, middle, down = self._get_description(self.tree)
+    print(&#34;\n&#34;.join(up + middle + down))</code></pre>
+</details>
 </dd>
 </dl>
 </dd>
@@ -191,7 +982,9 @@ Shows description ot the tree.</p>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>

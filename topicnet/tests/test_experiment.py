@@ -17,6 +17,7 @@ from ..cooking_machine.dataset import Dataset, W_DIFF_BATCHES_1
 MAIN_MODALITY = "@text"
 NGRAM_MODALITY = "@ngramms"
 EXTRA_MODALITY = "@str"
+MULTIPROCESSING_FLAGS = [True, False]
 
 
 def resource_teardown():
@@ -90,7 +91,8 @@ def test_initial_save_load(two_experiment_enviroments):
     assert experiment.criteria[0] == ['test_criteria'], 'Experiment failed to load criteria'
 
 
-def test_simple_experiment(two_experiment_enviroments):
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_simple_experiment(two_experiment_enviroments, thread_flag):
     """ """
     tm_1, experiment_1, tm_2, experiment_2, dataset, dictionary = two_experiment_enviroments
 
@@ -111,18 +113,21 @@ def test_simple_experiment(two_experiment_enviroments):
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         use_relative_coefficients=False,
-        reg_search="grid"
+        reg_search="grid",
+        separate_thread=thread_flag,
     )
 
     cube_2 = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         use_relative_coefficients=False,
-        reg_search="grid"
+        reg_search="grid",
+        separate_thread=thread_flag,
     )
-
-    tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
-    tmodels_2 = [dummy.restore() for dummy in cube_2(tm_2, dataset)]
+    dummies = cube(tm, dataset)
+    tmodels = [dummy.restore() for dummy in dummies]
+    dummies_2 = cube_2(tm_2, dataset)
+    tmodels_2 = [dummy.restore() for dummy in dummies_2]
 
     assert len(tmodels) == len(tmodels_2)
     assert cube.strategy.score == cube_2.strategy.score
@@ -134,7 +139,8 @@ def test_simple_experiment(two_experiment_enviroments):
         assert models[1].depth == 2
 
 
-def test_double_steps_experiment(two_experiment_enviroments):
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_double_steps_experiment(two_experiment_enviroments, thread_flag):
     """ """
     tm_1, experiment_1, tm_2, experiment_2, dataset, dictionary = two_experiment_enviroments
 
@@ -148,18 +154,21 @@ def test_double_steps_experiment(two_experiment_enviroments):
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         use_relative_coefficients=False,
-        reg_search="grid"
+        reg_search="grid",
+        separate_thread=thread_flag,
     )
 
     cube_first_2 = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         use_relative_coefficients=False,
-        reg_search="grid"
+        reg_search="grid",
+        separate_thread=thread_flag,
     )
-
-    tmodels_lvl2_1 = [dummy.restore() for dummy in cube_first_1(tm_1, dataset)]
-    tmodels_lvl2_2 = [dummy.restore() for dummy in cube_first_2(tm_2, dataset)]
+    dummies_first = cube_first_1(tm_1, dataset)
+    tmodels_lvl2_1 = [dummy.restore() for dummy in dummies_first]
+    dummies_second = cube_first_2(tm_2, dataset)
+    tmodels_lvl2_2 = [dummy.restore() for dummy in dummies_second]
 
     experiment_1.save_path = 'tests/experiments/test'
     experiment_1.save()
@@ -179,18 +188,21 @@ def test_double_steps_experiment(two_experiment_enviroments):
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         use_relative_coefficients=False,
-        reg_search="grid"
+        reg_search="grid",
+        separate_thread=thread_flag,
     )
 
     cube_second_2 = RegularizersModifierCube(
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         use_relative_coefficients=False,
-        reg_search="grid"
+        reg_search="grid",
+        separate_thread=thread_flag,
     )
-
-    tmodels_lvl3 = [dummy.restore() for dummy in cube_second(tmodels_lvl2[0], dataset)]
-    tmodels_lvl3_2 = [dummy.restore() for dummy in cube_second_2(tmodels_lvl2_2[0], dataset)]
+    dummies_lvl3 = cube_second(tmodels_lvl2[0], dataset)
+    tmodels_lvl3 = [dummy.restore() for dummy in dummies_lvl3]
+    dummies_lvl3_2 = cube_second_2(tmodels_lvl2_2[0], dataset)
+    tmodels_lvl3_2 = [dummy.restore() for dummy in dummies_lvl3_2]
 
     assert len(tmodels_lvl3) == len(tmodels_lvl3_2)
     assert cube_second.strategy.score == cube_second_2.strategy.score
@@ -207,7 +219,8 @@ def test_double_steps_experiment(two_experiment_enviroments):
         assert models[1].depth == 3
 
 
-def test_describe(two_experiment_enviroments):
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_describe(two_experiment_enviroments, thread_flag):
     """ """
     tm_1, experiment_1, tm_2, experiment_2, dataset, dictionary = two_experiment_enviroments
 
@@ -221,7 +234,8 @@ def test_describe(two_experiment_enviroments):
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         use_relative_coefficients=False,
-        reg_search="grid"
+        reg_search="grid",
+        separate_thread=thread_flag,
     )
 
     _ = cube_first(tm_1, dataset)
@@ -233,7 +247,8 @@ def test_describe(two_experiment_enviroments):
         num_iter=10,
         regularizer_parameters=regularizer_parameters,
         use_relative_coefficients=False,
-        reg_search="grid"
+        reg_search="grid",
+        separate_thread=thread_flag,
     )
 
     _ = cube_second(tmodels_lvl1, dataset)

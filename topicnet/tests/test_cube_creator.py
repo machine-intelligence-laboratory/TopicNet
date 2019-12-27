@@ -29,6 +29,9 @@ def teardown_function():
     resource_teardown()
 
 
+MULTIPROCESSING_FLAGS = [True, False]
+
+
 # to run all test
 @pytest.fixture(scope="function")
 def experiment_enviroment(request):
@@ -49,11 +52,12 @@ def experiment_enviroment(request):
     ex_score = ScoreExample()
     tm = TopicModel(model_artm, model_id='new_id', custom_scores={'example_score': ex_score})
     # experiment starts without model
-    experiment = Experiment(tm, experiment_id="test", save_path="tests/experiments")
+    experiment = Experiment(tm, experiment_id="test_cube_creator", save_path="tests/experiments")
     return tm, dataset, experiment, dictionary
 
 
-def test_simple_experiment(experiment_enviroment):
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_simple_experiment(experiment_enviroment, thread_flag):
     """ """
     # experiment with one level created by CubeCreator
     tm, dataset, experiment, dictionary = experiment_enviroment
@@ -72,7 +76,7 @@ def test_simple_experiment(experiment_enviroment):
         num_iter=10,
         parameters=parameters,
         reg_search="grid",
-        separate_thread=False,
+        separate_thread=thread_flag,
     )
     dummies = cube(experiment.root, dataset)
     tmodels = [dummy.restore() for dummy in dummies]
@@ -93,7 +97,8 @@ def test_simple_experiment(experiment_enviroment):
         assert len(one_model.scores['SparsityThetaScore']) > 0, 'Smth wrong with scores'
 
 
-def test_two_cubes_experiment(experiment_enviroment):
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_two_cubes_experiment(experiment_enviroment, thread_flag):
     """ """
     # experiment with two levels: first one is CubeCreator,
     # second one is RegularizersModifierCube
@@ -114,7 +119,7 @@ def test_two_cubes_experiment(experiment_enviroment):
         num_iter=10,
         parameters=parameters,
         reg_search="grid",
-        separate_thread=False,
+        separate_thread=thread_flag,
     )
 
     dummies = cube(experiment.root, dataset)
@@ -132,7 +137,7 @@ def test_two_cubes_experiment(experiment_enviroment):
         regularizer_parameters=regularizer_parameters,
         reg_search="grid",
         use_relative_coefficients=False,
-        separate_thread=False,
+        separate_thread=thread_flag,
     )
     dummies = cube(tmodels[2], dataset)
     tmodels = [dummy.restore() for dummy in dummies]
@@ -147,11 +152,8 @@ def test_two_cubes_experiment(experiment_enviroment):
     assert len(experiment.models) == 15
 
 
-sleep(1)
-
-
 # @pytest.mark.xfail
-@pytest.mark.parametrize('thread_flag', [True, False])
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
 def test_three_cubes_hier_model(experiment_enviroment, thread_flag):
     """ """
     # experiment with two levels: first one is CubeCreator,
@@ -219,14 +221,14 @@ def test_three_cubes_hier_model(experiment_enviroment, thread_flag):
     tmodels_third_level = [dummy.restore() for dummy in dummies]
 
     for model in tmodels_third_level:
-        # TODO: Failing SparsityPhiScore
         print(model.scores)
         assert len(model.scores['PerplexityScore']) > 0, 'Smth wrong with scores'
         assert len(model.scores['SparsityPhiScore']) > 0, 'Smth wrong with scores'
         assert len(model.scores['SparsityThetaScore']) > 0, 'Smth wrong with scores'
 
 
-def test_scores_are_different_after_cube(experiment_enviroment):
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_scores_are_different_after_cube(experiment_enviroment, thread_flag):
     tm, dataset, experiment, dictionary = experiment_enviroment
 
     parameters = [
@@ -240,7 +242,7 @@ def test_scores_are_different_after_cube(experiment_enviroment):
         num_iter=10,
         parameters=parameters,
         reg_search="grid",
-        separate_thread=False,
+        separate_thread=thread_flag,
     )
 
     def check_scores(tmodels):
@@ -271,9 +273,10 @@ def test_scores_are_different_after_cube(experiment_enviroment):
         reg_search="grid",
         use_relative_coefficients=False,
         verbose=True,
-        separate_thread=False,
+        separate_thread=thread_flag,
     )
 
     dummies = cube(tmodels[1], dataset)
     tmodels = [dummy.restore() for dummy in dummies]
     check_scores(tmodels)
+    sleep(1)

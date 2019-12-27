@@ -1,12 +1,14 @@
 import pytest
 import warnings
 
+
 import os
 import shutil
 
 import artm
 import numpy as np
 
+from time import sleep
 from ..cooking_machine.cubes.controller_cube import RegularizationControllerCube, W_HALT_CONTROL
 from ..cooking_machine.cubes import RegularizersModifierCube
 from ..cooking_machine.models.topic_model import TopicModel
@@ -23,6 +25,9 @@ POSSIBLE_REGULARIZERS = [
     artm.regularizers.SmoothSparseThetaRegularizer(name='test_theta_sparse'),
     artm.regularizers.DecorrelatorPhiRegularizer(name='test_decor')
 ]
+MAX_ITER_WARNING = 'Maximum number of iterations is exceeded;'
+# MULTIPROCESSING_FLAGS = [False, True]
+MULTIPROCESSING_FLAGS = [False]
 
 
 def resource_teardown():
@@ -43,7 +48,6 @@ def teardown_function():
 
 def approx_equal(x, y):
     return (abs(x - y) < 0.01)
-# ===============================
 
 
 def generate_sparse_regularizers(
@@ -187,7 +191,8 @@ def _retrieve_tau_history(result_tm, agent):
     return history
 
 
-def test_simple_experiment_with_controller(experiment_enviroment):
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_simple_experiment_with_controller(experiment_enviroment, thread_flag):
     """ """
     tm, dataset, experiment, dictionary = experiment_enviroment
 
@@ -220,7 +225,7 @@ def test_simple_experiment_with_controller(experiment_enviroment):
         parameters=parameters,
         reg_search="grid",
         use_relative_coefficients=True,
-        separate_thread=False
+        separate_thread=thread_flag
     )
 
     with pytest.warns(UserWarning, match=W_HALT_CONTROL[:10]):
@@ -247,7 +252,8 @@ def test_simple_experiment_with_controller(experiment_enviroment):
                     assert(prev_val > val)
 
 
-def test_flicker_with_controller(experiment_enviroment):
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_flicker_with_controller(experiment_enviroment, thread_flag):
     """ """
     tm, dataset, experiment, dictionary = experiment_enviroment
 
@@ -270,10 +276,10 @@ def test_flicker_with_controller(experiment_enviroment):
         parameters=parameters,
         reg_search="grid",
         use_relative_coefficients=True,
-        separate_thread=False
+        separate_thread=thread_flag
     )
-
-    tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
+    dummies = cube(tm, dataset)
+    tmodels = [dummy.restore() for dummy in dummies]
 
     assert len(tmodels) == 1
 
@@ -290,7 +296,8 @@ def test_flicker_with_controller(experiment_enviroment):
             assert t1 + t2 > 0
 
 
-def test_flicker_with_controller_lambdas(experiment_enviroment):
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_flicker_with_controller_lambdas(experiment_enviroment, thread_flag):
     """ """
     tm, dataset, experiment, dictionary = experiment_enviroment
 
@@ -327,10 +334,10 @@ def test_flicker_with_controller_lambdas(experiment_enviroment):
         parameters=parameters,
         reg_search="grid",
         use_relative_coefficients=True,
-        separate_thread=False
+        separate_thread=thread_flag
     )
-
-    tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
+    dummies = cube(tm, dataset)
+    tmodels = [dummy.restore() for dummy in dummies]
 
     for one_cube_part in cube.get_jsonable_from_parameters():
         source = one_cube_part["tau_converter"]
@@ -353,7 +360,8 @@ def test_flicker_with_controller_lambdas(experiment_enviroment):
             assert t1 + t2 > 0
 
 
-def test_description_for_insanely_complicated_lambdas(experiment_enviroment):
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_description_for_insanely_complicated_lambdas(experiment_enviroment, thread_flag):
     """ """
     tm, dataset, experiment, dictionary = experiment_enviroment
 
@@ -384,7 +392,7 @@ def test_description_for_insanely_complicated_lambdas(experiment_enviroment):
         parameters=parameters,
         reg_search="grid",
         use_relative_coefficients=True,
-        separate_thread=False
+        separate_thread=thread_flag
     )
 
     tmodels = cube(tm, dataset)
@@ -398,7 +406,8 @@ def test_description_for_insanely_complicated_lambdas(experiment_enviroment):
     assert len(tmodels) == 1
 
 
-def test_inline_relative_regularizers(experiment_enviroment):
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_inline_relative_regularizers(experiment_enviroment, thread_flag):
     """ """
     tm, dataset, experiment, dictionary = experiment_enviroment
 
@@ -418,10 +427,10 @@ def test_inline_relative_regularizers(experiment_enviroment):
         parameters=parameters,
         reg_search="grid",
         use_relative_coefficients=True,
-        separate_thread=False
+        separate_thread=thread_flag
     )
-
-    tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
+    dummies = cube(tm, dataset)
+    tmodels = [dummy.restore() for dummy in dummies]
 
     assert len(tmodels) == 1
 
@@ -433,7 +442,8 @@ def test_inline_relative_regularizers(experiment_enviroment):
         assert len(set(history)) == 1, "tau shouldn't been changed"
 
 
-def test_inline_regularizers(experiment_enviroment):
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_inline_regularizers(experiment_enviroment, thread_flag):
     """ """
     tm, dataset, experiment, dictionary = experiment_enviroment
 
@@ -452,10 +462,10 @@ def test_inline_regularizers(experiment_enviroment):
         parameters=parameters,
         reg_search="grid",
         use_relative_coefficients=False,
-        separate_thread=False
+        separate_thread=thread_flag
     )
-
-    tmodels = [dummy.restore() for dummy in cube(tm, dataset)]
+    dummies = cube(tm, dataset)
+    tmodels = [dummy.restore() for dummy in dummies]
 
     assert len(tmodels) == 1
 
@@ -465,7 +475,8 @@ def test_inline_regularizers(experiment_enviroment):
 
 
 @pytest.mark.parametrize('num_iters', [5, float("inf")])
-def test_max_iters(experiment_enviroment, num_iters):
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_max_iters(experiment_enviroment, num_iters, thread_flag):
     """ """
     tm, dataset, experiment, dictionary = experiment_enviroment
 
@@ -485,9 +496,8 @@ def test_max_iters(experiment_enviroment, num_iters):
         parameters=parameters,
         reg_search="grid",
         use_relative_coefficients=False,
-        separate_thread=False
+        separate_thread=thread_flag
     )
-
     cube(tm, dataset)
     resulting_models = experiment.select()
     for one_model in resulting_models:
@@ -511,7 +521,7 @@ def test_max_iters(experiment_enviroment, num_iters):
         regularizer_parameters=regularizer_parameters,
         reg_search="grid",
         use_relative_coefficients=False,
-        separate_thread=False
+        separate_thread=thread_flag
     )
 
     dummies = cube_second(experiment.select()[0], dataset)
@@ -526,3 +536,4 @@ def test_max_iters(experiment_enviroment, num_iters):
             print(history)
             print(agent.is_working)
         assert one_model.regularizers['test'].tau == expected_tau
+    sleep(1)

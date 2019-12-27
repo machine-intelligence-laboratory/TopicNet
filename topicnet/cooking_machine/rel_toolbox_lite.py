@@ -8,7 +8,7 @@ def count_vocab_size(dictionary, modalities):
         dictionary.save_text(fname)
         modality_count = {name: 0 for name in modalities}
         modality_vocab_size = {name: 0 for name in modalities}
-        with open(fname) as f:
+        with open(fname, 'r', encoding='utf-8') as f:
             header = next(f)
             num_docs = int(header.partition("num_items: ")[2])
             next(f)

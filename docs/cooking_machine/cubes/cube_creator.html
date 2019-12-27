@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.6.3" />
+<meta name="generator" content="pdoc 0.7.2" />
 <title>topicnet.cooking_machine.cubes.cube_creator API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
 <style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
 </head>
@@ -19,6 +20,244 @@
 <h1 class="title">Module <code>topicnet.cooking_machine.cubes.cube_creator</code></h1>
 </header>
 <section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from .base_cube import BaseCube
+from inspect import signature
+from copy import deepcopy
+import warnings
+
+
+class CubeCreator(BaseCube):
+    &#34;&#34;&#34;
+    Class for creating models with different initial parameters.
+
+    &#34;&#34;&#34;
+    DEFAULT_SEED_VALUE = 4
+
+    def __init__(self, num_iter: int, parameters, reg_search=&#34;grid&#34;, strategy=None,
+                 model_class=&#39;TopicModel&#39;, second_level=False,
+                 tracked_score_function=None, verbose=False, separate_thread=True):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        model : TopicModel
+            TopicModel instance
+        num_iter : int
+            number of iterations or method
+        parameters : list[dict] or dict
+            parameters for model initialization
+        reg_search: str
+            &#34;grid&#34; or &#34;pair&#34;
+        strategy : BaseStrategy
+            optimization approach (Default value = None)
+        second_level : bool
+            if this cube is a second model level (Default value = False)
+        tracked_score_function : retrieve_score_for_strategy
+            optimizable function for strategy (Default value = None)
+        verbose : bool
+            visualization flag (Default value = False)
+        separate_thread : bool
+            will train models inside a separate thread if True
+
+        &#34;&#34;&#34;
+        import topicnet.cooking_machine.models as tnmodels
+
+        if second_level:
+            action = &#39;HIER: LEVEL 2&#39;
+        else:
+            action = &#39;INIT + TRAIN&#39;
+        super().__init__(num_iter=num_iter, action=action, strategy=strategy,
+                         tracked_score_function=tracked_score_function,
+                         reg_search=reg_search, verbose=verbose, separate_thread=separate_thread)
+
+        if isinstance(parameters, dict):
+            parameters = [parameters]
+        parameters = self._preprocess_parameters(parameters)
+        self._raw_parameters = parameters
+
+        try:
+            if model_class == &#39;TopicModel&#39;:
+                model = getattr(tnmodels, model_class)(num_topics=-1)
+            else:
+                model = getattr(tnmodels, model_class)()
+        except AttributeError:
+            raise AttributeError(&#39;This model is not implemented&#39;)
+
+        self._model_class = model.__class__
+        self._library_version = model._model.library_version
+
+        param_set = [dictionary[&#39;name&#39;] for dictionary in parameters]
+        topic_related = set([&#39;topic_names&#39;, &#39;num_topics&#39;]) &amp; set(param_set)
+        not_include = [&#39;topic_names&#39;, ] if len(topic_related) &gt; 0 else list()
+        self._not_include = not_include
+
+        self._second_level = second_level
+        self._check_all_parameters(parameters)
+        self._prepare_models_parameters(parameters)
+
+    def _preprocess_parameters(self, parameters):
+        clean_parameters = []
+        for params in parameters:
+            if &#34;name&#34; in params:
+                clean_parameters.append(params)
+            else:
+                for (name, values) in params.items():
+                    new_params = {&#34;name&#34;: name, &#34;values&#34;: values}
+                    clean_parameters.append(new_params)
+        return clean_parameters
+
+    def _check_all_parameters(self, parameters):
+        &#34;&#34;&#34;
+        Checks input parameters.
+
+        Parameters
+        ----------
+        parameters : dict
+
+        Returns
+        -------
+
+        &#34;&#34;&#34;
+        if len(parameters) &lt;= 0:
+            raise ValueError(&#34;There are no parameters.&#34;)
+
+        possible_init_params = list(signature(self._model_class.__init__).
+                                    parameters.keys())[1:]
+        is_args_or_kwargs = (&#39;kwargs&#39; in possible_init_params) or (&#39;args&#39; in possible_init_params)
+        for parameter in parameters:
+            if not isinstance(parameter, dict):
+                wrong_type = type(parameter)
+                raise ValueError(f&#34;Parameter should be dict, not {wrong_type}&#34;)
+            if not is_args_or_kwargs and parameter[&#39;name&#39;] not in possible_init_params:
+                raise ValueError(
+                    f&#34;There is no parameter {parameter[&#39;name&#39;]} in {self._model_class}&#34;
+                )
+
+        if self.reg_search == &#34;pair&#34;:
+            grid_size = len(parameters[0][&#34;values&#34;])
+            for parameter in parameters:
+                if len(parameter[&#34;values&#34;]) != grid_size:
+                    raise ValueError(&#34;Grid size is not the same.&#34;)
+
+    def _prepare_models_parameters(self, parameters):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        parameters : dict
+
+        Returns
+        -------
+
+        &#34;&#34;&#34;
+        self.parameters = []
+        for params in parameters:
+            name = params[&#39;name&#39;]
+            if not name.startswith(&#39;class_ids&#39;):
+                self.parameters.append({
+                    &#34;object&#34;: &#34;&#34;,
+                    &#34;field&#34;: params[&#34;name&#34;],
+                    &#34;values&#34;: params[&#34;values&#34;]
+                })
+            else:
+                if name == &#34;class_ids&#34;:
+                    new_params = params
+                else:
+                    _, class_id = name.split(&#34;class_ids&#34;)
+
+                    weights = [float(w) for w in params[&#34;values&#34;]]
+                    new_params = {
+                        &#34;name&#34;: &#34;class_ids&#34;,
+                        &#34;values&#34;: {class_id: weights}
+                    }
+
+                for modality_name, modality_values in new_params[&#39;values&#39;].items():
+                    if modality_name[0] == &#39;@&#39;:
+                        self.parameters.append({
+                            &#34;object&#34;: &#34;&#34;,
+                            &#34;field&#34;: modality_name,
+                            &#34;values&#34;: modality_values
+                        })
+                    else:
+                        warnings.warn(f&#39;Unexpected parameter {modality_name} was encountered.&#39;)
+
+    def get_jsonable_from_parameters(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        jsonable_parameters = dict()
+
+        for one_parameter in self._raw_parameters:
+            jsonable_values = []
+            for parameter in one_parameter[&#39;values&#39;]:
+                jsonable_values.append(str(parameter))
+            jsonable_parameters[one_parameter[&#39;name&#39;]] = jsonable_values
+
+        if self._second_level:
+            jsonable_parameters[&#39;additional_info&#39;] = &#39;hierarchical: Second level.&#39;
+
+        try:
+            jsonable_parameters[&#39;version&#39;] = self._library_version
+        except AttributeError:
+            jsonable_parameters[&#39;version&#39;] = &#34;undefined&#34;
+        return [jsonable_parameters]
+
+    def apply(self, topic_model, one_cube_parameter, dictionary=None, model_id=None):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        topic_model : TopicModel
+        one_cube_parameter : list or tuple
+        dictionary : Dictionary
+            (Default value = None)
+        model_id : str
+            (Default value = None)
+
+        Returns
+        -------
+
+        &#34;&#34;&#34;
+        new_model_parameters = deepcopy(
+            topic_model.get_init_parameters(not_include=self._not_include)
+        )
+        for parameter_entry in one_cube_parameter:
+            _, parameter_name, parameter_value = parameter_entry
+            if parameter_name[0] == &#39;@&#39;:
+                new_model_parameters[&#39;class_ids&#39;][parameter_name] = parameter_value
+            else:
+                new_model_parameters[parameter_name] = parameter_value
+        experiment = topic_model.experiment
+        model_class = topic_model.__class__
+        if self._second_level:
+            new_model_parameters[&#39;parent_model&#39;] = topic_model._model
+            if new_model_parameters.get(&#39;seed&#39;, -1) == -1:
+                # for some reason, for the second level you need to specify seed
+                new_model_parameters[&#39;seed&#39;] = self.DEFAULT_SEED_VALUE
+            # for the tree
+            parent_model_id = topic_model.model_id
+            description = list(topic_model.description)
+        else:
+            parent_model_id = experiment.tree.tree[&#39;model_id&#39;]
+            description = None
+
+        new_model_parameters[&#39;dictionary&#39;] = dictionary
+        new_model = model_class(
+            experiment=experiment,
+            model_id=model_id,
+            parent_model_id=parent_model_id,
+            description=description,
+            custom_scores=deepcopy(topic_model.custom_scores),
+            **new_model_parameters
+        )
+        for reg_name, reg in topic_model._model.regularizers.data.items():
+            new_model._model.regularizers.add(deepcopy(reg))
+        for score_name, score in topic_model._model._scores.data.items():
+            new_model._model.scores.add(deepcopy(score))
+        return new_model</code></pre>
+</details>
 </section>
 <section>
 </section>
@@ -56,6 +295,238 @@
 <dt><strong><code>separate_thread</code></strong> :&ensp;<code>bool</code></dt>
 <dd>will train models inside a separate thread if True</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CubeCreator(BaseCube):
+    &#34;&#34;&#34;
+    Class for creating models with different initial parameters.
+
+    &#34;&#34;&#34;
+    DEFAULT_SEED_VALUE = 4
+
+    def __init__(self, num_iter: int, parameters, reg_search=&#34;grid&#34;, strategy=None,
+                 model_class=&#39;TopicModel&#39;, second_level=False,
+                 tracked_score_function=None, verbose=False, separate_thread=True):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        model : TopicModel
+            TopicModel instance
+        num_iter : int
+            number of iterations or method
+        parameters : list[dict] or dict
+            parameters for model initialization
+        reg_search: str
+            &#34;grid&#34; or &#34;pair&#34;
+        strategy : BaseStrategy
+            optimization approach (Default value = None)
+        second_level : bool
+            if this cube is a second model level (Default value = False)
+        tracked_score_function : retrieve_score_for_strategy
+            optimizable function for strategy (Default value = None)
+        verbose : bool
+            visualization flag (Default value = False)
+        separate_thread : bool
+            will train models inside a separate thread if True
+
+        &#34;&#34;&#34;
+        import topicnet.cooking_machine.models as tnmodels
+
+        if second_level:
+            action = &#39;HIER: LEVEL 2&#39;
+        else:
+            action = &#39;INIT + TRAIN&#39;
+        super().__init__(num_iter=num_iter, action=action, strategy=strategy,
+                         tracked_score_function=tracked_score_function,
+                         reg_search=reg_search, verbose=verbose, separate_thread=separate_thread)
+
+        if isinstance(parameters, dict):
+            parameters = [parameters]
+        parameters = self._preprocess_parameters(parameters)
+        self._raw_parameters = parameters
+
+        try:
+            if model_class == &#39;TopicModel&#39;:
+                model = getattr(tnmodels, model_class)(num_topics=-1)
+            else:
+                model = getattr(tnmodels, model_class)()
+        except AttributeError:
+            raise AttributeError(&#39;This model is not implemented&#39;)
+
+        self._model_class = model.__class__
+        self._library_version = model._model.library_version
+
+        param_set = [dictionary[&#39;name&#39;] for dictionary in parameters]
+        topic_related = set([&#39;topic_names&#39;, &#39;num_topics&#39;]) &amp; set(param_set)
+        not_include = [&#39;topic_names&#39;, ] if len(topic_related) &gt; 0 else list()
+        self._not_include = not_include
+
+        self._second_level = second_level
+        self._check_all_parameters(parameters)
+        self._prepare_models_parameters(parameters)
+
+    def _preprocess_parameters(self, parameters):
+        clean_parameters = []
+        for params in parameters:
+            if &#34;name&#34; in params:
+                clean_parameters.append(params)
+            else:
+                for (name, values) in params.items():
+                    new_params = {&#34;name&#34;: name, &#34;values&#34;: values}
+                    clean_parameters.append(new_params)
+        return clean_parameters
+
+    def _check_all_parameters(self, parameters):
+        &#34;&#34;&#34;
+        Checks input parameters.
+
+        Parameters
+        ----------
+        parameters : dict
+
+        Returns
+        -------
+
+        &#34;&#34;&#34;
+        if len(parameters) &lt;= 0:
+            raise ValueError(&#34;There are no parameters.&#34;)
+
+        possible_init_params = list(signature(self._model_class.__init__).
+                                    parameters.keys())[1:]
+        is_args_or_kwargs = (&#39;kwargs&#39; in possible_init_params) or (&#39;args&#39; in possible_init_params)
+        for parameter in parameters:
+            if not isinstance(parameter, dict):
+                wrong_type = type(parameter)
+                raise ValueError(f&#34;Parameter should be dict, not {wrong_type}&#34;)
+            if not is_args_or_kwargs and parameter[&#39;name&#39;] not in possible_init_params:
+                raise ValueError(
+                    f&#34;There is no parameter {parameter[&#39;name&#39;]} in {self._model_class}&#34;
+                )
+
+        if self.reg_search == &#34;pair&#34;:
+            grid_size = len(parameters[0][&#34;values&#34;])
+            for parameter in parameters:
+                if len(parameter[&#34;values&#34;]) != grid_size:
+                    raise ValueError(&#34;Grid size is not the same.&#34;)
+
+    def _prepare_models_parameters(self, parameters):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        parameters : dict
+
+        Returns
+        -------
+
+        &#34;&#34;&#34;
+        self.parameters = []
+        for params in parameters:
+            name = params[&#39;name&#39;]
+            if not name.startswith(&#39;class_ids&#39;):
+                self.parameters.append({
+                    &#34;object&#34;: &#34;&#34;,
+                    &#34;field&#34;: params[&#34;name&#34;],
+                    &#34;values&#34;: params[&#34;values&#34;]
+                })
+            else:
+                if name == &#34;class_ids&#34;:
+                    new_params = params
+                else:
+                    _, class_id = name.split(&#34;class_ids&#34;)
+
+                    weights = [float(w) for w in params[&#34;values&#34;]]
+                    new_params = {
+                        &#34;name&#34;: &#34;class_ids&#34;,
+                        &#34;values&#34;: {class_id: weights}
+                    }
+
+                for modality_name, modality_values in new_params[&#39;values&#39;].items():
+                    if modality_name[0] == &#39;@&#39;:
+                        self.parameters.append({
+                            &#34;object&#34;: &#34;&#34;,
+                            &#34;field&#34;: modality_name,
+                            &#34;values&#34;: modality_values
+                        })
+                    else:
+                        warnings.warn(f&#39;Unexpected parameter {modality_name} was encountered.&#39;)
+
+    def get_jsonable_from_parameters(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        jsonable_parameters = dict()
+
+        for one_parameter in self._raw_parameters:
+            jsonable_values = []
+            for parameter in one_parameter[&#39;values&#39;]:
+                jsonable_values.append(str(parameter))
+            jsonable_parameters[one_parameter[&#39;name&#39;]] = jsonable_values
+
+        if self._second_level:
+            jsonable_parameters[&#39;additional_info&#39;] = &#39;hierarchical: Second level.&#39;
+
+        try:
+            jsonable_parameters[&#39;version&#39;] = self._library_version
+        except AttributeError:
+            jsonable_parameters[&#39;version&#39;] = &#34;undefined&#34;
+        return [jsonable_parameters]
+
+    def apply(self, topic_model, one_cube_parameter, dictionary=None, model_id=None):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        topic_model : TopicModel
+        one_cube_parameter : list or tuple
+        dictionary : Dictionary
+            (Default value = None)
+        model_id : str
+            (Default value = None)
+
+        Returns
+        -------
+
+        &#34;&#34;&#34;
+        new_model_parameters = deepcopy(
+            topic_model.get_init_parameters(not_include=self._not_include)
+        )
+        for parameter_entry in one_cube_parameter:
+            _, parameter_name, parameter_value = parameter_entry
+            if parameter_name[0] == &#39;@&#39;:
+                new_model_parameters[&#39;class_ids&#39;][parameter_name] = parameter_value
+            else:
+                new_model_parameters[parameter_name] = parameter_value
+        experiment = topic_model.experiment
+        model_class = topic_model.__class__
+        if self._second_level:
+            new_model_parameters[&#39;parent_model&#39;] = topic_model._model
+            if new_model_parameters.get(&#39;seed&#39;, -1) == -1:
+                # for some reason, for the second level you need to specify seed
+                new_model_parameters[&#39;seed&#39;] = self.DEFAULT_SEED_VALUE
+            # for the tree
+            parent_model_id = topic_model.model_id
+            description = list(topic_model.description)
+        else:
+            parent_model_id = experiment.tree.tree[&#39;model_id&#39;]
+            description = None
+
+        new_model_parameters[&#39;dictionary&#39;] = dictionary
+        new_model = model_class(
+            experiment=experiment,
+            model_id=model_id,
+            parent_model_id=parent_model_id,
+            description=description,
+            custom_scores=deepcopy(topic_model.custom_scores),
+            **new_model_parameters
+        )
+        for reg_name, reg in topic_model._model.regularizers.data.items():
+            new_model._model.regularizers.add(deepcopy(reg))
+        for score_name, score in topic_model._model._scores.data.items():
+            new_model._model.scores.add(deepcopy(score))
+        return new_model</code></pre>
+</details>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="topicnet.cooking_machine.cubes.base_cube.BaseCube" href="base_cube.html#topicnet.cooking_machine.cubes.base_cube.BaseCube">BaseCube</a></li>
@@ -64,7 +535,24 @@
 <dl>
 <dt id="topicnet.cooking_machine.cubes.cube_creator.CubeCreator.DEFAULT_SEED_VALUE"><code class="name">var <span class="ident">DEFAULT_SEED_VALUE</span></code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>int([x]) -&gt; integer
+int(x, base=10) -&gt; integer</p>
+<p>Convert a number or string to an integer, or return 0 if no arguments
+are given.
+If x is a number, return x.<strong>int</strong>().
+For floating point
+numbers, this truncates towards zero.</p>
+<p>If x is not a number or if base is given, then x must be a string,
+bytes, or bytearray instance representing an integer literal in the
+given base.
+The literal can be preceded by '+' or '-' and be surrounded
+by whitespace.
+The base defaults to 10.
+Valid bases are 0 and 2-36.
+Base 0 means to interpret the base from the string as an integer literal.</p>
+<pre><code>&gt;&gt;&gt; int('0b100', base=0)
+4
+</code></pre></section>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -85,6 +573,64 @@
 <dd>(Default value = None)</dd>
 </dl>
 <h2 id="returns">Returns</h2></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def apply(self, topic_model, one_cube_parameter, dictionary=None, model_id=None):
+    &#34;&#34;&#34;
+
+    Parameters
+    ----------
+    topic_model : TopicModel
+    one_cube_parameter : list or tuple
+    dictionary : Dictionary
+        (Default value = None)
+    model_id : str
+        (Default value = None)
+
+    Returns
+    -------
+
+    &#34;&#34;&#34;
+    new_model_parameters = deepcopy(
+        topic_model.get_init_parameters(not_include=self._not_include)
+    )
+    for parameter_entry in one_cube_parameter:
+        _, parameter_name, parameter_value = parameter_entry
+        if parameter_name[0] == &#39;@&#39;:
+            new_model_parameters[&#39;class_ids&#39;][parameter_name] = parameter_value
+        else:
+            new_model_parameters[parameter_name] = parameter_value
+    experiment = topic_model.experiment
+    model_class = topic_model.__class__
+    if self._second_level:
+        new_model_parameters[&#39;parent_model&#39;] = topic_model._model
+        if new_model_parameters.get(&#39;seed&#39;, -1) == -1:
+            # for some reason, for the second level you need to specify seed
+            new_model_parameters[&#39;seed&#39;] = self.DEFAULT_SEED_VALUE
+        # for the tree
+        parent_model_id = topic_model.model_id
+        description = list(topic_model.description)
+    else:
+        parent_model_id = experiment.tree.tree[&#39;model_id&#39;]
+        description = None
+
+    new_model_parameters[&#39;dictionary&#39;] = dictionary
+    new_model = model_class(
+        experiment=experiment,
+        model_id=model_id,
+        parent_model_id=parent_model_id,
+        description=description,
+        custom_scores=deepcopy(topic_model.custom_scores),
+        **new_model_parameters
+    )
+    for reg_name, reg in topic_model._model.regularizers.data.items():
+        new_model._model.regularizers.add(deepcopy(reg))
+    for score_name, score in topic_model._model._scores.data.items():
+        new_model._model.scores.add(deepcopy(score))
+    return new_model</code></pre>
+</details>
 </dd>
 </dl>
 <h3>Inherited members</h3>
@@ -125,7 +671,9 @@
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>

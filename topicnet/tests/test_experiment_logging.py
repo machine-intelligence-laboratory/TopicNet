@@ -11,6 +11,7 @@ from ..cooking_machine.cubes import RegularizersModifierCube
 from ..cooking_machine.cubes.perplexity_strategy import PerplexityStrategy
 
 MAIN_MODALITY = "@text"
+USE_MULTIPROCESSING = [True]
 
 
 class TestLogging:
@@ -51,7 +52,8 @@ class TestLogging:
                 save_path=cls.experiment_path,
             )
 
-    def test_experiment_prune(cls):
+    @pytest.mark.parametrize('thread_flag', USE_MULTIPROCESSING)
+    def test_experiment_prune(cls, thread_flag):
         """ """
         cls.topic_model.experiment = None
         experiment_run = Experiment(
@@ -69,7 +71,8 @@ class TestLogging:
             tracked_score_function='PerplexityScore@all',
             reg_search='mul',
             use_relative_coefficients=False,
-            verbose=True
+            verbose=True,
+            separate_thread=thread_flag
         )
 
         test_cube(cls.topic_model, cls.dataset)

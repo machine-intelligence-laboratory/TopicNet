@@ -1,11 +1,13 @@
 from .base_model import BaseModel
+from .frozen_score import FrozenScore
 from ..routine import transform_complex_entity_to_dict
 
 import os
 import json
 import glob
+import dill
+import pickle
 import shutil
-import dill as pickle
 import pandas as pd
 import warnings
 import inspect
@@ -18,6 +20,11 @@ from copy import deepcopy
 
 from inspect import signature
 
+# change log style
+lc = artm.messages.ConfigureLoggingArgs()
+lc.minloglevel = 3
+lib = artm.wrapper.LibArtm(logging_config=lc)
+
 ARTM_NINE = artm.version().split(".")[1] == "9"
 
 SUPPORTED_SCORES_WITHOUT_VALUE_PROPERTY = (
@@ -25,11 +32,6 @@ SUPPORTED_SCORES_WITHOUT_VALUE_PROPERTY = (
     artm.score_tracker.ThetaSnippetScoreTracker,
     artm.score_tracker.TopicKernelScoreTracker,
 )
-
-
-class EmptyScore:
-    def __init__(self):
-        self.value = []
 
 
 class TopicModel(BaseModel):
@@ -41,7 +43,8 @@ class TopicModel(BaseModel):
                  parent_model_id=None, data_path=None,
                  description=None, experiment=None,
                  callbacks=list(), depth=0, scores=dict(),
-                 custom_scores=dict(), *args, **kwargs):
+                 custom_scores=dict(), custom_regularizers=dict(),
+                 *args, **kwargs):
         """
         Initialize stage, also used for loading previously saved experiments.
 
@@ -65,10 +68,13 @@ class TopicModel(BaseModel):
         custom_scores : dict
             dictionary with score names as keys and score classes as functions
             (score class with functionality like those of BaseScore)
+        custom_regularizers : dict
+            dictionary with regularizer names as keys and regularizer classes as values
 
         """
         super().__init__(model_id=model_id, parent_model_id=parent_model_id,
                          experiment=experiment, *args, **kwargs)
+
         self.callbacks = list(callbacks)
 
         if artm_model is None:
@@ -88,6 +94,7 @@ class TopicModel(BaseModel):
 
         self.data_path = data_path
         self.custom_scores = custom_scores
+        self.custom_regularizers = custom_regularizers
 
         self._score_caches = None  # returned by model.score, reset by model._fit
 
@@ -104,7 +111,10 @@ class TopicModel(BaseModel):
 
     def _get_all_scores(self):
         if len(self._model.score_tracker.items()) == 0:
-            yield from {key: EmptyScore() for key in self._model.scores.data.keys()}.items()
+            yield from {
+                key: FrozenScore(list())
+                for key in self._model.scores.data.keys()
+            }.items()
         yield from self._model.score_tracker.items()
 
         if self.custom_scores is not None:  # default is dict(), but maybe better to set None?
@@ -140,10 +150,40 @@ class TopicModel(BaseModel):
 
         return score_values
 
-    def _fit(self, dataset_trainable, num_iterations):
+    def _fit(self, dataset_trainable, num_iterations, custom_regularizers=dict()):
+        """
+
+        Parameters
+        ----------
+        dataset_trainable : BatchVectorizer
+            Data for model fit
+        num_iterations : int
+            Amount of fit steps
+        custom_regularizers : dict of BaseRegularizer
+            Regularizers to apply to model
+
+        """
+        all_custom_regularizers = deepcopy(custom_regularizers)
+        all_custom_regularizers.update(self.custom_regularizers)
+
+        if len(all_custom_regularizers) != 0:
+            for regularizer in all_custom_regularizers.values():
+                regularizer.attach(self._model)
+
+            base_regularizers_name = [regularizer.name
+                                      for regularizer in self._model.regularizers.data.values()]
+            base_regularizers_tau = [regularizer.tau
+                                     for regularizer in self._model.regularizers.data.values()]
+
         for cur_iter in range(num_iterations):
             self._model.fit_offline(batch_vectorizer=dataset_trainable,
                                     num_collection_passes=1)
+
+            if len(all_custom_regularizers) != 0:
+                self._apply_custom_regularizers(
+                    dataset_trainable, all_custom_regularizers,
+                    base_regularizers_name, base_regularizers_tau
+                )
 
             for name, custom_score in self.custom_scores.items():
                 try:
@@ -158,6 +198,42 @@ class TopicModel(BaseModel):
                 callback_agent.invoke(self, cur_iter)
 
             self._reset_score_caches()
+
+    def _apply_custom_regularizers(self, dataset_trainable, custom_regularizers,
+                                   base_regularizers_name, base_regularizers_tau):
+        """
+
+        Parameters
+        ----------
+        dataset_trainable : BatchVectorizer
+            Data for model fit
+        custom_regularizers : dict of BaseRegularizer
+            Regularizers to apply to model
+        base_regularizers_name : list of str
+            List with all artm.regularizers names, applied to model
+        base_regularizers_tau : list of float
+            List with tau for all artm.regularizers, applied to model
+
+        """
+        pwt = self._model.get_phi(model_name=self._model.model_pwt)
+        nwt = self._model.get_phi(model_name=self._model.model_nwt)
+        rwt_name = 'rwt'
+
+        self._model.master.regularize_model(pwt=self._model.model_pwt,
+                                            nwt=self._model.model_nwt,
+                                            rwt=rwt_name,
+                                            regularizer_name=base_regularizers_name,
+                                            regularizer_tau=base_regularizers_tau)
+
+        (meta, nd_array) = self._model.master.attach_model(rwt_name)
+        attached_rwt = pd.DataFrame(data=nd_array, columns=meta.topic_name, index=meta.token)
+
+        for regularizer in custom_regularizers.values():
+            attached_rwt.values[:, :] += regularizer.grad(pwt, nwt)
+
+        self._model.master.normalize_model(pwt=self._model.model_pwt,
+                                           nwt=self._model.model_nwt,
+                                           rwt=rwt_name)
 
     def get_jsonable_from_parameters(self):
         """
@@ -181,8 +257,13 @@ class TopicModel(BaseModel):
             except KeyError:
                 pass
             regularizers[name] = [str(regularizer.config), tau, gamma]
-        parameters['regularizers'] = regularizers
+        for name, regularizer in iteritems(self.custom_regularizers):
+            tau = getattr(regularizer, 'tau', None)
+            gamma = getattr(regularizer, 'gamma', None)
+            config = str(getattr(regularizer, 'config', ''))
+            regularizers[name] = [config, tau, gamma]
 
+        parameters['regularizers'] = regularizers
         parameters['version'] = artm.version()
 
         return parameters
@@ -197,6 +278,23 @@ class TopicModel(BaseModel):
             if parameter_name not in not_include and parameter_name in init_artm_parameter_names:
                 filtered[parameter_name] = parameter_value
         return filtered
+
+    def save_custom_regularizers(self, model_save_path=None):
+        if model_save_path is None:
+            model_save_path = self.model_default_save_path
+
+        for regularizer_name, regularizer_object in self.custom_regularizers.items():
+            try:
+                save_path = os.path.join(model_save_path, regularizer_name + '.rd')
+                with open(save_path, 'wb') as reg_f:
+                    dill.dump(regularizer_object, reg_f)
+            except (TypeError, AttributeError):
+                try:
+                    save_path = os.path.join(model_save_path, regularizer_name + '.rp')
+                    with open(save_path, 'wb') as reg_f:
+                        pickle.dump(regularizer_object, reg_f)
+                except (TypeError, AttributeError):
+                    warnings.warn(f'Cannot save {regularizer_name} regularizer.')
 
     def save(self,
              model_save_path=None,
@@ -238,11 +336,24 @@ class TopicModel(BaseModel):
 
         for score_name, score_object in self.custom_scores.items():
             save_path = os.path.join(model_save_path, score_name + '.p')
-            pickle.dump(score_object, open(save_path, 'wb'))
+            with open(save_path, 'wb') as score_f:
+                try:
+                    dill.dump(score_object, score_f)
+                except pickle.PicklingError:
+                    warnings.warn(
+                        f'Failed to save custom score "{score_object}" correctly! '
+                        f'Freezing score (saving only its value)'
+                    )
+
+                    frozen_score_object = FrozenScore(score_object.value)
+                    dill.dump(frozen_score_object, score_f)
+
+        self.save_custom_regularizers(model_save_path)
 
         for i, agent in enumerate(self.callbacks):
             save_path = os.path.join(model_save_path, f"callback_{i}.pkl")
-            pickle.dump(agent, open(save_path, 'wb'))
+            with open(save_path, 'wb') as agent_f:
+                dill.dump(agent, agent_f)
 
     @staticmethod
     def load(path, experiment=None):
@@ -266,24 +377,47 @@ class TopicModel(BaseModel):
         else:
             model = None
             print("There is no dumped model. You should train it again.")
-        params = json.load(open(f"{path}/params.json", "r"))
+
+        with open(f"{path}/params.json", "r", encoding='utf-8') as params_f:
+            params = json.load(params_f)
+
         topic_model = TopicModel(model, **params)
         topic_model.experiment = experiment
 
         custom_scores = {}
+
         for score_path in glob.glob(os.path.join(path, '*.p')):
             score_name = os.path.basename(score_path).split('.')[0]
-            custom_scores[score_name] = pickle.load(open(score_path, 'rb'))
+            with open(score_path, 'rb') as score_f:
+                custom_scores[score_name] = dill.load(score_f)
+
         topic_model.custom_scores = custom_scores
+
+        custom_regularizers = {}
+
+        for regularizer_path in glob.glob(os.path.join(path, '*.rd')):
+            regularizer_name = os.path.basename(regularizer_path).split('.')[0]
+            with open(regularizer_path, 'rb') as reg_f:
+                custom_regularizers[regularizer_name] = dill.load(reg_f)
+
+        for regularizer_path in glob.glob(os.path.join(path, '*.rp')):
+            regularizer_name = os.path.basename(regularizer_path).split('.')[0]
+            with open(regularizer_path, 'rb') as reg_f:
+                custom_regularizers[regularizer_name] = pickle.load(reg_f)
+
+        topic_model.custom_regularizers = custom_regularizers
 
         all_agents = glob.glob(os.path.join(path, 'callback*.pkl'))
         topic_model.callbacks = [None for _ in enumerate(all_agents)]
+
         for agent_path in all_agents:
             filename = os.path.basename(agent_path).split('.')[0]
             original_index = int(filename.partition("_")[2])
-            topic_model.callbacks[original_index] = pickle.load(open(agent_path, 'rb'))
+            with open(agent_path, 'rb') as agent_f:
+                topic_model.callbacks[original_index] = dill.load(agent_f)
 
         topic_model._reset_score_caches()
+
         return topic_model
 
     def clone(self, model_id=None):
@@ -305,6 +439,7 @@ class TopicModel(BaseModel):
                                  parent_model_id=self.parent_model_id,
                                  description=deepcopy(self.description),
                                  custom_scores=deepcopy(self.custom_scores),
+                                 custom_regularizers=deepcopy(self.custom_regularizers),
                                  experiment=self.experiment)
         topic_model._score_functions = deepcopy(topic_model.score_functions)
         topic_model._scores = deepcopy(topic_model.scores)
@@ -448,7 +583,7 @@ class TopicModel(BaseModel):
         """
         # assuming particular case of BigARTM library that user can't get theta matrix
         # without cache_theta == True. This also covers theta_name == None case
-        if self._model._cache_theta:
+        if self._cache_theta:
             # TODO wrap sparse in pd.SparseDataFrame and check that viewers work with that output
             if sparse:
                 return self._model.get_theta_sparse(topic_names, eps)
@@ -567,8 +702,29 @@ class TopicModel(BaseModel):
 
     @property
     def regularizers(self):
-        """ """
+        """
+        Gets regularizers from model.
+
+        """
         return self._model.regularizers
+
+    @property
+    def all_regularizers(self):
+        """
+        Gets all regularizers with custom regularizers.
+
+        Returns
+        -------
+        regularizers_dict : dict
+            dict with artm.regularizer and BaseRegularizer instances
+
+        """
+        regularizers_dict = dict()
+        for custom_regularizer_name, custom_regularizer in self.custom_regularizers.items():
+            regularizers_dict[custom_regularizer_name] = custom_regularizer
+        regularizers_dict.update(self._model.regularizers.data)
+
+        return regularizers_dict
 
     @property
     def class_ids(self):
@@ -586,5 +742,7 @@ class TopicModel(BaseModel):
         data = []
         for reg_name, reg in self.regularizers._data.items():
             data.append([self.model_id, reg_name, reg.tau, reg.gamma])
+        for custom_reg_name, custom_reg in self.custom_regularizers.items():
+            data.append([self.model_id, custom_reg_name, custom_reg.tau, custom_reg.gamma])
         result = pd.DataFrame(columns=["model_id", "regularizer_name", "tau", "gamma"], data=data)
         return result.set_index(["model_id", "regularizer_name"])

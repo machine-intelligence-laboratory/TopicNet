@@ -31,7 +31,7 @@ class TestTopTokensViewer:
             warnings.filterwarnings(action="ignore", message=W_DIFF_BATCHES_1)
             dataset = Dataset('tests/test_data/test_dataset.csv')
             raw_data = []
-            with open('tests/test_data/test_vw.txt') as file:
+            with open('tests/test_data/test_vw.txt', encoding='utf-8') as file:
                 for line in file:
                     raw_data += [line.split(' ')]
             dictionary = dataset.get_dictionary()

@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.6.3" />
+<meta name="generator" content="pdoc 0.7.2" />
 <title>topicnet.cooking_machine.routine API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
 <style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
 </head>
@@ -19,6 +20,672 @@
 <h1 class="title">Module <code>topicnet.cooking_machine.routine</code></h1>
 </header>
 <section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import numpy as np
+import hashlib
+import json
+import re
+import warnings
+from datetime import datetime
+from statistics import mean, median
+import numexpr as ne
+
+
+W_TOO_STRICT = &#39;No models match criteria &#39;
+W_TOO_STRICT_DETAILS = &#39;(The requirements on {} have eliminated all {} models)&#39;
+W_NOT_ENOUGH_MODELS_FOR_CHOICE = &#39;Not enough models&#39;
+W_NOT_ENOUGH_MODELS_FOR_CHOICE_DETAILS = &#39;for models_num = {}, only {} models will be returned.&#39;
+W_RETURN_FEWER_MODELS = &#39;Can\&#39;t return the requested number of models:&#39;
+W_RETURN_FEWER_MODELS_DETAILS = &#39; \&#34;{}\&#34;. Only \&#34;{}\&#34; satisfy the query&#39;
+
+
+def is_jsonable(x):
+    &#34;&#34;&#34;
+    Check that x is jsonable
+
+    Parameters
+    ----------
+    x : optional
+
+    Returns
+    -------
+    bool
+
+    &#34;&#34;&#34;
+    try:
+        json.dumps(x)
+        return True
+    except (TypeError, OverflowError):
+        return False
+
+
+def is_saveable_model(model=None, model_id=None, experiment=None):
+    &#34;&#34;&#34;
+    Little helpful function. May be extended later.
+
+    &#34;&#34;&#34;
+    from .models import SUPPORTED_MODEL_CLASSES
+
+    if model is None and experiment is not None:
+        model = experiment.models.get(model_id)
+
+    # hasattr(model, &#39;save&#39;) is not currently supported due to dummy save in BaseModel
+
+    return isinstance(model, SUPPORTED_MODEL_CLASSES)
+
+
+def get_public_instance_attributes(instance):
+    &#34;&#34;&#34;
+    Get list of all instance public atrributes.
+
+    Parameters
+    ----------
+    instance : optional
+
+    Returns
+    -------
+    list of str
+
+    &#34;&#34;&#34;
+    public_attributes = [
+        attribute
+        for attribute in instance.__dir__() if attribute[0] != &#39;_&#39;
+    ]
+    return public_attributes
+
+
+def transform_complex_entity_to_dict(some_entity):
+    &#34;&#34;&#34;
+
+    Parameters
+    ----------
+    some_entity : optional
+
+    Returns
+    -------
+    dict
+        jsonable entity
+
+    &#34;&#34;&#34;
+    jsonable_reg_params = dict()
+
+    jsonable_reg_params[&#39;name&#39;] = some_entity.__class__.__name__
+    public_attributes = get_public_instance_attributes(some_entity)
+    for attribute in public_attributes:
+        try:
+            value = getattr(some_entity, attribute)
+            if is_jsonable(value):
+                jsonable_reg_params[attribute] = value
+        except (AttributeError, KeyError):
+            # TODO: need warning here
+            jsonable_reg_params[attribute] = None
+
+    return jsonable_reg_params
+
+
+def get_timestamp_in_str_format():
+    &#34;&#34;&#34;
+    Returns current timestamp.
+
+    Returns
+    -------
+    str
+        timestamp in &#34;%Hh%Mm%Ss_%dd%mm%Yy&#34; format
+
+    &#34;&#34;&#34;
+    curr_tmsp = datetime.now().strftime(&#34;%Hh%Mm%Ss_%dd%mm%Yy&#34;)
+
+    return curr_tmsp
+
+
+def transform_topic_model_description_to_jsonable(obj):
+    &#34;&#34;&#34;
+    Change object to handle serialization problems with json.
+
+    Parameters
+    ----------
+    obj : object
+        input object
+
+    Returns
+    -------
+    int
+        jsonable object
+
+    &#34;&#34;&#34;
+    if isinstance(obj, np.int64):
+        return int(obj)
+    if isinstance(obj, np.ndarray):
+        return obj.tolist()
+    elif re.search(r&#39;artm.score_tracker&#39;, str(type(obj))) is not None:
+        return obj._name
+    elif re.search(r&#39;score&#39;, str(type(obj))) is not None:
+        return str(obj.__class__)
+    elif re.search(r&#39;Score&#39;, str(type(obj))) is not None:
+        return str(obj.__class__)
+    elif re.search(r&#39;Cube&#39;, str(type(obj))) is not None:
+        return str(obj.__class__)
+    elif re.search(r&#39;protobuf&#39;, str(type(obj))) is not None:
+        try:
+            return str(list(obj))
+        except:  # noqa: E722
+            return str(type(obj))
+    else:
+        warnings.warn(f&#39;Object {obj} can not be dumped using json.&#39; +
+                      &#39;Object class name will be returned.&#39;, RuntimeWarning)
+        return str(obj.__class__)
+
+
+def get_fix_string(input_string: str, length: int):
+    &#34;&#34;&#34;
+    Transforms input_string to the string of the size length.
+
+    Parameters
+    ----------
+    input_string : str
+        input_string
+    length : int
+        length of output_string, if -1 then output_string is the same as input_string
+
+    Returns
+    -------
+    str
+        beautiful string of the size length
+
+    &#34;&#34;&#34;
+    input_string = str(input_string)
+    if length &lt; 0:
+        output_string = input_string
+    elif len(input_string) &gt; length:
+        sep = (length - 3) // 2
+        if length % 2 == 0:
+            output_string = input_string[:sep + 1] + &#34;...&#34; + input_string[-sep:]
+        else:
+            output_string = input_string[:sep] + &#34;...&#34; + input_string[-sep:]
+    else:
+        output_string = input_string + &#34; &#34; * (length - len(input_string))
+
+    return output_string
+
+
+def get_fix_list(input_list: list, length: int, num: int):
+    &#34;&#34;&#34;
+    Returns list with strings of size length that contains not more than num strings.
+
+    Parameters
+    ----------
+    input_list : list
+        list of input strings
+    length : int
+        length of output strings
+    num : int
+        maximal number of strings on output list
+
+    Returns
+    -------
+    list
+        list with no more than num of beautiful strings
+
+    &#34;&#34;&#34;
+    if len(input_list) == 0:
+        input_list = [&#34;---&#34;]
+    output_list = []
+    if (len(input_list) &gt; num) and (num != -1):
+        sep = (num - 1) // 2
+        if num % 2 == 0:
+            for elem in input_list[:sep + 1]:
+                output_list.append(get_fix_string(elem, length - 1) + &#34;,&#34;)
+            output_list.append(&#34;...,&#34; + &#34; &#34; * (length - 4))
+            for elem in input_list[-sep:]:
+                output_list.append(get_fix_string(elem, length - 1) + &#34;,&#34;)
+            output_list[-1] = output_list[-1][:-1] + &#34; &#34;
+        else:
+            for elem in input_list[:sep]:
+                output_list.append(get_fix_string(elem, length - 1) + &#34;,&#34;)
+            output_list.append(&#34;...,&#34; + &#34; &#34; * (length - 4))
+            for elem in input_list[-sep:]:
+                output_list.append(get_fix_string(elem, length - 1) + &#34;,&#34;)
+            output_list[-1] = output_list[-1][:-1] + &#34; &#34;
+    else:
+        for elem in input_list:
+            output_list.append(get_fix_string(elem, length - 1) + &#34;,&#34;)
+        output_list[-1] = output_list[-1][:-1] + &#34; &#34;
+
+    return output_list
+
+
+def get_equal_strings(strings, min_len: int = 0, sep: str = &#34; &#34;):
+    &#34;&#34;&#34;
+    Transforms all strings to strings with the same length, but not less that min_len.
+    Fills strings with sep. Inplace.
+
+    Parameters
+    ----------
+    strings : list
+        list of strings
+    min_len : int
+        minimal length of the string (Default value = 0)
+    sep : str
+        filling symbol (Default value = &#34; &#34;)
+
+    &#34;&#34;&#34;
+    max_string_len = np.array([len(string) for string in strings]).max()
+    max_string_len = max(min_len, max_string_len)
+    for id_string, string in enumerate(strings):
+        if len(string) &lt; max_string_len:
+            strings[id_string] += sep * (max_string_len - len(string))
+
+
+def get_equal_lists(one_dict, min_len: int = 0, sep: str = &#34; &#34;, sep_len=&#34;last&#34;):
+    &#34;&#34;&#34;
+    Transforms all lists to list with the same length, but not less that min_len.
+    Fills lists with sep. Inplace.
+
+    Parameters
+    ----------
+    one_dict : dict
+        dict with lists
+    min_len : int
+        minimal length of the list (Default value = 0)
+    sep : str
+        filling symbol (Default value = &#34; &#34;)
+    sep_len : int or &#34;last&#34;
+        length of added strings, if &#34;last&#34; than length of added strings is equal
+        to the length of the last string in the list (Default value = &#34;last&#34;)
+
+    &#34;&#34;&#34;
+    max_len = np.array([len(one_list) for one_list in one_dict.values()]).max()
+    max_len = max(min_len, max_len)
+    for id_list, one_list in one_dict.items():
+        if sep_len == &#34;last&#34;:
+            one_dict[id_list] += [sep * len(one_list[-1])] * (max_len - len(one_list))
+        elif isinstance(sep_len, int):
+            one_dict[id_list] += [sep * sep_len] * (max_len - len(one_list))
+        else:
+            raise ValueError(&#34;Parameter sep_len can be int or \&#34;last\&#34;.&#34;)
+
+
+def extract_required_parameter(model, parameter):
+    &#34;&#34;&#34;
+    Extracts necessary parameter from model.
+
+    Parameters
+    ----------
+    model : TopicModel
+    parameter : str
+
+    Returns
+    -------
+    optional
+
+    &#34;&#34;&#34;
+    value_to_return_as_none = float(&#39;nan&#39;)  # value needed for comparisons in is_acceptable
+
+    if parameter.split(&#39;.&#39;)[0] == &#39;model&#39;:
+        parameters = model.get_init_parameters()
+        parameter_name = parameter.split(&#39;.&#39;)[1]
+
+        if parameter_name in parameters.keys():
+            parameter_value = parameters.get(parameter_name)
+
+            if parameter_value is not None:
+                return parameter_value
+            else:
+                return value_to_return_as_none
+        else:
+            raise ValueError(f&#39;Unknown parameter {parameter_name} for model.&#39;)
+    else:
+        scores = model.scores.get(parameter, None)
+
+        if scores is None and model.depth == 0:  # start model
+            warnings.warn(f&#39;Start model doesn\&#39;t have score values for \&#34;{parameter}\&#34;&#39;)
+
+            return value_to_return_as_none
+
+        elif scores is None:
+            raise ValueError(
+                f&#39;Model \&#34;{model}\&#34; doesn\&#39;t have the score \&#34;{parameter}\&#34;. &#39;
+                f&#39;Expected score name {parameter} or model.parameter {parameter}&#39;)
+
+        if len(scores) == 0:
+            raise ValueError(f&#39;Empty score {parameter}.&#39;)
+
+        if scores[-1] is None:  # FrozenScore
+            return value_to_return_as_none
+
+        return scores[-1]
+
+
+def is_acceptable(model, requirement_lesser, requirement_greater, requirement_equal):
+    &#34;&#34;&#34;
+    Checks if model suits request.
+
+    Parameters
+    ----------
+    model : TopicModel
+    requirement_lesser : list of tuple
+    requirement_greater : list of tuple
+    requirement_equal : list of tuple
+
+    Returns
+    -------
+    bool
+
+    &#34;&#34;&#34;
+    from .models import TopicModel
+
+    if not isinstance(model, TopicModel):
+        warnings.warn(f&#39;Model {model} isn\&#39;t of type TopicModel.&#39; +
+                      &#39; Check your selection level and/or level models.&#39;)
+        return False
+
+    answer = (
+        all(extract_required_parameter(model, req_parameter) &lt; value
+            for req_parameter, value in requirement_lesser)
+        and
+        all(extract_required_parameter(model, req_parameter) &gt; value
+            for req_parameter, value in requirement_greater)
+        and
+        all(extract_required_parameter(model, req_parameter) == value
+            for req_parameter, value in requirement_equal)
+    )
+    return answer
+
+
+def _select_acceptable_models(models,
+                              requirement_lesser, requirement_greater, requirement_equal):
+    &#34;&#34;&#34;
+    Selects necessary models with sanity check.
+
+    Parameters
+    ----------
+    models : list of TopicModel
+        list of models with .scores parameter.
+    requirement_lesser : list of tuple
+        list containing tuples of form
+        (SCORE_NAME/model.PARAMETER_NAME, TARGET_NUMBER)
+    requirement_greater : list of tuple
+        list containing tuples of form
+        (SCORE_NAME/model.PARAMETER_NAME, TARGET_NUMBER)
+    requirement_equal : list of tuple
+        list containing tuples of form
+        (SCORE_NAME/model.PARAMETER_NAME, TARGET_NUMBER)
+
+    Returns
+    -------
+    list of TopicModels
+    &#34;&#34;&#34;
+    acceptable_models = [
+        model for model in models if is_acceptable(
+            model,
+            requirement_lesser,
+            requirement_greater,
+            requirement_equal
+        )
+    ]
+    if len(models) and not len(acceptable_models):
+        all_requirements = [
+            req_parameter for req_parameter, value
+            in (requirement_lesser + requirement_greater + requirement_equal)
+        ]
+        warnings.warn(W_TOO_STRICT +
+                      W_TOO_STRICT_DETAILS.format(&#34;, &#34;.join(all_requirements), len(models)))
+
+    return acceptable_models
+
+
+def choose_value_for_models_num_and_check(
+        models_num_as_parameter, models_num_from_query) -&gt; int:
+
+    models_num = None
+
+    if models_num_as_parameter is not None and models_num_from_query is not None and \
+            models_num_as_parameter != models_num_from_query:
+
+        warnings.warn(
+            f&#39;Models number given as parameter \&#34;{models_num_as_parameter}\&#34; &#39;
+            f&#39;not the same as models number specified after &#39;
+            f&#39;COLLECT: \&#34;{models_num_from_query}\&#34;. &#39;
+            f&#39;Parameter value \&#34;{models_num_as_parameter}\&#34; will be used for select&#39;
+        )
+
+        models_num = models_num_as_parameter
+
+    elif models_num_as_parameter is not None:
+        models_num = models_num_as_parameter
+
+    elif models_num_from_query is not None:
+        models_num = models_num_from_query
+
+    if models_num is not None and int(models_num) &lt; 0:
+        raise ValueError(f&#34;Cannot return negative number of models&#34;)
+
+    return models_num
+
+
+def _choose_models_by_metric(acceptable_models, metric, extremum, models_num):
+    scores_models = {}
+
+    for acceptable_model in acceptable_models:
+        if len(acceptable_model.scores[metric]) == 0:
+            warnings.warn(
+                f&#39;Model \&#34;{acceptable_model}\&#34; has empty value list for score \&#34;{metric}\&#34;&#39;)
+
+            continue
+
+        score = acceptable_model.scores[metric][-1]
+
+        if score in scores_models.keys():
+            scores_models[score].append(acceptable_model)
+        else:
+            scores_models[score] = [acceptable_model]
+
+    scores_models = sorted(scores_models.items(), key=lambda kv: kv[0])
+
+    if models_num is None:
+        models_num = len(scores_models) if not metric else 1
+
+    if extremum == &#34;max&#34;:
+        scores_models = list(reversed(scores_models))
+
+    best_models = sum([models[1] for models in scores_models[:models_num]], [])
+    result_models = best_models[:models_num]
+
+    if models_num &gt; len(acceptable_models):
+        warnings.warn(
+            W_NOT_ENOUGH_MODELS_FOR_CHOICE + &#39; &#39; +
+            W_NOT_ENOUGH_MODELS_FOR_CHOICE_DETAILS.format(models_num, len(acceptable_models))
+        )
+
+    if len(result_models) &lt; models_num:
+        warnings.warn(W_RETURN_FEWER_MODELS.format(models_num, len(result_models)))
+
+    return result_models
+
+
+def choose_best_models(models: list, requirement_lesser: list, requirement_greater: list,
+                       requirement_equal: list, metric: str, extremum=&#34;min&#34;, models_num=None):
+    &#34;&#34;&#34;
+    Get best model according to specified metric.
+
+    Parameters
+    ----------
+    models : list of TopicModel
+        list of models with .scores parameter.
+    requirement_lesser : list of tuple
+        list containing tuples of form
+        (SCORE_NAME/model.PARAMETER_NAME, TARGET_NUMBER)
+    requirement_greater : list of tuple
+        list containing tuples of form
+        (SCORE_NAME/model.PARAMETER_NAME, TARGET_NUMBER)
+    requirement_equal : list of tuple
+        list containing tuples of form
+        (SCORE_NAME/model.PARAMETER_NAME, TARGET_NUMBER)
+    metric : str
+        metric for selection.
+    extremum : str
+        &#34;min&#34; or &#34;max&#34; - comparison parameter (Default value = &#34;min&#34;)
+    models_num : int
+        number of models to select
+        (default value is None, which is mapped to &#34;all&#34; or 1 depending on whether &#39;metric&#39; is set)
+
+    Returns
+    -------
+    best_models : list of models
+        models with best scores or matching request
+
+    &#34;&#34;&#34;
+    acceptable_models = _select_acceptable_models(
+        models,
+        requirement_lesser,
+        requirement_greater,
+        requirement_equal
+    )
+
+    if metric is None and extremum is None:
+        if models_num is None:
+            result_models = acceptable_models
+        else:
+            result_models = acceptable_models[:models_num]
+
+        if models_num is not None and len(result_models) &lt; models_num:
+            warnings.warn(W_RETURN_FEWER_MODELS + &#39; &#39; +
+                          W_RETURN_FEWER_MODELS_DETAILS.format(models_num, len(result_models)))
+
+        return result_models
+
+    elif len(models) &gt; 0 and metric not in models[0].scores:
+        raise ValueError(f&#39;There is no {metric} metric for model {models[0].model_id}.\n&#39;
+                         f&#39;The following scores are available: {list(models[0].scores.keys())}&#39;)
+
+    return _choose_models_by_metric(acceptable_models, metric, extremum, models_num)
+
+
+def parse_query_string(query_string: str):
+    &#34;&#34;&#34;
+    This function will parse query string and subdivide it into following parts:
+
+    Parameters
+    ----------
+    query_string : str
+        (see Experiment.select function for details)
+
+    Returns
+    -------
+    requirement_lesser : list
+    requirement_greater : list
+    requirement_equal : list
+    metric : str
+    extremum : str
+
+    &#34;&#34;&#34;  # noqa: W291
+    requirement = {
+        &#34;&gt;&#34;: [],
+        &#34;&lt;&#34;: [],
+        &#34;=&#34;: []
+    }
+    metric = None
+    extremum = None
+
+    for part in filter(None, re.split(r&#39;\s+and\s+&#39;, query_string)):
+        expression_parts = part.strip().split()
+
+        if len(expression_parts) != 3:
+            raise ValueError(f&#34;Cannot understand &#39;{part}&#39;&#34;)
+
+        first, middle, last = expression_parts
+
+        if middle in [&#34;&gt;&#34;, &#34;&lt;&#34;, &#34;=&#34;]:
+            requirement[middle] += [(first, float(last))]
+
+        elif middle == &#34;-&gt;&#34;:
+            current_metric = first
+            current_extremum = last
+
+            if metric == current_metric and extremum == current_extremum:
+                continue
+
+            if metric is not None:
+                raise ValueError(
+                    f&#34;Cannot process more than one target: &#34;
+                    f&#34;previous \&#34;{metric}\&#34; with extremum \&#34;{extremum}\&#34; and &#34;
+                    f&#34;current \&#34;{current_metric}\&#34; with extremum \&#34;{current_extremum}\&#34;&#34;)
+
+            if current_extremum not in [&#34;max&#34;, &#34;min&#34;]:
+                raise ValueError(f&#34;Cannot understand &#39;{part}&#39;: &#34;
+                                 f&#34;unknown requirement &#39;{current_extremum}&#39;&#34;)
+
+            metric = current_metric
+            extremum = current_extremum
+
+        else:
+            raise ValueError(f&#34;Unknown connector &#39;{middle}&#39; in &#39;{part}&#39;&#34;)
+
+    return requirement[&#34;&lt;&#34;], requirement[&#34;&gt;&#34;], requirement[&#34;=&#34;], metric, extremum
+
+
+def compute_special_queries(special_models, special_queries):
+    &#34;&#34;&#34;
+    Computes special queries with functions.
+
+    &#34;&#34;&#34;
+    special_functions = {
+        &#39;MINIMUM&#39;: min,
+        &#39;MAXIMUM&#39;: max,
+        &#39;AVERAGE&#39;: mean,
+        &#39;MEDIAN&#39;: median,
+    }
+    if not special_models and special_queries:
+        warnings.warn(f&#34;Cannot evaluate &#39;{special_queries}&#39;: list of candidate models is empty&#34;,
+                      RuntimeWarning)
+
+    processed_queries = []
+    for query in special_queries:
+        first, middle, *raw_last = query.strip().split()
+        if middle not in [&#39;&gt;&#39;, &#39;&lt;&#39;, &#39;=&#39;]:
+            raise ValueError(f&#34;Cannot understand &#39;{query}&#39;: unknown format&#34;)
+
+        last = []
+        for subpart in raw_last:
+            if subpart[0] in [&#39;A&#39;, &#39;M&#39;]:
+                split_subpart = re.split(&#39;[()]&#39;, subpart)
+                special_function, metric = split_subpart[0].strip(), split_subpart[1].strip()
+                scores = [model.scores[metric][-1] for model in special_models]
+                last.append(str(special_functions.get(special_function, max)(scores)))
+            else:
+                last += subpart
+
+        try:
+            last = str(ne.evaluate(&#39;&#39;.join(last)))
+        except SyntaxError:
+            raise ValueError(f&#34;Cannot evaluate {last} expression&#34;)
+
+        processed_queries.append(&#39; &#39;.join([first, middle, last]))
+
+    return processed_queries
+
+
+def blake2bchecksum(file_path):
+    &#34;&#34;&#34;
+    Calculates hash of the file
+
+    Parameters
+    ----------
+    file_path : str
+        path to the file
+    &#34;&#34;&#34;
+    with open(file_path, &#39;rb&#39;) as fh:
+        m = hashlib.blake2b()
+        while True:
+            data = fh.read(8192)
+            if not data:
+                break
+            m.update(data)
+        return m.hexdigest()</code></pre>
+</details>
 </section>
 <section>
 </section>
@@ -37,6 +704,28 @@
 <dt><strong><code>file_path</code></strong> :&ensp;<code>str</code></dt>
 <dd>path to the file</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def blake2bchecksum(file_path):
+    &#34;&#34;&#34;
+    Calculates hash of the file
+
+    Parameters
+    ----------
+    file_path : str
+        path to the file
+    &#34;&#34;&#34;
+    with open(file_path, &#39;rb&#39;) as fh:
+        m = hashlib.blake2b()
+        while True:
+            data = fh.read(8192)
+            if not data:
+                break
+            m.update(data)
+        return m.hexdigest()</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.choose_best_models"><code class="name flex">
 <span>def <span class="ident">choose_best_models</span></span>(<span>models, requirement_lesser, requirement_greater, requirement_equal, metric, extremum='min', models_num=None)</span>
@@ -69,18 +758,155 @@
 <dt><strong><code>best_models</code></strong> :&ensp;<code>list</code> of <code>models</code></dt>
 <dd>models with best scores or matching request</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def choose_best_models(models: list, requirement_lesser: list, requirement_greater: list,
+                       requirement_equal: list, metric: str, extremum=&#34;min&#34;, models_num=None):
+    &#34;&#34;&#34;
+    Get best model according to specified metric.
+
+    Parameters
+    ----------
+    models : list of TopicModel
+        list of models with .scores parameter.
+    requirement_lesser : list of tuple
+        list containing tuples of form
+        (SCORE_NAME/model.PARAMETER_NAME, TARGET_NUMBER)
+    requirement_greater : list of tuple
+        list containing tuples of form
+        (SCORE_NAME/model.PARAMETER_NAME, TARGET_NUMBER)
+    requirement_equal : list of tuple
+        list containing tuples of form
+        (SCORE_NAME/model.PARAMETER_NAME, TARGET_NUMBER)
+    metric : str
+        metric for selection.
+    extremum : str
+        &#34;min&#34; or &#34;max&#34; - comparison parameter (Default value = &#34;min&#34;)
+    models_num : int
+        number of models to select
+        (default value is None, which is mapped to &#34;all&#34; or 1 depending on whether &#39;metric&#39; is set)
+
+    Returns
+    -------
+    best_models : list of models
+        models with best scores or matching request
+
+    &#34;&#34;&#34;
+    acceptable_models = _select_acceptable_models(
+        models,
+        requirement_lesser,
+        requirement_greater,
+        requirement_equal
+    )
+
+    if metric is None and extremum is None:
+        if models_num is None:
+            result_models = acceptable_models
+        else:
+            result_models = acceptable_models[:models_num]
+
+        if models_num is not None and len(result_models) &lt; models_num:
+            warnings.warn(W_RETURN_FEWER_MODELS + &#39; &#39; +
+                          W_RETURN_FEWER_MODELS_DETAILS.format(models_num, len(result_models)))
+
+        return result_models
+
+    elif len(models) &gt; 0 and metric not in models[0].scores:
+        raise ValueError(f&#39;There is no {metric} metric for model {models[0].model_id}.\n&#39;
+                         f&#39;The following scores are available: {list(models[0].scores.keys())}&#39;)
+
+    return _choose_models_by_metric(acceptable_models, metric, extremum, models_num)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.choose_value_for_models_num_and_check"><code class="name flex">
 <span>def <span class="ident">choose_value_for_models_num_and_check</span></span>(<span>models_num_as_parameter, models_num_from_query)</span>
 </code></dt>
 <dd>
 <section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def choose_value_for_models_num_and_check(
+        models_num_as_parameter, models_num_from_query) -&gt; int:
+
+    models_num = None
+
+    if models_num_as_parameter is not None and models_num_from_query is not None and \
+            models_num_as_parameter != models_num_from_query:
+
+        warnings.warn(
+            f&#39;Models number given as parameter \&#34;{models_num_as_parameter}\&#34; &#39;
+            f&#39;not the same as models number specified after &#39;
+            f&#39;COLLECT: \&#34;{models_num_from_query}\&#34;. &#39;
+            f&#39;Parameter value \&#34;{models_num_as_parameter}\&#34; will be used for select&#39;
+        )
+
+        models_num = models_num_as_parameter
+
+    elif models_num_as_parameter is not None:
+        models_num = models_num_as_parameter
+
+    elif models_num_from_query is not None:
+        models_num = models_num_from_query
+
+    if models_num is not None and int(models_num) &lt; 0:
+        raise ValueError(f&#34;Cannot return negative number of models&#34;)
+
+    return models_num</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.compute_special_queries"><code class="name flex">
 <span>def <span class="ident">compute_special_queries</span></span>(<span>special_models, special_queries)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Computes special queries with functions.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def compute_special_queries(special_models, special_queries):
+    &#34;&#34;&#34;
+    Computes special queries with functions.
+
+    &#34;&#34;&#34;
+    special_functions = {
+        &#39;MINIMUM&#39;: min,
+        &#39;MAXIMUM&#39;: max,
+        &#39;AVERAGE&#39;: mean,
+        &#39;MEDIAN&#39;: median,
+    }
+    if not special_models and special_queries:
+        warnings.warn(f&#34;Cannot evaluate &#39;{special_queries}&#39;: list of candidate models is empty&#34;,
+                      RuntimeWarning)
+
+    processed_queries = []
+    for query in special_queries:
+        first, middle, *raw_last = query.strip().split()
+        if middle not in [&#39;&gt;&#39;, &#39;&lt;&#39;, &#39;=&#39;]:
+            raise ValueError(f&#34;Cannot understand &#39;{query}&#39;: unknown format&#34;)
+
+        last = []
+        for subpart in raw_last:
+            if subpart[0] in [&#39;A&#39;, &#39;M&#39;]:
+                split_subpart = re.split(&#39;[()]&#39;, subpart)
+                special_function, metric = split_subpart[0].strip(), split_subpart[1].strip()
+                scores = [model.scores[metric][-1] for model in special_models]
+                last.append(str(special_functions.get(special_function, max)(scores)))
+            else:
+                last += subpart
+
+        try:
+            last = str(ne.evaluate(&#39;&#39;.join(last)))
+        except SyntaxError:
+            raise ValueError(f&#34;Cannot evaluate {last} expression&#34;)
+
+        processed_queries.append(&#39; &#39;.join([first, middle, last]))
+
+    return processed_queries</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.extract_required_parameter"><code class="name flex">
 <span>def <span class="ident">extract_required_parameter</span></span>(<span>model, parameter)</span>
@@ -99,6 +925,60 @@
 <dt>optional</dt>
 <dd>&nbsp;</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def extract_required_parameter(model, parameter):
+    &#34;&#34;&#34;
+    Extracts necessary parameter from model.
+
+    Parameters
+    ----------
+    model : TopicModel
+    parameter : str
+
+    Returns
+    -------
+    optional
+
+    &#34;&#34;&#34;
+    value_to_return_as_none = float(&#39;nan&#39;)  # value needed for comparisons in is_acceptable
+
+    if parameter.split(&#39;.&#39;)[0] == &#39;model&#39;:
+        parameters = model.get_init_parameters()
+        parameter_name = parameter.split(&#39;.&#39;)[1]
+
+        if parameter_name in parameters.keys():
+            parameter_value = parameters.get(parameter_name)
+
+            if parameter_value is not None:
+                return parameter_value
+            else:
+                return value_to_return_as_none
+        else:
+            raise ValueError(f&#39;Unknown parameter {parameter_name} for model.&#39;)
+    else:
+        scores = model.scores.get(parameter, None)
+
+        if scores is None and model.depth == 0:  # start model
+            warnings.warn(f&#39;Start model doesn\&#39;t have score values for \&#34;{parameter}\&#34;&#39;)
+
+            return value_to_return_as_none
+
+        elif scores is None:
+            raise ValueError(
+                f&#39;Model \&#34;{model}\&#34; doesn\&#39;t have the score \&#34;{parameter}\&#34;. &#39;
+                f&#39;Expected score name {parameter} or model.parameter {parameter}&#39;)
+
+        if len(scores) == 0:
+            raise ValueError(f&#39;Empty score {parameter}.&#39;)
+
+        if scores[-1] is None:  # FrozenScore
+            return value_to_return_as_none
+
+        return scores[-1]</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.get_equal_lists"><code class="name flex">
 <span>def <span class="ident">get_equal_lists</span></span>(<span>one_dict, min_len=0, sep=' ', sep_len='last')</span>
@@ -118,6 +998,38 @@ Fills lists with sep. Inplace.</p>
 <dd>length of added strings, if "last" than length of added strings is equal
 to the length of the last string in the list (Default value = "last")</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_equal_lists(one_dict, min_len: int = 0, sep: str = &#34; &#34;, sep_len=&#34;last&#34;):
+    &#34;&#34;&#34;
+    Transforms all lists to list with the same length, but not less that min_len.
+    Fills lists with sep. Inplace.
+
+    Parameters
+    ----------
+    one_dict : dict
+        dict with lists
+    min_len : int
+        minimal length of the list (Default value = 0)
+    sep : str
+        filling symbol (Default value = &#34; &#34;)
+    sep_len : int or &#34;last&#34;
+        length of added strings, if &#34;last&#34; than length of added strings is equal
+        to the length of the last string in the list (Default value = &#34;last&#34;)
+
+    &#34;&#34;&#34;
+    max_len = np.array([len(one_list) for one_list in one_dict.values()]).max()
+    max_len = max(min_len, max_len)
+    for id_list, one_list in one_dict.items():
+        if sep_len == &#34;last&#34;:
+            one_dict[id_list] += [sep * len(one_list[-1])] * (max_len - len(one_list))
+        elif isinstance(sep_len, int):
+            one_dict[id_list] += [sep * sep_len] * (max_len - len(one_list))
+        else:
+            raise ValueError(&#34;Parameter sep_len can be int or \&#34;last\&#34;.&#34;)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.get_equal_strings"><code class="name flex">
 <span>def <span class="ident">get_equal_strings</span></span>(<span>strings, min_len=0, sep=' ')</span>
@@ -134,6 +1046,31 @@ Fills strings with sep. Inplace.</p>
 <dt><strong><code>sep</code></strong> :&ensp;<code>str</code></dt>
 <dd>filling symbol (Default value = " ")</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_equal_strings(strings, min_len: int = 0, sep: str = &#34; &#34;):
+    &#34;&#34;&#34;
+    Transforms all strings to strings with the same length, but not less that min_len.
+    Fills strings with sep. Inplace.
+
+    Parameters
+    ----------
+    strings : list
+        list of strings
+    min_len : int
+        minimal length of the string (Default value = 0)
+    sep : str
+        filling symbol (Default value = &#34; &#34;)
+
+    &#34;&#34;&#34;
+    max_string_len = np.array([len(string) for string in strings]).max()
+    max_string_len = max(min_len, max_string_len)
+    for id_string, string in enumerate(strings):
+        if len(string) &lt; max_string_len:
+            strings[id_string] += sep * (max_string_len - len(string))</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.get_fix_list"><code class="name flex">
 <span>def <span class="ident">get_fix_list</span></span>(<span>input_list, length, num)</span>
@@ -154,6 +1091,55 @@ Fills strings with sep. Inplace.</p>
 <dt><code>list</code></dt>
 <dd>list with no more than num of beautiful strings</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_fix_list(input_list: list, length: int, num: int):
+    &#34;&#34;&#34;
+    Returns list with strings of size length that contains not more than num strings.
+
+    Parameters
+    ----------
+    input_list : list
+        list of input strings
+    length : int
+        length of output strings
+    num : int
+        maximal number of strings on output list
+
+    Returns
+    -------
+    list
+        list with no more than num of beautiful strings
+
+    &#34;&#34;&#34;
+    if len(input_list) == 0:
+        input_list = [&#34;---&#34;]
+    output_list = []
+    if (len(input_list) &gt; num) and (num != -1):
+        sep = (num - 1) // 2
+        if num % 2 == 0:
+            for elem in input_list[:sep + 1]:
+                output_list.append(get_fix_string(elem, length - 1) + &#34;,&#34;)
+            output_list.append(&#34;...,&#34; + &#34; &#34; * (length - 4))
+            for elem in input_list[-sep:]:
+                output_list.append(get_fix_string(elem, length - 1) + &#34;,&#34;)
+            output_list[-1] = output_list[-1][:-1] + &#34; &#34;
+        else:
+            for elem in input_list[:sep]:
+                output_list.append(get_fix_string(elem, length - 1) + &#34;,&#34;)
+            output_list.append(&#34;...,&#34; + &#34; &#34; * (length - 4))
+            for elem in input_list[-sep:]:
+                output_list.append(get_fix_string(elem, length - 1) + &#34;,&#34;)
+            output_list[-1] = output_list[-1][:-1] + &#34; &#34;
+    else:
+        for elem in input_list:
+            output_list.append(get_fix_string(elem, length - 1) + &#34;,&#34;)
+        output_list[-1] = output_list[-1][:-1] + &#34; &#34;
+
+    return output_list</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.get_fix_string"><code class="name flex">
 <span>def <span class="ident">get_fix_string</span></span>(<span>input_string, length)</span>
@@ -172,6 +1158,41 @@ Fills strings with sep. Inplace.</p>
 <dt><code>str</code></dt>
 <dd>beautiful string of the size length</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_fix_string(input_string: str, length: int):
+    &#34;&#34;&#34;
+    Transforms input_string to the string of the size length.
+
+    Parameters
+    ----------
+    input_string : str
+        input_string
+    length : int
+        length of output_string, if -1 then output_string is the same as input_string
+
+    Returns
+    -------
+    str
+        beautiful string of the size length
+
+    &#34;&#34;&#34;
+    input_string = str(input_string)
+    if length &lt; 0:
+        output_string = input_string
+    elif len(input_string) &gt; length:
+        sep = (length - 3) // 2
+        if length % 2 == 0:
+            output_string = input_string[:sep + 1] + &#34;...&#34; + input_string[-sep:]
+        else:
+            output_string = input_string[:sep] + &#34;...&#34; + input_string[-sep:]
+    else:
+        output_string = input_string + &#34; &#34; * (length - len(input_string))
+
+    return output_string</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.get_public_instance_attributes"><code class="name flex">
 <span>def <span class="ident">get_public_instance_attributes</span></span>(<span>instance)</span>
@@ -188,6 +1209,29 @@ Fills strings with sep. Inplace.</p>
 <dt><code>list</code> of <code>str</code></dt>
 <dd>&nbsp;</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_public_instance_attributes(instance):
+    &#34;&#34;&#34;
+    Get list of all instance public atrributes.
+
+    Parameters
+    ----------
+    instance : optional
+
+    Returns
+    -------
+    list of str
+
+    &#34;&#34;&#34;
+    public_attributes = [
+        attribute
+        for attribute in instance.__dir__() if attribute[0] != &#39;_&#39;
+    ]
+    return public_attributes</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.get_timestamp_in_str_format"><code class="name flex">
 <span>def <span class="ident">get_timestamp_in_str_format</span></span>(<span>)</span>
@@ -199,6 +1243,24 @@ Fills strings with sep. Inplace.</p>
 <dt><code>str</code></dt>
 <dd>timestamp in "%Hh%Mm%Ss_%dd%mm%Yy" format</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_timestamp_in_str_format():
+    &#34;&#34;&#34;
+    Returns current timestamp.
+
+    Returns
+    -------
+    str
+        timestamp in &#34;%Hh%Mm%Ss_%dd%mm%Yy&#34; format
+
+    &#34;&#34;&#34;
+    curr_tmsp = datetime.now().strftime(&#34;%Hh%Mm%Ss_%dd%mm%Yy&#34;)
+
+    return curr_tmsp</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.is_acceptable"><code class="name flex">
 <span>def <span class="ident">is_acceptable</span></span>(<span>model, requirement_lesser, requirement_greater, requirement_equal)</span>
@@ -221,6 +1283,45 @@ Fills strings with sep. Inplace.</p>
 <dt><code>bool</code></dt>
 <dd>&nbsp;</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_acceptable(model, requirement_lesser, requirement_greater, requirement_equal):
+    &#34;&#34;&#34;
+    Checks if model suits request.
+
+    Parameters
+    ----------
+    model : TopicModel
+    requirement_lesser : list of tuple
+    requirement_greater : list of tuple
+    requirement_equal : list of tuple
+
+    Returns
+    -------
+    bool
+
+    &#34;&#34;&#34;
+    from .models import TopicModel
+
+    if not isinstance(model, TopicModel):
+        warnings.warn(f&#39;Model {model} isn\&#39;t of type TopicModel.&#39; +
+                      &#39; Check your selection level and/or level models.&#39;)
+        return False
+
+    answer = (
+        all(extract_required_parameter(model, req_parameter) &lt; value
+            for req_parameter, value in requirement_lesser)
+        and
+        all(extract_required_parameter(model, req_parameter) &gt; value
+            for req_parameter, value in requirement_greater)
+        and
+        all(extract_required_parameter(model, req_parameter) == value
+            for req_parameter, value in requirement_equal)
+    )
+    return answer</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.is_jsonable"><code class="name flex">
 <span>def <span class="ident">is_jsonable</span></span>(<span>x)</span>
@@ -237,12 +1338,53 @@ Fills strings with sep. Inplace.</p>
 <dt><code>bool</code></dt>
 <dd>&nbsp;</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_jsonable(x):
+    &#34;&#34;&#34;
+    Check that x is jsonable
+
+    Parameters
+    ----------
+    x : optional
+
+    Returns
+    -------
+    bool
+
+    &#34;&#34;&#34;
+    try:
+        json.dumps(x)
+        return True
+    except (TypeError, OverflowError):
+        return False</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.is_saveable_model"><code class="name flex">
 <span>def <span class="ident">is_saveable_model</span></span>(<span>model=None, model_id=None, experiment=None)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Little helpful function. May be extended later.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_saveable_model(model=None, model_id=None, experiment=None):
+    &#34;&#34;&#34;
+    Little helpful function. May be extended later.
+
+    &#34;&#34;&#34;
+    from .models import SUPPORTED_MODEL_CLASSES
+
+    if model is None and experiment is not None:
+        model = experiment.models.get(model_id)
+
+    # hasattr(model, &#39;save&#39;) is not currently supported due to dummy save in BaseModel
+
+    return isinstance(model, SUPPORTED_MODEL_CLASSES)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.parse_query_string"><code class="name flex">
 <span>def <span class="ident">parse_query_string</span></span>(<span>query_string)</span>
@@ -267,6 +1409,72 @@ Fills strings with sep. Inplace.</p>
 <dt><strong><code>extremum</code></strong> :&ensp;<code>str</code></dt>
 <dd>&nbsp;</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parse_query_string(query_string: str):
+    &#34;&#34;&#34;
+    This function will parse query string and subdivide it into following parts:
+
+    Parameters
+    ----------
+    query_string : str
+        (see Experiment.select function for details)
+
+    Returns
+    -------
+    requirement_lesser : list
+    requirement_greater : list
+    requirement_equal : list
+    metric : str
+    extremum : str
+
+    &#34;&#34;&#34;  # noqa: W291
+    requirement = {
+        &#34;&gt;&#34;: [],
+        &#34;&lt;&#34;: [],
+        &#34;=&#34;: []
+    }
+    metric = None
+    extremum = None
+
+    for part in filter(None, re.split(r&#39;\s+and\s+&#39;, query_string)):
+        expression_parts = part.strip().split()
+
+        if len(expression_parts) != 3:
+            raise ValueError(f&#34;Cannot understand &#39;{part}&#39;&#34;)
+
+        first, middle, last = expression_parts
+
+        if middle in [&#34;&gt;&#34;, &#34;&lt;&#34;, &#34;=&#34;]:
+            requirement[middle] += [(first, float(last))]
+
+        elif middle == &#34;-&gt;&#34;:
+            current_metric = first
+            current_extremum = last
+
+            if metric == current_metric and extremum == current_extremum:
+                continue
+
+            if metric is not None:
+                raise ValueError(
+                    f&#34;Cannot process more than one target: &#34;
+                    f&#34;previous \&#34;{metric}\&#34; with extremum \&#34;{extremum}\&#34; and &#34;
+                    f&#34;current \&#34;{current_metric}\&#34; with extremum \&#34;{current_extremum}\&#34;&#34;)
+
+            if current_extremum not in [&#34;max&#34;, &#34;min&#34;]:
+                raise ValueError(f&#34;Cannot understand &#39;{part}&#39;: &#34;
+                                 f&#34;unknown requirement &#39;{current_extremum}&#39;&#34;)
+
+            metric = current_metric
+            extremum = current_extremum
+
+        else:
+            raise ValueError(f&#34;Unknown connector &#39;{middle}&#39; in &#39;{part}&#39;&#34;)
+
+    return requirement[&#34;&lt;&#34;], requirement[&#34;&gt;&#34;], requirement[&#34;=&#34;], metric, extremum</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.transform_complex_entity_to_dict"><code class="name flex">
 <span>def <span class="ident">transform_complex_entity_to_dict</span></span>(<span>some_entity)</span>
@@ -282,6 +1490,38 @@ Fills strings with sep. Inplace.</p>
 <dt><code>dict</code></dt>
 <dd>jsonable entity</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def transform_complex_entity_to_dict(some_entity):
+    &#34;&#34;&#34;
+
+    Parameters
+    ----------
+    some_entity : optional
+
+    Returns
+    -------
+    dict
+        jsonable entity
+
+    &#34;&#34;&#34;
+    jsonable_reg_params = dict()
+
+    jsonable_reg_params[&#39;name&#39;] = some_entity.__class__.__name__
+    public_attributes = get_public_instance_attributes(some_entity)
+    for attribute in public_attributes:
+        try:
+            value = getattr(some_entity, attribute)
+            if is_jsonable(value):
+                jsonable_reg_params[attribute] = value
+        except (AttributeError, KeyError):
+            # TODO: need warning here
+            jsonable_reg_params[attribute] = None
+
+    return jsonable_reg_params</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.transform_topic_model_description_to_jsonable"><code class="name flex">
 <span>def <span class="ident">transform_topic_model_description_to_jsonable</span></span>(<span>obj)</span>
@@ -298,6 +1538,47 @@ Fills strings with sep. Inplace.</p>
 <dt><code>int</code></dt>
 <dd>jsonable object</dd>
 </dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def transform_topic_model_description_to_jsonable(obj):
+    &#34;&#34;&#34;
+    Change object to handle serialization problems with json.
+
+    Parameters
+    ----------
+    obj : object
+        input object
+
+    Returns
+    -------
+    int
+        jsonable object
+
+    &#34;&#34;&#34;
+    if isinstance(obj, np.int64):
+        return int(obj)
+    if isinstance(obj, np.ndarray):
+        return obj.tolist()
+    elif re.search(r&#39;artm.score_tracker&#39;, str(type(obj))) is not None:
+        return obj._name
+    elif re.search(r&#39;score&#39;, str(type(obj))) is not None:
+        return str(obj.__class__)
+    elif re.search(r&#39;Score&#39;, str(type(obj))) is not None:
+        return str(obj.__class__)
+    elif re.search(r&#39;Cube&#39;, str(type(obj))) is not None:
+        return str(obj.__class__)
+    elif re.search(r&#39;protobuf&#39;, str(type(obj))) is not None:
+        try:
+            return str(list(obj))
+        except:  # noqa: E722
+            return str(type(obj))
+    else:
+        warnings.warn(f&#39;Object {obj} can not be dumped using json.&#39; +
+                      &#39;Object class name will be returned.&#39;, RuntimeWarning)
+        return str(obj.__class__)</code></pre>
+</details>
 </dd>
 </dl>
 </section>
@@ -340,7 +1621,9 @@ Fills strings with sep. Inplace.</p>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>

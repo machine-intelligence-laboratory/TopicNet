@@ -47,7 +47,7 @@ stages:
         max_len: 6
     tracked_score_function: PerplexityScore{modality}
     verbose: false
-    relative_coefficients: false
+    use_relative_coefficients: false
 - RegularizersModifierCube:
     num_iter: 8
     reg_search: add
@@ -62,7 +62,7 @@ stages:
         max_len: 6
     tracked_score_function: PerplexityScore@all
     verbose: false
-    relative_coefficients: false
+    use_relative_coefficients: false
 - RegularizersModifierCube:
     num_iter: 8
     reg_search: add
@@ -77,4 +77,4 @@ stages:
         max_len: 6
     tracked_score_function: PerplexityScore@all
     verbose: false
-    relative_coefficients: false
+    use_relative_coefficients: false

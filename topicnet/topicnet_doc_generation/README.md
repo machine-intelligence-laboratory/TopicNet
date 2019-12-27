@@ -13,6 +13,11 @@ pdoc --html -o topicnet_documentation/ -c show_source_code=False --force ../topi
 ```
 внутри папки ```topicnet```.
 
+Обычно достаточно команды
+```
+pdoc --html -o topicnet_doc_generation/ --force ../topicnet
+```
+
 ### Readme
 
 При необходимости все Markdown-файлы могут быть добавлены в 

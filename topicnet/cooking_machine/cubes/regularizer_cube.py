@@ -143,8 +143,8 @@ class RegularizersModifierCube(BaseCube):
             regularizer, field_name, params = regularizer_data
             regularizer_type = str(type(regularizer))
             if isinstance(regularizer, dict):
-                if regularizer['name'] in new_model.regularizers.data:
-                    new_regularizer = deepcopy(new_model.regularizers[regularizer['name']])
+                if regularizer['name'] in new_model.all_regularizers.keys():
+                    new_regularizer = deepcopy(new_model.all_regularizers[regularizer['name']])
                     new_regularizer._tau = params
                     handle_regularizer(
                         self._relative,

@@ -1,9 +1,10 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from typing import Dict, Iterator, List, Tuple, Union
 import warnings
 
 from .base_viewer import BaseViewer
-from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 def get_top_values(values, top_number, return_indexes=True):
@@ -157,13 +158,13 @@ def compute_blei_scores(phi):
 
     Parameters
     ----------
-    phi : pd.Dataframe
+    phi : pd.DataFrame
         phi matrix of the model
 
     Returns
     -------
-    score : pd.Dataframe
-        wheighted phi matrix
+    score : pd.DataFrame
+        weighted phi matrix
 
     """  # noqa: W291
 
@@ -182,8 +183,9 @@ def compute_blei_scores(phi):
     return score
 
 
-def compute_clusters_top_tokens_by_clusters_tfidf(objects_cluster, objects_content,
-                                                  max_top_number=10, n_topics=None):
+def compute_clusters_top_tokens_by_clusters_tfidf(
+        objects_cluster, objects_content,
+        max_top_number=10, n_topics=None):
     """
     Function for document-like clusters.  
     For each cluster compute top tokens of cluster. Top tokens are defined by tf-idf scheme.
@@ -251,16 +253,15 @@ def compute_clusters_top_tokens_by_clusters_tfidf(objects_cluster, objects_conte
     return cluster_top_tokens
 
 
-# get top tokens from topic (sorted by scores)
 class TopTokensViewer(BaseViewer):
-    """ """
+    """Gets top tokens from topic (sorted by scores)"""
     def __init__(self,
                  model,
                  class_ids=None,
                  method='blei',
-                 num_top_tokens=5,
+                 num_top_tokens=10,
                  alpha=1,
-                 dataset=None,):
+                 dataset=None):
         """
         The class provide information about top tokens 
         of the model topics providing with different methods to score that.
@@ -290,12 +291,15 @@ class TopTokensViewer(BaseViewer):
         known = ['top', 'phi', 'blei', 'tfidf', 'likelihood', 'ptw']
 
         super().__init__(model=model)
+
         self.num_top_tokens = num_top_tokens
         self.class_ids = class_ids
+
         if method in known:
             self.method = method
         else:
             raise ValueError(f'method {method} is not known')
+
         self.alpha = alpha
         self._dataset = dataset
 
@@ -305,6 +309,7 @@ class TopTokensViewer(BaseViewer):
         """
         if self.method == 'blei':
             return compute_blei_scores(phi)
+
         elif self.method in ['top', 'phi']:
             return phi.transpose()
 
@@ -314,40 +319,55 @@ class TopTokensViewer(BaseViewer):
 
             if self.method == 'likelihood':
                 return compute_likelihood_vectorised(phi, p_t, joint_pwt)
+
             elif self.method == 'ptw':
                 ptw_vector = compute_ptw(joint_pwt)
                 ptw_component = self.alpha * ptw_vector
                 phi_component = (1 - self.alpha) * phi.transpose()
+
                 return ptw_component + phi_component
 
-    def view(self, class_ids=None, raw_data=None):
+    def view(
+            self,
+            class_ids: List[str] = None,
+            raw_data: List[List[str]] = None,
+            three_levels: bool = True
+    ) -> Union[Dict[str, Dict[str, Dict[str, float]]],
+               Dict[str, Dict[Tuple[str, str], float]]]:
         """
-        Returns list of tuples (token,score) for each topic in the model.
+        Returns list of tuples (token, score) for each topic in the model.
 
         Parameters
         ----------
+        class_ids
+            Modalities from which to retrieve top tokens
         raw_data : list of list of str
-            necessary for 'tfidf' option
-
-        Returns
+            Necessary for 'tfidf' option
+        three_levels
+            If true, three level dict will be returned, otherwise — two level one
+        returns
         -------
-        all_topics_top_tokens : nested 3 level dict
-            dict of topics each key contains dict of modalities with each modality key
-            having dict of top tokens format: (token, value)
+        topic_top_tokens : nested 3 or 2-level dict
+            Topic -> Modality -> Token -> Probability or
+            Topic -> (Modality, Token) -> Probability
 
         """
         if class_ids is None:
             class_ids = self.class_ids
+
         phi = self.model.get_phi(class_ids=class_ids)
 
         if self.method == 'tfidf':
             objects_cluster = (
                 self._model
                 .get_theta(dataset=self._dataset)
-                .values.argmax(axis=0)
+                .values
+                .argmax(axis=0)
             )
-            top_tokens_sorted = compute_clusters_top_tokens_by_clusters_tfidf(objects_cluster,
-                                                                              raw_data,)
+            top_tokens_sorted = compute_clusters_top_tokens_by_clusters_tfidf(
+                objects_cluster, raw_data
+            )
+
             return top_tokens_sorted
 
         target_values = self._get_target_values(phi)
@@ -355,65 +375,127 @@ class TopTokensViewer(BaseViewer):
         phi = target_values.T
         phi.index = pd.MultiIndex.from_tuples(phi.index)
         topic_names = phi.columns.values
+
         if self.class_ids is None:
             modalities = phi.index.levels[0].values
         else:
             modalities = self.class_ids
 
-        all_topics_top_tokens = {}
+        topic_top_tokens = {}
+
         for topic_name in topic_names:
-            phi_column = phi[topic_name]
-            topic_top_tokens = {}
+            topic_column = phi[topic_name]
+            modality_top_tokens = {}
 
             for modality in modalities:
                 top_tokens_values, top_tokens_indexes = get_top_values(
-                    phi_column.loc[modality].values,
+                    topic_column.loc[modality].values,
                     top_number=self.num_top_tokens,
                 )
-                top_tokens = phi_column.loc[modality].index[top_tokens_indexes]
+                top_tokens = topic_column.loc[modality].index[top_tokens_indexes]
 
-                topic_top_tokens[modality] = dict(zip(top_tokens, top_tokens_values))
+                if three_levels:
+                    modality_top_tokens[modality] = dict(zip(top_tokens, top_tokens_values))
+                else:
+                    modality_top_tokens.update(
+                        dict(zip([(modality, token) for token in top_tokens], top_tokens_values))
+                    )
 
-            all_topics_top_tokens[topic_name] = topic_top_tokens
+            topic_top_tokens[topic_name] = modality_top_tokens
 
-        return all_topics_top_tokens
+        return topic_top_tokens
 
-    def to_html(self, all_topics_top_tokens, topic_names=None, thresh=1e-5):
+    def to_html(
+            self,
+            topic_top_tokens=None,
+            topic_names: List[str] = None,
+            digits: int = 5,
+            thresh: float = None) -> str:
         """
-        method that generates html version of
-        dataframes to be displayed by jupyter notebooks
-        display by:
-        from IPython.display import display_html
-        display_html(html_line, raw=True)
-        :param all_topics_top_tokens: dict of dicts
-            dict where first level keys are topic names
-            second level keys are modalities
-            third level keys are tokens with their scores
-            as float values
-        :param topic_names: list of strings -- optional
-            ordered list of initial dictionary keys
-        :return topic_dataframes: list of strings
-            list of dataframes in html encoding
+        Generates html version of dataframes to be displayed by Jupyter notebooks
+
+        Parameters
+        ----------
+        topic_top_tokens : dict of dicts [Deprecated]
+            Dict where first level keys are topic names
+            Second level keys are modalities
+            Third level keys are tokens with their scores as float values
+        topic_names : list of strings
+            Initial dictionary keys
+        digits : int
+            Number of digits to round each probability to
+        thresh : float [Deprecated]
+            Threshold used for calculating `digits` and throwing out too low probabilities
+
+        Examples
+        --------
+        >>> from IPython.display import HTML, display_html
+        >>>
+        >>> # model training here
+        >>> # ...
+        >>> viewer = TopTokensViewer(model)
+        >>> display_html(viewer.to_html(), raw=True)
+        >>> # or
+        >>> HTML(viewer.to_html())
         """
-        topic_dataframes = []
-        if topic_names is None:
-            topic_names = all_topics_top_tokens.keys()
-        digits = int(- np.log10(thresh))
-        for topic in topic_names:
-            data = all_topics_top_tokens[topic]
-            dfs = [
-                pd.DataFrame.from_dict(
-                    mod,
-                    orient='index',
-                    columns=[topic + ' ' + key]
-                ).round(digits)
-                for key, mod in data.items()
-            ]
-            df_style = []
-            for df in dfs:
-                df = df.loc[(df.values > thresh).flatten()]
-                if len(df) > 0:
-                    df.index = df.index.str.replace('<', '&lt;').str.replace('>', '&gt;')
-                df_style += [df.style.set_table_attributes("style='display:inline'")._repr_html_()]
-            topic_dataframes += [''.join(df_style)]
-        return topic_dataframes
+        if topic_top_tokens is not None:  # TODO: remove topic_top_tokens some day
+            warnings.warn(
+                'Don\'t specify `topic_top_tokens` in `to_html()`',
+                DeprecationWarning
+            )
+
+            if topic_names is not None:
+                topic_names = [t for t in topic_names if t in topic_top_tokens.keys()]
+
+        if thresh is not None:  # TODO: remove thresh some day
+            warnings.warn(
+                'Don\'t specify `thresh` in `to_html()` anymore, use `digits`',
+                DeprecationWarning
+            )
+
+            digits = int(-np.log10(thresh))
+
+        df = self.to_df(topic_names, digits)
+
+        if len(df) > 0:
+            df.index = df.index.str.replace('<', '&lt;').str.replace('>', '&gt;')
+
+        # TODO: check why this better than plain df.to_html()
+        return df.style\
+            .set_table_attributes("style='display:inline'")\
+            ._repr_html_()
+
+    def to_df(self, topic_names: Iterator[str] = None, digits: int = 5) -> pd.DataFrame:
+        topic_top_tokens = self.view(three_levels=False)
+
+        if topic_names is not None:
+            topic_top_tokens = {
+                topic: tokens for topic, tokens in topic_top_tokens.items()
+                if topic in topic_names
+            }
+
+        if not isinstance(digits, int):
+            warnings.warn(
+                f'Need "int" digits. '
+                f'Casting given value "{digits}" of type "{type(digits)}" to int'
+            )
+
+            digits = int(digits)
+
+        return self._to_df(topic_top_tokens, digits)
+
+    @staticmethod
+    def _to_df(
+            topic_top_tokens: Dict[str, Dict[Tuple[str, str], float]],
+            digits: int) -> pd.DataFrame:
+
+        df = pd.DataFrame.from_dict(topic_top_tokens).round(digits)
+
+        df.index = pd.MultiIndex.from_tuples(
+            df.index,
+            names=['modality', 'token']  # TODO: names should be the same as in TopicModel's Phi?
+        )
+
+        df.fillna(0.0, inplace=True)
+
+        return df
