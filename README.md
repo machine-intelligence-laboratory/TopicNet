@@ -1,5 +1,6 @@
 # TopicNet
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/TopicNet)](https://pypi.org/project/topicnet/)
+[![PyPI](https://img.shields.io/pypi/v/topicnet?color=blue)](https://pypi.org/project/topicnet/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/TopicNet)](https://www.python.org/downloads/release/python-360/)
 [![Build Status](https://travis-ci.com/machine-intelligence-laboratory/TopicNet.svg?branch=master)](https://travis-ci.com/machine-intelligence-laboratory/TopicNet)
 [![codecov](https://codecov.io/gh/machine-intelligence-laboratory/TopicNet/branch/master/graph/badge.svg)](https://codecov.io/gh/machine-intelligence-laboratory/TopicNet)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/machine-intelligence-laboratory/TopicNet)](https://github.com/machine-intelligence-laboratory/TopicNet/pulls)
