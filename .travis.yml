@@ -30,9 +30,7 @@ install:
   # - pushd python && python setup.py install && popd
 
 script:
-  - ls
-  - pwd
-  - cd TopicNet/topicnet
+  - cd topicnet
   - py.test . --timeout=40 --cov
 
 after_success:
