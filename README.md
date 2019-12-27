@@ -1,17 +1,17 @@
 # TopicNet
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/TopicNet)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/TopicNet)](https://pypi.org/project/topicnet/)
 [![Build Status](https://travis-ci.com/machine-intelligence-laboratory/TopicNet.svg?branch=master)](https://travis-ci.com/machine-intelligence-laboratory/TopicNet)
 [![codecov](https://codecov.io/gh/machine-intelligence-laboratory/TopicNet/branch/master/graph/badge.svg)](https://codecov.io/gh/machine-intelligence-laboratory/TopicNet)
-![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/machine-intelligence-laboratory/TopicNet)
-![GitHub issues](https://img.shields.io/github/issues/machine-intelligence-laboratory/TopicNet)
-![PyPI - License](https://img.shields.io/pypi/l/TopicNet?color=Black)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/machine-intelligence-laboratory/TopicNet)](https://github.com/machine-intelligence-laboratory/TopicNet/pulls)
+[![GitHub issues](https://img.shields.io/github/issues/machine-intelligence-laboratory/TopicNet)](https://github.com/machine-intelligence-laboratory/TopicNet/issues)
+[![PyPI - License](https://img.shields.io/pypi/l/TopicNet?color=Black)](https://github.com/machine-intelligence-laboratory/TopicNet/blob/master/LICENSE.txt)
 
 
 [Русская версия](README-rus.md)
 
 ---
 ### What is TopicNet?
-TopicNet is a high-level interface running on top of [BigARTM](https://github.com/bigartm/bigartm) developed in [Machine Intelligence Laboratory](https://mipt.ai/en). 
+TopicNet is a high-level interface developed by [Machine Intelligence Laboratory](https://mipt.ai/en) for [BigARTM](https://github.com/bigartm/bigartm) library. 
 
 ```TopicNet```  library was created to assist in the task of building topic models. It aims at automating model training routine freeing more time for artistic process of constructing a target functional for the task at hand.
 
@@ -24,8 +24,8 @@ Consider using TopicNet if:
 
 ```TopicNet``` provides an infrastructure for your prototyping (```Experiment``` class) and helps to observe results of your actions via ```viewers``` module.
 
-![GitHub contributors](https://img.shields.io/github/contributors/machine-intelligence-laboratory/TopicNet)
-![GitHub last commit](https://img.shields.io/github/last-commit/machine-intelligence-laboratory/TopicNet)
+[![GitHub contributors](https://img.shields.io/github/contributors/machine-intelligence-laboratory/TopicNet)](https://github.com/machine-intelligence-laboratory/TopicNet/graphs/contributors)
+[![GitHub last commit](https://img.shields.io/github/last-commit/machine-intelligence-laboratory/TopicNet)](https://github.com/machine-intelligence-laboratory/TopicNet/commits/master)
 ### How to start?
 Define `TopicModel` from an ARTM model at hand or with help from `model_constructor` module, where you can set models main parameters. Then create an `Experiment`, assigning a root position to this model and path to store your experiment. Further, you can define a set of training stages by the functionality provided by the `cooking_machine.cubes` module.
 
