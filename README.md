@@ -175,13 +175,19 @@ However for the case of modalities a couple of slightly more convenient methods 
 
 ```
 parameters : [
-    {'name': 'class_ids@text', 'values': [1, 2, 3]},
-    {'name': 'class_ids@ngrams', 'values': [4, 5, 6]}
-    ]
+    {
+        'name': 'class_ids@text',
+        'values': [1, 2, 3]
+    },
+    {
+        'name': 'class_ids@ngrams',
+        'values': [4, 5, 6]
+    }
+]
 parameters:[
     {
-    'class_ids@text': [1, 2, 3],
-    'class_ids@ngrams': [4, 5, 6]
+        'class_ids@text'  : [1, 2, 3],
+        'class_ids@ngrams': [4, 5, 6]
     }
 ]
 ```
