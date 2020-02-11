@@ -10,8 +10,8 @@
 
 [Русская версия](README-rus.md)
 
----
 ### What is TopicNet?
+
 TopicNet is a high-level interface developed by [Machine Intelligence Laboratory](https://mipt.ai/en) for [BigARTM](https://github.com/bigartm/bigartm) library. 
 
 ```TopicNet```  library was created to assist in the task of building topic models. It aims at automating model training routine freeing more time for artistic process of constructing a target functional for the task at hand.
@@ -32,8 +32,8 @@ Define `TopicModel` from an ARTM model at hand or with help from `model_construc
 
 Further you can read documentation [here](https://machine-intelligence-laboratory.github.io/TopicNet/). Currently we are in the process of imporving it. 
 
----
 ## How to install TopicNet
+
 **Core library functionality is based on BigARTM library** which required manual installation on all systems.  
 Currently we have working solution for Linux users: 
 ```
@@ -58,8 +58,8 @@ artm.version()
 Alternatively, you can follow [BigARTM installation manual](https://bigartm.readthedocs.io/en/stable/installation/index.html).
 After setting up the environment you can fork this repository or use ```pip install topicnet``` to install the library.  
 
----
 ## How to use TopicNet
+
 Let's say you have a handful of raw text mined from some source and you want to perform some topic modelling on them. Where should you start? 
 ### Data Preparation
 Every ML problem starts with data preprocess step. TopicNet does not perform data preprocessing itself. Instead, it demands data being prepared by the user and loaded via [Dataset class.](topicnet/cooking_machine/dataset.py)
@@ -146,7 +146,6 @@ for line in first_model_html:
     display_html(line, raw=True)
 ```
 
----
 ## FAQ
 
 #### In the example we used to write vw modality like **@modality**, is it a VowpallWabbit format?
