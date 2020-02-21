@@ -24,6 +24,7 @@ setup(
         'document vector representation'
     ],
     install_requires=[
+        'bigartm',
         'colorlover',
         'dask',
         'dill',
