@@ -2,7 +2,6 @@ bigartm
 codecov
 colorlover
 coverage
-dask
 dask[dataframe]
 dill
 ipython
@@ -17,4 +16,5 @@ scikit-learn
 scipy
 six
 strictyaml
+toolz
 tqdm

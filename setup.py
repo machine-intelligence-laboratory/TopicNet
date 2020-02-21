@@ -26,7 +26,7 @@ setup(
     install_requires=[
         'bigartm',
         'colorlover',
-        'dask',
+        'dask[dataframe]',
         'dill',
         'ipython',
         'numexpr',
@@ -38,6 +38,7 @@ setup(
         'scipy',
         'six',
         'strictyaml',
+        'toolz',
         'tqdm',
     ],
     classifiers=[
