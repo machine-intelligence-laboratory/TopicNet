@@ -10,6 +10,9 @@ numexpr
 numpy
 pandas
 plotly
+pytest
+pytest-cov
+pytest-timeout
 scikit-learn
 scipy
 six
