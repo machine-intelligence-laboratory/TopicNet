@@ -34,7 +34,7 @@ setup(
         'pandas',
         'plotly',
         'pytest',
-        'scikit_learn',
+        'scikit-learn',
         'scipy',
         'six',
         'strictyaml',
