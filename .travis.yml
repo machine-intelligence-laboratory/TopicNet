@@ -31,7 +31,7 @@ install:
 
 script:
   - cd topicnet
-  - py.test . --timeout=40 --cov
+  - py.test . --timeout=20 --cov
 
 after_success:
   - codecov
