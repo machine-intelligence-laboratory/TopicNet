@@ -25,10 +25,14 @@
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">import artm
-import pandas as pd
+
+import operator
+import functools
 import numpy as np
-from collections import Counter
+import pandas as pd
+from collections import Counter, OrderedDict
 from scipy.optimize import curve_fit
+
 from .base_score import BaseScore
 
 # change log style
@@ -41,7 +45,7 @@ def calculate_n(model, batch_vectorizer):
     &#34;&#34;&#34;
     Calculate all necessary statistics from batch. This may take some time.
     &#34;&#34;&#34;
-    tokens = []
+    doc2token = {}
     for batch_id in range(len(batch_vectorizer._batches_list)):
         batch_name = batch_vectorizer._batches_list[batch_id]._filename
         batch = artm.messages.Batch()
@@ -50,12 +54,29 @@ def calculate_n(model, batch_vectorizer):
 
         for item_id in range(len(batch.item)):
             item = batch.item[item_id]
-            for token_id in item.token_id:
-                tokens.append(batch.token[token_id])
+            theta_item_id = getattr(item, model.theta_columns_naming)
 
-    ntdw = model.transform(batch_vectorizer=batch_vectorizer, theta_matrix_type=&#39;dense_ptdw&#39;)
-    docs = ntdw.columns
-    ntdw.columns = pd.MultiIndex.from_arrays([docs, tokens], names=(&#39;doc&#39;, &#39;token&#39;))
+            doc2token[theta_item_id] = {&#39;tokens&#39;: [], &#39;weights&#39;: []}
+            for token_id, token_weight in zip(item.token_id, item.token_weight):
+                doc2token[theta_item_id][&#39;tokens&#39;].append(batch.token[token_id])
+                doc2token[theta_item_id][&#39;weights&#39;].append(token_weight)
+
+    previous_num_document_passes = model._num_document_passes
+    model._num_document_passes = 10
+    ptdw = model.transform(batch_vectorizer=batch_vectorizer, theta_matrix_type=&#39;dense_ptdw&#39;)
+    model._num_document_passes = previous_num_document_passes
+
+    docs = ptdw.columns
+    docs_unique = OrderedDict.fromkeys(docs).keys()
+
+    tokens = [doc2token[doc_id][&#39;tokens&#39;] for doc_id in docs_unique]
+    tokens = functools.reduce(operator.iconcat, tokens, [])
+
+    ndw = np.concatenate([np.array(doc2token[doc_id][&#39;weights&#39;]) for doc_id in docs_unique])
+    ndw = np.tile(ndw, (ptdw.shape[0], 1))
+
+    ptdw.columns = pd.MultiIndex.from_arrays([docs, tokens], names=(&#39;doc&#39;, &#39;token&#39;))
+    ntdw = ptdw * ndw
 
     ntd = ntdw.groupby(level=0, axis=1).sum()
 
@@ -148,7 +169,7 @@ def radii_for_ntd(ntd, regression_coeff):
     return ntd.apply(lambda x: third_degree(x, *regression_coeff))
 
 
-class SemanticRaduisScore(BaseScore):
+class SemanticRadiusScore(BaseScore):
     &#34;&#34;&#34;
     This score implements cluster semantic radius, described in paper
     &#39;Проверка гипотезы условной независимости 
@@ -232,7 +253,7 @@ class SemanticRaduisScore(BaseScore):
     &#34;&#34;&#34;
     Calculate all necessary statistics from batch. This may take some time.
     &#34;&#34;&#34;
-    tokens = []
+    doc2token = {}
     for batch_id in range(len(batch_vectorizer._batches_list)):
         batch_name = batch_vectorizer._batches_list[batch_id]._filename
         batch = artm.messages.Batch()
@@ -241,12 +262,29 @@ class SemanticRaduisScore(BaseScore):
 
         for item_id in range(len(batch.item)):
             item = batch.item[item_id]
-            for token_id in item.token_id:
-                tokens.append(batch.token[token_id])
+            theta_item_id = getattr(item, model.theta_columns_naming)
 
-    ntdw = model.transform(batch_vectorizer=batch_vectorizer, theta_matrix_type=&#39;dense_ptdw&#39;)
-    docs = ntdw.columns
-    ntdw.columns = pd.MultiIndex.from_arrays([docs, tokens], names=(&#39;doc&#39;, &#39;token&#39;))
+            doc2token[theta_item_id] = {&#39;tokens&#39;: [], &#39;weights&#39;: []}
+            for token_id, token_weight in zip(item.token_id, item.token_weight):
+                doc2token[theta_item_id][&#39;tokens&#39;].append(batch.token[token_id])
+                doc2token[theta_item_id][&#39;weights&#39;].append(token_weight)
+
+    previous_num_document_passes = model._num_document_passes
+    model._num_document_passes = 10
+    ptdw = model.transform(batch_vectorizer=batch_vectorizer, theta_matrix_type=&#39;dense_ptdw&#39;)
+    model._num_document_passes = previous_num_document_passes
+
+    docs = ptdw.columns
+    docs_unique = OrderedDict.fromkeys(docs).keys()
+
+    tokens = [doc2token[doc_id][&#39;tokens&#39;] for doc_id in docs_unique]
+    tokens = functools.reduce(operator.iconcat, tokens, [])
+
+    ndw = np.concatenate([np.array(doc2token[doc_id][&#39;weights&#39;]) for doc_id in docs_unique])
+    ndw = np.tile(ndw, (ptdw.shape[0], 1))
+
+    ptdw.columns = pd.MultiIndex.from_arrays([docs, tokens], names=(&#39;doc&#39;, &#39;token&#39;))
+    ntdw = ptdw * ndw
 
     ntd = ntdw.groupby(level=0, axis=1).sum()
 
@@ -407,8 +445,8 @@ class SemanticRaduisScore(BaseScore):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="topicnet.cooking_machine.models.semantic_radius_score.SemanticRaduisScore"><code class="flex name class">
-<span>class <span class="ident">SemanticRaduisScore</span></span>
+<dt id="topicnet.cooking_machine.models.semantic_radius_score.SemanticRadiusScore"><code class="flex name class">
+<span>class <span class="ident">SemanticRadiusScore</span></span>
 <span>(</span><span>batch_vectorizer)</span>
 </code></dt>
 <dd>
@@ -426,7 +464,7 @@ The lower this score - better</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class SemanticRaduisScore(BaseScore):
+<pre><code class="python">class SemanticRadiusScore(BaseScore):
     &#34;&#34;&#34;
     This score implements cluster semantic radius, described in paper
     &#39;Проверка гипотезы условной независимости 
@@ -495,7 +533,7 @@ The lower this score - better</p>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="topicnet.cooking_machine.models.semantic_radius_score.SemanticRaduisScore.call"><code class="name flex">
+<dt id="topicnet.cooking_machine.models.semantic_radius_score.SemanticRadiusScore.call"><code class="name flex">
 <span>def <span class="ident">call</span></span>(<span>self, model, max_sampled_document_len=None, sample_step=5, sample_size=3, alpha=0.1)</span>
 </code></dt>
 <dd>
@@ -596,9 +634,9 @@ The lower this score - better</p>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="topicnet.cooking_machine.models.semantic_radius_score.SemanticRaduisScore" href="#topicnet.cooking_machine.models.semantic_radius_score.SemanticRaduisScore">SemanticRaduisScore</a></code></h4>
+<h4><code><a title="topicnet.cooking_machine.models.semantic_radius_score.SemanticRadiusScore" href="#topicnet.cooking_machine.models.semantic_radius_score.SemanticRadiusScore">SemanticRadiusScore</a></code></h4>
 <ul class="">
-<li><code><a title="topicnet.cooking_machine.models.semantic_radius_score.SemanticRaduisScore.call" href="#topicnet.cooking_machine.models.semantic_radius_score.SemanticRaduisScore.call">call</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.semantic_radius_score.SemanticRadiusScore.call" href="#topicnet.cooking_machine.models.semantic_radius_score.SemanticRadiusScore.call">call</a></code></li>
 </ul>
 </li>
 </ul>

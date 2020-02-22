@@ -28,7 +28,6 @@
 from tqdm import tqdm
 import warnings
 from multiprocessing import Queue, Process
-# from queue import Empty
 from artm.wrapper.exceptions import ArtmException
 
 from .strategy import BaseStrategy
@@ -39,6 +38,7 @@ NUM_MODELS_ERROR = &#34;Failed to retrive number of trained models&#34;
 MODEL_RETRIEVE_ERROR = &#34;Retrieved only {0} models out of {1}&#34;
 STRATEGY_RETRIEVE_ERROR = &#39;Failed to retrieve strategy parameters&#39;
 WARNINGS_RETRIEVE_ERROR = &#39;Failed to return warnings&#39;
+SCORE_ERROR_MESSAGE = &#34;Can&#39;t find a score &#39;&#39;{0}&#39;&#39;. Please add a score with that name to the model.&#34;
 
 
 def check_experiment_existence(topic_model):
@@ -61,15 +61,16 @@ def check_experiment_existence(topic_model):
     return is_experiment
 
 
-class retrieve_score_for_strategy:
-    def __init__(self, score_name):
-        self.score_name = score_name
+def retrieve_score_for_strategy(score_name=None):
+    if not score_name:
+        score_name = &#39;PerplexityScore@all&#39;
 
-    def __call__(self, model):
-        if isinstance(model, str):
-            self.score_name = model
-        else:
-            return model.scores[self.score_name][-1]
+    def last_score(model):
+        try:
+            return model.scores[score_name][-1]
+        except KeyError:
+            raise KeyError(SCORE_ERROR_MESSAGE.format(score_name))
+    return last_score
 
 
 # exists for multiprocessing debug
@@ -446,6 +447,27 @@ class BaseCube:
 </summary>
 <pre><code class="python">def put_to_queue(queue, puttable):
     queue.put(puttable)</code></pre>
+</details>
+</dd>
+<dt id="topicnet.cooking_machine.cubes.base_cube.retrieve_score_for_strategy"><code class="name flex">
+<span>def <span class="ident">retrieve_score_for_strategy</span></span>(<span>score_name=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def retrieve_score_for_strategy(score_name=None):
+    if not score_name:
+        score_name = &#39;PerplexityScore@all&#39;
+
+    def last_score(model):
+        try:
+            return model.scores[score_name][-1]
+        except KeyError:
+            raise KeyError(SCORE_ERROR_MESSAGE.format(score_name))
+    return last_score</code></pre>
 </details>
 </dd>
 </dl>
@@ -861,27 +883,6 @@ on the basis of the model (Default value = None)</dd>
 </dd>
 </dl>
 </dd>
-<dt id="topicnet.cooking_machine.cubes.base_cube.retrieve_score_for_strategy"><code class="flex name class">
-<span>class <span class="ident">retrieve_score_for_strategy</span></span>
-<span>(</span><span>score_name)</span>
-</code></dt>
-<dd>
-<section class="desc"></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class retrieve_score_for_strategy:
-    def __init__(self, score_name):
-        self.score_name = score_name
-
-    def __call__(self, model):
-        if isinstance(model, str):
-            self.score_name = model
-        else:
-            return model.scores[self.score_name][-1]</code></pre>
-</details>
-</dd>
 </dl>
 </section>
 </article>
@@ -901,6 +902,7 @@ on the basis of the model (Default value = None)</dd>
 <li><code><a title="topicnet.cooking_machine.cubes.base_cube.check_experiment_existence" href="#topicnet.cooking_machine.cubes.base_cube.check_experiment_existence">check_experiment_existence</a></code></li>
 <li><code><a title="topicnet.cooking_machine.cubes.base_cube.get_from_queue_till_fail" href="#topicnet.cooking_machine.cubes.base_cube.get_from_queue_till_fail">get_from_queue_till_fail</a></code></li>
 <li><code><a title="topicnet.cooking_machine.cubes.base_cube.put_to_queue" href="#topicnet.cooking_machine.cubes.base_cube.put_to_queue">put_to_queue</a></code></li>
+<li><code><a title="topicnet.cooking_machine.cubes.base_cube.retrieve_score_for_strategy" href="#topicnet.cooking_machine.cubes.base_cube.retrieve_score_for_strategy">retrieve_score_for_strategy</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
@@ -911,9 +913,6 @@ on the basis of the model (Default value = None)</dd>
 <li><code><a title="topicnet.cooking_machine.cubes.base_cube.BaseCube.apply" href="#topicnet.cooking_machine.cubes.base_cube.BaseCube.apply">apply</a></code></li>
 <li><code><a title="topicnet.cooking_machine.cubes.base_cube.BaseCube.get_jsonable_from_parameters" href="#topicnet.cooking_machine.cubes.base_cube.BaseCube.get_jsonable_from_parameters">get_jsonable_from_parameters</a></code></li>
 </ul>
-</li>
-<li>
-<h4><code><a title="topicnet.cooking_machine.cubes.base_cube.retrieve_score_for_strategy" href="#topicnet.cooking_machine.cubes.base_cube.retrieve_score_for_strategy">retrieve_score_for_strategy</a></code></h4>
 </li>
 </ul>
 </li>

@@ -341,7 +341,7 @@ def build_score(elemtype, elem_args, is_artm_score):
 
     Returns
     -------
-    instance of artm.Score or topicnet.BaseScore
+    instance of artm.scores.BaseScore or topicnet.cooking_machine.models.base_score
     """
     module = artm.scores if is_artm_score else tnscores
     class_of_object = getattr(module, elemtype)
@@ -452,10 +452,10 @@ def parse_modalities_data(parsed):
         })
         parsed["model"]["modalities_weights"].revalidate(local_schema)
         modalities_weights = parsed["model"]["modalities_weights"].data
+        return modalities_weights
     else:
-        modalities_weights = None
         modalities_to_use = parsed.data["model"]["modalities_to_use"]
-    return modalities_to_use, modalities_weights
+        return modalities_to_use
 
 
 def parse(yaml_string, force_single_thread=False):
@@ -488,7 +488,7 @@ def parse(yaml_string, force_single_thread=False):
 
     dataset = Dataset(parsed.data["model"]["dataset_path"])
 
-    modalities_to_use, modalities_weights = parse_modalities_data(parsed)
+    modalities_to_use = parse_modalities_data(parsed)
 
     data_stats = count_vocab_size(dataset.get_dictionary(), modalities_to_use)
     model = init_simple_default_model(
@@ -497,7 +497,6 @@ def parse(yaml_string, force_single_thread=False):
         main_modality=parsed.data["model"]["main_modality"],
         specific_topics=parsed.data["topics"]["specific_topics"],
         background_topics=parsed.data["topics"]["background_topics"],
-        modalities_weights=modalities_weights
     )
 
     regularizers = _add_parsed_regularizers(

@@ -248,6 +248,17 @@ class TestTopTokensViewer:
                 num_unique_tokens_scores_sequences,
                 num_scoring_methods)
 
+    def test_check_html(self):
+        """ """
+        viewer = TestTopTokensViewer.get_top_tokens_viewer(method='phi')
+        output = viewer.to_html()
+        assert CLASS_IDS[0] in output
+        for i, topic in enumerate(TOPIC_NAMES):
+            other_topic = TOPIC_NAMES[i - 1]
+            output = viewer.to_html(topic_names=[topic])
+            assert topic in output
+            assert other_topic not in output
+
     def test_check_not_possible_to_pass_wrong_scoring_method(self):
         """ """
         with pytest.raises(ValueError):

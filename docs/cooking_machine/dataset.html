@@ -138,14 +138,21 @@ class Dataset(BaseDataset):
                  batch_vectorizer_path=None,
                  batch_size=1000):
         &#34;&#34;&#34;
-
         Parameters
         ----------
         data_path : str
-            path to a CSV file with input data for training models,
-            format of the file is &lt;id&gt;,&lt;raw text&gt;,&lt;Vowpal Wabbit text&gt;
+            path to a .csv file with input data for training models;
+            file should have the following columns: id, raw_text, vw_text:
+
+            * id (str) — document identificator
+            * raw_text (str) — raw document text (maybe preprocessed somehow)
+            * vw_text (str) — vowpal wabbit text (with modalities; either in bag-of-words format
+                with specified word frequencies or in natural order)
+
+            For an example, one may look at the test dataset here:
+            topicnet/tests/test_data/test_dataset.csv
         keep_in_memory: bool
-            a flag determining if the collection is small enough to
+            flag determining if the collection is small enough to
             be kept in memory.
         batch_vectorizer_path : str
             path to the directory with collection batches
@@ -653,10 +660,20 @@ class Dataset(BaseDataset):
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>data_path</code></strong> :&ensp;<code>str</code></dt>
-<dd>path to a CSV file with input data for training models,
-format of the file is <id>,<raw text>,<Vowpal Wabbit text></dd>
+<dd>
+<p>path to a .csv file with input data for training models;
+file should have the following columns: id, raw_text, vw_text:</p>
+<ul>
+<li>id (str) — document identificator</li>
+<li>raw_text (str) — raw document text (maybe preprocessed somehow)</li>
+<li>vw_text (str) — vowpal wabbit text (with modalities; either in bag-of-words format
+with specified word frequencies or in natural order)</li>
+</ul>
+<p>For an example, one may look at the test dataset here:
+topicnet/tests/test_data/test_dataset.csv</p>
+</dd>
 <dt><strong><code>keep_in_memory</code></strong> :&ensp;<code>bool</code></dt>
-<dd>a flag determining if the collection is small enough to
+<dd>flag determining if the collection is small enough to
 be kept in memory.</dd>
 <dt><strong><code>batch_vectorizer_path</code></strong> :&ensp;<code>str</code></dt>
 <dd>path to the directory with collection batches</dd>
@@ -677,14 +694,21 @@ be kept in memory.</dd>
                  batch_vectorizer_path=None,
                  batch_size=1000):
         &#34;&#34;&#34;
-
         Parameters
         ----------
         data_path : str
-            path to a CSV file with input data for training models,
-            format of the file is &lt;id&gt;,&lt;raw text&gt;,&lt;Vowpal Wabbit text&gt;
+            path to a .csv file with input data for training models;
+            file should have the following columns: id, raw_text, vw_text:
+
+            * id (str) — document identificator
+            * raw_text (str) — raw document text (maybe preprocessed somehow)
+            * vw_text (str) — vowpal wabbit text (with modalities; either in bag-of-words format
+                with specified word frequencies or in natural order)
+
+            For an example, one may look at the test dataset here:
+            topicnet/tests/test_data/test_dataset.csv
         keep_in_memory: bool
-            a flag determining if the collection is small enough to
+            flag determining if the collection is small enough to
             be kept in memory.
         batch_vectorizer_path : str
             path to the directory with collection batches

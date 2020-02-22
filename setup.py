@@ -1,5 +1,6 @@
 from distutils.core import setup
 
+
 setup(
     name = 'topicnet',
     packages = [
@@ -9,13 +10,13 @@ setup(
         'topicnet.cooking_machine.models',
         'topicnet.viewers'
     ],
-    version = '0.5.0',
+    version = '0.6.0',
     license='MIT',
     description = 'TopicNet is a module for topic modelling using ARTM algorithm',
     author = 'Machine Intelligence Laboratory',
     author_email = 'alex.goncharov@phystech.edu',
     url = 'https://github.com/machine-intelligence-laboratory/TopicNet',
-    download_url = 'https://github.com/machine-intelligence-laboratory/TopicNet/archive/v0.5.0.tar.gz', 
+    download_url = 'https://github.com/machine-intelligence-laboratory/TopicNet/archive/v0.6.0.tar.gz', 
     keywords = [
         'ARTM',
         'topic modeling',
@@ -29,6 +30,7 @@ setup(
         'dask[dataframe]',
         'dill',
         'ipython',
+        'jinja2',
         'numexpr',
         'numpy',
         'pandas',

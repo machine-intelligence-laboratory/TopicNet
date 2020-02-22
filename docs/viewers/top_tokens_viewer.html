@@ -279,6 +279,13 @@ def compute_clusters_top_tokens_by_clusters_tfidf(
     return cluster_top_tokens
 
 
+# TODO: check why this better than plain df.to_html()
+def convert_df_to_html(df):
+    return df.style\
+               .set_table_attributes(&#34;style=&#39;display:inline&#39;&#34;)\
+               ._repr_html_()
+
+
 class TopTokensViewer(BaseViewer):
     &#34;&#34;&#34;Gets top tokens from topic (sorted by scores)&#34;&#34;&#34;
     def __init__(self,
@@ -436,7 +443,8 @@ class TopTokensViewer(BaseViewer):
             topic_top_tokens=None,
             topic_names: List[str] = None,
             digits: int = 5,
-            thresh: float = None) -&gt; str:
+            thresh: float = None,  # Deprecated
+            horizontally_stack: bool = True) -&gt; str:
         &#34;&#34;&#34;
         Generates html version of dataframes to be displayed by Jupyter notebooks
 
@@ -452,6 +460,9 @@ class TopTokensViewer(BaseViewer):
             Number of digits to round each probability to
         thresh : float [Deprecated]
             Threshold used for calculating `digits` and throwing out too low probabilities
+        horizontally_stack : bool
+            if True, then tokens for each modality will be stacked horizontally
+            (instead of being a single long multi-line DataFrame)
 
         Examples
         --------
@@ -484,12 +495,20 @@ class TopTokensViewer(BaseViewer):
         df = self.to_df(topic_names, digits)
 
         if len(df) &gt; 0:
-            df.index = df.index.str.replace(&#39;&lt;&#39;, &#39;&amp;lt;&#39;).str.replace(&#39;&gt;&#39;, &#39;&amp;gt;&#39;)
+            for level, old_names in enumerate(df.index.levels):
+                new_names = old_names.str.replace(&#39;&lt;&#39;, &#39;&amp;lt;&#39;).str.replace(&#39;&gt;&#39;, &#39;&amp;gt;&#39;)
+                renamer = dict(zip(old_names, new_names))
+                df.rename(index=renamer, inplace=True, level=level)
 
-        # TODO: check why this better than plain df.to_html()
-        return df.style\
-            .set_table_attributes(&#34;style=&#39;display:inline&#39;&#34;)\
-            ._repr_html_()
+        if horizontally_stack:
+            modalities = df.index.levels[0].unique()
+            result = &#39;&#39;.join(
+                convert_df_to_html(df.query(&#34;modality == @m&#34;))
+                for m in modalities
+            )
+            return result
+
+        return convert_df_to_html(df)
 
     def to_df(self, topic_names: Iterator[str] = None, digits: int = 5) -&gt; pd.DataFrame:
         topic_top_tokens = self.view(three_levels=False)
@@ -873,6 +892,21 @@ belongs to that topic</dd>
     return joint_pwt / np.sum(joint_pwt, axis=0)  # sum by all T</code></pre>
 </details>
 </dd>
+<dt id="topicnet.viewers.top_tokens_viewer.convert_df_to_html"><code class="name flex">
+<span>def <span class="ident">convert_df_to_html</span></span>(<span>df)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def convert_df_to_html(df):
+    return df.style\
+               .set_table_attributes(&#34;style=&#39;display:inline&#39;&#34;)\
+               ._repr_html_()</code></pre>
+</details>
+</dd>
 <dt id="topicnet.viewers.top_tokens_viewer.get_top_values"><code class="name flex">
 <span>def <span class="ident">get_top_values</span></span>(<span>values, top_number, return_indexes=True)</span>
 </code></dt>
@@ -1136,7 +1170,8 @@ ptw method of scoring</dd>
             topic_top_tokens=None,
             topic_names: List[str] = None,
             digits: int = 5,
-            thresh: float = None) -&gt; str:
+            thresh: float = None,  # Deprecated
+            horizontally_stack: bool = True) -&gt; str:
         &#34;&#34;&#34;
         Generates html version of dataframes to be displayed by Jupyter notebooks
 
@@ -1152,6 +1187,9 @@ ptw method of scoring</dd>
             Number of digits to round each probability to
         thresh : float [Deprecated]
             Threshold used for calculating `digits` and throwing out too low probabilities
+        horizontally_stack : bool
+            if True, then tokens for each modality will be stacked horizontally
+            (instead of being a single long multi-line DataFrame)
 
         Examples
         --------
@@ -1184,12 +1222,20 @@ ptw method of scoring</dd>
         df = self.to_df(topic_names, digits)
 
         if len(df) &gt; 0:
-            df.index = df.index.str.replace(&#39;&lt;&#39;, &#39;&amp;lt;&#39;).str.replace(&#39;&gt;&#39;, &#39;&amp;gt;&#39;)
+            for level, old_names in enumerate(df.index.levels):
+                new_names = old_names.str.replace(&#39;&lt;&#39;, &#39;&amp;lt;&#39;).str.replace(&#39;&gt;&#39;, &#39;&amp;gt;&#39;)
+                renamer = dict(zip(old_names, new_names))
+                df.rename(index=renamer, inplace=True, level=level)
 
-        # TODO: check why this better than plain df.to_html()
-        return df.style\
-            .set_table_attributes(&#34;style=&#39;display:inline&#39;&#34;)\
-            ._repr_html_()
+        if horizontally_stack:
+            modalities = df.index.levels[0].unique()
+            result = &#39;&#39;.join(
+                convert_df_to_html(df.query(&#34;modality == @m&#34;))
+                for m in modalities
+            )
+            return result
+
+        return convert_df_to_html(df)
 
     def to_df(self, topic_names: Iterator[str] = None, digits: int = 5) -&gt; pd.DataFrame:
         topic_top_tokens = self.view(three_levels=False)
@@ -1262,7 +1308,7 @@ ptw method of scoring</dd>
 </details>
 </dd>
 <dt id="topicnet.viewers.top_tokens_viewer.TopTokensViewer.to_html"><code class="name flex">
-<span>def <span class="ident">to_html</span></span>(<span>self, topic_top_tokens=None, topic_names=None, digits=5, thresh=None)</span>
+<span>def <span class="ident">to_html</span></span>(<span>self, topic_top_tokens=None, topic_names=None, digits=5, thresh=None, horizontally_stack=True)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Generates html version of dataframes to be displayed by Jupyter notebooks</p>
@@ -1278,6 +1324,9 @@ Third level keys are tokens with their scores as float values</dd>
 <dd>Number of digits to round each probability to</dd>
 <dt><strong><code>thresh</code></strong> :&ensp;<code>float</code> [<code>Deprecated</code>]</dt>
 <dd>Threshold used for calculating <code>digits</code> and throwing out too low probabilities</dd>
+<dt><strong><code>horizontally_stack</code></strong> :&ensp;<code>bool</code></dt>
+<dd>if True, then tokens for each modality will be stacked horizontally
+(instead of being a single long multi-line DataFrame)</dd>
 </dl>
 <h2 id="examples">Examples</h2>
 <pre><code>&gt;&gt;&gt; from IPython.display import HTML, display_html
@@ -1298,7 +1347,8 @@ Third level keys are tokens with their scores as float values</dd>
         topic_top_tokens=None,
         topic_names: List[str] = None,
         digits: int = 5,
-        thresh: float = None) -&gt; str:
+        thresh: float = None,  # Deprecated
+        horizontally_stack: bool = True) -&gt; str:
     &#34;&#34;&#34;
     Generates html version of dataframes to be displayed by Jupyter notebooks
 
@@ -1314,6 +1364,9 @@ Third level keys are tokens with their scores as float values</dd>
         Number of digits to round each probability to
     thresh : float [Deprecated]
         Threshold used for calculating `digits` and throwing out too low probabilities
+    horizontally_stack : bool
+        if True, then tokens for each modality will be stacked horizontally
+        (instead of being a single long multi-line DataFrame)
 
     Examples
     --------
@@ -1346,12 +1399,20 @@ Third level keys are tokens with their scores as float values</dd>
     df = self.to_df(topic_names, digits)
 
     if len(df) &gt; 0:
-        df.index = df.index.str.replace(&#39;&lt;&#39;, &#39;&amp;lt;&#39;).str.replace(&#39;&gt;&#39;, &#39;&amp;gt;&#39;)
+        for level, old_names in enumerate(df.index.levels):
+            new_names = old_names.str.replace(&#39;&lt;&#39;, &#39;&amp;lt;&#39;).str.replace(&#39;&gt;&#39;, &#39;&amp;gt;&#39;)
+            renamer = dict(zip(old_names, new_names))
+            df.rename(index=renamer, inplace=True, level=level)
 
-    # TODO: check why this better than plain df.to_html()
-    return df.style\
-        .set_table_attributes(&#34;style=&#39;display:inline&#39;&#34;)\
-        ._repr_html_()</code></pre>
+    if horizontally_stack:
+        modalities = df.index.levels[0].unique()
+        result = &#39;&#39;.join(
+            convert_df_to_html(df.query(&#34;modality == @m&#34;))
+            for m in modalities
+        )
+        return result
+
+    return convert_df_to_html(df)</code></pre>
 </details>
 </dd>
 <dt id="topicnet.viewers.top_tokens_viewer.TopTokensViewer.view"><code class="name flex">
@@ -1481,6 +1542,7 @@ Topic -&gt; (Modality, Token) -&gt; Probability</dd>
 <li><code><a title="topicnet.viewers.top_tokens_viewer.compute_likelihood_vectorised" href="#topicnet.viewers.top_tokens_viewer.compute_likelihood_vectorised">compute_likelihood_vectorised</a></code></li>
 <li><code><a title="topicnet.viewers.top_tokens_viewer.compute_pt_distribution" href="#topicnet.viewers.top_tokens_viewer.compute_pt_distribution">compute_pt_distribution</a></code></li>
 <li><code><a title="topicnet.viewers.top_tokens_viewer.compute_ptw" href="#topicnet.viewers.top_tokens_viewer.compute_ptw">compute_ptw</a></code></li>
+<li><code><a title="topicnet.viewers.top_tokens_viewer.convert_df_to_html" href="#topicnet.viewers.top_tokens_viewer.convert_df_to_html">convert_df_to_html</a></code></li>
 <li><code><a title="topicnet.viewers.top_tokens_viewer.get_top_values" href="#topicnet.viewers.top_tokens_viewer.get_top_values">get_top_values</a></code></li>
 </ul>
 </li>

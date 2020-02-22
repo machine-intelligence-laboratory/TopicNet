@@ -5,6 +5,7 @@ coverage
 dask[dataframe]
 dill
 ipython
+jinja2
 numexpr
 numpy
 pandas

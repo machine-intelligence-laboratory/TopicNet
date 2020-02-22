@@ -134,8 +134,10 @@ def test_simple_experiment_pair_strategy(experiment_enviroment, thread_flag):
         separate_thread=thread_flag
     )
     dummies = cube_pair(tm, dataset)
+
     for dummy in dummies:
-        print(dummy._original_model_save_folder_path)
+        print(dummy._save_path)
+
     tmodels_pair = [dummy.restore() for dummy in dummies]
     print(dummies)
 

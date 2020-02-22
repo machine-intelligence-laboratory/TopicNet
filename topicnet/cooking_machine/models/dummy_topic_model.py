@@ -25,7 +25,6 @@ WARNING_ALREADY_DUMMY = 'Already dummy'
 
 
 class DummyTopicModel(TopicModel):
-    _save_path_suffix = '__dummy'
     _dummy_attribute = '_is_dummy'
 
     def __init__(self,
@@ -55,28 +54,22 @@ class DummyTopicModel(TopicModel):
         self._model.dispose()
         self._save_folder_path = None
         self._model = _DummyArtmModel(self._save_folder_path)
-        self._init_parameters = init_parameters
 
+        self._init_parameters = init_parameters
         self._scores = scores
 
         setattr(self, DummyTopicModel._dummy_attribute, True)
-
-        self._original_model_save_folder_path = None
 
     def __getattr__(self, name):
         # Don't redirect the stuff to artm_model (as TopicModel does)
         if name in self._init_parameters:
             return self._init_parameters[name]
+
         raise AttributeError(f'Dummy model has no attribute "{name}"')
 
     def get_init_parameters(self, not_include=None):
         """"""
         return self._init_parameters
-
-    @property
-    def model_default_save_path(self):
-        """"""
-        return super().model_default_save_path + DummyTopicModel._save_path_suffix
 
     @property
     def scores(self):
@@ -93,6 +86,15 @@ class DummyTopicModel(TopicModel):
         """"""
         return self._model.class_ids
 
+    @property
+    def _save_path(self):
+        return self._save_folder_path
+
+    @_save_path.setter
+    def _save_path(self, path):
+        self._save_folder_path = path
+        self._model._save_folder_path = path
+
     def save(self, model_save_path=None, **kwargs):
         """"""
         # kwargs - for compatibility with super()'s method
@@ -100,20 +102,21 @@ class DummyTopicModel(TopicModel):
         # TODO: a bit copy-paste from TopicModel:
         #  can't call super()'s, because artm_model is being saved by default there
 
-        self._save_folder_path = model_save_path or self.model_default_save_path
+        self._save_path = model_save_path or self.model_default_save_path
 
-        if not os.path.exists(self._save_folder_path):
-            os.makedirs(self._save_folder_path)
+        if not os.path.exists(self._save_path):
+            os.makedirs(self._save_path)
 
-        self.save_parameters(self._save_folder_path)
+        self.save_parameters(self._save_path)
 
     @staticmethod
     def load(path, experiment=None):
         """"""
-        params = json.load(open(f'{path}/params.json', 'r'))
+        params = json.load(open(os.path.join(path, 'params.json'), 'r'))
+
         model = DummyTopicModel(**params)
         model.experiment = experiment
-        model._original_model_save_folder_path = path
+        model._save_path = path
 
         return model
 
@@ -140,7 +143,7 @@ class DummyTopicModel(TopicModel):
 
         topic_model = None
 
-        if self._original_model_save_folder_path is not None:
+        if self._save_path is not None:
             topic_model = self._load_original_model()
 
         if topic_model is None:
@@ -169,7 +172,7 @@ class DummyTopicModel(TopicModel):
 
         try:
             topic_model = super().load(
-                self._original_model_save_folder_path,
+                self._save_path,
                 self.experiment
             )
         except FileNotFoundError as e:

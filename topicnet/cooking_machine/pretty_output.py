@@ -21,7 +21,7 @@ USELESS_KEYS = {
     "parent_model_weight", "theta_columns_naming", "transaction_typenames",
     "score_tracker", "model_pwt", "model_nwt",
     "num_phi_updates", "num_online_processed_batches", "show_progress_bars",
-    "library_version", "version", "regularizers",
+    "version", "regularizers",
 }
 
 
