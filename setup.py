@@ -30,7 +30,7 @@ setup(
         'dask[dataframe]',
         'dill',
         'ipython',
-        'jinja',
+        'jinja2',
         'numexpr',
         'numpy',
         'pandas',
