@@ -405,7 +405,7 @@ def build_score(elemtype, elem_args, is_artm_score):
 
     Returns
     -------
-    instance of artm.Score or topicnet.BaseScore
+    instance of artm.scores.BaseScore or topicnet.cooking_machine.models.base_score
     &#34;&#34;&#34;
     module = artm.scores if is_artm_score else tnscores
     class_of_object = getattr(module, elemtype)
@@ -516,10 +516,10 @@ def parse_modalities_data(parsed):
         })
         parsed[&#34;model&#34;][&#34;modalities_weights&#34;].revalidate(local_schema)
         modalities_weights = parsed[&#34;model&#34;][&#34;modalities_weights&#34;].data
+        return modalities_weights
     else:
-        modalities_weights = None
         modalities_to_use = parsed.data[&#34;model&#34;][&#34;modalities_to_use&#34;]
-    return modalities_to_use, modalities_weights
+        return modalities_to_use
 
 
 def parse(yaml_string, force_single_thread=False):
@@ -552,7 +552,7 @@ def parse(yaml_string, force_single_thread=False):
 
     dataset = Dataset(parsed.data[&#34;model&#34;][&#34;dataset_path&#34;])
 
-    modalities_to_use, modalities_weights = parse_modalities_data(parsed)
+    modalities_to_use = parse_modalities_data(parsed)
 
     data_stats = count_vocab_size(dataset.get_dictionary(), modalities_to_use)
     model = init_simple_default_model(
@@ -561,7 +561,6 @@ def parse(yaml_string, force_single_thread=False):
         main_modality=parsed.data[&#34;model&#34;][&#34;main_modality&#34;],
         specific_topics=parsed.data[&#34;topics&#34;][&#34;specific_topics&#34;],
         background_topics=parsed.data[&#34;topics&#34;][&#34;background_topics&#34;],
-        modalities_weights=modalities_weights
     )
 
     regularizers = _add_parsed_regularizers(
@@ -925,7 +924,7 @@ value is a schema used for validation and type-coercion</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>instance</code> of <code>artm.Score</code> or <code>topicnet.BaseScore</code></dt>
+<dt><code>instance</code> of <code>artm.scores.BaseScore</code> or <a title="topicnet.cooking_machine.models.base_score" href="models/base_score.html"><code>topicnet.cooking_machine.models.base_score</code></a></dt>
 <dd>&nbsp;</dd>
 </dl></section>
 <details class="source">
@@ -943,7 +942,7 @@ value is a schema used for validation and type-coercion</dd>
 
     Returns
     -------
-    instance of artm.Score or topicnet.BaseScore
+    instance of artm.scores.BaseScore or topicnet.cooking_machine.models.base_score
     &#34;&#34;&#34;
     module = artm.scores if is_artm_score else tnscores
     class_of_object = getattr(module, elemtype)
@@ -1146,7 +1145,7 @@ Parameters</p>
 
     dataset = Dataset(parsed.data[&#34;model&#34;][&#34;dataset_path&#34;])
 
-    modalities_to_use, modalities_weights = parse_modalities_data(parsed)
+    modalities_to_use = parse_modalities_data(parsed)
 
     data_stats = count_vocab_size(dataset.get_dictionary(), modalities_to_use)
     model = init_simple_default_model(
@@ -1155,7 +1154,6 @@ Parameters</p>
         main_modality=parsed.data[&#34;model&#34;][&#34;main_modality&#34;],
         specific_topics=parsed.data[&#34;topics&#34;][&#34;specific_topics&#34;],
         background_topics=parsed.data[&#34;topics&#34;][&#34;background_topics&#34;],
-        modalities_weights=modalities_weights
     )
 
     regularizers = _add_parsed_regularizers(
@@ -1201,10 +1199,10 @@ Parameters</p>
         })
         parsed[&#34;model&#34;][&#34;modalities_weights&#34;].revalidate(local_schema)
         modalities_weights = parsed[&#34;model&#34;][&#34;modalities_weights&#34;].data
+        return modalities_weights
     else:
-        modalities_weights = None
         modalities_to_use = parsed.data[&#34;model&#34;][&#34;modalities_to_use&#34;]
-    return modalities_to_use, modalities_weights</code></pre>
+        return modalities_to_use</code></pre>
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.preprocess_parameters_for_cube_creator"><code class="name flex">

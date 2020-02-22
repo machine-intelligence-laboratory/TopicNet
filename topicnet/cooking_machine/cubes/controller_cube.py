@@ -189,7 +189,7 @@ class ControllerAgent:
         Parameters
         ----------
         reg_name : str
-        score_to_track : str or None
+        score_to_track : str, list of str or None
         tau_converter : callable or str
         local_dict : dict
         max_iters : int or float
@@ -199,7 +199,13 @@ class ControllerAgent:
         """
         self.reg_name = reg_name
         self.tau_converter = tau_converter
-        self.score_to_track = score_to_track
+        if isinstance(score_to_track, list):
+            self.score_to_track = score_to_track
+        elif isinstance(score_to_track, str):
+            self.score_to_track = [score_to_track]
+        else:
+            self.score_to_track = []
+
         self.is_working = True
         self.local_dict = local_dict
         self.tau_history = []
@@ -248,7 +254,9 @@ class ControllerAgent:
             self.is_working = False
 
         if self.is_working:
-            should_stop = is_score_out_of_control(model, self.score_to_track)
+            should_stop = any(
+                is_score_out_of_control(model, score) for score in self.score_to_track
+            )
             if should_stop:
                 warnings.warn(W_HALT_CONTROL.format(len(self.tau_history)))
                 self.is_working = False
@@ -347,7 +355,7 @@ class RegularizationControllerCube(BaseCube):
                     "max_iters": params_dict.get("max_iters", self.num_iter)
                 },
                 "field": "callback",
-                "values": params_dict.get('user_value_grid', [])
+                "values": params_dict.get('user_value_grid', [0])
             }
             for params_dict in all_parameters
         ]

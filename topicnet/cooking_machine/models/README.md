@@ -14,7 +14,7 @@ Availiable scores:
 * `ExampleScore` — Example of minimal working example of custom score
 * `IntratextCoherenceScore` — score that calculates coherence as a measure of interpretability of the model using raw documents from dataset. Calculation-heavy score. Recommended to be used **after** model training 
 * `BleiLaffertyScore` — An experimental light-weight score to estimate interpretability of the topics
-* `SemanticRaduisScore` — An experimental score reflecting whether collection is adequately described by topics. Lower if better. Calculation-heavy score.
+* `SemanticRadiusScore` — An experimental score reflecting whether collection is adequately described by topics. Lower if better. Calculation-heavy score.
 
 ---
 

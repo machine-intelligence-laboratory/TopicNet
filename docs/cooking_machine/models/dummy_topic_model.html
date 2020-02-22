@@ -51,7 +51,6 @@ WARNING_ALREADY_DUMMY = &#39;Already dummy&#39;
 
 
 class DummyTopicModel(TopicModel):
-    _save_path_suffix = &#39;__dummy&#39;
     _dummy_attribute = &#39;_is_dummy&#39;
 
     def __init__(self,
@@ -81,28 +80,22 @@ class DummyTopicModel(TopicModel):
         self._model.dispose()
         self._save_folder_path = None
         self._model = _DummyArtmModel(self._save_folder_path)
-        self._init_parameters = init_parameters
 
+        self._init_parameters = init_parameters
         self._scores = scores
 
         setattr(self, DummyTopicModel._dummy_attribute, True)
-
-        self._original_model_save_folder_path = None
 
     def __getattr__(self, name):
         # Don&#39;t redirect the stuff to artm_model (as TopicModel does)
         if name in self._init_parameters:
             return self._init_parameters[name]
+
         raise AttributeError(f&#39;Dummy model has no attribute &#34;{name}&#34;&#39;)
 
     def get_init_parameters(self, not_include=None):
         &#34;&#34;&#34;&#34;&#34;&#34;
         return self._init_parameters
-
-    @property
-    def model_default_save_path(self):
-        &#34;&#34;&#34;&#34;&#34;&#34;
-        return super().model_default_save_path + DummyTopicModel._save_path_suffix
 
     @property
     def scores(self):
@@ -119,6 +112,15 @@ class DummyTopicModel(TopicModel):
         &#34;&#34;&#34;&#34;&#34;&#34;
         return self._model.class_ids
 
+    @property
+    def _save_path(self):
+        return self._save_folder_path
+
+    @_save_path.setter
+    def _save_path(self, path):
+        self._save_folder_path = path
+        self._model._save_folder_path = path
+
     def save(self, model_save_path=None, **kwargs):
         &#34;&#34;&#34;&#34;&#34;&#34;
         # kwargs - for compatibility with super()&#39;s method
@@ -126,20 +128,21 @@ class DummyTopicModel(TopicModel):
         # TODO: a bit copy-paste from TopicModel:
         #  can&#39;t call super()&#39;s, because artm_model is being saved by default there
 
-        self._save_folder_path = model_save_path or self.model_default_save_path
+        self._save_path = model_save_path or self.model_default_save_path
 
-        if not os.path.exists(self._save_folder_path):
-            os.makedirs(self._save_folder_path)
+        if not os.path.exists(self._save_path):
+            os.makedirs(self._save_path)
 
-        self.save_parameters(self._save_folder_path)
+        self.save_parameters(self._save_path)
 
     @staticmethod
     def load(path, experiment=None):
         &#34;&#34;&#34;&#34;&#34;&#34;
-        params = json.load(open(f&#39;{path}/params.json&#39;, &#39;r&#39;))
+        params = json.load(open(os.path.join(path, &#39;params.json&#39;), &#39;r&#39;))
+
         model = DummyTopicModel(**params)
         model.experiment = experiment
-        model._original_model_save_folder_path = path
+        model._save_path = path
 
         return model
 
@@ -166,7 +169,7 @@ class DummyTopicModel(TopicModel):
 
         topic_model = None
 
-        if self._original_model_save_folder_path is not None:
+        if self._save_path is not None:
             topic_model = self._load_original_model()
 
         if topic_model is None:
@@ -195,7 +198,7 @@ class DummyTopicModel(TopicModel):
 
         try:
             topic_model = super().load(
-                self._original_model_save_folder_path,
+                self._save_path,
                 self.experiment
             )
         except FileNotFoundError as e:
@@ -422,7 +425,6 @@ class _DummyArtmModel:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class DummyTopicModel(TopicModel):
-    _save_path_suffix = &#39;__dummy&#39;
     _dummy_attribute = &#39;_is_dummy&#39;
 
     def __init__(self,
@@ -452,28 +454,22 @@ class _DummyArtmModel:
         self._model.dispose()
         self._save_folder_path = None
         self._model = _DummyArtmModel(self._save_folder_path)
-        self._init_parameters = init_parameters
 
+        self._init_parameters = init_parameters
         self._scores = scores
 
         setattr(self, DummyTopicModel._dummy_attribute, True)
-
-        self._original_model_save_folder_path = None
 
     def __getattr__(self, name):
         # Don&#39;t redirect the stuff to artm_model (as TopicModel does)
         if name in self._init_parameters:
             return self._init_parameters[name]
+
         raise AttributeError(f&#39;Dummy model has no attribute &#34;{name}&#34;&#39;)
 
     def get_init_parameters(self, not_include=None):
         &#34;&#34;&#34;&#34;&#34;&#34;
         return self._init_parameters
-
-    @property
-    def model_default_save_path(self):
-        &#34;&#34;&#34;&#34;&#34;&#34;
-        return super().model_default_save_path + DummyTopicModel._save_path_suffix
 
     @property
     def scores(self):
@@ -490,6 +486,15 @@ class _DummyArtmModel:
         &#34;&#34;&#34;&#34;&#34;&#34;
         return self._model.class_ids
 
+    @property
+    def _save_path(self):
+        return self._save_folder_path
+
+    @_save_path.setter
+    def _save_path(self, path):
+        self._save_folder_path = path
+        self._model._save_folder_path = path
+
     def save(self, model_save_path=None, **kwargs):
         &#34;&#34;&#34;&#34;&#34;&#34;
         # kwargs - for compatibility with super()&#39;s method
@@ -497,20 +502,21 @@ class _DummyArtmModel:
         # TODO: a bit copy-paste from TopicModel:
         #  can&#39;t call super()&#39;s, because artm_model is being saved by default there
 
-        self._save_folder_path = model_save_path or self.model_default_save_path
+        self._save_path = model_save_path or self.model_default_save_path
 
-        if not os.path.exists(self._save_folder_path):
-            os.makedirs(self._save_folder_path)
+        if not os.path.exists(self._save_path):
+            os.makedirs(self._save_path)
 
-        self.save_parameters(self._save_folder_path)
+        self.save_parameters(self._save_path)
 
     @staticmethod
     def load(path, experiment=None):
         &#34;&#34;&#34;&#34;&#34;&#34;
-        params = json.load(open(f&#39;{path}/params.json&#39;, &#39;r&#39;))
+        params = json.load(open(os.path.join(path, &#39;params.json&#39;), &#39;r&#39;))
+
         model = DummyTopicModel(**params)
         model.experiment = experiment
-        model._original_model_save_folder_path = path
+        model._save_path = path
 
         return model
 
@@ -537,7 +543,7 @@ class _DummyArtmModel:
 
         topic_model = None
 
-        if self._original_model_save_folder_path is not None:
+        if self._save_path is not None:
             topic_model = self._load_original_model()
 
         if topic_model is None:
@@ -566,7 +572,7 @@ class _DummyArtmModel:
 
         try:
             topic_model = super().load(
-                self._original_model_save_folder_path,
+                self._save_path,
                 self.experiment
             )
         except FileNotFoundError as e:
@@ -712,19 +718,6 @@ def class_ids(self):
     return self._model.class_ids</code></pre>
 </details>
 </dd>
-<dt id="topicnet.cooking_machine.models.dummy_topic_model.DummyTopicModel.model_default_save_path"><code class="name">var <span class="ident">model_default_save_path</span></code></dt>
-<dd>
-<section class="desc"></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def model_default_save_path(self):
-    &#34;&#34;&#34;&#34;&#34;&#34;
-    return super().model_default_save_path + DummyTopicModel._save_path_suffix</code></pre>
-</details>
-</dd>
 </dl>
 <h3>Methods</h3>
 <dl>
@@ -788,7 +781,7 @@ If not, dataset should be provided for training.</dd>
 
     topic_model = None
 
-    if self._original_model_save_folder_path is not None:
+    if self._save_path is not None:
         topic_model = self._load_original_model()
 
     if topic_model is None:
@@ -818,6 +811,7 @@ If not, dataset should be provided for training.</dd>
 <li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.save" href="topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel.save">save</a></code></li>
 <li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.save_parameters" href="base_model.html#topicnet.cooking_machine.models.base_model.BaseModel.save_parameters">save_parameters</a></code></li>
 <li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.scores" href="topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel.scores">scores</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.select_topics" href="topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel.select_topics">select_topics</a></code></li>
 <li><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel.to_dummy" href="topic_model.html#topicnet.cooking_machine.models.topic_model.TopicModel.to_dummy">to_dummy</a></code></li>
 </ul>
 </li>
@@ -865,7 +859,6 @@ If not, dataset should be provided for training.</dd>
 <ul class="">
 <li><code><a title="topicnet.cooking_machine.models.dummy_topic_model.DummyTopicModel.class_ids" href="#topicnet.cooking_machine.models.dummy_topic_model.DummyTopicModel.class_ids">class_ids</a></code></li>
 <li><code><a title="topicnet.cooking_machine.models.dummy_topic_model.DummyTopicModel.get_init_parameters" href="#topicnet.cooking_machine.models.dummy_topic_model.DummyTopicModel.get_init_parameters">get_init_parameters</a></code></li>
-<li><code><a title="topicnet.cooking_machine.models.dummy_topic_model.DummyTopicModel.model_default_save_path" href="#topicnet.cooking_machine.models.dummy_topic_model.DummyTopicModel.model_default_save_path">model_default_save_path</a></code></li>
 <li><code><a title="topicnet.cooking_machine.models.dummy_topic_model.DummyTopicModel.restore" href="#topicnet.cooking_machine.models.dummy_topic_model.DummyTopicModel.restore">restore</a></code></li>
 </ul>
 </li>

@@ -1,8 +1,12 @@
 import artm
-import pandas as pd
+
+import operator
+import functools
 import numpy as np
-from collections import Counter
+import pandas as pd
+from collections import Counter, OrderedDict
 from scipy.optimize import curve_fit
+
 from .base_score import BaseScore
 
 # change log style
@@ -15,7 +19,7 @@ def calculate_n(model, batch_vectorizer):
     """
     Calculate all necessary statistics from batch. This may take some time.
     """
-    tokens = []
+    doc2token = {}
     for batch_id in range(len(batch_vectorizer._batches_list)):
         batch_name = batch_vectorizer._batches_list[batch_id]._filename
         batch = artm.messages.Batch()
@@ -24,12 +28,29 @@ def calculate_n(model, batch_vectorizer):
 
         for item_id in range(len(batch.item)):
             item = batch.item[item_id]
-            for token_id in item.token_id:
-                tokens.append(batch.token[token_id])
+            theta_item_id = getattr(item, model.theta_columns_naming)
 
-    ntdw = model.transform(batch_vectorizer=batch_vectorizer, theta_matrix_type='dense_ptdw')
-    docs = ntdw.columns
-    ntdw.columns = pd.MultiIndex.from_arrays([docs, tokens], names=('doc', 'token'))
+            doc2token[theta_item_id] = {'tokens': [], 'weights': []}
+            for token_id, token_weight in zip(item.token_id, item.token_weight):
+                doc2token[theta_item_id]['tokens'].append(batch.token[token_id])
+                doc2token[theta_item_id]['weights'].append(token_weight)
+
+    previous_num_document_passes = model._num_document_passes
+    model._num_document_passes = 10
+    ptdw = model.transform(batch_vectorizer=batch_vectorizer, theta_matrix_type='dense_ptdw')
+    model._num_document_passes = previous_num_document_passes
+
+    docs = ptdw.columns
+    docs_unique = OrderedDict.fromkeys(docs).keys()
+
+    tokens = [doc2token[doc_id]['tokens'] for doc_id in docs_unique]
+    tokens = functools.reduce(operator.iconcat, tokens, [])
+
+    ndw = np.concatenate([np.array(doc2token[doc_id]['weights']) for doc_id in docs_unique])
+    ndw = np.tile(ndw, (ptdw.shape[0], 1))
+
+    ptdw.columns = pd.MultiIndex.from_arrays([docs, tokens], names=('doc', 'token'))
+    ntdw = ptdw * ndw
 
     ntd = ntdw.groupby(level=0, axis=1).sum()
 
@@ -122,7 +143,7 @@ def radii_for_ntd(ntd, regression_coeff):
     return ntd.apply(lambda x: third_degree(x, *regression_coeff))
 
 
-class SemanticRaduisScore(BaseScore):
+class SemanticRadiusScore(BaseScore):
     """
     This score implements cluster semantic radius, described in paper
     'Проверка гипотезы условной независимости 

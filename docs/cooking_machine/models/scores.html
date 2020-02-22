@@ -27,9 +27,9 @@
 <pre><code class="python">from .example_score import ScoreExample
 from .intratext_coherence_score import IntratextCoherenceScore
 from .blei_lafferty_score import BleiLaffertyScore
-from .semantic_radius_score import SemanticRaduisScore
+from .semantic_radius_score import SemanticRadiusScore
 
-__all__ = [&#34;ScoreExample&#34;, &#34;IntratextCoherenceScore&#34;, &#34;BleiLaffertyScore&#34;, &#34;SemanticRaduisScore&#34;]</code></pre>
+__all__ = [&#34;ScoreExample&#34;, &#34;IntratextCoherenceScore&#34;, &#34;BleiLaffertyScore&#34;, &#34;SemanticRadiusScore&#34;]</code></pre>
 </details>
 </section>
 <section>
@@ -788,8 +788,8 @@ We inherit from BaseScore in order to have self.value property and self.update()
 </li>
 </ul>
 </dd>
-<dt id="topicnet.cooking_machine.models.scores.SemanticRaduisScore"><code class="flex name class">
-<span>class <span class="ident">SemanticRaduisScore</span></span>
+<dt id="topicnet.cooking_machine.models.scores.SemanticRadiusScore"><code class="flex name class">
+<span>class <span class="ident">SemanticRadiusScore</span></span>
 <span>(</span><span>batch_vectorizer)</span>
 </code></dt>
 <dd>
@@ -807,7 +807,7 @@ The lower this score - better</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class SemanticRaduisScore(BaseScore):
+<pre><code class="python">class SemanticRadiusScore(BaseScore):
     &#34;&#34;&#34;
     This score implements cluster semantic radius, described in paper
     &#39;Проверка гипотезы условной независимости 
@@ -876,7 +876,7 @@ The lower this score - better</p>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="topicnet.cooking_machine.models.scores.SemanticRaduisScore.call"><code class="name flex">
+<dt id="topicnet.cooking_machine.models.scores.SemanticRadiusScore.call"><code class="name flex">
 <span>def <span class="ident">call</span></span>(<span>self, model, max_sampled_document_len=None, sample_step=5, sample_size=3, alpha=0.1)</span>
 </code></dt>
 <dd>
@@ -980,9 +980,9 @@ The lower this score - better</p>
 </ul>
 </li>
 <li>
-<h4><code><a title="topicnet.cooking_machine.models.scores.SemanticRaduisScore" href="#topicnet.cooking_machine.models.scores.SemanticRaduisScore">SemanticRaduisScore</a></code></h4>
+<h4><code><a title="topicnet.cooking_machine.models.scores.SemanticRadiusScore" href="#topicnet.cooking_machine.models.scores.SemanticRadiusScore">SemanticRadiusScore</a></code></h4>
 <ul class="">
-<li><code><a title="topicnet.cooking_machine.models.scores.SemanticRaduisScore.call" href="#topicnet.cooking_machine.models.scores.SemanticRaduisScore.call">call</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.scores.SemanticRadiusScore.call" href="#topicnet.cooking_machine.models.scores.SemanticRadiusScore.call">call</a></code></li>
 </ul>
 </li>
 </ul>

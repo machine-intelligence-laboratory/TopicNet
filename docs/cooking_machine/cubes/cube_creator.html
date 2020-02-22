@@ -88,7 +88,7 @@ class CubeCreator(BaseCube):
             raise AttributeError(&#39;This model is not implemented&#39;)
 
         self._model_class = model.__class__
-        self._library_version = model._model.library_version
+        self._library_version = getattr(model, &#39;library_version&#39;, &#39;not defined&#39;)
 
         param_set = [dictionary[&#39;name&#39;] for dictionary in parameters]
         topic_related = set([&#39;topic_names&#39;, &#39;num_topics&#39;]) &amp; set(param_set)
@@ -198,10 +198,7 @@ class CubeCreator(BaseCube):
         if self._second_level:
             jsonable_parameters[&#39;additional_info&#39;] = &#39;hierarchical: Second level.&#39;
 
-        try:
-            jsonable_parameters[&#39;version&#39;] = self._library_version
-        except AttributeError:
-            jsonable_parameters[&#39;version&#39;] = &#34;undefined&#34;
+        jsonable_parameters[&#39;version&#39;] = self._library_version
         return [jsonable_parameters]
 
     def apply(self, topic_model, one_cube_parameter, dictionary=None, model_id=None):
@@ -357,7 +354,7 @@ class CubeCreator(BaseCube):
             raise AttributeError(&#39;This model is not implemented&#39;)
 
         self._model_class = model.__class__
-        self._library_version = model._model.library_version
+        self._library_version = getattr(model, &#39;library_version&#39;, &#39;not defined&#39;)
 
         param_set = [dictionary[&#39;name&#39;] for dictionary in parameters]
         topic_related = set([&#39;topic_names&#39;, &#39;num_topics&#39;]) &amp; set(param_set)
@@ -467,10 +464,7 @@ class CubeCreator(BaseCube):
         if self._second_level:
             jsonable_parameters[&#39;additional_info&#39;] = &#39;hierarchical: Second level.&#39;
 
-        try:
-            jsonable_parameters[&#39;version&#39;] = self._library_version
-        except AttributeError:
-            jsonable_parameters[&#39;version&#39;] = &#34;undefined&#34;
+        jsonable_parameters[&#39;version&#39;] = self._library_version
         return [jsonable_parameters]
 
     def apply(self, topic_model, one_cube_parameter, dictionary=None, model_id=None):
@@ -535,7 +529,7 @@ class CubeCreator(BaseCube):
 <dl>
 <dt id="topicnet.cooking_machine.cubes.cube_creator.CubeCreator.DEFAULT_SEED_VALUE"><code class="name">var <span class="ident">DEFAULT_SEED_VALUE</span></code></dt>
 <dd>
-<section class="desc"><p>int([x]) -&gt; integer
+<section class="desc"><p>int(x=0) -&gt; integer
 int(x, base=10) -&gt; integer</p>
 <p>Convert a number or string to an integer, or return 0 if no arguments
 are given.

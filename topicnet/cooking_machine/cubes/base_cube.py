@@ -2,7 +2,6 @@ import os
 from tqdm import tqdm
 import warnings
 from multiprocessing import Queue, Process
-# from queue import Empty
 from artm.wrapper.exceptions import ArtmException
 
 from .strategy import BaseStrategy
@@ -13,6 +12,7 @@ NUM_MODELS_ERROR = "Failed to retrive number of trained models"
 MODEL_RETRIEVE_ERROR = "Retrieved only {0} models out of {1}"
 STRATEGY_RETRIEVE_ERROR = 'Failed to retrieve strategy parameters'
 WARNINGS_RETRIEVE_ERROR = 'Failed to return warnings'
+SCORE_ERROR_MESSAGE = "Can't find a score ''{0}''. Please add a score with that name to the model."
 
 
 def check_experiment_existence(topic_model):
@@ -35,15 +35,16 @@ def check_experiment_existence(topic_model):
     return is_experiment
 
 
-class retrieve_score_for_strategy:
-    def __init__(self, score_name):
-        self.score_name = score_name
+def retrieve_score_for_strategy(score_name=None):
+    if not score_name:
+        score_name = 'PerplexityScore@all'
 
-    def __call__(self, model):
-        if isinstance(model, str):
-            self.score_name = model
-        else:
-            return model.scores[self.score_name][-1]
+    def last_score(model):
+        try:
+            return model.scores[score_name][-1]
+        except KeyError:
+            raise KeyError(SCORE_ERROR_MESSAGE.format(score_name))
+    return last_score
 
 
 # exists for multiprocessing debug

@@ -253,6 +253,13 @@ def compute_clusters_top_tokens_by_clusters_tfidf(
     return cluster_top_tokens
 
 
+# TODO: check why this better than plain df.to_html()
+def convert_df_to_html(df):
+    return df.style\
+               .set_table_attributes("style='display:inline'")\
+               ._repr_html_()
+
+
 class TopTokensViewer(BaseViewer):
     """Gets top tokens from topic (sorted by scores)"""
     def __init__(self,
@@ -410,7 +417,8 @@ class TopTokensViewer(BaseViewer):
             topic_top_tokens=None,
             topic_names: List[str] = None,
             digits: int = 5,
-            thresh: float = None) -> str:
+            thresh: float = None,  # Deprecated
+            horizontally_stack: bool = True) -> str:
         """
         Generates html version of dataframes to be displayed by Jupyter notebooks
 
@@ -426,6 +434,9 @@ class TopTokensViewer(BaseViewer):
             Number of digits to round each probability to
         thresh : float [Deprecated]
             Threshold used for calculating `digits` and throwing out too low probabilities
+        horizontally_stack : bool
+            if True, then tokens for each modality will be stacked horizontally
+            (instead of being a single long multi-line DataFrame)
 
         Examples
         --------
@@ -458,12 +469,20 @@ class TopTokensViewer(BaseViewer):
         df = self.to_df(topic_names, digits)
 
         if len(df) > 0:
-            df.index = df.index.str.replace('<', '&lt;').str.replace('>', '&gt;')
+            for level, old_names in enumerate(df.index.levels):
+                new_names = old_names.str.replace('<', '&lt;').str.replace('>', '&gt;')
+                renamer = dict(zip(old_names, new_names))
+                df.rename(index=renamer, inplace=True, level=level)
 
-        # TODO: check why this better than plain df.to_html()
-        return df.style\
-            .set_table_attributes("style='display:inline'")\
-            ._repr_html_()
+        if horizontally_stack:
+            modalities = df.index.levels[0].unique()
+            result = ''.join(
+                convert_df_to_html(df.query("modality == @m"))
+                for m in modalities
+            )
+            return result
+
+        return convert_df_to_html(df)
 
     def to_df(self, topic_names: Iterator[str] = None, digits: int = 5) -> pd.DataFrame:
         topic_top_tokens = self.view(three_levels=False)

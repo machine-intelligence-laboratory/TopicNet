@@ -129,7 +129,6 @@ def create_default_topics(specific_topics, background_topics):
 def init_simple_default_model(
         dataset, modalities_to_use, main_modality,
         specific_topics, background_topics,
-        modalities_weights=None
 ):
     &#34;&#34;&#34;
     Creates simple artm model with standard scores.
@@ -137,19 +136,19 @@ def init_simple_default_model(
     Parameters
     ----------
     dataset : Dataset
-    modalities_to_use : list of str
+    modalities_to_use : list of str or dict
     main_modality : str
     specific_topics : list or int
     background_topics : list or int
-    modalities_weights : dict or None
 
     Returns
     -------
     model: artm.ARTM() instance
     &#34;&#34;&#34;
-    if modalities_weights is not None:
-        assert sorted(list(modalities_to_use)) == sorted(list(modalities_weights.keys()))
-    baseline_class_ids = {class_id: 1 for class_id in modalities_to_use}
+    if isinstance(modalities_to_use, dict):
+        modalities_weights = modalities_to_use
+    else:
+        modalities_weights = {class_id: 1 for class_id in modalities_to_use}
 
     specific_topic_names, background_topic_names = create_default_topics(
         specific_topics, background_topics
@@ -159,7 +158,7 @@ def init_simple_default_model(
     tokens_data = count_vocab_size(dictionary, modalities_to_use)
     abs_weights = modality_weight_rel2abs(
         tokens_data,
-        modalities_weights if modalities_weights is not None else baseline_class_ids,
+        modalities_weights,
         main_modality
     )
 
@@ -329,7 +328,7 @@ def init_simple_default_model(
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.model_constructor.init_simple_default_model"><code class="name flex">
-<span>def <span class="ident">init_simple_default_model</span></span>(<span>dataset, modalities_to_use, main_modality, specific_topics, background_topics, modalities_weights=None)</span>
+<span>def <span class="ident">init_simple_default_model</span></span>(<span>dataset, modalities_to_use, main_modality, specific_topics, background_topics)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Creates simple artm model with standard scores.</p>
@@ -337,15 +336,13 @@ def init_simple_default_model(
 <dl>
 <dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
 <dd>&nbsp;</dd>
-<dt><strong><code>modalities_to_use</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
+<dt><strong><code>modalities_to_use</code></strong> :&ensp;<code>list</code> of <code>str</code> or <code>dict</code></dt>
 <dd>&nbsp;</dd>
 <dt><strong><code>main_modality</code></strong> :&ensp;<code>str</code></dt>
 <dd>&nbsp;</dd>
 <dt><strong><code>specific_topics</code></strong> :&ensp;<code>list</code> or <code>int</code></dt>
 <dd>&nbsp;</dd>
 <dt><strong><code>background_topics</code></strong> :&ensp;<code>list</code> or <code>int</code></dt>
-<dd>&nbsp;</dd>
-<dt><strong><code>modalities_weights</code></strong> :&ensp;<code>dict</code> or <code>None</code></dt>
 <dd>&nbsp;</dd>
 </dl>
 <h2 id="returns">Returns</h2>
@@ -360,7 +357,6 @@ def init_simple_default_model(
 <pre><code class="python">def init_simple_default_model(
         dataset, modalities_to_use, main_modality,
         specific_topics, background_topics,
-        modalities_weights=None
 ):
     &#34;&#34;&#34;
     Creates simple artm model with standard scores.
@@ -368,19 +364,19 @@ def init_simple_default_model(
     Parameters
     ----------
     dataset : Dataset
-    modalities_to_use : list of str
+    modalities_to_use : list of str or dict
     main_modality : str
     specific_topics : list or int
     background_topics : list or int
-    modalities_weights : dict or None
 
     Returns
     -------
     model: artm.ARTM() instance
     &#34;&#34;&#34;
-    if modalities_weights is not None:
-        assert sorted(list(modalities_to_use)) == sorted(list(modalities_weights.keys()))
-    baseline_class_ids = {class_id: 1 for class_id in modalities_to_use}
+    if isinstance(modalities_to_use, dict):
+        modalities_weights = modalities_to_use
+    else:
+        modalities_weights = {class_id: 1 for class_id in modalities_to_use}
 
     specific_topic_names, background_topic_names = create_default_topics(
         specific_topics, background_topics
@@ -390,7 +386,7 @@ def init_simple_default_model(
     tokens_data = count_vocab_size(dictionary, modalities_to_use)
     abs_weights = modality_weight_rel2abs(
         tokens_data,
-        modalities_weights if modalities_weights is not None else baseline_class_ids,
+        modalities_weights,
         main_modality
     )
 

@@ -11,6 +11,7 @@ import shutil
 import pandas as pd
 import warnings
 import inspect
+from numbers import Number
 
 import artm
 from artm.wrapper.exceptions import ArtmException
@@ -25,7 +26,8 @@ lc = artm.messages.ConfigureLoggingArgs()
 lc.minloglevel = 3
 lib = artm.wrapper.LibArtm(logging_config=lc)
 
-ARTM_NINE = artm.version().split(".")[1] == "9"
+LIBRARY_VERSION = artm.version()
+ARTM_NINE = LIBRARY_VERSION.split(".")[1] == "9"
 
 SUPPORTED_SCORES_WITHOUT_VALUE_PROPERTY = (
     artm.score_tracker.TopTokensScoreTracker,
@@ -95,6 +97,7 @@ class TopicModel(BaseModel):
         self.data_path = data_path
         self.custom_scores = custom_scores
         self.custom_regularizers = custom_regularizers
+        self.library_version = LIBRARY_VERSION
 
         self._score_caches = None  # returned by model.score, reset by model._fit
 
@@ -264,7 +267,7 @@ class TopicModel(BaseModel):
             regularizers[name] = [config, tau, gamma]
 
         parameters['regularizers'] = regularizers
-        parameters['version'] = artm.version()
+        parameters['version'] = self.library_version
 
         return parameters
 
@@ -323,22 +326,24 @@ class TopicModel(BaseModel):
         if not os.path.exists(model_save_path):
             os.makedirs(model_save_path)
         if phi:
-            self._model.get_phi().to_csv(f"{model_save_path}/phi.csv")
+            self._model.get_phi().to_csv(os.path.join(model_save_path, 'phi.csv'))
         if theta:
-            self.get_theta(dataset=dataset).to_csv(f"{model_save_path}/theta.csv")
+            self.get_theta(dataset=dataset).to_csv(os.path.join(model_save_path, 'theta.csv'))
 
-        model_itself_save_path = f"{model_save_path}/model"
+        model_itself_save_path = os.path.join(model_save_path, 'model')
 
         if os.path.exists(model_itself_save_path):
             shutil.rmtree(model_itself_save_path)
+
         self._model.dump_artm_model(model_itself_save_path)
         self.save_parameters(model_save_path)
 
         for score_name, score_object in self.custom_scores.items():
             save_path = os.path.join(model_save_path, score_name + '.p')
-            with open(save_path, 'wb') as score_f:
+
+            with open(save_path, 'wb') as score_file:
                 try:
-                    dill.dump(score_object, score_f)
+                    dill.dump(score_object, score_file)
                 except pickle.PicklingError:
                     warnings.warn(
                         f'Failed to save custom score "{score_object}" correctly! '
@@ -346,14 +351,15 @@ class TopicModel(BaseModel):
                     )
 
                     frozen_score_object = FrozenScore(score_object.value)
-                    dill.dump(frozen_score_object, score_f)
+                    dill.dump(frozen_score_object, score_file)
 
         self.save_custom_regularizers(model_save_path)
 
         for i, agent in enumerate(self.callbacks):
             save_path = os.path.join(model_save_path, f"callback_{i}.pkl")
-            with open(save_path, 'wb') as agent_f:
-                dill.dump(agent, agent_f)
+
+            with open(save_path, 'wb') as agent_file:
+                dill.dump(agent, agent_file)
 
     @staticmethod
     def load(path, experiment=None):
@@ -371,15 +377,14 @@ class TopicModel(BaseModel):
         TopicModel
 
         """
-
         if "model" in os.listdir(f"{path}"):
             model = artm.load_artm_model(f"{path}/model")
         else:
             model = None
             print("There is no dumped model. You should train it again.")
 
-        with open(f"{path}/params.json", "r", encoding='utf-8') as params_f:
-            params = json.load(params_f)
+        with open(os.path.join(path, 'params.json'), 'r', encoding='utf-8') as params_file:
+            params = json.load(params_file)
 
         topic_model = TopicModel(model, **params)
         topic_model.experiment = experiment
@@ -387,23 +392,25 @@ class TopicModel(BaseModel):
         custom_scores = {}
 
         for score_path in glob.glob(os.path.join(path, '*.p')):
-            score_name = os.path.basename(score_path).split('.')[0]
-            with open(score_path, 'rb') as score_f:
-                custom_scores[score_name] = dill.load(score_f)
+            # TODO: file '..p' is not included, so score with name '.' will be lost
+            #  Need to validate score name?
+            score_file_name = os.path.basename(score_path)
+            score_name = os.path.splitext(score_file_name)[0]
+
+            with open(score_path, 'rb') as score_file:
+                custom_scores[score_name] = dill.load(score_file)
 
         topic_model.custom_scores = custom_scores
 
         custom_regularizers = {}
 
-        for regularizer_path in glob.glob(os.path.join(path, '*.rd')):
-            regularizer_name = os.path.basename(regularizer_path).split('.')[0]
-            with open(regularizer_path, 'rb') as reg_f:
-                custom_regularizers[regularizer_name] = dill.load(reg_f)
+        for reg_file_extension, loader in zip(['.rd', '.rp'], [dill, pickle]):
+            for regularizer_path in glob.glob(os.path.join(path, f'*{reg_file_extension}')):
+                regularizer_file_name = os.path.basename(regularizer_path)
+                regularizer_name = os.path.splitext(regularizer_file_name)[0]
 
-        for regularizer_path in glob.glob(os.path.join(path, '*.rp')):
-            regularizer_name = os.path.basename(regularizer_path).split('.')[0]
-            with open(regularizer_path, 'rb') as reg_f:
-                custom_regularizers[regularizer_name] = pickle.load(reg_f)
+                with open(regularizer_path, 'rb') as reg_file:
+                    custom_regularizers[regularizer_name] = loader.load(reg_file)
 
         topic_model.custom_regularizers = custom_regularizers
 
@@ -411,10 +418,11 @@ class TopicModel(BaseModel):
         topic_model.callbacks = [None for _ in enumerate(all_agents)]
 
         for agent_path in all_agents:
-            filename = os.path.basename(agent_path).split('.')[0]
-            original_index = int(filename.partition("_")[2])
-            with open(agent_path, 'rb') as agent_f:
-                topic_model.callbacks[original_index] = dill.load(agent_f)
+            file_name = os.path.basename(agent_path).split('.')[0]
+            original_index = int(file_name.partition("_")[2])
+
+            with open(agent_path, 'rb') as agent_file:
+                topic_model.callbacks[original_index] = dill.load(agent_file)
 
         topic_model._reset_score_caches()
 
@@ -726,23 +734,56 @@ class TopicModel(BaseModel):
 
         return regularizers_dict
 
+    def select_topics(self, substrings, invert=False):
+        """
+        Gets all topics containing speified substring
+
+        Returns
+        -------
+        list
+        """
+        return [
+            topic_name for topic_name in self.topic_names
+            if invert != any(
+                substring.lower() in topic_name.lower() for substring in substrings
+            )
+        ]
+
+    @property
+    def background_topics(self):
+        return self.select_topics(["background", "bcg"])
+
+    @property
+    def specific_topics(self):
+        return self.select_topics(["background", "bcg"], invert=True)
+
     @property
     def class_ids(self):
         """ """
         return self._model.class_ids
 
-    def describe_scores(self):
+    def describe_scores(self, verbose=False):
         data = []
         for score_name, score in self.scores.items():
             data.append([self.model_id, score_name, score[-1]])
         result = pd.DataFrame(columns=["model_id", "score_name", "last_value"], data=data)
+        if not verbose:
+            printable_types = result.last_value.apply(lambda x: isinstance(x, Number))
+            result = result.loc[printable_types]
+
         return result.set_index(["model_id", "score_name"])
 
     def describe_regularizers(self):
         data = []
         for reg_name, reg in self.regularizers._data.items():
-            data.append([self.model_id, reg_name, reg.tau, reg.gamma])
+            entry = [self.model_id, reg_name, reg.tau,
+                     reg.gamma, getattr(reg, "class_ids", None)]
+            data.append(entry)
         for custom_reg_name, custom_reg in self.custom_regularizers.items():
-            data.append([self.model_id, custom_reg_name, custom_reg.tau, custom_reg.gamma])
-        result = pd.DataFrame(columns=["model_id", "regularizer_name", "tau", "gamma"], data=data)
-        return result.set_index(["model_id", "regularizer_name"])
+            entry = [self.model_id, custom_reg_name, custom_reg.tau,
+                     custom_reg.gamma, getattr(custom_reg, "class_ids", None)]
+            data.append(entry)
+        result = pd.DataFrame(
+            columns=["model_id", "regularizer_name", "tau", "gamma", "class_ids"], data=data
+        )
+        return result.set_index(["model_id", "regularizer_name"]).sort_values(by="regularizer_name")

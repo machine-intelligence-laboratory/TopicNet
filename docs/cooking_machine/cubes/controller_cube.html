@@ -312,7 +312,7 @@ class ControllerAgent:
         Parameters
         ----------
         reg_name : str
-        score_to_track : str or None
+        score_to_track : str, list of str or None
         tau_converter : callable or str
         local_dict : dict
         max_iters : int or float
@@ -322,7 +322,13 @@ class ControllerAgent:
         &#34;&#34;&#34;
         self.reg_name = reg_name
         self.tau_converter = tau_converter
-        self.score_to_track = score_to_track
+        if isinstance(score_to_track, list):
+            self.score_to_track = score_to_track
+        elif isinstance(score_to_track, str):
+            self.score_to_track = [score_to_track]
+        else:
+            self.score_to_track = []
+
         self.is_working = True
         self.local_dict = local_dict
         self.tau_history = []
@@ -371,7 +377,9 @@ class ControllerAgent:
             self.is_working = False
 
         if self.is_working:
-            should_stop = is_score_out_of_control(model, self.score_to_track)
+            should_stop = any(
+                is_score_out_of_control(model, score) for score in self.score_to_track
+            )
             if should_stop:
                 warnings.warn(W_HALT_CONTROL.format(len(self.tau_history)))
                 self.is_working = False
@@ -470,7 +478,7 @@ class RegularizationControllerCube(BaseCube):
                     &#34;max_iters&#34;: params_dict.get(&#34;max_iters&#34;, self.num_iter)
                 },
                 &#34;field&#34;: &#34;callback&#34;,
-                &#34;values&#34;: params_dict.get(&#39;user_value_grid&#39;, [])
+                &#34;values&#34;: params_dict.get(&#39;user_value_grid&#39;, [0])
             }
             for params_dict in all_parameters
         ]
@@ -649,7 +657,7 @@ revert to the last known safe value (without trying to change anything further)<
 <dl>
 <dt><strong><code>reg_name</code></strong> :&ensp;<code>str</code></dt>
 <dd>&nbsp;</dd>
-<dt><strong><code>score_to_track</code></strong> :&ensp;<code>str</code> or <code>None</code></dt>
+<dt><strong><code>score_to_track</code></strong> :&ensp;<code>str</code>, <code>list</code> of <code>str</code> or <code>None</code></dt>
 <dd>&nbsp;</dd>
 <dt><strong><code>tau_converter</code></strong> :&ensp;<code>callable</code> or <code>str</code></dt>
 <dd>&nbsp;</dd>
@@ -690,7 +698,7 @@ that way agent will continue operating even outside this <a title="topicnet.cook
         Parameters
         ----------
         reg_name : str
-        score_to_track : str or None
+        score_to_track : str, list of str or None
         tau_converter : callable or str
         local_dict : dict
         max_iters : int or float
@@ -700,7 +708,13 @@ that way agent will continue operating even outside this <a title="topicnet.cook
         &#34;&#34;&#34;
         self.reg_name = reg_name
         self.tau_converter = tau_converter
-        self.score_to_track = score_to_track
+        if isinstance(score_to_track, list):
+            self.score_to_track = score_to_track
+        elif isinstance(score_to_track, str):
+            self.score_to_track = [score_to_track]
+        else:
+            self.score_to_track = []
+
         self.is_working = True
         self.local_dict = local_dict
         self.tau_history = []
@@ -749,7 +763,9 @@ that way agent will continue operating even outside this <a title="topicnet.cook
             self.is_working = False
 
         if self.is_working:
-            should_stop = is_score_out_of_control(model, self.score_to_track)
+            should_stop = any(
+                is_score_out_of_control(model, score) for score in self.score_to_track
+            )
             if should_stop:
                 warnings.warn(W_HALT_CONTROL.format(len(self.tau_history)))
                 self.is_working = False
@@ -799,7 +815,9 @@ that way agent will continue operating even outside this <a title="topicnet.cook
         self.is_working = False
 
     if self.is_working:
-        should_stop = is_score_out_of_control(model, self.score_to_track)
+        should_stop = any(
+            is_score_out_of_control(model, score) for score in self.score_to_track
+        )
         if should_stop:
             warnings.warn(W_HALT_CONTROL.format(len(self.tau_history)))
             self.is_working = False
@@ -957,7 +975,7 @@ i.e. normalized over collection properties</dd>
                     &#34;max_iters&#34;: params_dict.get(&#34;max_iters&#34;, self.num_iter)
                 },
                 &#34;field&#34;: &#34;callback&#34;,
-                &#34;values&#34;: params_dict.get(&#39;user_value_grid&#39;, [])
+                &#34;values&#34;: params_dict.get(&#39;user_value_grid&#39;, [0])
             }
             for params_dict in all_parameters
         ]

@@ -160,8 +160,9 @@ def experiment_enviroment(request):
         dictionary=dictionary,
     )
 
-    specific_topic_names = [t for t in model_artm.topic_names if "background" not in t]
-    background_topic_names = [t for t in model_artm.topic_names if "background" in t]
+    tm = TopicModel(model_artm, model_id='new_id')
+    specific_topic_names = tm.specific_topics
+    background_topic_names = tm.background_topics
 
     sparse_regs = generate_sparse_regularizers(
         specific_topic_names, background_topic_names,
@@ -170,15 +171,14 @@ def experiment_enviroment(request):
             specific_topic_names, background_topic_names,
     )
     for regularizer in sparse_regs + decor_regs:
-        model_artm.regularizers.add(regularizer, overwrite=True)
+        tm._model.regularizers.add(regularizer, overwrite=True)
 
     add_standard_scores(
-        model_artm, dictionary,
+        tm._model, dictionary,
         main_modality=MAIN_MODALITY,
         all_modalities=[MAIN_MODALITY, NGRAM_MODALITY]
     )
 
-    tm = TopicModel(model_artm, model_id='new_id')
     experiment = Experiment(experiment_id="test_controller",
                             save_path="tests/experiments", topic_model=tm)
 

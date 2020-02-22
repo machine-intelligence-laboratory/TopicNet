@@ -62,7 +62,7 @@ class CubeCreator(BaseCube):
             raise AttributeError('This model is not implemented')
 
         self._model_class = model.__class__
-        self._library_version = model._model.library_version
+        self._library_version = getattr(model, 'library_version', 'not defined')
 
         param_set = [dictionary['name'] for dictionary in parameters]
         topic_related = set(['topic_names', 'num_topics']) & set(param_set)
@@ -172,10 +172,7 @@ class CubeCreator(BaseCube):
         if self._second_level:
             jsonable_parameters['additional_info'] = 'hierarchical: Second level.'
 
-        try:
-            jsonable_parameters['version'] = self._library_version
-        except AttributeError:
-            jsonable_parameters['version'] = "undefined"
+        jsonable_parameters['version'] = self._library_version
         return [jsonable_parameters]
 
     def apply(self, topic_model, one_cube_parameter, dictionary=None, model_id=None):
