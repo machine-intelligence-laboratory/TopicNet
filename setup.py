@@ -29,6 +29,7 @@ setup(
         'dask[dataframe]',
         'dill',
         'ipython',
+        'jinja',
         'numexpr',
         'numpy',
         'pandas',
