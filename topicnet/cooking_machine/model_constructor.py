@@ -50,7 +50,7 @@ def init_model(topic_names, seed=None, class_ids=None):
     model = artm.ARTM(
         topic_names=topic_names,
         # Commented for performance uncomment if has zombie issues
-        num_processors=3,
+        num_processors=5,
         theta_columns_naming='title',
         show_progress_bars=False,
         class_ids=class_ids,
