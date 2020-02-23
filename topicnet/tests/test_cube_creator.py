@@ -29,7 +29,7 @@ def teardown_function():
     resource_teardown()
 
 
-MULTIPROCESSING_FLAGS = [True, False]
+MULTIPROCESSING_FLAGS = [False]
 
 
 # to run all test
