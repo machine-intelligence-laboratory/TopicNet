@@ -30,7 +30,7 @@ POSSIBLE_REGULARIZERS = [
     artm.regularizers.DecorrelatorPhiRegularizer(name='test_decor')
 ]
 RENORMALIZE_FLAG = [False, True]
-MULTIPROCESSING_FLAGS = [True, False]
+MULTIPROCESSING_FLAGS = [False]
 
 
 def resource_teardown():
