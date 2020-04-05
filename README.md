@@ -1,11 +1,25 @@
-# TopicNet
-[![PyPI](https://img.shields.io/pypi/v/topicnet?color=blue)](https://pypi.org/project/topicnet/)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/TopicNet)](https://www.python.org/downloads/release/python-360/)
-[![Build Status](https://travis-ci.com/machine-intelligence-laboratory/TopicNet.svg?branch=master)](https://travis-ci.com/machine-intelligence-laboratory/TopicNet)
-[![codecov](https://codecov.io/gh/machine-intelligence-laboratory/TopicNet/branch/master/graph/badge.svg)](https://codecov.io/gh/machine-intelligence-laboratory/TopicNet)
-[![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/machine-intelligence-laboratory/TopicNet)](https://github.com/machine-intelligence-laboratory/TopicNet/pulls)
-[![GitHub issues](https://img.shields.io/github/issues/machine-intelligence-laboratory/TopicNet)](https://github.com/machine-intelligence-laboratory/TopicNet/issues)
-[![PyPI - License](https://img.shields.io/pypi/l/TopicNet?color=Black)](https://github.com/machine-intelligence-laboratory/TopicNet/blob/master/LICENSE.txt)
+<h1 align="center">TopicNet: A Python NLP Library for Many Human Languages</h2>
+
+<div align="center">
+    <a href="https://pypi.org/project/topicnet">
+        <img alt="PyPI Version" src="https://img.shields.io/pypi/v/topicnet?color=blue">
+    </a>
+    <a href="https://www.python.org/downloads/release/python-360/">
+        <img alt="Python Version" src="https://img.shields.io/pypi/pyversions/TopicNet">
+    </a>
+    <a href="https://travis-ci.com/machine-intelligence-laboratory/TopicNet">
+        <img alt="Travis Build Status" src="https://travis-ci.com/machine-intelligence-laboratory/TopicNet.svg?branch=master">
+    </a>
+    <a href="https://codecov.io/gh/machine-intelligence-laboratory/TopicNet">
+        <img alt="Code Coverage" src="https://codecov.io/gh/machine-intelligence-laboratory/TopicNet/branch/master/graph/badge.svg">
+    </a>
+    <a href="https://github.com/machine-intelligence-laboratory/TopicNet/blob/master/LICENSE.txt">
+        <img alt="License" src="https://img.shields.io/pypi/l/TopicNet?color=Black">
+    </a>
+    <a href="https://github.com/machine-intelligence-laboratory/TopicNet/commits/master">
+        <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/machine-intelligence-laboratory/TopicNet">
+    </a>
+</div>
 
 
 ### What is TopicNet?
@@ -35,10 +49,6 @@ Consider using TopicNet if:
         As a result of this stage, two descendant models of <em>Model 1</em> and two descendant models of <em>Model 2</em> are obtained.
     </em>
 </p>
-
-
-[![GitHub contributors](https://img.shields.io/github/contributors/machine-intelligence-laboratory/TopicNet)](https://github.com/machine-intelligence-laboratory/TopicNet/graphs/contributors)
-[![GitHub last commit](https://img.shields.io/github/last-commit/machine-intelligence-laboratory/TopicNet)](https://github.com/machine-intelligence-laboratory/TopicNet/commits/master)
 
 
 ### How to start?
