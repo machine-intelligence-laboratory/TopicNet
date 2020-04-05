@@ -56,25 +56,15 @@ Consider using TopicNet if:
 And here is sample code of the TopicNet baseline experiment:
 
 ```python
-from topicnet.cooking_machine.config_parser import (
-    build_experiment_environment_from_yaml_config
-)
-
-from topicnet.cooking_machine.recipes import (
-    ARTM_baseline as config_string
-)
-
-dataset_path = '/data/datasets/NIPS/dataset.csv'
-
-specific_topics   = [f'spc_topic_{i}' for i in range(19)]
-background_topics = [f'bcg_topic_{i}' for i in range( 1)]
+from topicnet.cooking_machine.config_parser import build_experiment_environment_from_yaml_config
+from topicnet.cooking_machine.recipes import ARTM_baseline as config_string
 
 config_string = config_string.format(
-    dataset_path=dataset_path,
-    modality_list=['@word'],
-    main_modality='@word',
-    specific_topics=specific_topics,
-    background_topics=background_topics,
+    dataset_path      = '/data/datasets/NIPS/dataset.csv',
+    modality_list     = ['@word'],
+    main_modality     = '@word',
+    specific_topics   = [f'spc_topic_{i}' for i in range(19)],
+    background_topics = [f'bcg_topic_{i}' for i in range( 1)],
 )
 experiment, dataset = (
     build_experiment_environment_from_yaml_config(
