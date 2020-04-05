@@ -8,8 +8,6 @@
 [![PyPI - License](https://img.shields.io/pypi/l/TopicNet?color=Black)](https://github.com/machine-intelligence-laboratory/TopicNet/blob/master/LICENSE.txt)
 
 
-[Русская версия](README-rus.md)
-
 ### What is TopicNet?
 
 TopicNet is a high-level interface developed by [Machine Intelligence Laboratory](https://mipt.ai/en) for [BigARTM](https://github.com/bigartm/bigartm) library. 
