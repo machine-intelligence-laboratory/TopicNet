@@ -1,4 +1,4 @@
-<h1 align="center">TopicNet: A Python NLP Library for Many Human Languages</h2>
+<h1 align="center">TopicNet</h2>
 
 <div align="center">
     <a href="https://pypi.org/project/topicnet">
