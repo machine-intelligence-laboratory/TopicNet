@@ -10,7 +10,7 @@
 
 ### What is TopicNet?
 
-![Image](docs/readme_images/training_scheme_example.png)
+<div align="center"><img src="./docs/readme_images/training_scheme_example.png" height="100em"/></div>
 
 TopicNet is a high-level interface developed by [Machine Intelligence Laboratory](https://mipt.ai/en) for [BigARTM](https://github.com/bigartm/bigartm) library. 
 
