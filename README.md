@@ -10,8 +10,6 @@
 
 ### What is TopicNet?
 
-<div align="center"><img src="./docs/readme_images/training_scheme_example.png" width="60%"/></div>
-
 TopicNet is a high-level interface developed by [Machine Intelligence Laboratory](https://mipt.ai/en) for [BigARTM](https://github.com/bigartm/bigartm) library. 
 
 ```TopicNet```  library was created to assist in the task of building topic models. It aims at automating model training routine freeing more time for artistic process of constructing a target functional for the task at hand.
@@ -23,11 +21,28 @@ Consider using TopicNet if:
 * you want to build a good topic model quickly (out-of-box, with default parameters).
 * you have an ARTM model at hand and you want to explore it's topics.
 
-```TopicNet``` provides an infrastructure for your prototyping (```Experiment``` class) and helps to observe results of your actions via ```viewers``` module.
+`TopicNet` provides an infrastructure for your prototyping (`Experiment` class) and helps to observe results of your actions via `viewers` module.
+
+<div align="center"><img src="./docs/readme_images/training_scheme_example.png" width="60%"/></div>
+
+Below is an example of the two-stage experiment scheme.
+At the first stage, regularizer with parameter <img src="https://render.githubusercontent.com/render/math?math=\tau"> taking values in some range $\{\tau_1, \tau_2, \tau_3\}$ is applied.
+Best models after the first stage are \emph{Model 1} and \emph{Model 2}~---~so \emph{Model 3} is not taking part in the training process anymore.
+The second stage is connected with another regularizer with parameter $\xi$ taking values in range $\{\xi_1, \xi_2\}$.
+As a result of this stage, two descendant models of \emph{Model 1} and two descendant models of \emph{Model 2} are obtained.
+
+<img src="https://render.githubusercontent.com/render/math?math=\tau">
+<img src="https://render.githubusercontent.com/render/math?math=e^{i \pi} = -1">
+<img src="https://render.githubusercontent.com/render/math?math=e^{i \pi} = -1">
+<img src="https://render.githubusercontent.com/render/math?math=e^{i \pi} = -1">
+
 
 [![GitHub contributors](https://img.shields.io/github/contributors/machine-intelligence-laboratory/TopicNet)](https://github.com/machine-intelligence-laboratory/TopicNet/graphs/contributors)
 [![GitHub last commit](https://img.shields.io/github/last-commit/machine-intelligence-laboratory/TopicNet)](https://github.com/machine-intelligence-laboratory/TopicNet/commits/master)
+
+
 ### How to start?
+
 Define `TopicModel` from an ARTM model at hand or with help from `model_constructor` module, where you can set models main parameters. Then create an `Experiment`, assigning a root position to this model and path to store your experiment. Further, you can define a set of training stages by the functionality provided by the `cooking_machine.cubes` module.
 
 Further you can read documentation [here](https://machine-intelligence-laboratory.github.io/TopicNet/). Currently we are in the process of imporving it. 
