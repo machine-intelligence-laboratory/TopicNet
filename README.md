@@ -21,11 +21,12 @@
     </a>
 </div>
 
-A high-level interface developed by [Machine Intelligence Laboratory](https://mipt.ai/en) for [BigARTM](https://github.com/bigartm/bigartm) library.
+<div align="center">
+    A high-level interface developed by <a href="https://mipt.ai/en">Machine Intelligence Laboratory</a> for <a href="https://github.com/bigartm/bigartm">BigARTM</a> library.
+</div>
 
 
-## What is TopicNet?
-
+## What is TopicNet
 
 `TopicNet` library was created to assist in the task of building topic models.
 It aims at automating model training routine freeing more time for artistic process of constructing a target functional for the task at hand.
@@ -92,9 +93,10 @@ docker run -t -i xtonev/bigartm:v0.10.0
 Checking if all installed successfully:
 
 ```bash
-python3
-import artm
-artm.version()
+python
+
+>>> import artm
+>>> artm.version()
 ```
 
 Alternatively, you can follow [BigARTM installation manual](https://bigartm.readthedocs.io/en/stable/installation/index.html).
@@ -233,11 +235,11 @@ HTML(html_view)
 
 # FAQ
 
-## In the example we used to write vw modality like **@modality**, is it a VowpallWabbit format?
+#### In the example we used to write vw modality like **@modality**, is it a VowpallWabbit format?
 
 It is a convention to write data designating modalities with @ sign taken by TopicNet from BigARTM.
 
-## CubeCreator helps to perform a grid search over initial model parameters. How can I do it with modalities?
+#### CubeCreator helps to perform a grid search over initial model parameters. How can I do it with modalities?
 
 Modality search space can be defined using standart library logic like:
 
