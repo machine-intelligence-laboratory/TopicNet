@@ -68,9 +68,9 @@ config_string = config_string.format(
 )
 experiment, dataset = (
     build_experiment_environment_from_yaml_config(
-        yaml_string=config_string,
-        experiment_id='sample_config',
-        save_path='sample_save_path',
+        yaml_string   = config_string,
+        experiment_id = 'sample_config',
+        save_path     = 'sample_save_folder_path',
     )
 )
 experiment.run(dataset)
