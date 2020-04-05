@@ -10,6 +10,8 @@
 
 ### What is TopicNet?
 
+![Image](docs/readme_images/training_scheme_example.png)
+
 TopicNet is a high-level interface developed by [Machine Intelligence Laboratory](https://mipt.ai/en) for [BigARTM](https://github.com/bigartm/bigartm) library. 
 
 ```TopicNet```  library was created to assist in the task of building topic models. It aims at automating model training routine freeing more time for artistic process of constructing a target functional for the task at hand.
