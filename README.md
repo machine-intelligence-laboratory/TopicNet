@@ -42,7 +42,7 @@ Consider using TopicNet if:
 
 <p>
     <div align="center">
-        <img src="./docs/readme_images/training_scheme_example.png" width="60%" alt/>
+        <img src="./docs/readme_images/training_scheme_example.png" width="50%" alt/>
     </div>
     <em>
         Example of the two-stage experiment scheme.
