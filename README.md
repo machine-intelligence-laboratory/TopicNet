@@ -22,7 +22,7 @@
 </div>
 
 <div align="center">
-    A high-level interface developed by <a href="https://mipt.ai/en">Machine Intelligence Laboratory</a> for <a href="https://github.com/bigartm/bigartm">BigARTM</a> library.
+    A high-level interface developed by <a href="http://machine-intelligence.ru/en">Machine Intelligence Laboratory</a> for <a href="https://github.com/bigartm/bigartm">BigARTM</a> library.
 </div>
 
 
