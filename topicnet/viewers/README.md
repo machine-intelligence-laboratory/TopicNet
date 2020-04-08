@@ -13,9 +13,11 @@ Currently module contains the following viewers:
     <div align="center">
         <img src="../docs/images/doc_cluster__plot.png" width="80%" alt/>
     </div>
-    <em>
-        Visualisation of reduced document embeddings colored according to their topic made by DocumentClusterViewer.
-    </em>
+    <div align="center">
+        <em>
+            Visualisation of reduced document embeddings colored according to their topicspic made by DocumentClusterViewer.
+        </em>
+    </div>
 </p>
 
 * `spectrum` (`TopicSpectrumViewer`) — module contains heuristics for solving TSP to arrange topics minimizing total distance of the spectrum.
