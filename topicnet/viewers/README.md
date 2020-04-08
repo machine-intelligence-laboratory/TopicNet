@@ -5,22 +5,28 @@ Its advantage is in unified call ifrastucture to the topic model making the rout
 
 Currently module contains the following viewers:
 
-* `base_viewer` (`BaseViewer`) — module responsible for base infrastructure.
+## `base_viewer` (`BaseViewer`)
 
-* `document_cluster` (`DocumentClusterViewer`) — module which allows to visualize collection documents. May be slow for large document collections as it uses TSNE algorithm from [sklearn](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html) library.
+Module responsible for base infrastructure.
+
+
+## `document_cluster` (`DocumentClusterViewer`)
+
+Module which allows to visualize collection documents. May be slow for large document collections as it uses TSNE algorithm from [sklearn](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html) library.
 
 <p>
     <div align="center">
         <img src="../docs/images/doc_cluster__plot.png" width="80%" alt/>
     </div>
-    <div align="center">
-        <em>
-            Visualisation of reduced document embeddings colored according to their topicspic made by DocumentClusterViewer.
-        </em>
-    </div>
+    <em>
+        Visualisation of reduced document embeddings colored according to their topic made by DocumentClusterViewer.
+    </em>
 </p>
 
-* `spectrum` (`TopicSpectrumViewer`) — module contains heuristics for solving TSP to arrange topics minimizing total distance of the spectrum.
+
+## `spectrum` (`TopicSpectrumViewer`)
+
+Module contains heuristics for solving TSP to arrange topics minimizing total distance of the spectrum.
 
 <p>
     <div align="center">
@@ -32,7 +38,10 @@ Currently module contains the following viewers:
     </em>
 </p>
 
-* `top_documents_viewer` (`TopDocumentsViewer`) — module with functions that work with dataset document collections.
+
+## `top_documents_viewer` (`TopDocumentsViewer`)
+
+Module with functions that work with dataset document collections.
 
 <p>
     <div align="center">
@@ -43,7 +52,10 @@ Currently module contains the following viewers:
     </em>
 </p>
 
-* `top_similar_documents_viewer` (`TopSimilarDocumentsViewer`) — module containing class for finding similar document for a given one. This viewer helps to estimate homogeneity of clusters given by the model.
+
+## `top_similar_documents_viewer` (`TopSimilarDocumentsViewer`)
+
+Module containing class for finding similar document for a given one. This viewer helps to estimate homogeneity of clusters given by the model.
 
 <p>
     <div align="center">
@@ -55,7 +67,10 @@ Currently module contains the following viewers:
     </em>
 </p>
 
-* `top_tokens_viewer` (`TopTokensViewer`) — module with class for displaying the most relevant tokens in each topic of the model.
+
+## `top_tokens_viewer` (`TopTokensViewer`)
+
+Module with class for displaying the most relevant tokens in each topic of the model.
 
 <p>
     <div align="center">
@@ -66,7 +81,10 @@ Currently module contains the following viewers:
     </em>
 </p>
 
-* `topic_mapping` (`TopicMapViewer`) — module allowing to compare topics between two different models trained on the same collection.
+
+## `topic_mapping` (`TopicMapViewer`)
+
+Module allowing to compare topics between two different models trained on the same collection.
 
 <p>
     <div align="center">
@@ -76,6 +94,7 @@ Currently module contains the following viewers:
         The mapping between topics of two models (currently only topic names are displayed).
     </em>
 </p>
+
 
 ## Deprecated
 
