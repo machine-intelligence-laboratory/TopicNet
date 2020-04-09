@@ -224,6 +224,7 @@ Defining a next stage of the model training to select a decorrelator parameter:
 ```python
 from topicnet.cooking_machine.cubes import RegularizersModifierCube
 
+
 my_first_cube = RegularizersModifierCube(
     num_iter=5,
     tracked_score_function='PerplexityScore@lemmatized',
@@ -247,16 +248,14 @@ best_model = experiment.select(perplexity_criterion)
 
 ### View the results
 
-Browsing the model is easy: create a viewer and call its `view()` method:
+Browsing the model is easy: create a viewer and call its `view()` method (or `view_from_jupyter()` — it is more preferable to use it if working in Jupyter Notebook):
 
 ```python
-from IPython.display import HTML
+from topicnet.viewers import TopTokensViewer
 
-threshold = 1e-5
+
 toptok_viewer = TopTokensViewer(best_model, num_top_tokens=10, method='phi')
-html_view = toptok_viewer.to_html(toptok_viewer.view(), thresh=threshold)
-
-HTML(html_view)
+toptok_viewer.view_from_jupyter()
 ```
 
 # FAQ
