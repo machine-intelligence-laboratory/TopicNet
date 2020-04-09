@@ -258,6 +258,8 @@ toptok_viewer = TopTokensViewer(best_model, num_top_tokens=10, method='phi')
 toptok_viewer.view_from_jupyter()
 ```
 
+More info about different viewers is available here: [`viewers`](topicnet/viewers).
+
 # FAQ
 
 ### In the example we used to write vw modality like **@modality**, is it a VowpallWabbit format?
