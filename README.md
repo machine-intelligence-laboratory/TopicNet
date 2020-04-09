@@ -248,7 +248,7 @@ best_model = experiment.select(perplexity_criterion)
 
 ### View the results
 
-Browsing the model is easy: create a viewer and call its `view()` method (or `view_from_jupyter()` — it is more preferable to use it if working in Jupyter Notebook):
+Browsing the model is easy: create a viewer and call its `view()` method (or `view_from_jupyter()` — it is advised to use it if working in Jupyter Notebook):
 
 ```python
 from topicnet.viewers import TopTokensViewer
