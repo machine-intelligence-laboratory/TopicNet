@@ -38,7 +38,7 @@ Consider using TopicNet if:
 * you want to build a good topic model quickly (out-of-box, with default parameters).
 * you have an ARTM model at hand and you want to explore it's topics.
 
-`TopicNet` provides an infrastructure for your prototyping with the help of `Experiment` class and helps to observe results of your actions via `viewers` module.
+`TopicNet` provides an infrastructure for your prototyping with the help of `Experiment` class and helps to observe results of your actions via [`viewers`](topicnet/viewers) module.
 
 <p>
     <div align="center">
@@ -159,7 +159,7 @@ Here we can finally get on the main part: making your own, best of them all, man
 We need to load our data prepared previously with Dataset:
 
 ```python
-data = Dataset('/Wiki_raw_set/wiki_data.csv')
+dataset = Dataset('/Wiki_raw_set/wiki_data.csv')
 ```
 
 ### Make initial model
@@ -169,8 +169,8 @@ In case you want to start from a fresh model we suggest you use this code:
 ```python
 from topicnet.cooking_machine.model_constructor import init_simple_default_model
 
-model_artm = init_simple_default_model(
-    dataset=data,
+artm_model = init_simple_default_model(
+    dataset=dataset,
     modalities_to_use={'@lemmatized': 1.0, '@bigram':0.5},
     main_modality='@lemmatized',
     specific_topics=14,
@@ -188,7 +188,8 @@ class CustomScore(BaseScore):
     def __init__(self):
         super().__init__()
 
-    def call(self, model,
+    def call(self,
+             model,
              eps=1e-5,
              n_specific_topics=14):
 
@@ -204,7 +205,7 @@ Now, `TopicModel` with custom score can be defined:
 from topicnet.cooking_machine.models.topic_model import TopicModel
 
 custom_scores = {'SpecificSparsity': CustomScore()}
-topic_model = TopicModel(model_artm, model_id='Groot', custom_scores=custom_scores)
+topic_model = TopicModel(artm_model, model_id='Groot', custom_scores=custom_scores)
 ```
 
 ### Define experiment
@@ -223,6 +224,7 @@ Defining a next stage of the model training to select a decorrelator parameter:
 ```python
 from topicnet.cooking_machine.cubes import RegularizersModifierCube
 
+
 my_first_cube = RegularizersModifierCube(
     num_iter=5,
     tracked_score_function='PerplexityScore@lemmatized',
@@ -234,7 +236,7 @@ my_first_cube = RegularizersModifierCube(
     verbose=True,
 )
 
-my_first_cube(tm, demo_data)
+my_first_cube(topic_model, dataset)
 ```
 
 Selecting a model with best perplexity score:
@@ -245,17 +247,18 @@ best_model = experiment.select(perplexity_criterion)
 ```
 
 ### View the results
-Browsing the model is easy: create a viewer and call its `view()` method:
+
+Browsing the model is easy: create a viewer and call its `view()` method (or `view_from_jupyter()` — it is advised to use it if working in Jupyter Notebook):
 
 ```python
-from IPython.display import HTML
+from topicnet.viewers import TopTokensViewer
 
-threshold = 1e-5
-viewer = TopTokensViewer(best_model, num_top_tokens=10, method='phi')
-html_view = viewer.to_html(top_tok.view(), thresh=threshold)
 
-HTML(html_view)
+toptok_viewer = TopTokensViewer(best_model, num_top_tokens=10, method='phi')
+toptok_viewer.view_from_jupyter()
 ```
+
+More info about different viewers is available here: [`viewers`](topicnet/viewers).
 
 # FAQ
 
@@ -282,16 +285,16 @@ class_ids_cube = CubeCreator(
 )
 ```
 
-However for the case of modalities a couple of slightly more convenient methods are availiable:
+However, for the case of modalities a couple of slightly more convenient methods are availiable:
 
 ```python
 parameters : [
     {
-        'name': 'class_ids@text',
+        'name'  : 'class_ids@text',
         'values': [1, 2, 3]
     },
     {
-        'name': 'class_ids@ngrams',
+        'name'  : 'class_ids@ngrams',
         'values': [4, 5, 6]
     }
 ]
