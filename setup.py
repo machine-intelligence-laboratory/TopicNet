@@ -18,7 +18,7 @@ setup(
     author = 'Machine Intelligence Laboratory',
     author_email = 'alex.goncharov@phystech.edu',
     url = 'https://github.com/machine-intelligence-laboratory/TopicNet',
-    download_url = 'https://github.com/machine-intelligence-laboratory/TopicNet/archive/v0.6.1.tar.gz', 
+    download_url = 'https://github.com/machine-intelligence-laboratory/TopicNet/archive/v0.7.0.tar.gz', 
     keywords = [
         'ARTM',
         'topic modeling',
