@@ -142,10 +142,6 @@ ARTM_TYPES = {
     &#34;theta_name&#34;: Str()
 }
 
-# change log style
-lc = artm.messages.ConfigureLoggingArgs()
-lc.minloglevel = 3
-lib = artm.wrapper.LibArtm(logging_config=lc)
 
 element = Any()
 base_schema = Map({
@@ -522,12 +518,12 @@ def parse_modalities_data(parsed):
         return modalities_to_use
 
 
-def parse(yaml_string, force_single_thread=False):
+def parse(yaml_string, force_separate_thread=False):
     &#34;&#34;&#34;
     Parameters
     ----------
     yaml_string : str
-    force_single_thread : bool
+    force_separate_thread : bool
 
     Returns
     -------
@@ -572,7 +568,7 @@ def parse(yaml_string, force_single_thread=False):
     for stage in parsed[&#39;stages&#39;]:
         for elemtype, elem_args in stage.items():
             settings = build_cube_settings(elemtype.data, elem_args)
-            if force_single_thread:
+            if force_separate_thread:
                 settings[elemtype][&#34;separate_thread&#34;] = False
             cube_settings.append(settings)
 
@@ -610,8 +606,33 @@ def revalidate_section(parsed, section):
 
 
 def build_experiment_environment_from_yaml_config(yaml_string, experiment_id,
-                                                  save_path, force_single_thread=False):
-    settings, regs, model, dataset = parse(yaml_string, force_single_thread)
+                                                  save_path, force_separate_thread=False):
+    &#34;&#34;&#34;
+    Wraps up parameter extraction and class instances creation
+    from yaml formatted string
+    together with the method that builds experiment pipeline from
+    given experiment parameters (model, cubes, regularizers, etc)
+
+    Parameters
+    ----------
+    yaml_string: str
+        config that contains the whole experiment pipeline description
+        with its parameters
+    save_path: str
+        path to the folder to save experiment logs and models
+    experiment_id: str
+        name of the experiment folder
+    force_separate_thread: bool default = False
+        experimental feature that packs model training into
+        separate process which is killed upon training completion
+        by default is not used
+
+    Returns
+    -------
+
+    tuple experiment, dataset instances of corresponding classes from topicnet
+    &#34;&#34;&#34;
+    settings, regs, model, dataset = parse(yaml_string, force_separate_thread)
     # TODO: handle dynamic addition of regularizers
     experiment = Experiment(experiment_id=experiment_id, save_path=save_path, topic_model=model)
     experiment.build(settings)
@@ -671,17 +692,64 @@ def build_experiment_environment_from_yaml_config(yaml_string, experiment_id,
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.build_experiment_environment_from_yaml_config"><code class="name flex">
-<span>def <span class="ident">build_experiment_environment_from_yaml_config</span></span>(<span>yaml_string, experiment_id, save_path, force_single_thread=False)</span>
+<span>def <span class="ident">build_experiment_environment_from_yaml_config</span></span>(<span>yaml_string, experiment_id, save_path, force_separate_thread=False)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>Wraps up parameter extraction and class instances creation
+from yaml formatted string
+together with the method that builds experiment pipeline from
+given experiment parameters (model, cubes, regularizers, etc)</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>yaml_string</code></strong> :&ensp;<code>str</code></dt>
+<dd>config that contains the whole experiment pipeline description
+with its parameters</dd>
+<dt><strong><code>save_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the folder to save experiment logs and models</dd>
+<dt><strong><code>experiment_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>name of the experiment folder</dd>
+<dt><strong><code>force_separate_thread</code></strong> :&ensp;<code>bool</code> default = <code>False</code></dt>
+<dd>experimental feature that packs model training into
+separate process which is killed upon training completion
+by default is not used</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple</code> <code>experiment</code>, <code>dataset</code> <code>instances</code> of <code>corresponding</code> <code>classes</code> <code>from</code> <a title="topicnet" href="../index.html"><code>topicnet</code></a></dt>
+<dd>&nbsp;</dd>
+</dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def build_experiment_environment_from_yaml_config(yaml_string, experiment_id,
-                                                  save_path, force_single_thread=False):
-    settings, regs, model, dataset = parse(yaml_string, force_single_thread)
+                                                  save_path, force_separate_thread=False):
+    &#34;&#34;&#34;
+    Wraps up parameter extraction and class instances creation
+    from yaml formatted string
+    together with the method that builds experiment pipeline from
+    given experiment parameters (model, cubes, regularizers, etc)
+
+    Parameters
+    ----------
+    yaml_string: str
+        config that contains the whole experiment pipeline description
+        with its parameters
+    save_path: str
+        path to the folder to save experiment logs and models
+    experiment_id: str
+        name of the experiment folder
+    force_separate_thread: bool default = False
+        experimental feature that packs model training into
+        separate process which is killed upon training completion
+        by default is not used
+
+    Returns
+    -------
+
+    tuple experiment, dataset instances of corresponding classes from topicnet
+    &#34;&#34;&#34;
+    settings, regs, model, dataset = parse(yaml_string, force_separate_thread)
     # TODO: handle dynamic addition of regularizers
     experiment = Experiment(experiment_id=experiment_id, save_path=save_path, topic_model=model)
     experiment.build(settings)
@@ -1090,14 +1158,14 @@ Parameters</p>
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.parse"><code class="name flex">
-<span>def <span class="ident">parse</span></span>(<span>yaml_string, force_single_thread=False)</span>
+<span>def <span class="ident">parse</span></span>(<span>yaml_string, force_separate_thread=False)</span>
 </code></dt>
 <dd>
 <section class="desc"><h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>yaml_string</code></strong> :&ensp;<code>str</code></dt>
 <dd>&nbsp;</dd>
-<dt><strong><code>force_single_thread</code></strong> :&ensp;<code>bool</code></dt>
+<dt><strong><code>force_separate_thread</code></strong> :&ensp;<code>bool</code></dt>
 <dd>&nbsp;</dd>
 </dl>
 <h2 id="returns">Returns</h2>
@@ -1115,12 +1183,12 @@ Parameters</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def parse(yaml_string, force_single_thread=False):
+<pre><code class="python">def parse(yaml_string, force_separate_thread=False):
     &#34;&#34;&#34;
     Parameters
     ----------
     yaml_string : str
-    force_single_thread : bool
+    force_separate_thread : bool
 
     Returns
     -------
@@ -1165,7 +1233,7 @@ Parameters</p>
     for stage in parsed[&#39;stages&#39;]:
         for elemtype, elem_args in stage.items():
             settings = build_cube_settings(elemtype.data, elem_args)
-            if force_single_thread:
+            if force_separate_thread:
                 settings[elemtype][&#34;separate_thread&#34;] = False
             cube_settings.append(settings)
 

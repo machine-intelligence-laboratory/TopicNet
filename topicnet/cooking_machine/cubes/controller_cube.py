@@ -183,7 +183,7 @@ class ControllerAgent:
 
     See top-level docstring for details.
     """
-    def __init__(self, reg_name, score_to_track, tau_converter, max_iters, local_dict=dict()):
+    def __init__(self, reg_name, score_to_track, tau_converter, max_iters, local_dict=None):
         """
 
         Parameters
@@ -197,6 +197,9 @@ class ControllerAgent:
             `max_iters` could be `float("NaN")` and `float("inf")` values:
             that way agent will continue operating even outside this `RegularizationControllerCube`
         """
+        if local_dict is None:
+            local_dict = dict()
+
         self.reg_name = reg_name
         self.tau_converter = tau_converter
         if isinstance(score_to_track, list):

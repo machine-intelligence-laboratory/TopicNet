@@ -4,6 +4,8 @@
 .pytest_cache*
 .cache
 .coverage*
+tests/experiments/
+tests/test_data/test_dataset_batches/
 
 *.batch
 *.dict
@@ -11,6 +13,7 @@
 *.json
 *.log
 *.
+*batches/
 
 *.vw
 *.csv

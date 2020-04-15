@@ -1,0 +1,12 @@
+
+pipelines:
+  pull-requests:
+    '**':
+      - step:
+          name: Lint by Flake8
+          image: python:3.6.0
+          caches:
+            - pip
+          script:
+            - pip install flake8 mccabe
+            - flake8 --max-complexity=10 --max-line-length=100 .

@@ -10,8 +10,10 @@ import tempfile
 from typing import List, Dict
 
 
+from ..cooking_machine.config_parser import build_experiment_environment_from_yaml_config
 from ..cooking_machine.dataset import Dataset, DEFAULT_ARTM_MODALITY
 from ..cooking_machine.models.base_model import BaseModel
+from ..cooking_machine.models.frozen_score import FrozenScore
 from ..cooking_machine.models.intratext_coherence_score import (
     IntratextCoherenceScore,
     TextType,
@@ -64,6 +66,7 @@ class TestIntratextCoherenceScore:
     data_folder_path = None
     model = None
     dataset = None
+    dataset_file_path = None
 
     @classmethod
     def setup_class(cls):
@@ -74,10 +77,10 @@ class TestIntratextCoherenceScore:
 
         cls.data_folder_path = tempfile.mkdtemp()
 
-        dataset_file_path = os.path.join(cls.data_folder_path, DATASET_FILE_NAME)
-        dataset_table.to_csv(dataset_file_path)
+        cls.dataset_file_path = os.path.join(cls.data_folder_path, DATASET_FILE_NAME)
+        dataset_table.to_csv(cls.dataset_file_path)
 
-        cls.dataset = Dataset(dataset_file_path)
+        cls.dataset = Dataset(cls.dataset_file_path)
 
     @classmethod
     def teardown_class(cls):
@@ -270,6 +273,30 @@ class TestIntratextCoherenceScore:
             text_type, computation_method, word_topic_relatedness, specificity_estimation
         )
 
+    def test_freeze(self):
+        score = IntratextCoherenceScore(
+            self.dataset,
+            documents=self.documents,
+            text_type=TextType.VW_TEXT,
+            computation_method=ComputationMethod.SEGMENT_LENGTH,
+            word_topic_relatedness=WordTopicRelatednessType.PWT,
+            specificity_estimation=SpecificityEstimationMethod.NONE
+        )
+
+        frozen_score = FrozenScore(score.value, score)
+
+        for attribute_name in [
+                'value',
+                '_text_type',
+                '_computation_method',
+                '_word_topic_relatedness',
+                '_specificity_estimation_method',
+                '_max_num_out_of_topic_words',
+                '_window']:
+
+            assert hasattr(frozen_score, attribute_name)
+            assert getattr(frozen_score, attribute_name) == getattr(score, attribute_name)
+
     @pytest.mark.parametrize(
         'text_type, computation_method, word_topic_relatedness, specificity_estimation',
         list(product(
@@ -283,7 +310,7 @@ class TestIntratextCoherenceScore:
     )
     @pytest.mark.parametrize(
         'what_documents',
-        ['first', 'all', 'none']
+        ['first', 'all', 'empty', 'none']
     )
     def test_call_with_specified_documents(
             self, text_type, computation_method, word_topic_relatedness, specificity_estimation,
@@ -293,12 +320,93 @@ class TestIntratextCoherenceScore:
             documents = [self.documents[0]]
         elif what_documents == 'all':
             documents = self.documents
-        elif what_documents == 'none':
+        elif what_documents == 'empty':
             documents = list()
+        elif what_documents == 'none':
+            documents = None
         else:
             raise ValueError(f'{what_documents}')
 
         self.check_call(
-            text_type, computation_method, word_topic_relatedness, specificity_estimation,
+            text_type,
+            computation_method,
+            word_topic_relatedness,
+            specificity_estimation,
             documents
         )
+
+    @pytest.mark.parametrize('keep_dataset', [False, True])
+    @pytest.mark.parametrize('low_memory', [False, True])
+    def test_recipe(self, keep_dataset, low_memory):
+        recipe_file_path = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            '..',
+            'cooking_machine',
+            'recipes',
+            'intratext_coherence_maximization.yml',
+        )
+
+        recipe_config_string = open(recipe_file_path, 'r').read()
+        recipe_config_string = recipe_config_string.format(
+            modality_names=[DEFAULT_ARTM_MODALITY],
+            main_modality=DEFAULT_ARTM_MODALITY,
+            dataset_path=self.dataset_file_path,
+            keep_dataset_in_memory=True,
+            keep_dataset=keep_dataset,
+            documents_fraction=1.0,
+            specific_topics=self.topics[:-1],
+            background_topics=self.topics[-1:],
+            one_stage_num_iter=2,
+            verbose=False,
+        )
+
+        experiment, dataset = build_experiment_environment_from_yaml_config(
+            recipe_config_string,
+            experiment_id=(
+                f'experiment_maximize_intratext'
+                f'__{keep_dataset}'
+                f'__{low_memory}'
+            ),
+            save_path=self.data_folder_path,
+        )
+        experiment._low_memory = low_memory  # TODO: add some better test for low_memory?
+
+        experiment.run(dataset)
+
+        score_name = 'IntratextCoherenceScore'
+
+        best_model = None
+        levels = range(1, len(experiment.cubes) + 1)
+
+        # TODO: probably need such method in Experiment?
+        #  (i.e. "select best of all", not only on level=level)
+        for level in levels:
+            best_model_candidates = experiment.select(
+                f'{score_name} -> max',
+                level=level
+            )
+
+            if len(best_model_candidates) == 0:
+                continue
+
+            best_model_candidate = best_model_candidates[0]
+
+            if (best_model is None or
+                    best_model.scores[score_name][-1] <
+                    best_model_candidate.scores[score_name][-1]):
+
+                best_model = best_model_candidate
+
+        models_to_compare_with = [
+            m for m in experiment.models.values()
+            if len(m.scores[score_name]) > 0
+        ]
+
+        assert all([
+            m.scores[score_name][-1] <= best_model.scores[score_name][-1]
+            for m in models_to_compare_with
+        ])
+        assert any([
+            m.scores[score_name][-1] < best_model.scores[score_name][-1]
+            for m in models_to_compare_with
+        ])

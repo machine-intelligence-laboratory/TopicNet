@@ -30,16 +30,17 @@ POSSIBLE_REGULARIZERS = [
     artm.regularizers.DecorrelatorPhiRegularizer(name='test_decor')
 ]
 RENORMALIZE_FLAG = [False, True]
-MULTIPROCESSING_FLAGS = [False]
+MULTIPROCESSING_FLAGS = [True, False]
 
 
 def resource_teardown():
     """ """
+    dataset = Dataset(DATA_PATH)
+
     if os.path.exists("tests/experiments"):
         shutil.rmtree("tests/experiments")
-        pass
-    if os.path.exists("tests/test_data/test_dataset_batches"):
-        shutil.rmtree("tests/test_data/test_dataset_batches")
+    if os.path.exists(dataset._internals_folder_path):
+        shutil.rmtree(dataset._internals_folder_path)
 
 
 def setup_function():

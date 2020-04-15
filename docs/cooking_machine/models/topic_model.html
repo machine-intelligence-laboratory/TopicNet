@@ -24,33 +24,41 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from .base_model import BaseModel
-from .frozen_score import FrozenScore
-from ..routine import transform_complex_entity_to_dict
-
-import os
-import json
-import glob
+<pre><code class="python">import artm
 import dill
+import glob
+import inspect
+import json
+import os
+import pandas as pd
 import pickle
 import shutil
-import pandas as pd
 import warnings
-import inspect
-from numbers import Number
 
-import artm
 from artm.wrapper.exceptions import ArtmException
-
-from six import iteritems
 from copy import deepcopy
-
 from inspect import signature
+from numbers import Number
+from six import iteritems
+from typing import (
+    Any,
+    Dict,
+    List,
+)
 
-# change log style
-lc = artm.messages.ConfigureLoggingArgs()
-lc.minloglevel = 3
-lib = artm.wrapper.LibArtm(logging_config=lc)
+from . import scores as tn_scores
+from .base_model import BaseModel
+from .base_score import BaseScore
+from .frozen_score import FrozenScore
+from ..cubes.controller_cube import ControllerAgent
+from ..routine import transform_complex_entity_to_dict
+
+# TODO: can&#39;t import Experiment from here (to specify type in init)
+#  probably need to rearrange imports
+#  (Experiment and Models are kind of in one bunch: one should be able to know about the other)
+
+from .scores_wrapper import ScoresWrapper
+
 
 LIBRARY_VERSION = artm.version()
 ARTM_NINE = LIBRARY_VERSION.split(&#34;.&#34;)[1] == &#34;9&#34;
@@ -67,12 +75,18 @@ class TopicModel(BaseModel):
     Topic Model contains artm model and all necessary information: scores, training pipeline, etc.
 
     &#34;&#34;&#34;
-    def __init__(self, artm_model=None, model_id=None,
-                 parent_model_id=None, data_path=None,
-                 description=None, experiment=None,
-                 callbacks=list(), depth=0, scores=dict(),
-                 custom_scores=dict(), custom_regularizers=dict(),
-                 *args, **kwargs):
+    def __init__(
+            self,
+            artm_model: artm.ARTM = None,
+            model_id: str = None,
+            parent_model_id: str = None,
+            data_path: str = None,
+            description: List[Dict[str, Any]] = None,
+            experiment=None,
+            callbacks: List[ControllerAgent] = None,
+            custom_scores: Dict[str, BaseScore] = None,
+            custom_regularizers: Dict[str, artm.regularizers.BaseRegularizer] = None,
+            *args, **kwargs):
         &#34;&#34;&#34;
         Initialize stage, also used for loading previously saved experiments.
 
@@ -103,9 +117,18 @@ class TopicModel(BaseModel):
         super().__init__(model_id=model_id, parent_model_id=parent_model_id,
                          experiment=experiment, *args, **kwargs)
 
+        if callbacks is None:
+            callbacks = list()
+        if custom_scores is None:
+            custom_scores = dict()
+        if custom_regularizers is None:
+            custom_regularizers = dict()
+
         self.callbacks = list(callbacks)
 
-        if artm_model is None:
+        if artm_model is not None:
+            self._model = artm_model
+        else:
             artm_ARTM_args = inspect.getfullargspec(artm.ARTM).args
             kwargs = {k: v for k, v in kwargs.items() if k in artm_ARTM_args}
 
@@ -113,27 +136,30 @@ class TopicModel(BaseModel):
                 self._model = artm.ARTM(**kwargs)
             except ArtmException as e:
                 error_message = repr(e)
+
                 raise ValueError(
                     f&#39;Cannot create artm model with parameters {kwargs}.\n&#39;
                     &#34;ARTM failed with following: &#34; + error_message
                 )
-        else:
-            self._model = artm_model
 
         self.data_path = data_path
         self.custom_scores = custom_scores
         self.custom_regularizers = custom_regularizers
         self.library_version = LIBRARY_VERSION
 
-        self._score_caches = None  # returned by model.score, reset by model._fit
-
         self._description = []
+
         if description is None and self._model._initialized:
             init_params = self.get_jsonable_from_parameters()
             self._description = [{&#34;action&#34;: &#34;init&#34;,
                                   &#34;params&#34;: [init_params]}]
         else:
             self._description = description
+
+        self._scores_wrapper = ScoresWrapper(
+            topicnet_scores=self.custom_scores,
+            artm_scores=self._model.scores
+        )
 
     def __getattr__(self, attr_name):
         return getattr(self._model, attr_name)
@@ -148,9 +174,6 @@ class TopicModel(BaseModel):
 
         if self.custom_scores is not None:  # default is dict(), but maybe better to set None?
             yield from self.custom_scores.items()
-
-    def _reset_score_caches(self):
-        self._score_caches = None
 
     def _compute_score_values(self):
         def get_score_properties_and_values(score_name, score_object):
@@ -179,7 +202,7 @@ class TopicModel(BaseModel):
 
         return score_values
 
-    def _fit(self, dataset_trainable, num_iterations, custom_regularizers=dict()):
+    def _fit(self, dataset_trainable, num_iterations, custom_regularizers=None):
         &#34;&#34;&#34;
 
         Parameters
@@ -192,6 +215,9 @@ class TopicModel(BaseModel):
             Regularizers to apply to model
 
         &#34;&#34;&#34;
+        if custom_regularizers is None:
+            custom_regularizers = dict()
+
         all_custom_regularizers = deepcopy(custom_regularizers)
         all_custom_regularizers.update(self.custom_regularizers)
 
@@ -226,7 +252,7 @@ class TopicModel(BaseModel):
             for callback_agent in self.callbacks:
                 callback_agent.invoke(self, cur_iter)
 
-            self._reset_score_caches()
+            self._scores_wrapper._reset_score_caches()
 
     def _apply_custom_regularizers(self, dataset_trainable, custom_regularizers,
                                    base_regularizers_name, base_regularizers_tau):
@@ -297,7 +323,10 @@ class TopicModel(BaseModel):
 
         return parameters
 
-    def get_init_parameters(self, not_include=list()):
+    def get_init_parameters(self, not_include=None):
+        if not_include is None:
+            not_include = list()
+
         init_artm_parameter_names = [
             p.name for p in list(signature(artm.ARTM.__init__).parameters.values())
         ][1:]
@@ -365,19 +394,25 @@ class TopicModel(BaseModel):
         self.save_parameters(model_save_path)
 
         for score_name, score_object in self.custom_scores.items():
-            save_path = os.path.join(model_save_path, score_name + &#39;.p&#39;)
+            class_name = score_object.__class__.__name__
+            save_path = os.path.join(
+                model_save_path,
+                &#39;.&#39;.join([score_name, class_name, &#39;p&#39;])
+            )
 
-            with open(save_path, &#39;wb&#39;) as score_file:
-                try:
-                    dill.dump(score_object, score_file)
-                except pickle.PicklingError:
-                    warnings.warn(
-                        f&#39;Failed to save custom score &#34;{score_object}&#34; correctly! &#39;
-                        f&#39;Freezing score (saving only its value)&#39;
-                    )
+            try:
+                score_object.save(save_path)
+            except pickle.PicklingError:
+                warnings.warn(
+                    f&#39;Failed to save custom score &#34;{score_object}&#34; correctly! &#39;
+                    f&#39;Freezing score (saving only its value)&#39;
+                )
 
-                    frozen_score_object = FrozenScore(score_object.value)
-                    dill.dump(frozen_score_object, score_file)
+                frozen_score_object = FrozenScore(
+                    score_object.value,
+                    original_score=score_object
+                )
+                frozen_score_object.save(save_path)
 
         self.save_custom_regularizers(model_save_path)
 
@@ -415,20 +450,18 @@ class TopicModel(BaseModel):
         topic_model = TopicModel(model, **params)
         topic_model.experiment = experiment
 
-        custom_scores = {}
-
         for score_path in glob.glob(os.path.join(path, &#39;*.p&#39;)):
             # TODO: file &#39;..p&#39; is not included, so score with name &#39;.&#39; will be lost
             #  Need to validate score name?
             score_file_name = os.path.basename(score_path)
-            score_name = os.path.splitext(score_file_name)[0]
+            *score_name, score_cls_name, _ = score_file_name.split(&#39;.&#39;)
+            score_name = &#39;.&#39;.join(score_name)
 
-            with open(score_path, &#39;rb&#39;) as score_file:
-                custom_scores[score_name] = dill.load(score_file)
-
-        topic_model.custom_scores = custom_scores
-
-        custom_regularizers = {}
+            score_cls = getattr(tn_scores, score_cls_name)
+            loaded_score = score_cls.load(score_path)
+            # TODO check what happens with score name
+            loaded_score._name = score_name
+            topic_model.scores.add(loaded_score)
 
         for reg_file_extension, loader in zip([&#39;.rd&#39;, &#39;.rp&#39;], [dill, pickle]):
             for regularizer_path in glob.glob(os.path.join(path, f&#39;*{reg_file_extension}&#39;)):
@@ -436,9 +469,7 @@ class TopicModel(BaseModel):
                 regularizer_name = os.path.splitext(regularizer_file_name)[0]
 
                 with open(regularizer_path, &#39;rb&#39;) as reg_file:
-                    custom_regularizers[regularizer_name] = loader.load(reg_file)
-
-        topic_model.custom_regularizers = custom_regularizers
+                    topic_model.custom_regularizers[regularizer_name] = loader.load(reg_file)
 
         all_agents = glob.glob(os.path.join(path, &#39;callback*.pkl&#39;))
         topic_model.callbacks = [None for _ in enumerate(all_agents)]
@@ -450,7 +481,8 @@ class TopicModel(BaseModel):
             with open(agent_path, &#39;rb&#39;) as agent_file:
                 topic_model.callbacks[original_index] = dill.load(agent_file)
 
-        topic_model._reset_score_caches()
+        topic_model._scores_wrapper._reset_score_caches()
+        _ = topic_model.scores
 
         return topic_model
 
@@ -636,8 +668,13 @@ class TopicModel(BaseModel):
                                                   predict_class_id)
                     return theta
 
-    def to_dummy(self):
+    def to_dummy(self, save_path=None):
         &#34;&#34;&#34;Creates dummy model
+
+        Parameters
+        ----------
+        save_path : str (or None)
+            Path to folder with dumped info about topic model
 
         Returns
         -------
@@ -654,13 +691,17 @@ class TopicModel(BaseModel):
         # python crashes if place this import on top of the file
         # import circle: TopicModel -&gt; DummyTopicModel -&gt; TopicModel
 
+        if save_path is None:
+            save_path = self.model_default_save_path
+
         dummy = DummyTopicModel(
             init_parameters=self.get_init_parameters(),
-            scores=self.scores,
+            scores=dict(self.scores),
             model_id=self.model_id,
             parent_model_id=self.parent_model_id,
             description=self.description,
-            experiment=self.experiment
+            experiment=self.experiment,
+            save_path=save_path,
         )
 
         # BaseModel spoils model_id trying to make it unique
@@ -669,7 +710,7 @@ class TopicModel(BaseModel):
         return dummy
 
     def make_dummy(self, save_to_drive=True, save_path=None, dataset=None):
-        &#34;&#34;&#34;Makes topic model dummy in-place
+        &#34;&#34;&#34;Makes topic model dummy in-place.
 
         Parameters
         ----------
@@ -684,7 +725,11 @@ class TopicModel(BaseModel):
         Notes
         -----
         After calling the method, the model is still of type TopicModel,
-        but all its attributes are now like DummyTopicModel&#39;s
+        but there is no ARTM model inside! (so `model.get_phi()` won&#39;t work!)
+        If one wants to use the topic model as before,
+        this ARTM model should be restored first:
+        &gt;&gt;&gt; save_path = topic_model.model_default_save_path
+        &gt;&gt;&gt; topic_model._model = artm.load_artm_model(f&#39;{save_path}/model&#39;)
         &#34;&#34;&#34;
         from .dummy_topic_model import DummyTopicModel
         from .dummy_topic_model import WARNING_ALREADY_DUMMY
@@ -701,7 +746,7 @@ class TopicModel(BaseModel):
             save_theta = self._model._cache_theta or (dataset is not None)
             self.save(save_path, phi=True, theta=save_theta, dataset=dataset)
 
-        dummy = self.to_dummy()
+        dummy = self.to_dummy(save_path=save_path)
         dummy._original_model_save_folder_path = save_path
 
         self._model.dispose()
@@ -712,22 +757,19 @@ class TopicModel(BaseModel):
         setattr(self, DummyTopicModel._dummy_attribute, True)
 
     @property
-    def scores(self):
+    def scores(self) -&gt; Dict[str, List[float]]:
         &#34;&#34;&#34;
         Gets score values by name.
 
         Returns
         -------
-        score_values : dict : string -&gt; list
+        dict : string -&gt; list
             dictionary with scores and corresponding values
-
         &#34;&#34;&#34;
-        if self._score_caches is None:  # assume users won&#39;t try to corrupt _score_caches
-            self._score_caches = self._compute_score_values()
+        if self._scores_wrapper._score_caches is None:
+            self._scores_wrapper._score_caches = self._compute_score_values()
 
-        assert self._score_caches is not None  # maybe empty dict, but not None
-
-        return self._score_caches
+        return self._scores_wrapper
 
     @property
     def description(self):
@@ -762,7 +804,7 @@ class TopicModel(BaseModel):
 
     def select_topics(self, substrings, invert=False):
         &#34;&#34;&#34;
-        Gets all topics containing speified substring
+        Gets all topics containing specified substring
 
         Returns
         -------
@@ -826,7 +868,7 @@ class TopicModel(BaseModel):
 <dl>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel"><code class="flex name class">
 <span>class <span class="ident">TopicModel</span></span>
-<span>(</span><span>artm_model=None, model_id=None, parent_model_id=None, data_path=None, description=None, experiment=None, callbacks=[], depth=0, scores={}, custom_scores={}, custom_regularizers={}, *args, **kwargs)</span>
+<span>(</span><span>artm_model=None, model_id=None, parent_model_id=None, data_path=None, description=None, experiment=None, callbacks=None, custom_scores=None, custom_regularizers=None, *args, **kwargs)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Topic Model contains artm model and all necessary information: scores, training pipeline, etc.</p>
@@ -863,12 +905,18 @@ mainly used for fancy regularizer coefficients manipulation</dd>
     Topic Model contains artm model and all necessary information: scores, training pipeline, etc.
 
     &#34;&#34;&#34;
-    def __init__(self, artm_model=None, model_id=None,
-                 parent_model_id=None, data_path=None,
-                 description=None, experiment=None,
-                 callbacks=list(), depth=0, scores=dict(),
-                 custom_scores=dict(), custom_regularizers=dict(),
-                 *args, **kwargs):
+    def __init__(
+            self,
+            artm_model: artm.ARTM = None,
+            model_id: str = None,
+            parent_model_id: str = None,
+            data_path: str = None,
+            description: List[Dict[str, Any]] = None,
+            experiment=None,
+            callbacks: List[ControllerAgent] = None,
+            custom_scores: Dict[str, BaseScore] = None,
+            custom_regularizers: Dict[str, artm.regularizers.BaseRegularizer] = None,
+            *args, **kwargs):
         &#34;&#34;&#34;
         Initialize stage, also used for loading previously saved experiments.
 
@@ -899,9 +947,18 @@ mainly used for fancy regularizer coefficients manipulation</dd>
         super().__init__(model_id=model_id, parent_model_id=parent_model_id,
                          experiment=experiment, *args, **kwargs)
 
+        if callbacks is None:
+            callbacks = list()
+        if custom_scores is None:
+            custom_scores = dict()
+        if custom_regularizers is None:
+            custom_regularizers = dict()
+
         self.callbacks = list(callbacks)
 
-        if artm_model is None:
+        if artm_model is not None:
+            self._model = artm_model
+        else:
             artm_ARTM_args = inspect.getfullargspec(artm.ARTM).args
             kwargs = {k: v for k, v in kwargs.items() if k in artm_ARTM_args}
 
@@ -909,27 +966,30 @@ mainly used for fancy regularizer coefficients manipulation</dd>
                 self._model = artm.ARTM(**kwargs)
             except ArtmException as e:
                 error_message = repr(e)
+
                 raise ValueError(
                     f&#39;Cannot create artm model with parameters {kwargs}.\n&#39;
                     &#34;ARTM failed with following: &#34; + error_message
                 )
-        else:
-            self._model = artm_model
 
         self.data_path = data_path
         self.custom_scores = custom_scores
         self.custom_regularizers = custom_regularizers
         self.library_version = LIBRARY_VERSION
 
-        self._score_caches = None  # returned by model.score, reset by model._fit
-
         self._description = []
+
         if description is None and self._model._initialized:
             init_params = self.get_jsonable_from_parameters()
             self._description = [{&#34;action&#34;: &#34;init&#34;,
                                   &#34;params&#34;: [init_params]}]
         else:
             self._description = description
+
+        self._scores_wrapper = ScoresWrapper(
+            topicnet_scores=self.custom_scores,
+            artm_scores=self._model.scores
+        )
 
     def __getattr__(self, attr_name):
         return getattr(self._model, attr_name)
@@ -944,9 +1004,6 @@ mainly used for fancy regularizer coefficients manipulation</dd>
 
         if self.custom_scores is not None:  # default is dict(), but maybe better to set None?
             yield from self.custom_scores.items()
-
-    def _reset_score_caches(self):
-        self._score_caches = None
 
     def _compute_score_values(self):
         def get_score_properties_and_values(score_name, score_object):
@@ -975,7 +1032,7 @@ mainly used for fancy regularizer coefficients manipulation</dd>
 
         return score_values
 
-    def _fit(self, dataset_trainable, num_iterations, custom_regularizers=dict()):
+    def _fit(self, dataset_trainable, num_iterations, custom_regularizers=None):
         &#34;&#34;&#34;
 
         Parameters
@@ -988,6 +1045,9 @@ mainly used for fancy regularizer coefficients manipulation</dd>
             Regularizers to apply to model
 
         &#34;&#34;&#34;
+        if custom_regularizers is None:
+            custom_regularizers = dict()
+
         all_custom_regularizers = deepcopy(custom_regularizers)
         all_custom_regularizers.update(self.custom_regularizers)
 
@@ -1022,7 +1082,7 @@ mainly used for fancy regularizer coefficients manipulation</dd>
             for callback_agent in self.callbacks:
                 callback_agent.invoke(self, cur_iter)
 
-            self._reset_score_caches()
+            self._scores_wrapper._reset_score_caches()
 
     def _apply_custom_regularizers(self, dataset_trainable, custom_regularizers,
                                    base_regularizers_name, base_regularizers_tau):
@@ -1093,7 +1153,10 @@ mainly used for fancy regularizer coefficients manipulation</dd>
 
         return parameters
 
-    def get_init_parameters(self, not_include=list()):
+    def get_init_parameters(self, not_include=None):
+        if not_include is None:
+            not_include = list()
+
         init_artm_parameter_names = [
             p.name for p in list(signature(artm.ARTM.__init__).parameters.values())
         ][1:]
@@ -1161,19 +1224,25 @@ mainly used for fancy regularizer coefficients manipulation</dd>
         self.save_parameters(model_save_path)
 
         for score_name, score_object in self.custom_scores.items():
-            save_path = os.path.join(model_save_path, score_name + &#39;.p&#39;)
+            class_name = score_object.__class__.__name__
+            save_path = os.path.join(
+                model_save_path,
+                &#39;.&#39;.join([score_name, class_name, &#39;p&#39;])
+            )
 
-            with open(save_path, &#39;wb&#39;) as score_file:
-                try:
-                    dill.dump(score_object, score_file)
-                except pickle.PicklingError:
-                    warnings.warn(
-                        f&#39;Failed to save custom score &#34;{score_object}&#34; correctly! &#39;
-                        f&#39;Freezing score (saving only its value)&#39;
-                    )
+            try:
+                score_object.save(save_path)
+            except pickle.PicklingError:
+                warnings.warn(
+                    f&#39;Failed to save custom score &#34;{score_object}&#34; correctly! &#39;
+                    f&#39;Freezing score (saving only its value)&#39;
+                )
 
-                    frozen_score_object = FrozenScore(score_object.value)
-                    dill.dump(frozen_score_object, score_file)
+                frozen_score_object = FrozenScore(
+                    score_object.value,
+                    original_score=score_object
+                )
+                frozen_score_object.save(save_path)
 
         self.save_custom_regularizers(model_save_path)
 
@@ -1211,20 +1280,18 @@ mainly used for fancy regularizer coefficients manipulation</dd>
         topic_model = TopicModel(model, **params)
         topic_model.experiment = experiment
 
-        custom_scores = {}
-
         for score_path in glob.glob(os.path.join(path, &#39;*.p&#39;)):
             # TODO: file &#39;..p&#39; is not included, so score with name &#39;.&#39; will be lost
             #  Need to validate score name?
             score_file_name = os.path.basename(score_path)
-            score_name = os.path.splitext(score_file_name)[0]
+            *score_name, score_cls_name, _ = score_file_name.split(&#39;.&#39;)
+            score_name = &#39;.&#39;.join(score_name)
 
-            with open(score_path, &#39;rb&#39;) as score_file:
-                custom_scores[score_name] = dill.load(score_file)
-
-        topic_model.custom_scores = custom_scores
-
-        custom_regularizers = {}
+            score_cls = getattr(tn_scores, score_cls_name)
+            loaded_score = score_cls.load(score_path)
+            # TODO check what happens with score name
+            loaded_score._name = score_name
+            topic_model.scores.add(loaded_score)
 
         for reg_file_extension, loader in zip([&#39;.rd&#39;, &#39;.rp&#39;], [dill, pickle]):
             for regularizer_path in glob.glob(os.path.join(path, f&#39;*{reg_file_extension}&#39;)):
@@ -1232,9 +1299,7 @@ mainly used for fancy regularizer coefficients manipulation</dd>
                 regularizer_name = os.path.splitext(regularizer_file_name)[0]
 
                 with open(regularizer_path, &#39;rb&#39;) as reg_file:
-                    custom_regularizers[regularizer_name] = loader.load(reg_file)
-
-        topic_model.custom_regularizers = custom_regularizers
+                    topic_model.custom_regularizers[regularizer_name] = loader.load(reg_file)
 
         all_agents = glob.glob(os.path.join(path, &#39;callback*.pkl&#39;))
         topic_model.callbacks = [None for _ in enumerate(all_agents)]
@@ -1246,7 +1311,8 @@ mainly used for fancy regularizer coefficients manipulation</dd>
             with open(agent_path, &#39;rb&#39;) as agent_file:
                 topic_model.callbacks[original_index] = dill.load(agent_file)
 
-        topic_model._reset_score_caches()
+        topic_model._scores_wrapper._reset_score_caches()
+        _ = topic_model.scores
 
         return topic_model
 
@@ -1432,8 +1498,13 @@ mainly used for fancy regularizer coefficients manipulation</dd>
                                                   predict_class_id)
                     return theta
 
-    def to_dummy(self):
+    def to_dummy(self, save_path=None):
         &#34;&#34;&#34;Creates dummy model
+
+        Parameters
+        ----------
+        save_path : str (or None)
+            Path to folder with dumped info about topic model
 
         Returns
         -------
@@ -1450,13 +1521,17 @@ mainly used for fancy regularizer coefficients manipulation</dd>
         # python crashes if place this import on top of the file
         # import circle: TopicModel -&gt; DummyTopicModel -&gt; TopicModel
 
+        if save_path is None:
+            save_path = self.model_default_save_path
+
         dummy = DummyTopicModel(
             init_parameters=self.get_init_parameters(),
-            scores=self.scores,
+            scores=dict(self.scores),
             model_id=self.model_id,
             parent_model_id=self.parent_model_id,
             description=self.description,
-            experiment=self.experiment
+            experiment=self.experiment,
+            save_path=save_path,
         )
 
         # BaseModel spoils model_id trying to make it unique
@@ -1465,7 +1540,7 @@ mainly used for fancy regularizer coefficients manipulation</dd>
         return dummy
 
     def make_dummy(self, save_to_drive=True, save_path=None, dataset=None):
-        &#34;&#34;&#34;Makes topic model dummy in-place
+        &#34;&#34;&#34;Makes topic model dummy in-place.
 
         Parameters
         ----------
@@ -1480,7 +1555,11 @@ mainly used for fancy regularizer coefficients manipulation</dd>
         Notes
         -----
         After calling the method, the model is still of type TopicModel,
-        but all its attributes are now like DummyTopicModel&#39;s
+        but there is no ARTM model inside! (so `model.get_phi()` won&#39;t work!)
+        If one wants to use the topic model as before,
+        this ARTM model should be restored first:
+        &gt;&gt;&gt; save_path = topic_model.model_default_save_path
+        &gt;&gt;&gt; topic_model._model = artm.load_artm_model(f&#39;{save_path}/model&#39;)
         &#34;&#34;&#34;
         from .dummy_topic_model import DummyTopicModel
         from .dummy_topic_model import WARNING_ALREADY_DUMMY
@@ -1497,7 +1576,7 @@ mainly used for fancy regularizer coefficients manipulation</dd>
             save_theta = self._model._cache_theta or (dataset is not None)
             self.save(save_path, phi=True, theta=save_theta, dataset=dataset)
 
-        dummy = self.to_dummy()
+        dummy = self.to_dummy(save_path=save_path)
         dummy._original_model_save_folder_path = save_path
 
         self._model.dispose()
@@ -1508,22 +1587,19 @@ mainly used for fancy regularizer coefficients manipulation</dd>
         setattr(self, DummyTopicModel._dummy_attribute, True)
 
     @property
-    def scores(self):
+    def scores(self) -&gt; Dict[str, List[float]]:
         &#34;&#34;&#34;
         Gets score values by name.
 
         Returns
         -------
-        score_values : dict : string -&gt; list
+        dict : string -&gt; list
             dictionary with scores and corresponding values
-
         &#34;&#34;&#34;
-        if self._score_caches is None:  # assume users won&#39;t try to corrupt _score_caches
-            self._score_caches = self._compute_score_values()
+        if self._scores_wrapper._score_caches is None:
+            self._scores_wrapper._score_caches = self._compute_score_values()
 
-        assert self._score_caches is not None  # maybe empty dict, but not None
-
-        return self._score_caches
+        return self._scores_wrapper
 
     @property
     def description(self):
@@ -1558,7 +1634,7 @@ mainly used for fancy regularizer coefficients manipulation</dd>
 
     def select_topics(self, substrings, invert=False):
         &#34;&#34;&#34;
-        Gets all topics containing speified substring
+        Gets all topics containing specified substring
 
         Returns
         -------
@@ -1670,20 +1746,18 @@ def load(path, experiment=None):
     topic_model = TopicModel(model, **params)
     topic_model.experiment = experiment
 
-    custom_scores = {}
-
     for score_path in glob.glob(os.path.join(path, &#39;*.p&#39;)):
         # TODO: file &#39;..p&#39; is not included, so score with name &#39;.&#39; will be lost
         #  Need to validate score name?
         score_file_name = os.path.basename(score_path)
-        score_name = os.path.splitext(score_file_name)[0]
+        *score_name, score_cls_name, _ = score_file_name.split(&#39;.&#39;)
+        score_name = &#39;.&#39;.join(score_name)
 
-        with open(score_path, &#39;rb&#39;) as score_file:
-            custom_scores[score_name] = dill.load(score_file)
-
-    topic_model.custom_scores = custom_scores
-
-    custom_regularizers = {}
+        score_cls = getattr(tn_scores, score_cls_name)
+        loaded_score = score_cls.load(score_path)
+        # TODO check what happens with score name
+        loaded_score._name = score_name
+        topic_model.scores.add(loaded_score)
 
     for reg_file_extension, loader in zip([&#39;.rd&#39;, &#39;.rp&#39;], [dill, pickle]):
         for regularizer_path in glob.glob(os.path.join(path, f&#39;*{reg_file_extension}&#39;)):
@@ -1691,9 +1765,7 @@ def load(path, experiment=None):
             regularizer_name = os.path.splitext(regularizer_file_name)[0]
 
             with open(regularizer_path, &#39;rb&#39;) as reg_file:
-                custom_regularizers[regularizer_name] = loader.load(reg_file)
-
-    topic_model.custom_regularizers = custom_regularizers
+                topic_model.custom_regularizers[regularizer_name] = loader.load(reg_file)
 
     all_agents = glob.glob(os.path.join(path, &#39;callback*.pkl&#39;))
     topic_model.callbacks = [None for _ in enumerate(all_agents)]
@@ -1705,7 +1777,8 @@ def load(path, experiment=None):
         with open(agent_path, &#39;rb&#39;) as agent_file:
             topic_model.callbacks[original_index] = dill.load(agent_file)
 
-    topic_model._reset_score_caches()
+    topic_model._scores_wrapper._reset_score_caches()
+    _ = topic_model.scores
 
     return topic_model</code></pre>
 </details>
@@ -1803,7 +1876,7 @@ def regularizers(self):
 <section class="desc"><p>Gets score values by name.</p>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><strong><code>score_values</code></strong> :&ensp;<code>dict</code> : <code>string</code> -&gt; <code>list</code></dt>
+<dt><strong><code>dict</code></strong> :&ensp;<code>string</code> -&gt; <code>list</code></dt>
 <dd>dictionary with scores and corresponding values</dd>
 </dl></section>
 <details class="source">
@@ -1811,22 +1884,19 @@ def regularizers(self):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
-def scores(self):
+def scores(self) -&gt; Dict[str, List[float]]:
     &#34;&#34;&#34;
     Gets score values by name.
 
     Returns
     -------
-    score_values : dict : string -&gt; list
+    dict : string -&gt; list
         dictionary with scores and corresponding values
-
     &#34;&#34;&#34;
-    if self._score_caches is None:  # assume users won&#39;t try to corrupt _score_caches
-        self._score_caches = self._compute_score_values()
+    if self._scores_wrapper._score_caches is None:
+        self._scores_wrapper._score_caches = self._compute_score_values()
 
-    assert self._score_caches is not None  # maybe empty dict, but not None
-
-    return self._score_caches</code></pre>
+    return self._scores_wrapper</code></pre>
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.specific_topics"><code class="name">var <span class="ident">specific_topics</span></code></dt>
@@ -1938,7 +2008,7 @@ def specific_topics(self):
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.get_init_parameters"><code class="name flex">
-<span>def <span class="ident">get_init_parameters</span></span>(<span>self, not_include=[])</span>
+<span>def <span class="ident">get_init_parameters</span></span>(<span>self, not_include=None)</span>
 </code></dt>
 <dd>
 <section class="desc"></section>
@@ -1946,7 +2016,10 @@ def specific_topics(self):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_init_parameters(self, not_include=list()):
+<pre><code class="python">def get_init_parameters(self, not_include=None):
+    if not_include is None:
+        not_include = list()
+
     init_artm_parameter_names = [
         p.name for p in list(signature(artm.ARTM.__init__).parameters.values())
     ][1:]
@@ -2286,7 +2359,7 @@ depends on the collection (Default value = None)</dd>
 <span>def <span class="ident">make_dummy</span></span>(<span>self, save_to_drive=True, save_path=None, dataset=None)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Makes topic model dummy in-place</p>
+<section class="desc"><p>Makes topic model dummy in-place.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>save_to_drive</code></strong> :&ensp;<code>bool</code></dt>
@@ -2299,13 +2372,18 @@ Needed for saving Theta matrix</dd>
 </dl>
 <h2 id="notes">Notes</h2>
 <p>After calling the method, the model is still of type TopicModel,
-but all its attributes are now like DummyTopicModel's</p></section>
+but there is no ARTM model inside! (so <code>model.get_phi()</code> won't work!)
+If one wants to use the topic model as before,
+this ARTM model should be restored first:</p>
+<pre><code>&gt;&gt;&gt; save_path = topic_model.model_default_save_path
+&gt;&gt;&gt; topic_model._model = artm.load_artm_model(f'{save_path}/model')
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def make_dummy(self, save_to_drive=True, save_path=None, dataset=None):
-    &#34;&#34;&#34;Makes topic model dummy in-place
+    &#34;&#34;&#34;Makes topic model dummy in-place.
 
     Parameters
     ----------
@@ -2320,7 +2398,11 @@ but all its attributes are now like DummyTopicModel's</p></section>
     Notes
     -----
     After calling the method, the model is still of type TopicModel,
-    but all its attributes are now like DummyTopicModel&#39;s
+    but there is no ARTM model inside! (so `model.get_phi()` won&#39;t work!)
+    If one wants to use the topic model as before,
+    this ARTM model should be restored first:
+    &gt;&gt;&gt; save_path = topic_model.model_default_save_path
+    &gt;&gt;&gt; topic_model._model = artm.load_artm_model(f&#39;{save_path}/model&#39;)
     &#34;&#34;&#34;
     from .dummy_topic_model import DummyTopicModel
     from .dummy_topic_model import WARNING_ALREADY_DUMMY
@@ -2337,7 +2419,7 @@ but all its attributes are now like DummyTopicModel's</p></section>
         save_theta = self._model._cache_theta or (dataset is not None)
         self.save(save_path, phi=True, theta=save_theta, dataset=dataset)
 
-    dummy = self.to_dummy()
+    dummy = self.to_dummy(save_path=save_path)
     dummy._original_model_save_folder_path = save_path
 
     self._model.dispose()
@@ -2409,19 +2491,25 @@ Use this method if you want to dump the model.</p>
     self.save_parameters(model_save_path)
 
     for score_name, score_object in self.custom_scores.items():
-        save_path = os.path.join(model_save_path, score_name + &#39;.p&#39;)
+        class_name = score_object.__class__.__name__
+        save_path = os.path.join(
+            model_save_path,
+            &#39;.&#39;.join([score_name, class_name, &#39;p&#39;])
+        )
 
-        with open(save_path, &#39;wb&#39;) as score_file:
-            try:
-                dill.dump(score_object, score_file)
-            except pickle.PicklingError:
-                warnings.warn(
-                    f&#39;Failed to save custom score &#34;{score_object}&#34; correctly! &#39;
-                    f&#39;Freezing score (saving only its value)&#39;
-                )
+        try:
+            score_object.save(save_path)
+        except pickle.PicklingError:
+            warnings.warn(
+                f&#39;Failed to save custom score &#34;{score_object}&#34; correctly! &#39;
+                f&#39;Freezing score (saving only its value)&#39;
+            )
 
-                frozen_score_object = FrozenScore(score_object.value)
-                dill.dump(frozen_score_object, score_file)
+            frozen_score_object = FrozenScore(
+                score_object.value,
+                original_score=score_object
+            )
+            frozen_score_object.save(save_path)
 
     self.save_custom_regularizers(model_save_path)
 
@@ -2463,7 +2551,7 @@ Use this method if you want to dump the model.</p>
 <span>def <span class="ident">select_topics</span></span>(<span>self, substrings, invert=False)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Gets all topics containing speified substring</p>
+<section class="desc"><p>Gets all topics containing specified substring</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>list</code></dt>
@@ -2475,7 +2563,7 @@ Use this method if you want to dump the model.</p>
 </summary>
 <pre><code class="python">def select_topics(self, substrings, invert=False):
     &#34;&#34;&#34;
-    Gets all topics containing speified substring
+    Gets all topics containing specified substring
 
     Returns
     -------
@@ -2490,10 +2578,15 @@ Use this method if you want to dump the model.</p>
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.to_dummy"><code class="name flex">
-<span>def <span class="ident">to_dummy</span></span>(<span>self)</span>
+<span>def <span class="ident">to_dummy</span></span>(<span>self, save_path=None)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Creates dummy model</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>save_path</code></strong> :&ensp;<code>str</code> (or <code>None</code>)</dt>
+<dd>Path to folder with dumped info about topic model</dd>
+</dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>DummyTopicModel</code></dt>
@@ -2507,8 +2600,13 @@ but "model_id" key in experiment.models contains original model, not dummy</p></
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def to_dummy(self):
+<pre><code class="python">def to_dummy(self, save_path=None):
     &#34;&#34;&#34;Creates dummy model
+
+    Parameters
+    ----------
+    save_path : str (or None)
+        Path to folder with dumped info about topic model
 
     Returns
     -------
@@ -2525,13 +2623,17 @@ but "model_id" key in experiment.models contains original model, not dummy</p></
     # python crashes if place this import on top of the file
     # import circle: TopicModel -&gt; DummyTopicModel -&gt; TopicModel
 
+    if save_path is None:
+        save_path = self.model_default_save_path
+
     dummy = DummyTopicModel(
         init_parameters=self.get_init_parameters(),
-        scores=self.scores,
+        scores=dict(self.scores),
         model_id=self.model_id,
         parent_model_id=self.parent_model_id,
         description=self.description,
-        experiment=self.experiment
+        experiment=self.experiment,
+        save_path=save_path,
     )
 
     # BaseModel spoils model_id trying to make it unique

@@ -27,11 +27,6 @@
 <pre><code class="python">from .rel_toolbox_lite import count_vocab_size, modality_weight_rel2abs
 import artm
 
-# change log style
-lc = artm.messages.ConfigureLoggingArgs()
-lc.minloglevel = 3
-lib = artm.wrapper.LibArtm(logging_config=lc)
-
 
 def add_standard_scores(
         model,

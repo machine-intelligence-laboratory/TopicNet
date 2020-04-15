@@ -1,11 +1,6 @@
 from .rel_toolbox_lite import count_vocab_size, modality_weight_rel2abs
 import artm
 
-# change log style
-lc = artm.messages.ConfigureLoggingArgs()
-lc.minloglevel = 3
-lib = artm.wrapper.LibArtm(logging_config=lc)
-
 
 def add_standard_scores(
         model,
@@ -50,7 +45,7 @@ def init_model(topic_names, seed=None, class_ids=None):
     model = artm.ARTM(
         topic_names=topic_names,
         # Commented for performance uncomment if has zombie issues
-        num_processors=5,
+        # num_processors=3,
         theta_columns_naming='title',
         show_progress_bars=False,
         class_ids=class_ids,

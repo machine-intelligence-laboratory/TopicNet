@@ -15,6 +15,11 @@ USE_MULTIPROCESSING = [True]
 
 
 class TestLogging:
+    dataset = None
+    experiment_path = None
+    model_artm = None
+    topic_model = None
+
     @classmethod
     def setup_class(cls):
         """ """
@@ -34,7 +39,7 @@ class TestLogging:
     @classmethod
     def teardown_class(cls):
         """ """
-        shutil.rmtree('tests/test_data/test_dataset_batches')
+        shutil.rmtree(cls.dataset._internals_folder_path)
         shutil.rmtree(cls.experiment_path)
 
     def test_experiment_exists(cls):

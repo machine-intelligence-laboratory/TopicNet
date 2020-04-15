@@ -10,16 +10,19 @@ class ScoreExample(BaseScore):
     (the internal logic of TopicNet relies on them)
 
     """
-    def __init__(self, token_threshold=1e-3):
+    def __init__(self, name: str = None, token_threshold: float = 1e-3):
         """
 
         Parameters
         ----------
+        name:
+            name of the score
         token_threshold : float
             what probabilities to take as token belonging to the topic
 
         """
-        super().__init__()
+        super().__init__(name=name)
+
         self.threshold = token_threshold
 
     def call(self, model):
@@ -38,4 +41,5 @@ class ScoreExample(BaseScore):
         """
         phi = model.get_phi().values
         score = np.sum((phi > self.threshold).astype('int'), axis=0).mean()
+
         return score

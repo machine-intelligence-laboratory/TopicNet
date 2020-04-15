@@ -35,11 +35,6 @@ from scipy.optimize import curve_fit
 
 from .base_score import BaseScore
 
-# change log style
-lc = artm.messages.ConfigureLoggingArgs()
-lc.minloglevel = 3
-lib = artm.wrapper.LibArtm(logging_config=lc)
-
 
 def calculate_n(model, batch_vectorizer):
     &#34;&#34;&#34;
@@ -177,16 +172,22 @@ class SemanticRadiusScore(BaseScore):
     At the core this score helps to discover topics uniformity.
     The lower this score - better
     &#34;&#34;&#34;  # noqa: W291
-    def __init__(self, batch_vectorizer):
+    def __init__(self, batch_vectorizer, name: str = None):
         &#34;&#34;&#34;
 
         Parameters
         ----------
+        name:
+            Name of the score
         batch_vectorizer
 
         &#34;&#34;&#34;
-        super().__init__()
+        super().__init__(name=name)
+
         self.batch_vectorizer = batch_vectorizer
+
+    def __repr__(self):
+        return f&#39;{self.__class__.__name__}(batch_vectorizer={self.batch_vectorizer!r})&#39;
 
     def update(self, score):
         known_errors = (ValueError, TypeError)
@@ -447,7 +448,7 @@ class SemanticRadiusScore(BaseScore):
 <dl>
 <dt id="topicnet.cooking_machine.models.semantic_radius_score.SemanticRadiusScore"><code class="flex name class">
 <span>class <span class="ident">SemanticRadiusScore</span></span>
-<span>(</span><span>batch_vectorizer)</span>
+<span>(</span><span>batch_vectorizer, name=None)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>This score implements cluster semantic radius, described in paper
@@ -457,6 +458,8 @@ At the core this score helps to discover topics uniformity.
 The lower this score - better</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
+<dt>name:</dt>
+<dt>Name of the score</dt>
 <dt><strong><code>batch_vectorizer</code></strong></dt>
 <dd>&nbsp;</dd>
 </dl></section>
@@ -472,16 +475,22 @@ The lower this score - better</p>
     At the core this score helps to discover topics uniformity.
     The lower this score - better
     &#34;&#34;&#34;  # noqa: W291
-    def __init__(self, batch_vectorizer):
+    def __init__(self, batch_vectorizer, name: str = None):
         &#34;&#34;&#34;
 
         Parameters
         ----------
+        name:
+            Name of the score
         batch_vectorizer
 
         &#34;&#34;&#34;
-        super().__init__()
+        super().__init__(name=name)
+
         self.batch_vectorizer = batch_vectorizer
+
+    def __repr__(self):
+        return f&#39;{self.__class__.__name__}(batch_vectorizer={self.batch_vectorizer!r})&#39;
 
     def update(self, score):
         known_errors = (ValueError, TypeError)

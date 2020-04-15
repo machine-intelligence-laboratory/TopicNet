@@ -19,19 +19,77 @@
 <header>
 <h1 class="title">Module <code>topicnet.viewers</code></h1>
 </header>
-<h2 id="viewers">Viewers</h2>
+<h1 id="viewers">Viewers</h1>
 <p>Module <code>viewers</code> provides information from a topic model allowing to estimate the model quality. Its advantage is in unified call ifrastucture to the topic model making the routine and tedious task of extracting the information easy.</p>
-<p>Currently module contains following viewers:</p>
+<p>Currently module contains the following viewers:</p>
+<h2 id="base_viewer-baseviewer"><code>base_viewer</code> (<code>BaseViewer</code>)</h2>
+<p>Module responsible for base infrastructure.</p>
+<h2 id="document_cluster-documentclusterviewer"><code>document_cluster</code> (<code>DocumentClusterViewer</code>)</h2>
+<p>Module which allows to visualize collection documents. May be slow for large document collections as it uses TSNE algorithm from <a href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html">sklearn</a> library.</p>
+<p>
+<div align="center">
+<pre><code>    &lt;img src=&quot;../docs/images/doc_cluster__plot.png&quot; width=&quot;80%&quot; alt/&gt;
+&lt;/div&gt;
+&lt;em&gt;
+    Visualisation of reduced document embeddings colored according to their topic made by DocumentClusterViewer.
+&lt;/em&gt;</code></pre>
+</p>
+<h2 id="spectrum-topicspectrumviewer"><code>spectrum</code> (<code>TopicSpectrumViewer</code>)</h2>
+<p>Module contains heuristics for solving TSP to arrange topics minimizing total distance of the spectrum.</p>
+<p>
+<div align="center">
+<pre><code>    &lt;img src=&quot;../docs/images/topic_spectrum__refined_view.png&quot; width=&quot;80%&quot; alt/&gt;
+&lt;/div&gt;
+&lt;em&gt;
+    Each point on the plot represents some topic.
+    The viewer helped to calculate such a route between topics when one topic is connected with similar one, and so on, forming a circle.
+&lt;/em&gt;</code></pre>
+</p>
+<h2 id="top_documents_viewer-topdocumentsviewer"><code>top_documents_viewer</code> (<code>TopDocumentsViewer</code>)</h2>
+<p>Module with functions that work with dataset document collections.</p>
+<p>
+<div align="center">
+<pre><code>    &lt;img src=&quot;../docs/images/top_doc__view.png&quot; width=&quot;80%&quot; alt/&gt;
+&lt;/div&gt;
+&lt;em&gt;
+    The viewer shows fragments of top documents corresponding to some topic.
+&lt;/em&gt;</code></pre>
+</p>
+<h2 id="top_similar_documents_viewer-topsimilardocumentsviewer"><code>top_similar_documents_viewer</code> (<code>TopSimilarDocumentsViewer</code>)</h2>
+<p>Module containing class for finding similar document for a given one. This viewer helps to estimate homogeneity of clusters given by the model.</p>
+<p>
+<div align="center">
+<pre><code>    &lt;img src=&quot;../docs/images/top_sim_doc__refined_view.png&quot; width=&quot;80%&quot; alt/&gt;
+&lt;/div&gt;
+&lt;em&gt;
+    Some document from text collection (on top), and documents nearest to it given topic model.
+    The viewer (currently) gives only document names as output, but the picture is not very difficult to be made.
+&lt;/em&gt;</code></pre>
+</p>
+<h2 id="top_tokens_viewer-toptokensviewer"><code>top_tokens_viewer</code> (<code>TopTokensViewer</code>)</h2>
+<p>Module with class for displaying the most relevant tokens in each topic of the model.</p>
+<p>
+<div align="center">
+<pre><code>    &lt;img src=&quot;../docs/images/top_tokens__view.png&quot; width=&quot;80%&quot; alt/&gt;
+&lt;/div&gt;
+&lt;em&gt;
+    Output of the TopTokensViewer. Token score in the topic is calculated for every token, score function can be specified at the stage of a viewer initialization.
+&lt;/em&gt;</code></pre>
+</p>
+<h2 id="topic_mapping-topicmapviewer"><code>topic_mapping</code> (<code>TopicMapViewer</code>)</h2>
+<p>Module allowing to compare topics between two different models trained on the same collection.</p>
+<p>
+<div align="center">
+<pre><code>    &lt;img src=&quot;../docs/images/topic_map__view.png&quot; width=&quot;80%&quot; alt/&gt;
+&lt;/div&gt;
+&lt;em&gt;
+    The mapping between topics of two models (currently only topic names are displayed).
+&lt;/em&gt;</code></pre>
+</p>
+<h2 id="deprecated">Deprecated</h2>
 <ul>
-<li><p><code>base_viewer</code> - module responsible for base infrastructure</p></li>
-<li><p><code>spectrum</code> - module contains heuristics for solving TSP to arrange topics minimizing total distance of the spectrun, <code>TopicSpectrumViewer</code></p></li>
-<li><p><code>top_documents_viewer</code> - module with functions that work with dataset document collections and class <code>TopDocumentsViewer</code> wrapping this functionality.</p></li>
-<li><p><code>top_similar_documents_viewer</code> - module containing class for finding simmilar document for a givenone. This viewer helps to estimate homogeneity of clusters given by the model</p></li>
-<li><p><code>top_tokens_viewer</code> - module with class for displaying the most relevant tokens in each topic of the model.</p></li>
-<li><p><code>topic_mapping</code> - module allowing to compare topics between two different models trained on the same collection.</p></li>
-<li><p><code>document_cluster</code> - module containing class <code>DocumentClusterViewer</code> which allows to visualize collection documents. May be slow for large document collections as it uses TSNE algorithm from sklearn library.</p></li>
-<li><p><code>initial_doc_to_topic_viewer</code> - first edition of <code>TopDocumentsViewer</code> - Deprecated</p></li>
-<li><p><code>tokens_viewer</code> - first edition of <code>TopTokensViewer</code> - Deprecated</p></li>
+<li><p><code>initial_doc_to_topic_viewer</code> — first edition of <code>TopDocumentsViewer</code></p></li>
+<li><p><code>tokens_viewer</code> - first edition of <code>TopTokensViewer</code></p></li>
 </ul>
 <section id="section-intro">
 <details class="source">
@@ -39,6 +97,7 @@
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">from .base_viewer import BaseViewer
+from .document_cluster import DocumentClusterViewer
 from .spectrum import TopicSpectrumViewer
 from .top_documents_viewer import TopDocumentsViewer
 from .top_similar_documents_viewer import TopSimilarDocumentsViewer

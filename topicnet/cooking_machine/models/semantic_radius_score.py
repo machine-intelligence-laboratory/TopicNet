@@ -9,11 +9,6 @@ from scipy.optimize import curve_fit
 
 from .base_score import BaseScore
 
-# change log style
-lc = artm.messages.ConfigureLoggingArgs()
-lc.minloglevel = 3
-lib = artm.wrapper.LibArtm(logging_config=lc)
-
 
 def calculate_n(model, batch_vectorizer):
     """
@@ -151,16 +146,22 @@ class SemanticRadiusScore(BaseScore):
     At the core this score helps to discover topics uniformity.
     The lower this score - better
     """  # noqa: W291
-    def __init__(self, batch_vectorizer):
+    def __init__(self, batch_vectorizer, name: str = None):
         """
 
         Parameters
         ----------
+        name:
+            Name of the score
         batch_vectorizer
 
         """
-        super().__init__()
+        super().__init__(name=name)
+
         self.batch_vectorizer = batch_vectorizer
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}(batch_vectorizer={self.batch_vectorizer!r})'
 
     def update(self, score):
         known_errors = (ValueError, TypeError)

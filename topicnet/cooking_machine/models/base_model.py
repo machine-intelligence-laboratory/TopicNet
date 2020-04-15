@@ -1,6 +1,7 @@
 import json
 import os
 from copy import deepcopy
+from numbers import Number
 
 from ..routine import get_timestamp_in_str_format
 from ..routine import transform_topic_model_description_to_jsonable
@@ -10,12 +11,13 @@ MODEL_NAME_LENGTH = 26
 
 def padd_model_name(model_id):
     padding = MODEL_NAME_LENGTH - len(model_id)
+
     if padding > 0:
         add = padding // 2
         odd = padding % 2
-        return '#' * add + model_id + '#' * (add + odd)
+        return '-' * add + model_id + '-' * (add + odd)
     else:
-        return model_id[:MODEL_NAME_LENGTH]
+        return model_id[-MODEL_NAME_LENGTH:]  # so as not to cut off the suffix "___n"
 
 
 class BaseModel(object):
@@ -50,12 +52,20 @@ class BaseModel(object):
                 candidate_name = get_timestamp_in_str_format()
             else:
                 candidate_name = model_id
+
             model_index = 0
+            index_suffix_length = 5
             new_model_id = padd_model_name(candidate_name)
             new_model_save_path = os.path.join(save_folder, new_model_id)
+
             while os.path.exists(new_model_save_path):
                 model_index += 1
-                new_model_id = padd_model_name("{0}{1:_>5}".format(candidate_name, model_index))
+                new_model_id = padd_model_name(
+                    f"{0}{1:_>{2}}".format(
+                        candidate_name[:-index_suffix_length], model_index, index_suffix_length
+                    )
+                )
+                new_model_save_path = os.path.join(save_folder, new_model_id)
 
             self.model_id = new_model_id
 
@@ -64,10 +74,16 @@ class BaseModel(object):
         self._score_functions = dict()
         self._custom_scores = []
 
-    def __str__(self):
-        return f'id={self.model_id}, ' \
+    def __repr__(self):
+        if self.experiment is not None:
+            experiment_id = self.experiment.experiment_id
+        else:
+            experiment_id = None
+
+        return f'Model(id={self.model_id}, ' \
                f'parent_id={self.parent_model_id}, ' \
-               f'experiment_id={self.experiment.experiment_id if self.experiment is not None else None}'  # noqa long line
+               f'experiment_id={experiment_id}' \
+               f')'
 
     def _fit(self, dataset_trainable, num_iterations):
         """
@@ -213,7 +229,7 @@ class BaseModel(object):
             "data_path": self.data_path,
             "description": self.description,
             "depth": self.depth,
-            "scores": self.scores
+            "scores": self._get_short_scores()
         }
         if self.experiment is None:
             parameters["experiment_id"] = None
@@ -221,6 +237,20 @@ class BaseModel(object):
             parameters["experiment_id"] = self.experiment.experiment_id
 
         return parameters
+
+    def _get_short_scores(self):
+        short_scores = {}
+        # sometimes self.scores could be None
+        for score_name in self.scores or {}:
+            values = self.scores[score_name]
+            if len(values) == 0:
+                short_scores[score_name] = []
+                continue
+            if isinstance(values[0], Number):
+                short_scores[score_name] = values[-1:]
+            else:
+                short_scores[score_name] = [f"NaN ({type(values[0])})"]
+        return short_scores
 
     @property
     def model_default_save_path(self):

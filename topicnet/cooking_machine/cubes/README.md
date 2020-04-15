@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Cubes and their Strategies
 
 Cube types:

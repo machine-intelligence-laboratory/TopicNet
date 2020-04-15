@@ -51,19 +51,20 @@ class DocumentClusterViewer(BaseViewer):
     def view(
             self,
             dataset,
+            save_path,
             method=&#39;TSNE&#39;,
             to_html=True,
-            save_path=&#39;local.html&#39;,):
+    ):
         &#34;&#34;&#34;
         Parameters
         ----------
         dataset: Dataset
+        save_path: str
+            save path for the plot
         method: string
             any of the methods in sklearn.manifold
         to_html: Bool
             if user wants the plot to be saved in html format
-        save_path: str
-            save path for the plot
 
         Returns
         -------
@@ -111,7 +112,60 @@ class DocumentClusterViewer(BaseViewer):
             with open(save_path, &#39;w&#39;, encoding=&#39;utf-8&#39;) as f:
                 f.write(html_div)
 
-        return reduced_data</code></pre>
+        if to_html:
+            return html_div
+
+        return reduced_data
+
+    def viev_from_jupyter(
+        self,
+        dataset,
+        method: str = &#39;TSNE&#39;,
+        save_path: str = &#39;DocumentCluster_view.html&#39;,
+        width: int = 800,
+        height: int = 600,
+        display_output: bool = True,
+        give_html: bool = False,
+    ):
+        &#34;&#34;&#34;
+        Parameters
+        ----------
+        dataset: Dataset
+        method: string
+            any of the methods in sklearn.manifold
+        to_html: Bool
+            if user wants the plot to be saved in html format
+        save_path: str
+            save path for the plot requires to be able to create
+            the visualisation
+        width
+            width of the plot in pixels
+        height
+            height of the plot in pixels
+        display_output
+            show the plot in the notebook
+        give_html
+            if return the html string (with javascript) that
+            performs the visualisation
+
+        Returns
+        -------
+        out_html: string
+            an html string containing the plotly graph
+            returned only if give_html is True
+
+        &#34;&#34;&#34;
+        from IPython.display import IFrame, display_html
+        out_html = self.view(
+            dataset=dataset,
+            method=method,
+            to_html=True,
+        )
+        if display_output:
+            display_html(IFrame(save_path, width=width, height=height))
+
+        if give_html:
+            return out_html</code></pre>
 </details>
 </section>
 <section>
@@ -155,19 +209,20 @@ class DocumentClusterViewer(BaseViewer):
     def view(
             self,
             dataset,
+            save_path,
             method=&#39;TSNE&#39;,
             to_html=True,
-            save_path=&#39;local.html&#39;,):
+    ):
         &#34;&#34;&#34;
         Parameters
         ----------
         dataset: Dataset
+        save_path: str
+            save path for the plot
         method: string
             any of the methods in sklearn.manifold
         to_html: Bool
             if user wants the plot to be saved in html format
-        save_path: str
-            save path for the plot
 
         Returns
         -------
@@ -215,7 +270,60 @@ class DocumentClusterViewer(BaseViewer):
             with open(save_path, &#39;w&#39;, encoding=&#39;utf-8&#39;) as f:
                 f.write(html_div)
 
-        return reduced_data</code></pre>
+        if to_html:
+            return html_div
+
+        return reduced_data
+
+    def viev_from_jupyter(
+        self,
+        dataset,
+        method: str = &#39;TSNE&#39;,
+        save_path: str = &#39;DocumentCluster_view.html&#39;,
+        width: int = 800,
+        height: int = 600,
+        display_output: bool = True,
+        give_html: bool = False,
+    ):
+        &#34;&#34;&#34;
+        Parameters
+        ----------
+        dataset: Dataset
+        method: string
+            any of the methods in sklearn.manifold
+        to_html: Bool
+            if user wants the plot to be saved in html format
+        save_path: str
+            save path for the plot requires to be able to create
+            the visualisation
+        width
+            width of the plot in pixels
+        height
+            height of the plot in pixels
+        display_output
+            show the plot in the notebook
+        give_html
+            if return the html string (with javascript) that
+            performs the visualisation
+
+        Returns
+        -------
+        out_html: string
+            an html string containing the plotly graph
+            returned only if give_html is True
+
+        &#34;&#34;&#34;
+        from IPython.display import IFrame, display_html
+        out_html = self.view(
+            dataset=dataset,
+            method=method,
+            to_html=True,
+        )
+        if display_output:
+            display_html(IFrame(save_path, width=width, height=height))
+
+        if give_html:
+            return out_html</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -223,8 +331,8 @@ class DocumentClusterViewer(BaseViewer):
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="topicnet.viewers.document_cluster.DocumentClusterViewer.view"><code class="name flex">
-<span>def <span class="ident">view</span></span>(<span>self, dataset, method='TSNE', to_html=True, save_path='local.html')</span>
+<dt id="topicnet.viewers.document_cluster.DocumentClusterViewer.viev_from_jupyter"><code class="name flex">
+<span>def <span class="ident">viev_from_jupyter</span></span>(<span>self, dataset, method='TSNE', save_path='DocumentCluster_view.html', width=800, height=600, display_output=True, give_html=False)</span>
 </code></dt>
 <dd>
 <section class="desc"><h2 id="parameters">Parameters</h2>
@@ -236,7 +344,93 @@ class DocumentClusterViewer(BaseViewer):
 <dt><strong><code>to_html</code></strong> :&ensp;<code>Bool</code></dt>
 <dd>if user wants the plot to be saved in html format</dd>
 <dt><strong><code>save_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>save path for the plot requires to be able to create
+the visualisation</dd>
+<dt><strong><code>width</code></strong></dt>
+<dd>width of the plot in pixels</dd>
+<dt><strong><code>height</code></strong></dt>
+<dd>height of the plot in pixels</dd>
+<dt><strong><code>display_output</code></strong></dt>
+<dd>show the plot in the notebook</dd>
+<dt><strong><code>give_html</code></strong></dt>
+<dd>if return the html string (with javascript) that
+performs the visualisation</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>out_html</code></strong> :&ensp;<code>string</code></dt>
+<dd>an html string containing the plotly graph
+returned only if give_html is True</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def viev_from_jupyter(
+    self,
+    dataset,
+    method: str = &#39;TSNE&#39;,
+    save_path: str = &#39;DocumentCluster_view.html&#39;,
+    width: int = 800,
+    height: int = 600,
+    display_output: bool = True,
+    give_html: bool = False,
+):
+    &#34;&#34;&#34;
+    Parameters
+    ----------
+    dataset: Dataset
+    method: string
+        any of the methods in sklearn.manifold
+    to_html: Bool
+        if user wants the plot to be saved in html format
+    save_path: str
+        save path for the plot requires to be able to create
+        the visualisation
+    width
+        width of the plot in pixels
+    height
+        height of the plot in pixels
+    display_output
+        show the plot in the notebook
+    give_html
+        if return the html string (with javascript) that
+        performs the visualisation
+
+    Returns
+    -------
+    out_html: string
+        an html string containing the plotly graph
+        returned only if give_html is True
+
+    &#34;&#34;&#34;
+    from IPython.display import IFrame, display_html
+    out_html = self.view(
+        dataset=dataset,
+        method=method,
+        to_html=True,
+    )
+    if display_output:
+        display_html(IFrame(save_path, width=width, height=height))
+
+    if give_html:
+        return out_html</code></pre>
+</details>
+</dd>
+<dt id="topicnet.viewers.document_cluster.DocumentClusterViewer.view"><code class="name flex">
+<span>def <span class="ident">view</span></span>(<span>self, dataset, save_path, method='TSNE', to_html=True)</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>save_path</code></strong> :&ensp;<code>str</code></dt>
 <dd>save path for the plot</dd>
+<dt><strong><code>method</code></strong> :&ensp;<code>string</code></dt>
+<dd>any of the methods in sklearn.manifold</dd>
+<dt><strong><code>to_html</code></strong> :&ensp;<code>Bool</code></dt>
+<dd>if user wants the plot to be saved in html format</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -253,19 +447,20 @@ returned only if to_html is True</dd>
 <pre><code class="python">def view(
         self,
         dataset,
+        save_path,
         method=&#39;TSNE&#39;,
         to_html=True,
-        save_path=&#39;local.html&#39;,):
+):
     &#34;&#34;&#34;
     Parameters
     ----------
     dataset: Dataset
+    save_path: str
+        save path for the plot
     method: string
         any of the methods in sklearn.manifold
     to_html: Bool
         if user wants the plot to be saved in html format
-    save_path: str
-        save path for the plot
 
     Returns
     -------
@@ -313,6 +508,9 @@ returned only if to_html is True</dd>
         with open(save_path, &#39;w&#39;, encoding=&#39;utf-8&#39;) as f:
             f.write(html_div)
 
+    if to_html:
+        return html_div
+
     return reduced_data</code></pre>
 </details>
 </dd>
@@ -337,6 +535,7 @@ returned only if to_html is True</dd>
 <li>
 <h4><code><a title="topicnet.viewers.document_cluster.DocumentClusterViewer" href="#topicnet.viewers.document_cluster.DocumentClusterViewer">DocumentClusterViewer</a></code></h4>
 <ul class="">
+<li><code><a title="topicnet.viewers.document_cluster.DocumentClusterViewer.viev_from_jupyter" href="#topicnet.viewers.document_cluster.DocumentClusterViewer.viev_from_jupyter">viev_from_jupyter</a></code></li>
 <li><code><a title="topicnet.viewers.document_cluster.DocumentClusterViewer.view" href="#topicnet.viewers.document_cluster.DocumentClusterViewer.view">view</a></code></li>
 </ul>
 </li>

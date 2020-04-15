@@ -23,19 +23,20 @@ NUM_TOP_TOKENS = 2
 class TestTopTokensViewer:
     """ """
     topic_model = None
+    dataset = None
 
     @classmethod
     def setup_class(cls):
         """ """
         with warnings.catch_warnings():
             warnings.filterwarnings(action="ignore", message=W_DIFF_BATCHES_1)
-            dataset = Dataset('tests/test_data/test_dataset.csv')
+            cls.dataset = Dataset('tests/test_data/test_dataset.csv')
             raw_data = []
             with open('tests/test_data/test_vw.txt', encoding='utf-8') as file:
                 for line in file:
                     raw_data += [line.split(' ')]
-            dictionary = dataset.get_dictionary()
-            batch_vectorizer = dataset.get_batch_vectorizer()
+            dictionary = cls.dataset.get_dictionary()
+            batch_vectorizer = cls.dataset.get_batch_vectorizer()
 
         model_artm = artm.ARTM(
             num_topics=NUM_TOPICS,
@@ -53,7 +54,7 @@ class TestTopTokensViewer:
     @classmethod
     def teardown_class(cls):
         """ """
-        shutil.rmtree("tests/test_data/test_dataset_batches")
+        shutil.rmtree(cls.dataset._internals_folder_path)
 
     @classmethod
     def return_raw(cls):
@@ -258,6 +259,22 @@ class TestTopTokensViewer:
             output = viewer.to_html(topic_names=[topic])
             assert topic in output
             assert other_topic not in output
+
+    def test_check_jupyter(self):
+        """ """
+        viewer = TestTopTokensViewer.get_top_tokens_viewer(method='phi')
+
+        topic = TOPIC_NAMES[0]
+        output = viewer.view_from_jupyter(topic_names=topic, give_html=True)
+        assert len(output) == 1
+        assert topic in output[0]
+
+        topics = TOPIC_NAMES[:2]
+        output = viewer.view_from_jupyter(topic_names=topics, give_html=True)
+        assert len(output) == 2
+
+        output = viewer.view_from_jupyter(give_html=True)
+        assert len(output) == len(TOPIC_NAMES)
 
     def test_check_not_possible_to_pass_wrong_scoring_method(self):
         """ """

@@ -9,9 +9,10 @@ setup(
         'topicnet.cooking_machine.cubes',
         'topicnet.cooking_machine.models',
         'topicnet.cooking_machine.recipes',
+        'topicnet.dataset_manger',
         'topicnet.viewers'
     ],
-    version = '0.6.1',
+    version = '0.7.0',
     license='MIT',
     description = 'TopicNet is a module for topic modelling using ARTM algorithm',
     author = 'Machine Intelligence Laboratory',

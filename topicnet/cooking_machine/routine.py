@@ -42,11 +42,17 @@ def is_saveable_model(model=None, model_id=None, experiment=None):
 
     """
     from .models import SUPPORTED_MODEL_CLASSES
+    from .models.dummy_topic_model import InvalidOperationError
 
     if model is None and experiment is not None:
         model = experiment.models.get(model_id)
 
     # hasattr(model, 'save') is not currently supported due to dummy save in BaseModel
+
+    try:
+        model._model.get_phi()
+    except InvalidOperationError:
+        return False
 
     return isinstance(model, SUPPORTED_MODEL_CLASSES)
 

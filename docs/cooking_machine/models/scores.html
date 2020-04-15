@@ -43,7 +43,7 @@ __all__ = [&#34;ScoreExample&#34;, &#34;IntratextCoherenceScore&#34;, &#34;BleiL
 <dl>
 <dt id="topicnet.cooking_machine.models.scores.BleiLaffertyScore"><code class="flex name class">
 <span>class <span class="ident">BleiLaffertyScore</span></span>
-<span>(</span><span>num_top_tokens=30)</span>
+<span>(</span><span>name=None, num_top_tokens=30)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>This score implements method described in 2009 paper
@@ -54,6 +54,8 @@ to describe given topic. Summing up that score helps to estimate how
 well the model distinguishes between topics. The higher this score - better</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
+<dt>name:</dt>
+<dt>name of the score</dt>
 <dt><strong><code>num_top_tokens</code></strong> :&ensp;<code>int</code></dt>
 <dd>now many tokens we consider to be</dd>
 </dl></section>
@@ -70,17 +72,23 @@ well the model distinguishes between topics. The higher this score - better</p>
     to describe given topic. Summing up that score helps to estimate how
     well the model distinguishes between topics. The higher this score - better
     &#34;&#34;&#34;
-    def __init__(self, num_top_tokens: int = 30):
+    def __init__(self, name: str = None, num_top_tokens: int = 30):
         &#34;&#34;&#34;
 
         Parameters
         ----------
+        name:
+            name of the score
         num_top_tokens : int
             now many tokens we consider to be
 
         &#34;&#34;&#34;
-        super().__init__()
+        super().__init__(name=name)
+
         self.num_top_tokens = num_top_tokens
+
+    def __repr__(self):
+        return f&#39;{self.__class__.__name__}(num_top_tokens={self.num_top_tokens})&#39;
 
     def _compute_blei_scores(self, phi):
         &#34;&#34;&#34;
@@ -143,7 +151,7 @@ well the model distinguishes between topics. The higher this score - better</p>
 </dd>
 <dt id="topicnet.cooking_machine.models.scores.IntratextCoherenceScore"><code class="flex name class">
 <span>class <span class="ident">IntratextCoherenceScore</span></span>
-<span>(</span><span>dataset, documents=None, text_type=TextType.VW_TEXT, computation_method=ComputationMethod.SEGMENT_LENGTH, word_topic_relatedness=WordTopicRelatednessType.PWT, specificity_estimation=SpecificityEstimationMethod.NONE, max_num_out_of_topic_words=10, window=10)</span>
+<span>(</span><span>dataset, name=None, keep_dataset_in_memory=None, keep_dataset=True, documents=None, documents_fraction=1.0, text_type=TextType.VW_TEXT, computation_method=ComputationMethod.SEGMENT_WEIGHT, word_topic_relatedness=WordTopicRelatednessType.PWT, specificity_estimation=SpecificityEstimationMethod.NONE, max_num_out_of_topic_words=10, window=20, start_fit_iteration=0, fit_iteration_step=1, seed=11221963, verbose=False)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Computes intratext coherence</p>
@@ -154,11 +162,25 @@ The score tries to bring to life this idea.</p>
 <p>For more details one may see the article <a href="http://www.dialog-21.ru/media/4281/alekseevva.pdf">http://www.dialog-21.ru/media/4281/alekseevva.pdf</a></p>
 <h2 id="parameters">Parameters</h2>
 <dl>
+<dt>name:</dt>
+<dt>Name of the score</dt>
 <dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
-<dd>Dataset with document collection
+<dd>Dataset with document collection, or path to dataset
 (any model passed to <code>call()</code> is supposed to be trained on it)</dd>
+<dt><strong><code>keep_dataset_in_memory</code></strong></dt>
+<dd>Whether to keep <code>dataset</code> in memory or not
+(parameter <code>_small_data</code> of the <code>dataset</code> object).
+If <code>dataset</code> is given as object of type <code>Dataset</code> (and not as <code>str</code> path to dataset),
+the parameter will be set equal to <code>dataset._small_data</code>.
+Otherwise, the default value is <code>True</code> and <code>dataset._small_data</code> will be overwritten.</dd>
+<dt><strong><code>keep_dataset</code></strong></dt>
+<dd>Whether to keep <code>dataset</code> constantly as inner part of the score,
+or recreate it for each <code>call()</code> invocation and then dispose</dd>
 <dt><strong><code>documents</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
 <dd>Which documents from the dataset are to be used for computing coherence</dd>
+<dt><strong><code>documents_fraction</code></strong></dt>
+<dd>The fraction of all the documents in the Dataset to be used for coherence computation
+if <code>documents</code> parameter is not specified</dd>
 <dt><strong><code>text_type</code></strong> :&ensp;<code>TextType</code></dt>
 <dd>What text to use when computing coherence: raw text or VW text
 Preferable to use VW (as it is usually preprocessed, stop-words removed etc.),
@@ -179,7 +201,31 @@ the process of adding words to the current segment</dd>
 <dd>In case computation_method = ComputationMethod.SUM_OVER_WINDOW:
 Window width. So the window will be the words with positions
 in [current position - window / 2, current position + window / 2)</dd>
-</dl></section>
+<dt><strong><code>start_fit_iteration</code></strong></dt>
+<dd>Indicates how many calls are skipped before the actual score is calculated.
+Replaces not calculated values with placeholders
+(for consistency of score values with number of model fit iterations).</dd>
+<dt><strong><code>fit_iteration_step</code></strong></dt>
+<dd>Number of iterations between <code>score.call()</code> invocations which actually update the score</dd>
+<dt><strong><code>seed</code></strong></dt>
+<dd>Random seed used for documents subsampling if <code>documents</code> parameter is not specified</dd>
+</dl>
+<h2 id="notes">Notes</h2>
+<p>Parameters <code>start_fit_iteration</code> and <code>fit_iteration_step</code> are introduced
+to reduce the time needed for one model training.
+If one is interested only in the last score value
+at the end of the training process (and not in the dependence of score on iteration),
+one should adjust <code>start_fit_iteration</code> and <code>fit_iteration_step</code> correspondingly.
+For example:</p>
+<pre><code>&gt;&gt;&gt; # dataset = Dataset(...)
+&gt;&gt;&gt; # topic_model = TopicModel(...)
+&gt;&gt;&gt; num_iterations = 100
+&gt;&gt;&gt; topic_model.custom_scores['intratext_coherence'] = IntratextCoherenceScore(
+&gt;&gt;&gt;     dataset,
+&gt;&gt;&gt;     start_fit_iteration=num_iterations - 1  # last iteration: starting from zero
+&gt;&gt;&gt; )
+&gt;&gt;&gt; topic_model._fit(dataset.get_batch_vectorizer(), num_iterations=num_iterations)
+</code></pre></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -194,25 +240,47 @@ in [current position - window / 2, current position + window / 2)</dd>
 
     For more details one may see the article http://www.dialog-21.ru/media/4281/alekseevva.pdf
     &#34;&#34;&#34;
-    def __init__(
+    def __init__(  # noqa: C901
             self,
-            dataset: Dataset,
+            dataset: Union[Dataset, str],
+            name: str = None,
+            keep_dataset_in_memory: bool = None,
+            keep_dataset: bool = True,
             documents: List[str] = None,
+            documents_fraction: float = 1.0,
             text_type: TextType = TextType.VW_TEXT,
-            computation_method: ComputationMethod = ComputationMethod.SEGMENT_LENGTH,
+            computation_method: ComputationMethod = ComputationMethod.SEGMENT_WEIGHT,
             word_topic_relatedness: WordTopicRelatednessType = WordTopicRelatednessType.PWT,
             specificity_estimation: SpecificityEstimationMethod = SpecificityEstimationMethod.NONE,
-            max_num_out_of_topic_words=10,
-            window=10
+            max_num_out_of_topic_words: int = 10,
+            window: int = 20,
+            start_fit_iteration: int = 0,
+            fit_iteration_step: int = 1,
+            seed: int = 11221963,
+            verbose: bool = False,
     ):
         &#34;&#34;&#34;
         Parameters
         ----------
+        name:
+            Name of the score
         dataset : Dataset
-            Dataset with document collection
+            Dataset with document collection, or path to dataset
             (any model passed to `call()` is supposed to be trained on it)
+        keep_dataset_in_memory
+            Whether to keep `dataset` in memory or not
+            (parameter `_small_data` of the `dataset` object).
+            If `dataset` is given as object of type `Dataset` (and not as `str` path to dataset),
+            the parameter will be set equal to `dataset._small_data`.
+            Otherwise, the default value is `True` and `dataset._small_data` will be overwritten.
+        keep_dataset
+            Whether to keep `dataset` constantly as inner part of the score,
+            or recreate it for each `call()` invocation and then dispose
         documents : list of str
             Which documents from the dataset are to be used for computing coherence
+        documents_fraction
+            The fraction of all the documents in the Dataset to be used for coherence computation
+            if `documents` parameter is not specified
         text_type : TextType
             What text to use when computing coherence: raw text or VW text
             Preferable to use VW (as it is usually preprocessed, stop-words removed etc.),
@@ -233,9 +301,44 @@ in [current position - window / 2, current position + window / 2)</dd>
             In case computation_method = ComputationMethod.SUM_OVER_WINDOW:
             Window width. So the window will be the words with positions
             in [current position - window / 2, current position + window / 2)
+        start_fit_iteration
+            Indicates how many calls are skipped before the actual score is calculated.
+            Replaces not calculated values with placeholders
+            (for consistency of score values with number of model fit iterations).
+        fit_iteration_step
+            Number of iterations between `score.call()` invocations which actually update the score
+        seed
+            Random seed used for documents subsampling if `documents` parameter is not specified
+        Notes
+        -----
+        Parameters `start_fit_iteration` and `fit_iteration_step` are introduced
+        to reduce the time needed for one model training.
+        If one is interested only in the last score value
+        at the end of the training process (and not in the dependence of score on iteration),
+        one should adjust `start_fit_iteration` and `fit_iteration_step` correspondingly.
+        For example:
+
+        &gt;&gt;&gt; # dataset = Dataset(...)
+        &gt;&gt;&gt; # topic_model = TopicModel(...)
+        &gt;&gt;&gt; num_iterations = 100
+        &gt;&gt;&gt; topic_model.custom_scores[&#39;intratext_coherence&#39;] = IntratextCoherenceScore(
+        &gt;&gt;&gt;     dataset,
+        &gt;&gt;&gt;     start_fit_iteration=num_iterations - 1  # last iteration: starting from zero
+        &gt;&gt;&gt; )
+        &gt;&gt;&gt; topic_model._fit(dataset.get_batch_vectorizer(), num_iterations=num_iterations)
         &#34;&#34;&#34;
         # TODO: word_topic_relatedness seems to be connected with TopTokensViewer stuff
-        super().__init__()
+        super().__init__(name=name)
+
+        self._keep_dataset = keep_dataset
+
+        if isinstance(dataset, str):
+            if keep_dataset_in_memory is None:
+                keep_dataset_in_memory = True
+
+            dataset = Dataset(data_path=dataset, keep_in_memory=keep_dataset_in_memory)
+
+        self._keep_dataset_in_memory = dataset._small_data
 
         if not isinstance(dataset, Dataset):
             raise TypeError(
@@ -275,7 +378,40 @@ in [current position - window / 2, current position + window / 2)</dd>
                 f&#39;Expect to be non-negative. And greater than zero in case &#39;
                 f&#39;computation_method == ComputationMethod.SUM_OVER_WINDOW&#39;)
 
+        if not isinstance(start_fit_iteration, int):
+            raise TypeError(
+                f&#39;Wrong &#34;start_fit_iteration&#34;: \&#34;{start_fit_iteration}\&#34;.&#39;
+                f&#39; Expect to be \&#34;int\&#34;&#39;
+            )
+
+        if not isinstance(fit_iteration_step, int):
+            raise TypeError(
+                f&#39;Wrong &#34;fit_iteration_step&#34;: \&#34;{start_fit_iteration}\&#34;.&#39;
+                f&#39; Expect to be \&#34;int\&#34;&#39;
+            )
+        if fit_iteration_step &lt;= 0:
+            raise ValueError(
+                f&#39;Wrong &#34;fit_iteration_step&#34;: \&#34;{fit_iteration_step}\&#34;.&#39;
+                f&#39; Expect to be &gt; 0&#39;
+            )
+
+        if documents_fraction &lt;= 0:
+            raise ValueError(
+                f&#39;Wrong &#34;documents_fraction&#34;: \&#34;{documents_fraction}\&#34;.&#39;
+                f&#39; Expect to be in (0, 1]&#39;
+            )
+        if documents_fraction &gt; 1.0:
+            warnings.warn(
+                f&#39;Parameter documents_fraction={documents_fraction} can\&#39;t be bigger than 1.0&#39;
+                f&#39; Setting it equal to 1.0&#39;
+            )
+
+            documents_fraction = 1.0
+
         self._dataset = dataset
+        self._dataset_file_path = dataset._data_path
+        self._dataset_internals_folder_path = dataset._internals_folder_path
+
         self._text_type = text_type
         self._computation_method = computation_method
         self._word_topic_relatedness = word_topic_relatedness
@@ -283,27 +419,124 @@ in [current position - window / 2, current position + window / 2)</dd>
         self._max_num_out_of_topic_words = max_num_out_of_topic_words
         self._window = window
 
+        self._verbose = verbose
+
+        self._current_iteration = 0
+        self._start_fit_iteration = start_fit_iteration
+        self._fit_iteration_step = fit_iteration_step
+
         if documents is not None:
             self._documents = documents
         else:
-            self._documents = list(self._dataset.get_dataset().index)
+            all_documents = list(self._dataset.get_dataset().index)
+            documents_fraction = min(documents_fraction, 1.0)
+            num_documents_to_choose = int(
+                np.ceil(len(all_documents) * documents_fraction)
+            )
+            custom_random = np.random.RandomState(seed)
+
+            self._documents = list(
+                custom_random.choice(
+                    all_documents,
+                    size=num_documents_to_choose,
+                    replace=False
+                )
+            )
+
+    def __repr__(self):
+        return (f&#39;{self.__class__.__name__}(&#39;
+                f&#39;text_type={self._text_type!r}&#39;
+                f&#39;computation_method={self._computation_method!r}&#39;
+                f&#39;word_topic_relatedness={self._word_topic_relatedness!r}&#39;
+                f&#39;specificity_estimation_method={self._specificity_estimation_method!r}&#39;
+                f&#39;max_num_out_of_topic_words={self._max_num_out_of_topic_words!r}&#39;
+                f&#39;window={self._window!r}&#39;
+                f&#39;)&#39;)
+
+    @property
+    def dataset(self) -&gt; Dataset:
+        return self._dataset
+
+    @dataset.setter
+    def dataset(self, new_dataset: Dataset) -&gt; None:
+        self._dataset = new_dataset
+        self._dataset_file_path = new_dataset._data_path
+        self._dataset_internals_folder_path = new_dataset._internals_folder_path
+        self._keep_dataset_in_memory = new_dataset._small_data
+
+    def save(self, path: str) -&gt; None:
+        dataset = self._dataset
+        self._dataset = None
+
+        with open(path, &#39;wb&#39;) as f:
+            dill.dump(self, f)
+
+        self._dataset = dataset
+
+    @classmethod
+    def load(cls, path: str):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        path
+
+        Returns
+        -------
+        IntratextCoherenceScore
+
+        &#34;&#34;&#34;
+        score: IntratextCoherenceScore
+
+        with open(path, &#39;rb&#39;) as f:
+            score = dill.load(f)
+
+        if not score._keep_dataset:
+            score._dataset = None
+        else:
+            score._dataset = Dataset(
+                score._dataset_file_path,
+                internals_folder_path=score._dataset_internals_folder_path,
+                keep_in_memory=score._keep_dataset_in_memory,
+            )
+
+        return score
 
     def call(self, model: BaseModel) -&gt; float:
-        topic_coherences = self.compute(model, None)
+        if (self._current_iteration - self._start_fit_iteration) % self._fit_iteration_step != 0:
+            self._current_iteration += 1
 
-        coherence_values = list(
-            v if v is not None else 0.0  # TODO: state the behavior clearer somehow
-            for v in topic_coherences.values()
-        )
+            return float(&#39;nan&#39;)
 
-        return np.median(coherence_values)  # TODO: or mean?
+        try:
+            if self._dataset is None:
+                self._dataset = Dataset(
+                    self._dataset_file_path,
+                    internals_folder_path=self._dataset_internals_folder_path,
+                    keep_in_memory=self._keep_dataset_in_memory,
+                )
+
+            topic_coherences = self.compute(model, None)
+
+            coherence_values = list(
+                v if v is not None else 0.0  # TODO: state the behavior clearer somehow
+                for v in topic_coherences.values()
+            )
+
+            self._current_iteration += 1
+
+            return float(np.median(coherence_values))  # TODO: or mean?
+
+        finally:
+            if not self._keep_dataset:
+                self._dataset = None
 
     def compute(
             self,
             model: BaseModel,
             topics: List[str] = None,
             documents: List[str] = None
-    ) -&gt; Dict[str, float]:
+    ) -&gt; Dict[str, Optional[float]]:
 
         if not isinstance(model, BaseModel):
             raise TypeError(
@@ -329,7 +562,14 @@ in [current position - window / 2, current position + window / 2)</dd>
         topic_document_coherences = np.zeros((len(topics), len(documents)))
         document_indices_with_topic_coherence = defaultdict(list)
 
-        for document_index, document in enumerate(documents):
+        if not self._verbose:
+            document_enumeration = enumerate(documents)
+        else:
+            document_enumeration = tqdm.tqdm(
+                enumerate(documents), total=len(documents), file=sys.stdout
+            )
+
+        for document_index, document in document_enumeration:
             for topic_index, topic in enumerate(topics):
                 # TODO: read document text only once for all topics
                 topic_coherence = self._compute_coherence(
@@ -347,7 +587,8 @@ in [current position - window / 2, current position + window / 2)</dd>
 
         return dict(zip(
             topics,
-            [np.mean(coherence_values) if len(coherence_values) &gt; 0 else None
+            [float(np.mean(coherence_values))
+             if len(coherence_values) &gt; 0 else None
              for coherence_values in topic_coherences]
         ))
 
@@ -602,6 +843,72 @@ in [current position - window / 2, current position + window / 2)</dd>
 <ul class="hlist">
 <li><a title="topicnet.cooking_machine.models.base_score.BaseScore" href="base_score.html#topicnet.cooking_machine.models.base_score.BaseScore">BaseScore</a></li>
 </ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="topicnet.cooking_machine.models.scores.IntratextCoherenceScore.load"><code class="name flex">
+<span>def <span class="ident">load</span></span>(<span>path)</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>path</code></strong></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><a title="topicnet.cooking_machine.models.scores.IntratextCoherenceScore" href="#topicnet.cooking_machine.models.scores.IntratextCoherenceScore"><code>IntratextCoherenceScore</code></a></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def load(cls, path: str):
+    &#34;&#34;&#34;
+
+    Parameters
+    ----------
+    path
+
+    Returns
+    -------
+    IntratextCoherenceScore
+
+    &#34;&#34;&#34;
+    score: IntratextCoherenceScore
+
+    with open(path, &#39;rb&#39;) as f:
+        score = dill.load(f)
+
+    if not score._keep_dataset:
+        score._dataset = None
+    else:
+        score._dataset = Dataset(
+            score._dataset_file_path,
+            internals_folder_path=score._dataset_internals_folder_path,
+            keep_in_memory=score._keep_dataset_in_memory,
+        )
+
+    return score</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="topicnet.cooking_machine.models.scores.IntratextCoherenceScore.dataset"><code class="name">var <span class="ident">dataset</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def dataset(self) -&gt; Dataset:
+    return self._dataset</code></pre>
+</details>
+</dd>
+</dl>
 <h3>Methods</h3>
 <dl>
 <dt id="topicnet.cooking_machine.models.scores.IntratextCoherenceScore.compute"><code class="name flex">
@@ -618,7 +925,7 @@ in [current position - window / 2, current position + window / 2)</dd>
         model: BaseModel,
         topics: List[str] = None,
         documents: List[str] = None
-) -&gt; Dict[str, float]:
+) -&gt; Dict[str, Optional[float]]:
 
     if not isinstance(model, BaseModel):
         raise TypeError(
@@ -644,7 +951,14 @@ in [current position - window / 2, current position + window / 2)</dd>
     topic_document_coherences = np.zeros((len(topics), len(documents)))
     document_indices_with_topic_coherence = defaultdict(list)
 
-    for document_index, document in enumerate(documents):
+    if not self._verbose:
+        document_enumeration = enumerate(documents)
+    else:
+        document_enumeration = tqdm.tqdm(
+            enumerate(documents), total=len(documents), file=sys.stdout
+        )
+
+    for document_index, document in document_enumeration:
         for topic_index, topic in enumerate(topics):
             # TODO: read document text only once for all topics
             topic_coherence = self._compute_coherence(
@@ -662,9 +976,29 @@ in [current position - window / 2, current position + window / 2)</dd>
 
     return dict(zip(
         topics,
-        [np.mean(coherence_values) if len(coherence_values) &gt; 0 else None
+        [float(np.mean(coherence_values))
+         if len(coherence_values) &gt; 0 else None
          for coherence_values in topic_coherences]
     ))</code></pre>
+</details>
+</dd>
+<dt id="topicnet.cooking_machine.models.scores.IntratextCoherenceScore.save"><code class="name flex">
+<span>def <span class="ident">save</span></span>(<span>self, path)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def save(self, path: str) -&gt; None:
+    dataset = self._dataset
+    self._dataset = None
+
+    with open(path, &#39;wb&#39;) as f:
+        dill.dump(self, f)
+
+    self._dataset = dataset</code></pre>
 </details>
 </dd>
 </dl>
@@ -680,7 +1014,7 @@ in [current position - window / 2, current position + window / 2)</dd>
 </dd>
 <dt id="topicnet.cooking_machine.models.scores.ScoreExample"><code class="flex name class">
 <span>class <span class="ident">ScoreExample</span></span>
-<span>(</span><span>token_threshold=0.001)</span>
+<span>(</span><span>name=None, token_threshold=0.001)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Example score that calculates
@@ -689,6 +1023,8 @@ We inherit from BaseScore in order to have self.value property and self.update()
 (the internal logic of TopicNet relies on them)</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
+<dt>name:</dt>
+<dt>name of the score</dt>
 <dt><strong><code>token_threshold</code></strong> :&ensp;<code>float</code></dt>
 <dd>what probabilities to take as token belonging to the topic</dd>
 </dl></section>
@@ -704,16 +1040,19 @@ We inherit from BaseScore in order to have self.value property and self.update()
     (the internal logic of TopicNet relies on them)
 
     &#34;&#34;&#34;
-    def __init__(self, token_threshold=1e-3):
+    def __init__(self, name: str = None, token_threshold: float = 1e-3):
         &#34;&#34;&#34;
 
         Parameters
         ----------
+        name:
+            name of the score
         token_threshold : float
             what probabilities to take as token belonging to the topic
 
         &#34;&#34;&#34;
-        super().__init__()
+        super().__init__(name=name)
+
         self.threshold = token_threshold
 
     def call(self, model):
@@ -732,6 +1071,7 @@ We inherit from BaseScore in order to have self.value property and self.update()
         &#34;&#34;&#34;
         phi = model.get_phi().values
         score = np.sum((phi &gt; self.threshold).astype(&#39;int&#39;), axis=0).mean()
+
         return score</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -775,6 +1115,7 @@ We inherit from BaseScore in order to have self.value property and self.update()
     &#34;&#34;&#34;
     phi = model.get_phi().values
     score = np.sum((phi &gt; self.threshold).astype(&#39;int&#39;), axis=0).mean()
+
     return score</code></pre>
 </details>
 </dd>
@@ -790,7 +1131,7 @@ We inherit from BaseScore in order to have self.value property and self.update()
 </dd>
 <dt id="topicnet.cooking_machine.models.scores.SemanticRadiusScore"><code class="flex name class">
 <span>class <span class="ident">SemanticRadiusScore</span></span>
-<span>(</span><span>batch_vectorizer)</span>
+<span>(</span><span>batch_vectorizer, name=None)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>This score implements cluster semantic radius, described in paper
@@ -800,6 +1141,8 @@ At the core this score helps to discover topics uniformity.
 The lower this score - better</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
+<dt>name:</dt>
+<dt>Name of the score</dt>
 <dt><strong><code>batch_vectorizer</code></strong></dt>
 <dd>&nbsp;</dd>
 </dl></section>
@@ -815,16 +1158,22 @@ The lower this score - better</p>
     At the core this score helps to discover topics uniformity.
     The lower this score - better
     &#34;&#34;&#34;  # noqa: W291
-    def __init__(self, batch_vectorizer):
+    def __init__(self, batch_vectorizer, name: str = None):
         &#34;&#34;&#34;
 
         Parameters
         ----------
+        name:
+            Name of the score
         batch_vectorizer
 
         &#34;&#34;&#34;
-        super().__init__()
+        super().__init__(name=name)
+
         self.batch_vectorizer = batch_vectorizer
+
+    def __repr__(self):
+        return f&#39;{self.__class__.__name__}(batch_vectorizer={self.batch_vectorizer!r})&#39;
 
     def update(self, score):
         known_errors = (ValueError, TypeError)
@@ -971,6 +1320,9 @@ The lower this score - better</p>
 <h4><code><a title="topicnet.cooking_machine.models.scores.IntratextCoherenceScore" href="#topicnet.cooking_machine.models.scores.IntratextCoherenceScore">IntratextCoherenceScore</a></code></h4>
 <ul class="">
 <li><code><a title="topicnet.cooking_machine.models.scores.IntratextCoherenceScore.compute" href="#topicnet.cooking_machine.models.scores.IntratextCoherenceScore.compute">compute</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.scores.IntratextCoherenceScore.dataset" href="#topicnet.cooking_machine.models.scores.IntratextCoherenceScore.dataset">dataset</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.scores.IntratextCoherenceScore.load" href="#topicnet.cooking_machine.models.scores.IntratextCoherenceScore.load">load</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.scores.IntratextCoherenceScore.save" href="#topicnet.cooking_machine.models.scores.IntratextCoherenceScore.save">save</a></code></li>
 </ul>
 </li>
 <li>

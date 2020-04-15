@@ -26,6 +26,13 @@
 </summary>
 <pre><code class="python">import warnings
 
+from enum import Enum
+from numbers import Number
+from typing import (
+    List,
+    Optional
+)
+
 from .base_score import BaseScore
 
 
@@ -36,12 +43,33 @@ class FrozenScore(BaseScore):
     Frozen score helps to store the value of the original score without its internal logic,
     so as it can be saved.
     &#34;&#34;&#34;
-    def __init__(self, value):
+    def __init__(self, value: List[Optional[float]], original_score: BaseScore = None):
         super().__init__()
 
         self.value = value
+        self._original_score: BaseScore = None
 
-    def update(self, score):
+        if original_score is not None:
+            self._save_original(original_score)
+
+    def __repr__(self):
+        return f&#39;{self.__class__.__name__}(original_score={self._original_score!r})&#39;
+
+    def __getattr__(self, attribute_name):
+        if attribute_name.startswith(&#39;__&#39;):
+            raise AttributeError()
+
+        if attribute_name == &#39;_original_score&#39;:  # some dill-loading stuff?
+            raise AttributeError()
+
+        if self._original_score is not None and hasattr(self._original_score, attribute_name):
+            return getattr(self._original_score, attribute_name)
+
+        raise AttributeError(
+            f&#39;Frozen score doesn\&#39;t have such attribute: &#34;{attribute_name}&#34;&#39;
+        )
+
+    def update(self, score_value: float) -&gt; None:
         &#34;&#34;&#34;
         Update is not supposed to be applied to Frozen score.
         It is not supposed to be changed.
@@ -49,23 +77,39 @@ class FrozenScore(BaseScore):
         to train the model further after loading.
         &#34;&#34;&#34;
         warnings.warn(
-            f&#39;Trying to update Frozen score! Update value &#34;{score}&#34;. &#39;
+            f&#39;Trying to update Frozen score! Update value &#34;{score_value}&#34;. &#39;
             f&#39;Frozen score is not supposed to be updated, &#39;
             f&#39;as there is no computation logic inside&#39;
         )
 
-        if score is not None:
-            # TODO: it shouldn&#39;t be possible to pass such score value to update()
+        if score_value is not None:
+            # TODO: it shouldn&#39;t be possible to pass such score_value value to update()
             #  other than the one returned by self.call()
             warnings.warn(
-                f&#39;Can\&#39;t update Frozen score with value other than None: &#34;{score}&#34;! &#39;
-                f&#39;Saving None score&#39;
+                f&#39;Can\&#39;t update Frozen score with value other than None: &#34;{score_value}&#34;!&#39;
+                f&#39; Saving None score&#39;
             )
 
         self.value.append(None)
 
-    def call(self, model, *args, **kwargs):
-        return None</code></pre>
+    def call(self, model, *args, **kwargs) -&gt; Optional[float]:
+        return None
+
+    def _save_original(self, original_score: BaseScore) -&gt; None:
+        field_types_for_saving = (Number, str, bool, Enum)
+        self._original_score = BaseScore()
+
+        for field_name in dir(original_score):
+            field_value = getattr(original_score, field_name)
+
+            if field_value is not None and not isinstance(field_value, field_types_for_saving):
+                continue
+
+            try:
+                setattr(self._original_score, field_name, field_value)
+            except AttributeError:
+                # TODO: log?
+                pass</code></pre>
 </details>
 </section>
 <section>
@@ -79,13 +123,16 @@ class FrozenScore(BaseScore):
 <dl>
 <dt id="topicnet.cooking_machine.models.frozen_score.FrozenScore"><code class="flex name class">
 <span>class <span class="ident">FrozenScore</span></span>
-<span>(</span><span>value)</span>
+<span>(</span><span>value, original_score=None)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Custom scores can have anything inside.
 So there is a probability that pickle will not be able to dump them.
 Frozen score helps to store the value of the original score without its internal logic,
-so as it can be saved.</p></section>
+so as it can be saved.</p>
+<h2 id="parameters">Parameters</h2>
+<p>name:
+Name of the score</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -97,12 +144,33 @@ so as it can be saved.</p></section>
     Frozen score helps to store the value of the original score without its internal logic,
     so as it can be saved.
     &#34;&#34;&#34;
-    def __init__(self, value):
+    def __init__(self, value: List[Optional[float]], original_score: BaseScore = None):
         super().__init__()
 
         self.value = value
+        self._original_score: BaseScore = None
 
-    def update(self, score):
+        if original_score is not None:
+            self._save_original(original_score)
+
+    def __repr__(self):
+        return f&#39;{self.__class__.__name__}(original_score={self._original_score!r})&#39;
+
+    def __getattr__(self, attribute_name):
+        if attribute_name.startswith(&#39;__&#39;):
+            raise AttributeError()
+
+        if attribute_name == &#39;_original_score&#39;:  # some dill-loading stuff?
+            raise AttributeError()
+
+        if self._original_score is not None and hasattr(self._original_score, attribute_name):
+            return getattr(self._original_score, attribute_name)
+
+        raise AttributeError(
+            f&#39;Frozen score doesn\&#39;t have such attribute: &#34;{attribute_name}&#34;&#39;
+        )
+
+    def update(self, score_value: float) -&gt; None:
         &#34;&#34;&#34;
         Update is not supposed to be applied to Frozen score.
         It is not supposed to be changed.
@@ -110,23 +178,39 @@ so as it can be saved.</p></section>
         to train the model further after loading.
         &#34;&#34;&#34;
         warnings.warn(
-            f&#39;Trying to update Frozen score! Update value &#34;{score}&#34;. &#39;
+            f&#39;Trying to update Frozen score! Update value &#34;{score_value}&#34;. &#39;
             f&#39;Frozen score is not supposed to be updated, &#39;
             f&#39;as there is no computation logic inside&#39;
         )
 
-        if score is not None:
-            # TODO: it shouldn&#39;t be possible to pass such score value to update()
+        if score_value is not None:
+            # TODO: it shouldn&#39;t be possible to pass such score_value value to update()
             #  other than the one returned by self.call()
             warnings.warn(
-                f&#39;Can\&#39;t update Frozen score with value other than None: &#34;{score}&#34;! &#39;
-                f&#39;Saving None score&#39;
+                f&#39;Can\&#39;t update Frozen score with value other than None: &#34;{score_value}&#34;!&#39;
+                f&#39; Saving None score&#39;
             )
 
         self.value.append(None)
 
-    def call(self, model, *args, **kwargs):
-        return None</code></pre>
+    def call(self, model, *args, **kwargs) -&gt; Optional[float]:
+        return None
+
+    def _save_original(self, original_score: BaseScore) -&gt; None:
+        field_types_for_saving = (Number, str, bool, Enum)
+        self._original_score = BaseScore()
+
+        for field_name in dir(original_score):
+            field_value = getattr(original_score, field_name)
+
+            if field_value is not None and not isinstance(field_value, field_types_for_saving):
+                continue
+
+            try:
+                setattr(self._original_score, field_name, field_value)
+            except AttributeError:
+                # TODO: log?
+                pass</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -135,7 +219,7 @@ so as it can be saved.</p></section>
 <h3>Methods</h3>
 <dl>
 <dt id="topicnet.cooking_machine.models.frozen_score.FrozenScore.update"><code class="name flex">
-<span>def <span class="ident">update</span></span>(<span>self, score)</span>
+<span>def <span class="ident">update</span></span>(<span>self, score_value)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Update is not supposed to be applied to Frozen score.
@@ -146,7 +230,7 @@ to train the model further after loading.</p></section>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def update(self, score):
+<pre><code class="python">def update(self, score_value: float) -&gt; None:
     &#34;&#34;&#34;
     Update is not supposed to be applied to Frozen score.
     It is not supposed to be changed.
@@ -154,17 +238,17 @@ to train the model further after loading.</p></section>
     to train the model further after loading.
     &#34;&#34;&#34;
     warnings.warn(
-        f&#39;Trying to update Frozen score! Update value &#34;{score}&#34;. &#39;
+        f&#39;Trying to update Frozen score! Update value &#34;{score_value}&#34;. &#39;
         f&#39;Frozen score is not supposed to be updated, &#39;
         f&#39;as there is no computation logic inside&#39;
     )
 
-    if score is not None:
-        # TODO: it shouldn&#39;t be possible to pass such score value to update()
+    if score_value is not None:
+        # TODO: it shouldn&#39;t be possible to pass such score_value value to update()
         #  other than the one returned by self.call()
         warnings.warn(
-            f&#39;Can\&#39;t update Frozen score with value other than None: &#34;{score}&#34;! &#39;
-            f&#39;Saving None score&#39;
+            f&#39;Can\&#39;t update Frozen score with value other than None: &#34;{score_value}&#34;!&#39;
+            f&#39; Saving None score&#39;
         )
 
     self.value.append(None)</code></pre>

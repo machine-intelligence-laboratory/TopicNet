@@ -25,19 +25,20 @@ class DocumentClusterViewer(BaseViewer):
     def view(
             self,
             dataset,
+            save_path,
             method='TSNE',
             to_html=True,
-            save_path='local.html',):
+    ):
         """
         Parameters
         ----------
         dataset: Dataset
+        save_path: str
+            save path for the plot
         method: string
             any of the methods in sklearn.manifold
         to_html: Bool
             if user wants the plot to be saved in html format
-        save_path: str
-            save path for the plot
 
         Returns
         -------
@@ -85,4 +86,57 @@ class DocumentClusterViewer(BaseViewer):
             with open(save_path, 'w', encoding='utf-8') as f:
                 f.write(html_div)
 
+        if to_html:
+            return html_div
+
         return reduced_data
+
+    def viev_from_jupyter(
+        self,
+        dataset,
+        method: str = 'TSNE',
+        save_path: str = 'DocumentCluster_view.html',
+        width: int = 800,
+        height: int = 600,
+        display_output: bool = True,
+        give_html: bool = False,
+    ):
+        """
+        Parameters
+        ----------
+        dataset: Dataset
+        method: string
+            any of the methods in sklearn.manifold
+        to_html: Bool
+            if user wants the plot to be saved in html format
+        save_path: str
+            save path for the plot requires to be able to create
+            the visualisation
+        width
+            width of the plot in pixels
+        height
+            height of the plot in pixels
+        display_output
+            show the plot in the notebook
+        give_html
+            if return the html string (with javascript) that
+            performs the visualisation
+
+        Returns
+        -------
+        out_html: string
+            an html string containing the plotly graph
+            returned only if give_html is True
+
+        """
+        from IPython.display import IFrame, display_html
+        out_html = self.view(
+            dataset=dataset,
+            method=method,
+            to_html=True,
+        )
+        if display_output:
+            display_html(IFrame(save_path, width=width, height=height))
+
+        if give_html:
+            return out_html
