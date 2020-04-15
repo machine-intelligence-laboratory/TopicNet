@@ -9,7 +9,7 @@ setup(
         'topicnet.cooking_machine.cubes',
         'topicnet.cooking_machine.models',
         'topicnet.cooking_machine.recipes',
-        'topicnet.dataset_manger',
+        'topicnet.dataset_manager',
         'topicnet.viewers'
     ],
     version = '0.7.0',
