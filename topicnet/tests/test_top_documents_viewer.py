@@ -20,15 +20,16 @@ class TestTopDocumentsViewer:
     topic_model = None
     theta = None
     top_documents_viewer = None
+    dataset = None
 
     @classmethod
     def setup_class(cls):
         """ """
         with warnings.catch_warnings():
             warnings.filterwarnings(action="ignore", message=W_DIFF_BATCHES_1)
-            dataset = Dataset('tests/test_data/test_dataset.csv')
-            dictionary = dataset.get_dictionary()
-            batch_vectorizer = dataset.get_batch_vectorizer()
+            cls.dataset = Dataset('tests/test_data/test_dataset.csv')
+            dictionary = cls.dataset.get_dictionary()
+            batch_vectorizer = cls.dataset.get_batch_vectorizer()
 
         model_artm = artm.ARTM(
             num_topics=NUM_TOPICS,
@@ -39,14 +40,14 @@ class TestTopDocumentsViewer:
 
         cls.topic_model = TopicModel(model_artm, model_id='model_id')
         cls.topic_model._fit(batch_vectorizer, num_iterations=NUM_ITERATIONS)
-        cls.theta = cls.topic_model.get_theta(dataset=dataset)
+        cls.theta = cls.topic_model.get_theta(dataset=cls.dataset)
 
         cls.top_documents_viewer = top_documents_viewer.TopDocumentsViewer(model=cls.topic_model)
 
     @classmethod
     def teardown_class(cls):
         """ """
-        shutil.rmtree("tests/test_data/test_dataset_batches")
+        shutil.rmtree(cls.dataset._internals_folder_path)
 
     def test_check_output_format(self):
         """ """

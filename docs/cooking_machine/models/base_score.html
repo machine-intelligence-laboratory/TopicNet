@@ -24,13 +24,43 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class BaseScore:
+<pre><code class="python">import dill
+from . import scores as tn_scores
+
+
+class BaseScore:
     &#34;&#34;&#34;
     Base Class to construct custom score functions.
 
     &#34;&#34;&#34;
-    def __init__(self):
+    def __init__(self, name: str = None):  # TODO: name should not be optional
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        name:
+            Name of the score
+
+        &#34;&#34;&#34;
+        self._name = name
         self.value = []
+
+        if not hasattr(tn_scores, self.__class__.__name__):
+            setattr(tn_scores, self.__class__.__name__, self.__class__)
+
+    def __repr__(self):
+        return f&#39;{self.__class__.__name__}&#39;
+
+    def save(self, path):
+        with open(path, &#34;wb&#34;) as f:
+            dill.dump(self, f)
+
+    @classmethod
+    def load(cls, path):
+        with open(path, &#34;rb&#34;) as f:
+            score = dill.load(f)
+
+        return score
 
     def update(self, score):
         &#34;&#34;&#34;
@@ -45,10 +75,12 @@
 
         &#34;&#34;&#34;
         known_errors = (ValueError, TypeError)
+
         try:
             score = float(score)
         except known_errors:
             raise ValueError(f&#39;Score call should return float but not {score}&#39;)
+
         self.value.append(score)
 
     def call(self, model):
@@ -87,9 +119,13 @@
 <dl>
 <dt id="topicnet.cooking_machine.models.base_score.BaseScore"><code class="flex name class">
 <span>class <span class="ident">BaseScore</span></span>
+<span>(</span><span>name=None)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Base Class to construct custom score functions.</p></section>
+<section class="desc"><p>Base Class to construct custom score functions.</p>
+<h2 id="parameters">Parameters</h2>
+<p>name:
+Name of the score</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -99,8 +135,34 @@
     Base Class to construct custom score functions.
 
     &#34;&#34;&#34;
-    def __init__(self):
+    def __init__(self, name: str = None):  # TODO: name should not be optional
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        name:
+            Name of the score
+
+        &#34;&#34;&#34;
+        self._name = name
         self.value = []
+
+        if not hasattr(tn_scores, self.__class__.__name__):
+            setattr(tn_scores, self.__class__.__name__, self.__class__)
+
+    def __repr__(self):
+        return f&#39;{self.__class__.__name__}&#39;
+
+    def save(self, path):
+        with open(path, &#34;wb&#34;) as f:
+            dill.dump(self, f)
+
+    @classmethod
+    def load(cls, path):
+        with open(path, &#34;rb&#34;) as f:
+            score = dill.load(f)
+
+        return score
 
     def update(self, score):
         &#34;&#34;&#34;
@@ -115,10 +177,12 @@
 
         &#34;&#34;&#34;
         known_errors = (ValueError, TypeError)
+
         try:
             score = float(score)
         except known_errors:
             raise ValueError(f&#39;Score call should return float but not {score}&#39;)
+
         self.value.append(score)
 
     def call(self, model):
@@ -147,12 +211,32 @@
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="topicnet.cooking_machine.models.frozen_score.FrozenScore" href="frozen_score.html#topicnet.cooking_machine.models.frozen_score.FrozenScore">FrozenScore</a></li>
 <li><a title="topicnet.cooking_machine.models.example_score.ScoreExample" href="example_score.html#topicnet.cooking_machine.models.example_score.ScoreExample">ScoreExample</a></li>
 <li><a title="topicnet.cooking_machine.models.intratext_coherence_score.IntratextCoherenceScore" href="intratext_coherence_score.html#topicnet.cooking_machine.models.intratext_coherence_score.IntratextCoherenceScore">IntratextCoherenceScore</a></li>
 <li><a title="topicnet.cooking_machine.models.blei_lafferty_score.BleiLaffertyScore" href="blei_lafferty_score.html#topicnet.cooking_machine.models.blei_lafferty_score.BleiLaffertyScore">BleiLaffertyScore</a></li>
 <li><a title="topicnet.cooking_machine.models.semantic_radius_score.SemanticRadiusScore" href="semantic_radius_score.html#topicnet.cooking_machine.models.semantic_radius_score.SemanticRadiusScore">SemanticRadiusScore</a></li>
+<li><a title="topicnet.cooking_machine.models.frozen_score.FrozenScore" href="frozen_score.html#topicnet.cooking_machine.models.frozen_score.FrozenScore">FrozenScore</a></li>
 </ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="topicnet.cooking_machine.models.base_score.BaseScore.load"><code class="name flex">
+<span>def <span class="ident">load</span></span>(<span>path)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def load(cls, path):
+    with open(path, &#34;rb&#34;) as f:
+        score = dill.load(f)
+
+    return score</code></pre>
+</details>
+</dd>
+</dl>
 <h3>Methods</h3>
 <dl>
 <dt id="topicnet.cooking_machine.models.base_score.BaseScore.call"><code class="name flex">
@@ -204,6 +288,20 @@ and then use this logic in query in Experiment's <code>select()</code> method.</
     raise NotImplementedError(&#39;Define your score here&#39;)</code></pre>
 </details>
 </dd>
+<dt id="topicnet.cooking_machine.models.base_score.BaseScore.save"><code class="name flex">
+<span>def <span class="ident">save</span></span>(<span>self, path)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def save(self, path):
+    with open(path, &#34;wb&#34;) as f:
+        dill.dump(self, f)</code></pre>
+</details>
+</dd>
 <dt id="topicnet.cooking_machine.models.base_score.BaseScore.update"><code class="name flex">
 <span>def <span class="ident">update</span></span>(<span>self, score)</span>
 </code></dt>
@@ -231,10 +329,12 @@ and then use this logic in query in Experiment's <code>select()</code> method.</
 
     &#34;&#34;&#34;
     known_errors = (ValueError, TypeError)
+
     try:
         score = float(score)
     except known_errors:
         raise ValueError(f&#39;Score call should return float but not {score}&#39;)
+
     self.value.append(score)</code></pre>
 </details>
 </dd>
@@ -260,6 +360,8 @@ and then use this logic in query in Experiment's <code>select()</code> method.</
 <h4><code><a title="topicnet.cooking_machine.models.base_score.BaseScore" href="#topicnet.cooking_machine.models.base_score.BaseScore">BaseScore</a></code></h4>
 <ul class="">
 <li><code><a title="topicnet.cooking_machine.models.base_score.BaseScore.call" href="#topicnet.cooking_machine.models.base_score.BaseScore.call">call</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.base_score.BaseScore.load" href="#topicnet.cooking_machine.models.base_score.BaseScore.load">load</a></code></li>
+<li><code><a title="topicnet.cooking_machine.models.base_score.BaseScore.save" href="#topicnet.cooking_machine.models.base_score.BaseScore.save">save</a></code></li>
 <li><code><a title="topicnet.cooking_machine.models.base_score.BaseScore.update" href="#topicnet.cooking_machine.models.base_score.BaseScore.update">update</a></code></li>
 </ul>
 </li>

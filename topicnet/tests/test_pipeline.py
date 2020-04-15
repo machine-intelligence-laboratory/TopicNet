@@ -12,7 +12,7 @@ from ..cooking_machine.models.example_score import ScoreExample
 from ..cooking_machine.experiment import Experiment
 from ..cooking_machine.dataset import Dataset, W_DIFF_BATCHES_1
 from ..cooking_machine.config_parser import build_experiment_environment_from_yaml_config
-
+from ..cooking_machine.model_tracking import START
 
 # MULTIPROCESSING_FLAGS = [True, False]
 MULTIPROCESSING_FLAGS = [True]
@@ -21,10 +21,12 @@ USE_MULTIPROCESS = True
 
 def resource_teardown():
     """ """
+    dataset = Dataset('tests/test_data/test_dataset.csv')
+
     if os.path.exists("tests/experiments"):
         shutil.rmtree("tests/experiments")
-    if os.path.exists("tests/test_data/test_dataset_batches"):
-        shutil.rmtree("tests/test_data/test_dataset_batches")
+    if os.path.exists(dataset._internals_folder_path):
+        shutil.rmtree(dataset._internals_folder_path)
 
 
 def setup_function():
@@ -102,7 +104,7 @@ def test_bad_empty_config(experiment_enviroment, thread_flag):
         yaml_string,
         experiment_id="Test_config",
         save_path="tests/experiments",
-        force_single_thread=not thread_flag
+        force_separate_thread=not thread_flag
     )
     with pytest.warns(UserWarning, match='Unable to calculate special'):
         experiment.run(dataset)
@@ -120,7 +122,7 @@ def test_bad_config(experiment_enviroment, thread_flag):
             yaml_string,
             experiment_id="Test_config",
             save_path="tests/experiments",
-            force_single_thread=not thread_flag
+            force_separate_thread=not thread_flag
         )
 
 
@@ -133,7 +135,7 @@ def test_pipeline_from_config(experiment_enviroment, thread_flag):
         yaml_string,
         experiment_id="Test_config",
         save_path="tests/experiments",
-        force_single_thread=not thread_flag
+        force_separate_thread=not thread_flag
     )
     with pytest.warns(UserWarning, match="Max progression length") as record:
         experiment.run(dataset)
@@ -153,10 +155,18 @@ def test_pipeline_from_config(experiment_enviroment, thread_flag):
     assert len(final_models) > 0
 
     description = experiment.describe_model(final_models[0].model_id)
-    for tm in experiment.models.values():
+    for some_model in experiment.models.values():
+        if some_model.model_id == START:
+            tm = some_model
+        else:
+            tm = some_model.restore()
         depth = tm.depth - 1
-        num_iters = len(tm.scores.get("PerplexityScore@all"))
-        assert(depth * 5 == num_iters)
+        num_iters = tm.num_phi_updates
+        if num_iters:
+            score_values_history = tm.score_tracker["PerplexityScore@all"].value
+        else:
+            score_values_history = []
+        assert(depth * 5 == len(score_values_history) == num_iters)
 
     print('depth: ', final_models[0].depth)
     print('criteria: ', experiment.criteria[final_models[0].depth - 1])
@@ -186,7 +196,7 @@ def test_config_with_blei_score(experiment_enviroment, thread_flag):
         yaml_string,
         experiment_id="Test_config",
         save_path="tests/experiments",
-        force_single_thread=not thread_flag
+        force_separate_thread=not thread_flag
     )
     experiment.run(dataset)
 
@@ -205,7 +215,7 @@ def test_config_with_scores(experiment_enviroment, thread_flag):
         yaml_string,
         experiment_id="Test_config",
         save_path="tests/experiments",
-        force_single_thread=not thread_flag
+        force_separate_thread=not thread_flag
     )
     experiment.run(dataset)
 
@@ -225,7 +235,7 @@ def test_config_with_greedy_strategy(experiment_enviroment, thread_flag):
         yaml_string,
         experiment_id="Test_config",
         save_path="tests/experiments",
-        force_single_thread=not thread_flag
+        force_separate_thread=not thread_flag
     )
     experiment.run(dataset)
 

@@ -4,8 +4,6 @@
 DIR=$(dirname "$1")
 DIR=${DIR#..\/..\/}
 
-echo $DIR
-
 pandoc -f markdown -t html $1 -o $DIR/htmled.html 
 # echo "created html-file from markdown $1 in $DIR"
 # ls $DIR

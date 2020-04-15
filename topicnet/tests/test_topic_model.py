@@ -3,6 +3,7 @@ import warnings
 import shutil
 import artm
 
+from ..cooking_machine.models.dummy_topic_model import DummyTopicModel
 from ..cooking_machine.models.topic_model import TopicModel
 from ..cooking_machine.experiment import Experiment
 from ..cooking_machine.dataset import Dataset, W_DIFF_BATCHES_1
@@ -38,7 +39,7 @@ def experiment_enviroment(request):
     def resource_teardown():
         """ """
         shutil.rmtree("tests/experiments")
-        shutil.rmtree("tests/test_data/test_dataset_batches")
+        shutil.rmtree(dataset._internals_folder_path)
 
     request.addfinalizer(resource_teardown)
 
@@ -178,3 +179,53 @@ def test_tm_with_blei_laff_score(experiment_enviroment):
     tm._fit(dataset.get_batch_vectorizer(), num_iterations=num_iter)
     assert len(tm.scores['blei']) == num_iter
     assert BleiLaffertyScore().call(tm) != 0.0
+
+
+def test_scores_add(experiment_enviroment):
+    topic_model, dataset, experiment, dictionary = experiment_enviroment
+
+    custom_score_name = 'blei'
+    topic_model.scores.add(BleiLaffertyScore(name=custom_score_name))
+
+    artm_score_name = 'perp'
+    topic_model.scores.add(artm.scores.PerplexityScore(name=artm_score_name))
+
+    num_iterations = 3
+    topic_model._fit(dataset.get_batch_vectorizer(), num_iterations=num_iterations)
+
+    assert len(topic_model.scores[custom_score_name]) == num_iterations
+    assert len(topic_model.scores[artm_score_name]) == num_iterations
+
+
+def test_to_dummy_and_back_with_scores(experiment_enviroment):
+    topic_model, dataset, experiment, dictionary = experiment_enviroment
+
+    custom_score_name = 'blei'
+    topic_model.scores.add(BleiLaffertyScore(name=custom_score_name))
+
+    artm_score_name = 'perp'
+    topic_model.scores.add(artm.scores.PerplexityScore(name=artm_score_name))
+
+    num_iterations = 3
+    topic_model._fit(dataset.get_batch_vectorizer(), num_iterations=num_iterations)
+
+    topic_model.save()
+    save_path = topic_model.model_default_save_path
+
+    del topic_model
+
+    dummy = DummyTopicModel.load(save_path)
+
+    # dummy model keeps only last value
+    assert len(dummy.scores[custom_score_name]) == 1
+    assert len(dummy.scores[artm_score_name]) == 1
+    assert not hasattr(dummy.scores, '_score_caches')
+
+    restored_topic_model = dummy.restore(dataset)
+
+    assert hasattr(restored_topic_model, '_scores_wrapper')
+    assert hasattr(restored_topic_model._scores_wrapper, '_score_caches')
+    assert restored_topic_model._scores_wrapper._score_caches is not None
+
+    assert len(restored_topic_model.scores[custom_score_name]) == num_iterations
+    assert len(restored_topic_model.scores[artm_score_name]) == num_iterations

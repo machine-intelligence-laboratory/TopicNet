@@ -78,10 +78,6 @@ ARTM_TYPES = {
     "theta_name": Str()
 }
 
-# change log style
-lc = artm.messages.ConfigureLoggingArgs()
-lc.minloglevel = 3
-lib = artm.wrapper.LibArtm(logging_config=lc)
 
 element = Any()
 base_schema = Map({
@@ -458,12 +454,12 @@ def parse_modalities_data(parsed):
         return modalities_to_use
 
 
-def parse(yaml_string, force_single_thread=False):
+def parse(yaml_string, force_separate_thread=False):
     """
     Parameters
     ----------
     yaml_string : str
-    force_single_thread : bool
+    force_separate_thread : bool
 
     Returns
     -------
@@ -508,7 +504,7 @@ def parse(yaml_string, force_single_thread=False):
     for stage in parsed['stages']:
         for elemtype, elem_args in stage.items():
             settings = build_cube_settings(elemtype.data, elem_args)
-            if force_single_thread:
+            if force_separate_thread:
                 settings[elemtype]["separate_thread"] = False
             cube_settings.append(settings)
 
@@ -546,8 +542,33 @@ def revalidate_section(parsed, section):
 
 
 def build_experiment_environment_from_yaml_config(yaml_string, experiment_id,
-                                                  save_path, force_single_thread=False):
-    settings, regs, model, dataset = parse(yaml_string, force_single_thread)
+                                                  save_path, force_separate_thread=False):
+    """
+    Wraps up parameter extraction and class instances creation
+    from yaml formatted string
+    together with the method that builds experiment pipeline from
+    given experiment parameters (model, cubes, regularizers, etc)
+
+    Parameters
+    ----------
+    yaml_string: str
+        config that contains the whole experiment pipeline description
+        with its parameters
+    save_path: str
+        path to the folder to save experiment logs and models
+    experiment_id: str
+        name of the experiment folder
+    force_separate_thread: bool default = False
+        experimental feature that packs model training into
+        separate process which is killed upon training completion
+        by default is not used
+
+    Returns
+    -------
+
+    tuple experiment, dataset instances of corresponding classes from topicnet
+    """
+    settings, regs, model, dataset = parse(yaml_string, force_separate_thread)
     # TODO: handle dynamic addition of regularizers
     experiment = Experiment(experiment_id=experiment_id, save_path=save_path, topic_model=model)
     experiment.build(settings)

@@ -1,0 +1,152 @@
+# The recipe mainly consists of basic cube stages,
+# such as Decorrelation, Sparsing and Smoothing.
+# In this way it is similar to ARTM baseline recipe.
+# The core difference is that models selected based on their IntratextCoherenceScore
+# (which is one of the scores included in TopicNet).
+# PerplexityScore is also calculated to assure that models don't have high perplexity,
+# but the main criteria is IntratextCoherenceScore.
+#
+# For more details about IntratextCoherence
+# one may see the article http://www.dialog-21.ru/media/4281/alekseevva.pdf
+#
+# Recipe usage sample:
+#   file_contents_as_string = file_contents_as_string.format(
+#     modality_names=modality_names,
+#     main_modality=main_modality,
+#     dataset_path=dataset_file_path,
+#     keep_dataset_in_memory=True,
+#     keep_dataset=False,
+#     documents_fraction=documents_fraction,
+#     specific_topics=specific_topic_names,
+#     background_topics=background_topic_names,
+#     one_stage_num_iter=20,
+#     verbose=True,
+#   )
+#   experiment, dataset = build_experiment_environment_from_yaml_config(
+#     file_contents_as_string,
+#     experiment_id='experiment_maximize_intratext',
+#     save_path=save_path,
+#   )
+#
+#   There will be five stages, each with nearly 5-values-grid search.
+#   One such search lasts `one_stage_num_iter` iterations with coherence computation
+#   in the end.
+#   So, there is going to be `one_stage_num_iter` * 5 * 5 training iterations (not slow)
+#   and 5 * 5 coherence computations (here may be slow if `documents_fraction` is high)
+
+topics:
+    specific_topics: {specific_topics}
+    background_topics: {background_topics}
+
+regularizers:
+    - DecorrelatorPhiRegularizer:
+        name: decorrelate_phi
+        topic_names: specific_topics
+
+    - SmoothSparsePhiRegularizer:
+        name: sparse_phi_specific
+        topic_names: specific_topics
+
+    - SmoothSparsePhiRegularizer:
+        name: smooth_phi_background
+        topic_names: background_topics
+
+    - SmoothSparsePhiRegularizer:
+        name: smooth_phi_specific
+        topic_names: specific_topics
+
+scores:
+    - IntratextCoherenceScore:
+        dataset: {dataset_path}
+        keep_dataset_in_memory: {keep_dataset_in_memory}
+        keep_dataset: {keep_dataset}
+        documents_fraction: {documents_fraction}
+        start_fit_iteration: -1  # TODO: need this, because can't set fit_iteration_step = num_iter - 1 in .yml config
+        fit_iteration_step: {one_stage_num_iter}
+        verbose: {verbose}
+
+model:
+    dataset_path: {dataset_path}
+    modalities_to_use: {modality_names}
+    main_modality: '{main_modality}'
+
+stages:
+    - RegularizersModifierCube:
+        num_iter: {one_stage_num_iter}
+        reg_search: mul
+        regularizer_parameters:
+            name: decorrelate_phi
+        selection:
+            - PerplexityScore@all < 1.1 * MINIMUM(PerplexityScore@all) and IntratextCoherenceScore -> max
+        strategy: PerplexityStrategy
+        strategy_params:
+            start_point: 0.025
+            step: 2
+            max_len: 6
+        tracked_score_function: PerplexityScore@all
+        verbose: false
+        use_relative_coefficients: true
+
+    - RegularizersModifierCube:
+        num_iter: {one_stage_num_iter}
+        reg_search: add
+        regularizer_parameters:
+            name: sparse_phi_specific
+        selection:
+          - PerplexityScore@all < 1.1 * MINIMUM(PerplexityScore@all) and IntratextCoherenceScore -> max
+        strategy: PerplexityStrategy
+        strategy_params:
+            start_point: -0.00001
+            step: -0.1
+            max_len: 5
+        tracked_score_function: PerplexityScore@all
+        verbose: false
+        use_relative_coefficients: true
+
+    - RegularizersModifierCube:
+        num_iter: {one_stage_num_iter}
+        reg_search: add
+        regularizer_parameters:
+            name: smooth_phi_background
+        selection:
+          - PerplexityScore@all < 1.1 * MINIMUM(PerplexityScore@all) and IntratextCoherenceScore -> max
+        strategy: PerplexityStrategy
+        strategy_params:
+            start_point: 0.00001
+            step: 0.1
+            max_len: 5
+        tracked_score_function: PerplexityScore@all
+        verbose: false
+        use_relative_coefficients: true
+
+    - RegularizersModifierCube:
+        num_iter: {one_stage_num_iter}
+        reg_search: mul
+        regularizer_parameters:
+            name: decorrelate_phi
+        selection:
+          - PerplexityScore@all < 1.1 * MINIMUM(PerplexityScore@all) and IntratextCoherenceScore -> max
+        strategy: PerplexityStrategy
+        strategy_params:
+            start_point: 0.025
+            step: 2
+            max_len: 6
+        tracked_score_function: PerplexityScore@all
+        verbose: false
+        use_relative_coefficients: true
+
+    - RegularizersModifierCube:
+        num_iter: {one_stage_num_iter}
+        reg_search: mul
+        regularizer_parameters:
+            name: smooth_phi_specific
+        selection:
+          - PerplexityScore@all < 1.1 * MINIMUM(PerplexityScore@all) and IntratextCoherenceScore -> max
+        strategy: PerplexityStrategy
+        strategy_params:
+            start_point: 0.00001
+            step: 10
+            max_len: 2
+        tracked_score_function: PerplexityScore@all
+        verbose: false
+        use_relative_coefficients: true

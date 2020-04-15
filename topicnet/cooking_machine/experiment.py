@@ -77,7 +77,9 @@ class Experiment(object):
             Gradually, level by level.
             If false, models will be untouched, all data, including inner ARTM models,
             Phi, Theta matrices, stays.
-
+            If one wants to use squeezed topic model as before (eg. call `topic_model.get_phi()`),
+            its inner ARTM model should be restored first.
+            See docstring for `TopicModel.make_dummy()` method for reference.
         """  # noqa: W291
 
         if not isinstance(save_path, str):
@@ -328,14 +330,20 @@ class Experiment(object):
             raise NameError(f'There is no dataset with name {dataset_id} in this experiment.')
 
     @staticmethod
-    def _load(load_path, experiment_id: str, save_path: str, tree: dict = None,
-              models_info: dict = None, cubes: List[dict] = None,
-              criteria: List[List] = [None]):
+    def _load(load_path,
+              experiment_id: str,
+              save_path: str,
+              tree: dict = None,
+              models_info: dict = None,
+              cubes: List[dict] = None,
+              criteria: List[str] = None):
         """
         Load helper.
 
         """
-        from.experiment import Experiment
+        if criteria is None:
+            criteria = [None]
+
         from .models import TopicModel
 
         root_model_save_path = os.path.join(load_path, START)
@@ -405,7 +413,7 @@ class Experiment(object):
         if depth == 0:
             return
 
-        assert isinstance(depth, int) and depth > 0
+        assert abs(int(depth) - depth) == 0 and depth > 0
 
         for m in self.get_models_by_depth(depth):
             m.make_dummy()

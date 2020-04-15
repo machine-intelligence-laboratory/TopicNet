@@ -1,4 +1,5 @@
 from .base_viewer import BaseViewer
+from .document_cluster import DocumentClusterViewer
 from .spectrum import TopicSpectrumViewer
 from .top_documents_viewer import TopDocumentsViewer
 from .top_similar_documents_viewer import TopSimilarDocumentsViewer

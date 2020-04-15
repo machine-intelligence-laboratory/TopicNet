@@ -22,10 +22,12 @@ MULTIPROCESSING_FLAGS = [True, False]
 
 def resource_teardown():
     """ """
+    dataset = Dataset('tests/test_data/test_dataset.csv')
+
     if os.path.exists("tests/experiments"):
         shutil.rmtree("tests/experiments")
-    if os.path.exists("tests/test_data/test_dataset_batches"):
-        shutil.rmtree("tests/test_data/test_dataset_batches")
+    if os.path.exists(dataset._internals_folder_path):
+        shutil.rmtree(dataset._internals_folder_path)
 
 
 def setup_function():

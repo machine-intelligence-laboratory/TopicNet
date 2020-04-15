@@ -1,17 +1,7 @@
 import numpy as np
 
 from copy import deepcopy
-from .models.base_model import MODEL_NAME_LENGTH
-
-
-def padd_model_name(model_id):
-    padding = MODEL_NAME_LENGTH - len(model_id)
-    if padding > 0:
-        add = padding // 2
-        odd = padding % 2
-        return '<' * add + model_id + '>' * (add + odd)
-    else:
-        return model_id[:MODEL_NAME_LENGTH]
+from .models.base_model import padd_model_name
 
 
 START = padd_model_name('root')

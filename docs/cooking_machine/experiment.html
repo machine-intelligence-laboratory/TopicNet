@@ -103,7 +103,9 @@ class Experiment(object):
             Gradually, level by level.
             If false, models will be untouched, all data, including inner ARTM models,
             Phi, Theta matrices, stays.
-
+            If one wants to use squeezed topic model as before (eg. call `topic_model.get_phi()`),
+            its inner ARTM model should be restored first.
+            See docstring for `TopicModel.make_dummy()` method for reference.
         &#34;&#34;&#34;  # noqa: W291
 
         if not isinstance(save_path, str):
@@ -354,14 +356,20 @@ class Experiment(object):
             raise NameError(f&#39;There is no dataset with name {dataset_id} in this experiment.&#39;)
 
     @staticmethod
-    def _load(load_path, experiment_id: str, save_path: str, tree: dict = None,
-              models_info: dict = None, cubes: List[dict] = None,
-              criteria: List[List] = [None]):
+    def _load(load_path,
+              experiment_id: str,
+              save_path: str,
+              tree: dict = None,
+              models_info: dict = None,
+              cubes: List[dict] = None,
+              criteria: List[str] = None):
         &#34;&#34;&#34;
         Load helper.
 
         &#34;&#34;&#34;
-        from.experiment import Experiment
+        if criteria is None:
+            criteria = [None]
+
         from .models import TopicModel
 
         root_model_save_path = os.path.join(load_path, START)
@@ -431,7 +439,7 @@ class Experiment(object):
         if depth == 0:
             return
 
-        assert isinstance(depth, int) and depth &gt; 0
+        assert abs(int(depth) - depth) == 0 and depth &gt; 0
 
         for m in self.get_models_by_depth(depth):
             m.make_dummy()
@@ -944,7 +952,10 @@ if False - then topic model will be initial model (the first)</dd>
 <dd>If true, models be transformed to dummies via <code>squeeze_models()</code>.
 Gradually, level by level.
 If false, models will be untouched, all data, including inner ARTM models,
-Phi, Theta matrices, stays.</dd>
+Phi, Theta matrices, stays.
+If one wants to use squeezed topic model as before (eg. call <code>topic_model.get_phi()</code>),
+its inner ARTM model should be restored first.
+See docstring for <code>TopicModel.make_dummy()</code> method for reference.</dd>
 </dl></section>
 <details class="source">
 <summary>
@@ -990,7 +1001,9 @@ Phi, Theta matrices, stays.</dd>
             Gradually, level by level.
             If false, models will be untouched, all data, including inner ARTM models,
             Phi, Theta matrices, stays.
-
+            If one wants to use squeezed topic model as before (eg. call `topic_model.get_phi()`),
+            its inner ARTM model should be restored first.
+            See docstring for `TopicModel.make_dummy()` method for reference.
         &#34;&#34;&#34;  # noqa: W291
 
         if not isinstance(save_path, str):
@@ -1241,14 +1254,20 @@ Phi, Theta matrices, stays.</dd>
             raise NameError(f&#39;There is no dataset with name {dataset_id} in this experiment.&#39;)
 
     @staticmethod
-    def _load(load_path, experiment_id: str, save_path: str, tree: dict = None,
-              models_info: dict = None, cubes: List[dict] = None,
-              criteria: List[List] = [None]):
+    def _load(load_path,
+              experiment_id: str,
+              save_path: str,
+              tree: dict = None,
+              models_info: dict = None,
+              cubes: List[dict] = None,
+              criteria: List[str] = None):
         &#34;&#34;&#34;
         Load helper.
 
         &#34;&#34;&#34;
-        from.experiment import Experiment
+        if criteria is None:
+            criteria = [None]
+
         from .models import TopicModel
 
         root_model_save_path = os.path.join(load_path, START)
@@ -1318,7 +1337,7 @@ Phi, Theta matrices, stays.</dd>
         if depth == 0:
             return
 
-        assert isinstance(depth, int) and depth &gt; 0
+        assert abs(int(depth) - depth) == 0 and depth &gt; 0
 
         for m in self.get_models_by_depth(depth):
             m.make_dummy()
@@ -2734,7 +2753,7 @@ on each stage of the Experiment</p>
     if depth == 0:
         return
 
-    assert isinstance(depth, int) and depth &gt; 0
+    assert abs(int(depth) - depth) == 0 and depth &gt; 0
 
     for m in self.get_models_by_depth(depth):
         m.make_dummy()</code></pre>

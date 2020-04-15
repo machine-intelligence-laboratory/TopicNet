@@ -1,6 +1,7 @@
 # Cooking Machine
 
 #### Cube
+
 A unit of model training pipeline. This unit encapsulates an action over one or many model hyperparameters. This action and hyperparameter space are stored as cube properties and then saved in Experiment. 
 
 **Input:** model or list of models, regularizer or list of them, hyperparameter search sapce(grid), iterations number or a function defining it, custom metrics.  
@@ -8,6 +9,7 @@ A unit of model training pipeline. This unit encapsulates an action over one or 
 **Body:** performs actions over `artm` model. Can modify, create new models and alter their Experiment.
 
 #### Model
+
 A class containing Topic Model and its description:
 
 * stores topic model description;
@@ -22,6 +24,7 @@ A class containing Topic Model and its description:
 * stores training metric values.
 
 #### Experiment
+
 Class providing experiment infrastructure:
 
 * keeps the description of all actions on the models;

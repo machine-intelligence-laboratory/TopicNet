@@ -11,17 +11,23 @@ class BleiLaffertyScore(BaseScore):
     to describe given topic. Summing up that score helps to estimate how
     well the model distinguishes between topics. The higher this score - better
     """
-    def __init__(self, num_top_tokens: int = 30):
+    def __init__(self, name: str = None, num_top_tokens: int = 30):
         """
 
         Parameters
         ----------
+        name:
+            name of the score
         num_top_tokens : int
             now many tokens we consider to be
 
         """
-        super().__init__()
+        super().__init__(name=name)
+
         self.num_top_tokens = num_top_tokens
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}(num_top_tokens={self.num_top_tokens})'
 
     def _compute_blei_scores(self, phi):
         """

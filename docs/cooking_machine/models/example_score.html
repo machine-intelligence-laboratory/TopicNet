@@ -36,16 +36,19 @@ class ScoreExample(BaseScore):
     (the internal logic of TopicNet relies on them)
 
     &#34;&#34;&#34;
-    def __init__(self, token_threshold=1e-3):
+    def __init__(self, name: str = None, token_threshold: float = 1e-3):
         &#34;&#34;&#34;
 
         Parameters
         ----------
+        name:
+            name of the score
         token_threshold : float
             what probabilities to take as token belonging to the topic
 
         &#34;&#34;&#34;
-        super().__init__()
+        super().__init__(name=name)
+
         self.threshold = token_threshold
 
     def call(self, model):
@@ -64,6 +67,7 @@ class ScoreExample(BaseScore):
         &#34;&#34;&#34;
         phi = model.get_phi().values
         score = np.sum((phi &gt; self.threshold).astype(&#39;int&#39;), axis=0).mean()
+
         return score</code></pre>
 </details>
 </section>
@@ -78,7 +82,7 @@ class ScoreExample(BaseScore):
 <dl>
 <dt id="topicnet.cooking_machine.models.example_score.ScoreExample"><code class="flex name class">
 <span>class <span class="ident">ScoreExample</span></span>
-<span>(</span><span>token_threshold=0.001)</span>
+<span>(</span><span>name=None, token_threshold=0.001)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Example score that calculates
@@ -87,6 +91,8 @@ We inherit from BaseScore in order to have self.value property and self.update()
 (the internal logic of TopicNet relies on them)</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
+<dt>name:</dt>
+<dt>name of the score</dt>
 <dt><strong><code>token_threshold</code></strong> :&ensp;<code>float</code></dt>
 <dd>what probabilities to take as token belonging to the topic</dd>
 </dl></section>
@@ -102,16 +108,19 @@ We inherit from BaseScore in order to have self.value property and self.update()
     (the internal logic of TopicNet relies on them)
 
     &#34;&#34;&#34;
-    def __init__(self, token_threshold=1e-3):
+    def __init__(self, name: str = None, token_threshold: float = 1e-3):
         &#34;&#34;&#34;
 
         Parameters
         ----------
+        name:
+            name of the score
         token_threshold : float
             what probabilities to take as token belonging to the topic
 
         &#34;&#34;&#34;
-        super().__init__()
+        super().__init__(name=name)
+
         self.threshold = token_threshold
 
     def call(self, model):
@@ -130,6 +139,7 @@ We inherit from BaseScore in order to have self.value property and self.update()
         &#34;&#34;&#34;
         phi = model.get_phi().values
         score = np.sum((phi &gt; self.threshold).astype(&#39;int&#39;), axis=0).mean()
+
         return score</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -173,6 +183,7 @@ We inherit from BaseScore in order to have self.value property and self.update()
     &#34;&#34;&#34;
     phi = model.get_phi().values
     score = np.sum((phi &gt; self.threshold).astype(&#39;int&#39;), axis=0).mean()
+
     return score</code></pre>
 </details>
 </dd>

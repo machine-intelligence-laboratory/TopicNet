@@ -7,11 +7,6 @@ import warnings
 from ..dataset import Dataset
 from .topic_model import TopicModel
 
-# change log style
-lc = artm.messages.ConfigureLoggingArgs()
-lc.minloglevel = 3
-lib = artm.wrapper.LibArtm(logging_config=lc)
-
 
 class InvalidOperationError(RuntimeError):
     def __init__(self, message='Dummy model can\'t do this'):
@@ -34,6 +29,7 @@ class DummyTopicModel(TopicModel):
                  parent_model_id=None,
                  description=None,
                  experiment=None,
+                 save_path=None,
                  *args,
                  **kwargs):
         """
@@ -52,7 +48,7 @@ class DummyTopicModel(TopicModel):
         )
 
         self._model.dispose()
-        self._save_folder_path = None
+        self._save_folder_path = save_path
         self._model = _DummyArtmModel(self._save_folder_path)
 
         self._init_parameters = init_parameters
@@ -117,6 +113,7 @@ class DummyTopicModel(TopicModel):
         model = DummyTopicModel(**params)
         model.experiment = experiment
         model._save_path = path
+        model._scores_wrapper._score_caches = params['scores']
 
         return model
 
