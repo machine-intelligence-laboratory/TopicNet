@@ -246,6 +246,19 @@ perplexity_criterion = 'PerplexityScore@lemmatized -> min COLLECT 1'
 best_model = experiment.select(perplexity_criterion)
 ```
 
+### Alternatively: Use Recipes
+If you need a topic model now, you can use one ofthe code snippets we call recipes.
+```python
+from topicnet.cooking_machine.recipes import BaselineRecipe
+training_pipeline = BaselineRecipe()
+EXPERIMENT_PATH = '/home/user/experiment/'
+
+training_pipeline.format_recipe(dataset_path=DATASET_PATH)
+experiment, dataset = training_pipeline.build_experiment_environment(save_path=EXPERIMENT_PATH,)
+```
+after that you can expect a following result:
+![run_result](./docs/readme_images/experiment_train.gif)
+
 ### View the results
 
 Browsing the model is easy: create a viewer and call its `view()` method (or `view_from_jupyter()` — it is advised to use it if working in Jupyter Notebook):
