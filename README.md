@@ -159,7 +159,8 @@ Here we can finally get on the main part: making your own, best of them all, man
 We need to load our data prepared previously with Dataset:
 
 ```python
-dataset = Dataset('/Wiki_raw_set/wiki_data.csv')
+DATASET_PATH = '/Wiki_raw_set/wiki_data.csv'
+dataset = Dataset(DATASET_PATH)
 ```
 
 ### Make initial model
@@ -245,6 +246,20 @@ Selecting a model with best perplexity score:
 perplexity_criterion = 'PerplexityScore@lemmatized -> min COLLECT 1'
 best_model = experiment.select(perplexity_criterion)
 ```
+
+### Alternatively: Use Recipes
+If you need a topic model now, you can use one of the code snippets we call *recipes*.
+```python
+from topicnet.cooking_machine.recipes import BaselineRecipe
+
+training_pipeline = BaselineRecipe()
+EXPERIMENT_PATH = '/home/user/experiment/'
+
+training_pipeline.format_recipe(dataset_path=DATASET_PATH)
+experiment, dataset = training_pipeline.build_experiment_environment(save_path=EXPERIMENT_PATH,)
+```
+after that you can expect a following result:
+![run_result](./docs/readme_images/experiment_train.gif)
 
 ### View the results
 
