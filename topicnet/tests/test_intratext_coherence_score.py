@@ -10,7 +10,6 @@ import tempfile
 from typing import List, Dict
 
 
-from ..cooking_machine.config_parser import build_experiment_environment_from_yaml_config
 from ..cooking_machine.dataset import Dataset, DEFAULT_ARTM_MODALITY
 from ..cooking_machine.models.base_model import BaseModel
 from ..cooking_machine.models.frozen_score import FrozenScore
@@ -21,6 +20,7 @@ from ..cooking_machine.models.intratext_coherence_score import (
     WordTopicRelatednessType,
     SpecificityEstimationMethod
 )
+from ..cooking_machine.recipes import IntratextCoherenceRecipe
 
 
 NUM_TOP_WORDS = 10
@@ -335,33 +335,26 @@ class TestIntratextCoherenceScore:
             documents
         )
 
-    @pytest.mark.parametrize('keep_dataset', [False, True])
-    @pytest.mark.parametrize('low_memory', [False, True])
-    def test_recipe(self, keep_dataset, low_memory):
-        recipe_file_path = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            '..',
-            'cooking_machine',
-            'recipes',
-            'intratext_coherence_maximization.yml',
-        )
+    @pytest.mark.parametrize(
+        'keep_dataset, low_memory, num_background_topics',
+        [(False, False, 0), (True, True, 1)]
+    )
+    def test_recipe(self, keep_dataset, low_memory, num_background_topics):
+        pipeline = IntratextCoherenceRecipe()
 
-        recipe_config_string = open(recipe_file_path, 'r').read()
-        recipe_config_string = recipe_config_string.format(
-            modality_names=[DEFAULT_ARTM_MODALITY],
+        _ = pipeline.format_recipe(
+            modalities=[DEFAULT_ARTM_MODALITY],
             main_modality=DEFAULT_ARTM_MODALITY,
             dataset_path=self.dataset_file_path,
             keep_dataset_in_memory=True,
             keep_dataset=keep_dataset,
             documents_fraction=1.0,
-            specific_topics=self.topics[:-1],
-            background_topics=self.topics[-1:],
+            num_specific_topics=len(self.topics) - 1,
+            num_background_topics=num_background_topics,
             one_stage_num_iter=2,
             verbose=False,
         )
-
-        experiment, dataset = build_experiment_environment_from_yaml_config(
-            recipe_config_string,
+        experiment, dataset = pipeline.build_experiment_environment(
             experiment_id=(
                 f'experiment_maximize_intratext'
                 f'__{keep_dataset}'
@@ -369,8 +362,8 @@ class TestIntratextCoherenceScore:
             ),
             save_path=self.data_folder_path,
         )
-        experiment._low_memory = low_memory  # TODO: add some better test for low_memory?
 
+        experiment._low_memory = low_memory  # TODO: add some better test for low_memory?
         experiment.run(dataset)
 
         score_name = 'IntratextCoherenceScore'

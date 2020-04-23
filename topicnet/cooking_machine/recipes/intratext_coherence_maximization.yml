@@ -7,7 +7,7 @@
 # but the main criteria is IntratextCoherenceScore.
 #
 # For more details about IntratextCoherence
-# one may see the article http://www.dialog-21.ru/media/4281/alekseevva.pdf
+# one may see the paper http://www.dialog-21.ru/media/4281/alekseevva.pdf
 #
 # Recipe usage sample:
 #   file_contents_as_string = file_contents_as_string.format(
