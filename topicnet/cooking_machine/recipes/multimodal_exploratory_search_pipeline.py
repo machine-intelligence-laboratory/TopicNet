@@ -153,7 +153,6 @@ class MultimodalSearchRecipe(BaseRecipe):
             background_topics=background_topics,
             modality_list=modality_list,
             num_iter=num_iter,
-            order=self._order
         )
         return self._recipe
 
@@ -256,8 +255,7 @@ class MultimodalSearchRecipe(BaseRecipe):
         reg_forms = self._form_regularizers(modality_list)
         cube_forms = self._form_and_order_cubes(
             modality_list,
-            num_iter=num_iter,
-            order=self._order)
+            num_iter=num_iter,)
         self._recipe = self.recipe_template.format(
             modality=modality,
             dataset_path=dataset_path,
