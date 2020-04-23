@@ -159,7 +159,8 @@ Here we can finally get on the main part: making your own, best of them all, man
 We need to load our data prepared previously with Dataset:
 
 ```python
-dataset = Dataset('/Wiki_raw_set/wiki_data.csv')
+DATASET_PATH = '/Wiki_raw_set/wiki_data.csv'
+dataset = Dataset(DATASET_PATH)
 ```
 
 ### Make initial model
@@ -247,9 +248,10 @@ best_model = experiment.select(perplexity_criterion)
 ```
 
 ### Alternatively: Use Recipes
-If you need a topic model now, you can use one ofthe code snippets we call recipes.
+If you need a topic model now, you can use one of the code snippets we call *recipes*.
 ```python
 from topicnet.cooking_machine.recipes import BaselineRecipe
+
 training_pipeline = BaselineRecipe()
 EXPERIMENT_PATH = '/home/user/experiment/'
 
