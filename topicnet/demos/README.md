@@ -1,7 +1,7 @@
 # Demo
 This section provides demonstrations of how to use this library in NLP tasks.
 
-1. [RTL-Wiki-Preprocessing](RTL-Wiki-Preprocessing.ipynb) — notebook working with a dataset introduced in [1]. It serves as an example of a typical preprocessing pipeline: getting a dataset, lemmatizing it, extracting n-grams/collocations, writing data in VW format
+1. [RTL-Wiki-Preprocessing](RTL-Wiki-Preprocessing.ipynb) — notebook working with a dataset introduced in [1][1]. It serves as an example of a typical preprocessing pipeline: getting a dataset, lemmatizing it, extracting n-grams/collocations, writing data in VW format
 
 2. [RTL-Wiki-Building-Topic-Mode](RTL-Wiki-Building-Topic-Model.ipynb) — notebook with first steps to build topic model by consequently tuning its hyperparameters
 
@@ -23,7 +23,9 @@ This section provides demonstrations of how to use this library in NLP tasks.
 
 ## References
 
-[1](https://dl.acm.org/doi/10.5555/2984093.2984126) Jonathan Chang, Jordan Boyd-Graber, Sean Gerrish, Chong Wang, and David M. Blei. 2009. Reading tea leaves: how humans interpret topic models. In Proceedings of the 22nd International Conference on Neural Information Processing Systems (NIPS’09). Curran Associates Inc., Red Hook, NY, USA, 288–296.
+[1]: https://dl.acm.org/doi/10.5555/2984093.2984126
+
+[1][1] Jonathan Chang, Jordan Boyd-Graber, Sean Gerrish, Chong Wang, and David M. Blei. 2009. Reading tea leaves: how humans interpret topic models. In Proceedings of the 22nd International Conference on Neural Information Processing Systems (NIPS’09). Curran Associates Inc., Red Hook, NY, USA, 288–296.
 
 ## P.S.
 
