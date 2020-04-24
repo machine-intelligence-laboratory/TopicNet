@@ -1,9 +1,9 @@
 # Demo
 This section provides demonstrations of how to use this library in NLP tasks.
 
-1. [RTL-Wiki-Preprocessing](RTL-Wiki-Preprocessing.ipynb) —  notebook working with a dataset introduced in [1]. It serves as an example of a typical preprocessing pipeline: getting a dataset, lemmatizing it, extracting n-grams/collocations, writing data in VW format
+1. [RTL-Wiki-Preprocessing](RTL-Wiki-Preprocessing.ipynb) — notebook working with a dataset introduced in [1]. It serves as an example of a typical preprocessing pipeline: getting a dataset, lemmatizing it, extracting n-grams/collocations, writing data in VW format
 
-2. [RTL-Wiki-Building-Topic-Mode](RTL-Wiki-Building-Topic-Model.ipynb) —  notebook with first steps to build topic model by consequently tuning its hyperparameters
+2. [RTL-Wiki-Building-Topic-Mode](RTL-Wiki-Building-Topic-Model.ipynb) — notebook with first steps to build topic model by consequently tuning its hyperparameters
 
 3. [Visualizing-Your-Model-Documents](Visualizing-Your-Model-Documents.ipynb) — notebook providing a fresh outlook on unstructured document collection with the help of a topic model
 
