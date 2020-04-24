@@ -1,4 +1,5 @@
-# Demo
+# Demos
+
 This section provides demonstrations of how to use this library in NLP tasks.
 
 1. [RTL-Wiki-Preprocessing](RTL-Wiki-Preprocessing.ipynb) — notebook working with a dataset introduced in [1][1]. It serves as an example of a typical preprocessing pipeline: getting a dataset, lemmatizing it, extracting n-grams/collocations, writing data in VW format
