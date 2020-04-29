@@ -59,6 +59,7 @@ And here is sample code of the TopicNet baseline experiment:
 from topicnet.cooking_machine.config_parser import build_experiment_environment_from_yaml_config
 from topicnet.cooking_machine.recipes import ARTM_baseline as config_string
 
+
 config_string = config_string.format(
     dataset_path      = '/data/datasets/NIPS/dataset.csv',
     modality_list     = ['@word'],
@@ -85,7 +86,7 @@ Define `TopicModel` from an ARTM model at hand or with help from `model_construc
 Further you can read documentation [here](https://machine-intelligence-laboratory.github.io/TopicNet/).
 
 
-# Installation
+## Installation
 
 **Core library functionality is based on BigARTM library**.
 So BigARTM should also be installed on the machine.
@@ -93,7 +94,7 @@ Fortunately, the installation process should not be so difficult now.
 Below are the detailed explanations.
 
 
-## Via pip
+### Via pip
 
 The easiest way to install everything is via `pip` (but currently works fine only for Linux users!)
 
@@ -107,6 +108,8 @@ If working on Windows or Mac, you should install BigARTM by yourself first, then
 We are hoping to bring all-in-`pip` installation support to the mentioned systems.
 However, right now you may find the following guide useful.
 
+### BigARTM for non-Linux users
+
 To avoid installing BigARTM you can use [docker images](https://hub.docker.com/r/xtonev/bigartm/tags) with preinstalled different versions of BigARTM library:
 
 ```bash
@@ -117,17 +120,25 @@ docker run -t -i xtonev/bigartm:v0.10.0
 Checking if all installed successfully:
 
 ```bash
-python
+$ python
 
 >>> import artm
 >>> artm.version()
 ```
 
 Alternatively, you can follow [BigARTM installation manual](https://bigartm.readthedocs.io/en/stable/installation/index.html).
+There is also a pair of tips which may provide additional help for Windows users:
+
+1. Go to [installation page for Windows](http://docs.bigartm.org/en/stable/installation/windows.html) and download the 7z archive in the Downloads section.
+2. Use `conda install` to download all the Python packages that BigARTM requires.
+3. Path variables must be set through the GUI window of system variables, and, if the variable `PYTHONPATH` is missing — add it to the **system wide** variables. Close the GUI window.
+
 After setting up the environment you can fork this repository or use `pip install topicnet` to install the library.
 
+There is also a [notebook in Google Colab](https://colab.research.google.com/drive/1Tr1ZO03iPufj11HtIH3JjaWWU1Wyxkzv) made by Николай Герасименко, where all is arranged to work with BigARTM.
 
-## From source
+
+### From source
 
 One can also install the library from GitHub, which may give more flexibility in developing (for example, making one's own viewers or regularizers a part of the module as .py files)
 
