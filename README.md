@@ -79,7 +79,7 @@ best_model = experiment.select('PerplexityScore@all -> min')[0]
 ```
 
 
-## How to start
+## How to Start
 
 Define `TopicModel` from an ARTM model at hand or with help from `model_constructor` module, where you can set models main parameters. Then create an `Experiment`, assigning a root position to this model and path to store your experiment. Further, you can define a set of training stages by the functionality provided by the `cooking_machine.cubes` module.
 
@@ -94,7 +94,7 @@ Fortunately, the installation process should not be so difficult now.
 Below are the detailed explanations.
 
 
-### Via pip
+### Via Pip
 
 The easiest way to install everything is via `pip` (but currently works fine only for Linux users!)
 
@@ -108,7 +108,7 @@ If working on Windows or Mac, you should install BigARTM by yourself first, then
 We are hoping to bring all-in-`pip` installation support to the mentioned systems.
 However, right now you may find the following guide useful.
 
-### BigARTM for non-Linux users
+### BigARTM for Non-Linux Users
 
 To avoid installing BigARTM you can use [docker images](https://hub.docker.com/r/xtonev/bigartm/tags) with preinstalled different versions of BigARTM library:
 
@@ -129,8 +129,8 @@ $ python
 Alternatively, you can follow [BigARTM installation manual](https://bigartm.readthedocs.io/en/stable/installation/index.html).
 There is also a pair of tips which may provide additional help for Windows users:
 
-1. Go to [installation page for Windows](http://docs.bigartm.org/en/stable/installation/windows.html) and download the 7z archive in the Downloads section.
-2. Use `conda install` to download all the Python packages that BigARTM requires.
+1. Go to the [installation page for Windows](http://docs.bigartm.org/en/stable/installation/windows.html) and download the 7z archive in the Downloads section.
+2. Use Anaconda `conda install` to download all the Python packages that BigARTM requires.
 3. Path variables must be set through the GUI window of system variables, and, if the variable `PYTHONPATH` is missing — add it to the **system wide** variables. Close the GUI window.
 
 After setting up the environment you can fork this repository or use `pip install topicnet` to install the library.
@@ -138,7 +138,7 @@ After setting up the environment you can fork this repository or use `pip instal
 There is also a [notebook in Google Colab](https://colab.research.google.com/drive/1Tr1ZO03iPufj11HtIH3JjaWWU1Wyxkzv) made by Николай Герасименко, where all is arranged to work with BigARTM.
 
 
-### From source
+### From Source
 
 One can also install the library from GitHub, which may give more flexibility in developing (for example, making one's own viewers or regularizers a part of the module as .py files)
 
@@ -161,11 +161,11 @@ TopicNet does not perform data preprocessing itself.
 Instead, it demands data being prepared by the user and loaded via [Dataset](topicnet/cooking_machine/dataset.py) class.
 Here is a basic example of how one can achieve that: [rtl_wiki_preprocessing](topicnet/demos/RTL-WIKI-PREPROCESSING.ipynb).
 
-## Training topic model
+## Training a Topic Model
 
 Here we can finally get on the main part: making your own, best of them all, manually crafted Topic Model
 
-### Get your data
+### Get Your Data
 
 We need to load our data prepared previously with Dataset:
 
@@ -174,7 +174,7 @@ DATASET_PATH = '/Wiki_raw_set/wiki_data.csv'
 dataset = Dataset(DATASET_PATH)
 ```
 
-### Make initial model
+### Make an Initial Model
 
 In case you want to start from a fresh model we suggest you use this code:
 
@@ -195,6 +195,7 @@ Further, if needed, one can define a custom score to be calculated during the mo
 
 ```python
 from topicnet.cooking_machine.models.base_score import BaseScore
+
 
 class CustomScore(BaseScore):
     def __init__(self):
@@ -220,7 +221,7 @@ custom_scores = {'SpecificSparsity': CustomScore()}
 topic_model = TopicModel(artm_model, model_id='Groot', custom_scores=custom_scores)
 ```
 
-### Define experiment
+### Define an Experiment
 
 For further model training and tuning `Experiment` is necessary:
 
@@ -230,7 +231,8 @@ from topicnet.cooking_machine.experiment import Experiment
 experiment = Experiment(experiment_id="simple_experiment", save_path="experiments", topic_model=topic_model)
 ```
 
-### Toy with the cubes
+### Toy with the Cubes
+
 Defining a next stage of the model training to select a decorrelator parameter:
 
 ```python
@@ -259,6 +261,7 @@ best_model = experiment.select(perplexity_criterion)
 ```
 
 ### Alternatively: Use Recipes
+
 If you need a topic model now, you can use one of the code snippets we call *recipes*.
 ```python
 from topicnet.cooking_machine.recipes import BaselineRecipe
@@ -272,7 +275,8 @@ experiment, dataset = training_pipeline.build_experiment_environment(save_path=E
 after that you can expect a following result:
 ![run_result](./docs/readme_images/experiment_train.gif)
 
-### View the results
+
+### View the Results
 
 Browsing the model is easy: create a viewer and call its `view()` method (or `view_from_jupyter()` — it is advised to use it if working in Jupyter Notebook):
 
