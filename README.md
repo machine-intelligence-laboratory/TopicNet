@@ -103,6 +103,8 @@ pip install topicnet
 ```
 
 The command also installs BigARTM library, not only TopicNet.
+However, [BigARTM Command Line Utility](https://bigartm.readthedocs.io/en/stable/tutorials/bigartm_cli.html) will not be assembled.
+Pip installation makes it possible to use BigARTM only though Python Interface.
 
 If working on Windows or Mac, you should install BigARTM by yourself first, then `pip install topicnet` will work just fine.
 We are hoping to bring all-in-`pip` installation support to the mentioned systems.
@@ -217,6 +219,7 @@ Now, `TopicModel` with custom score can be defined:
 ```python
 from topicnet.cooking_machine.models.topic_model import TopicModel
 
+
 custom_scores = {'SpecificSparsity': CustomScore()}
 topic_model = TopicModel(artm_model, model_id='Groot', custom_scores=custom_scores)
 ```
@@ -227,6 +230,7 @@ For further model training and tuning `Experiment` is necessary:
 
 ```python
 from topicnet.cooking_machine.experiment import Experiment
+
 
 experiment = Experiment(experiment_id="simple_experiment", save_path="experiments", topic_model=topic_model)
 ```
@@ -265,6 +269,7 @@ best_model = experiment.select(perplexity_criterion)
 If you need a topic model now, you can use one of the code snippets we call *recipes*.
 ```python
 from topicnet.cooking_machine.recipes import BaselineRecipe
+
 
 training_pipeline = BaselineRecipe()
 EXPERIMENT_PATH = '/home/user/experiment/'
