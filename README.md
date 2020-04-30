@@ -137,8 +137,6 @@ There is also a pair of tips which may provide additional help for Windows users
 
 After setting up the environment you can fork this repository or use `pip install topicnet` to install the library.
 
-There is also a [notebook in Google Colab](https://colab.research.google.com/drive/1Tr1ZO03iPufj11HtIH3JjaWWU1Wyxkzv) made by Николай Герасименко, where all is arranged to work with BigARTM.
-
 
 ### From Source
 
@@ -149,6 +147,20 @@ git clone https://github.com/machine-intelligence-laboratory/TopicNet.git
 cd topicnet
 pip install .
 ```
+
+### Google Colab & Kaggle Notebooks
+
+As Linux installation may be done solely using `pip`, TopicNet can be used in such online services as
+[Google Colab](https://colab.research.google.com) and
+[Kaggle Notebooks](https://www.kaggle.com/kernels).
+All you need is to run the following command in a notebook cell:
+
+```bash
+! pip install topicnet
+```
+
+There is also a [notebook in Google Colab](https://colab.research.google.com/drive/1Tr1ZO03iPufj11HtIH3JjaWWU1Wyxkzv) made by [Nikolay Gerasimenko](https://github.com/Nikolay-Gerasimenko), where BigARTM is build from source.
+This may be useful, for example, if you want to use the BigARTM Command Line Utility.
 
 
 # Usage
