@@ -104,7 +104,7 @@ pip install topicnet
 
 The command also installs BigARTM library, not only TopicNet.
 However, [BigARTM Command Line Utility](https://bigartm.readthedocs.io/en/stable/tutorials/bigartm_cli.html) will not be assembled.
-Pip installation makes it possible to use BigARTM only though Python Interface.
+Pip installation makes it possible to use BigARTM only through Python Interface.
 
 If working on Windows or Mac, you should install BigARTM by yourself first, then `pip install topicnet` will work just fine.
 We are hoping to bring all-in-`pip` installation support to the mentioned systems.
