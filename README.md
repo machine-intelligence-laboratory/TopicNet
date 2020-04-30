@@ -59,6 +59,7 @@ And here is sample code of the TopicNet baseline experiment:
 from topicnet.cooking_machine.config_parser import build_experiment_environment_from_yaml_config
 from topicnet.cooking_machine.recipes import ARTM_baseline as config_string
 
+
 config_string = config_string.format(
     dataset_path      = '/data/datasets/NIPS/dataset.csv',
     modality_list     = ['@word'],
@@ -78,14 +79,14 @@ best_model = experiment.select('PerplexityScore@all -> min')[0]
 ```
 
 
-## How to start
+## How to Start
 
 Define `TopicModel` from an ARTM model at hand or with help from `model_constructor` module, where you can set models main parameters. Then create an `Experiment`, assigning a root position to this model and path to store your experiment. Further, you can define a set of training stages by the functionality provided by the `cooking_machine.cubes` module.
 
 Further you can read documentation [here](https://machine-intelligence-laboratory.github.io/TopicNet/).
 
 
-# Installation
+## Installation
 
 **Core library functionality is based on BigARTM library**.
 So BigARTM should also be installed on the machine.
@@ -93,7 +94,7 @@ Fortunately, the installation process should not be so difficult now.
 Below are the detailed explanations.
 
 
-## Via pip
+### Via Pip
 
 The easiest way to install everything is via `pip` (but currently works fine only for Linux users!)
 
@@ -102,10 +103,14 @@ pip install topicnet
 ```
 
 The command also installs BigARTM library, not only TopicNet.
+However, [BigARTM Command Line Utility](https://bigartm.readthedocs.io/en/stable/tutorials/bigartm_cli.html) will not be assembled.
+Pip installation makes it possible to use BigARTM only though Python Interface.
 
 If working on Windows or Mac, you should install BigARTM by yourself first, then `pip install topicnet` will work just fine.
 We are hoping to bring all-in-`pip` installation support to the mentioned systems.
 However, right now you may find the following guide useful.
+
+### BigARTM for Non-Linux Users
 
 To avoid installing BigARTM you can use [docker images](https://hub.docker.com/r/xtonev/bigartm/tags) with preinstalled different versions of BigARTM library:
 
@@ -117,17 +122,23 @@ docker run -t -i xtonev/bigartm:v0.10.0
 Checking if all installed successfully:
 
 ```bash
-python
+$ python
 
 >>> import artm
 >>> artm.version()
 ```
 
 Alternatively, you can follow [BigARTM installation manual](https://bigartm.readthedocs.io/en/stable/installation/index.html).
+There is also a pair of tips which may provide additional help for Windows users:
+
+1. Go to the [installation page for Windows](http://docs.bigartm.org/en/stable/installation/windows.html) and download the 7z archive in the Downloads section.
+2. Use Anaconda `conda install` to download all the Python packages that BigARTM requires.
+3. Path variables must be set through the GUI window of system variables, and, if the variable `PYTHONPATH` is missing — add it to the **system wide** variables. Close the GUI window.
+
 After setting up the environment you can fork this repository or use `pip install topicnet` to install the library.
 
 
-## From source
+### From Source
 
 One can also install the library from GitHub, which may give more flexibility in developing (for example, making one's own viewers or regularizers a part of the module as .py files)
 
@@ -136,6 +147,20 @@ git clone https://github.com/machine-intelligence-laboratory/TopicNet.git
 cd topicnet
 pip install .
 ```
+
+### Google Colab & Kaggle Notebooks
+
+As Linux installation may be done solely using `pip`, TopicNet can be used in such online services as
+[Google Colab](https://colab.research.google.com) and
+[Kaggle Notebooks](https://www.kaggle.com/kernels).
+All you need is to run the following command in a notebook cell:
+
+```bash
+! pip install topicnet
+```
+
+There is also a [notebook in Google Colab](https://colab.research.google.com/drive/1Tr1ZO03iPufj11HtIH3JjaWWU1Wyxkzv) made by [Nikolay Gerasimenko](https://github.com/Nikolay-Gerasimenko), where BigARTM is build from source.
+This may be useful, for example, if you want to use the BigARTM Command Line Utility.
 
 
 # Usage
@@ -150,11 +175,11 @@ TopicNet does not perform data preprocessing itself.
 Instead, it demands data being prepared by the user and loaded via [Dataset](topicnet/cooking_machine/dataset.py) class.
 Here is a basic example of how one can achieve that: [rtl_wiki_preprocessing](topicnet/demos/RTL-WIKI-PREPROCESSING.ipynb).
 
-## Training topic model
+## Training a Topic Model
 
 Here we can finally get on the main part: making your own, best of them all, manually crafted Topic Model
 
-### Get your data
+### Get Your Data
 
 We need to load our data prepared previously with Dataset:
 
@@ -163,7 +188,7 @@ DATASET_PATH = '/Wiki_raw_set/wiki_data.csv'
 dataset = Dataset(DATASET_PATH)
 ```
 
-### Make initial model
+### Make an Initial Model
 
 In case you want to start from a fresh model we suggest you use this code:
 
@@ -185,6 +210,7 @@ Further, if needed, one can define a custom score to be calculated during the mo
 ```python
 from topicnet.cooking_machine.models.base_score import BaseScore
 
+
 class CustomScore(BaseScore):
     def __init__(self):
         super().__init__()
@@ -205,21 +231,24 @@ Now, `TopicModel` with custom score can be defined:
 ```python
 from topicnet.cooking_machine.models.topic_model import TopicModel
 
+
 custom_scores = {'SpecificSparsity': CustomScore()}
 topic_model = TopicModel(artm_model, model_id='Groot', custom_scores=custom_scores)
 ```
 
-### Define experiment
+### Define an Experiment
 
 For further model training and tuning `Experiment` is necessary:
 
 ```python
 from topicnet.cooking_machine.experiment import Experiment
 
+
 experiment = Experiment(experiment_id="simple_experiment", save_path="experiments", topic_model=topic_model)
 ```
 
-### Toy with the cubes
+### Toy with the Cubes
+
 Defining a next stage of the model training to select a decorrelator parameter:
 
 ```python
@@ -248,9 +277,11 @@ best_model = experiment.select(perplexity_criterion)
 ```
 
 ### Alternatively: Use Recipes
+
 If you need a topic model now, you can use one of the code snippets we call *recipes*.
 ```python
 from topicnet.cooking_machine.recipes import BaselineRecipe
+
 
 training_pipeline = BaselineRecipe()
 EXPERIMENT_PATH = '/home/user/experiment/'
@@ -261,7 +292,8 @@ experiment, dataset = training_pipeline.build_experiment_environment(save_path=E
 after that you can expect a following result:
 ![run_result](./docs/readme_images/experiment_train.gif)
 
-### View the results
+
+### View the Results
 
 Browsing the model is easy: create a viewer and call its `view()` method (or `view_from_jupyter()` — it is advised to use it if working in Jupyter Notebook):
 
