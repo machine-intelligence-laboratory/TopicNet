@@ -109,18 +109,27 @@ max_iter: numeric
     that way agent will continue operating even outside this `RegularizationControllerCube`
 """  # noqa: W291
 
+import warnings
+from copy import deepcopy
+
+import numexpr as ne
+import numpy as np
+from dill.source import getsource
+
 from .base_cube import BaseCube
 from ..rel_toolbox_lite import count_vocab_size, handle_regularizer
 
-import numexpr as ne
-import warnings
-from dill.source import getsource
-from copy import deepcopy
-import numpy as np
-
-
 W_HALT_CONTROL = "Process of dynamically changing tau was stopped at {} iteration"
 W_MAX_ITERS = "Maximum number of iterations is exceeded; turning off"
+
+
+def get_two_values_diff(min_val: float, max_val: float):
+    if min_val == 0:
+        return max_val
+
+    answer = (max_val-min_val)/min_val
+
+    return answer
 
 
 def is_score_out_of_control(model, score_name, fraction_threshold=0.05):
@@ -148,13 +157,17 @@ def is_score_out_of_control(model, score_name, fraction_threshold=0.05):
     if len(vals) == 0:
         return False
 
+
+
     idxmin = np.argmin(vals)
 
     if idxmin == len(vals):  # score is monotonically decreasing
         return False
     maxval = max(vals[idxmin:])
     minval = vals[idxmin]
-    answer = ((maxval - minval)/abs(minval) - 1.0) > fraction_threshold
+    diff = get_two_values_diff(minval, maxval)
+    answer = diff > fraction_threshold
+
     if answer:
         msg = (f"Score {score_name} is too high: during training the value {maxval}"
                f" passed a treshold of {(1 + fraction_threshold) * minval}"
@@ -183,6 +196,7 @@ class ControllerAgent:
 
     See top-level docstring for details.
     """
+
     def __init__(self, reg_name, score_to_track, tau_converter, max_iters, local_dict=None):
         """
 
