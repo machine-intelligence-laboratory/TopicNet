@@ -173,7 +173,7 @@ Where should you start?
 Every ML problem starts with data preprocess step.
 TopicNet does not perform data preprocessing itself.
 Instead, it demands data being prepared by the user and loaded via [Dataset](topicnet/cooking_machine/dataset.py) class.
-Here is a basic example of how one can achieve that: [rtl_wiki_preprocessing](topicnet/demos/RTL-WIKI-PREPROCESSING.ipynb).
+Here is a basic example of how one can achieve that: [rtl_wiki_preprocessing](topicnet/demos/RTL-Wiki-Preprocessing.ipynb).
 
 ## Training a Topic Model
 
