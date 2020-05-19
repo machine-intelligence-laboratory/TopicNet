@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.7.2" />
+<meta name="generator" content="pdoc 0.6.3" />
 <title>topicnet.viewers.top_tokens_viewer API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
 <style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
 </head>
@@ -21,10 +21,9 @@
 </header>
 <section id="section-intro">
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">import numpy as np
+<summary>Source code</summary>
+<pre><code class="python">import bisect
+import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from typing import Dict, Iterator, List, Tuple, Union
@@ -33,7 +32,7 @@ import warnings
 from .base_viewer import BaseViewer
 
 
-def get_top_values(values, top_number, return_indexes=True):
+def get_top_values(values, top_number):
     &#34;&#34;&#34;
     Returns top_number top values from the matrix for each column.
 
@@ -43,14 +42,12 @@ def get_top_values(values, top_number, return_indexes=True):
         a two dimensional array of values
     top_number : int
         number of top values to return
-    return_indexes : bool
-        a flag to return indexes together with the top values
 
     Returns
     -------
     top_values : nd.array
         array of top_number top values for each column of the initial array
-    (optional) top_indexes : nd.array
+    top_indexes : nd.array
         array of original indexes for top_values array (Default value = True)
 
     &#34;&#34;&#34;
@@ -70,10 +67,49 @@ def get_top_values(values, top_number, return_indexes=True):
     # get initial indexes
     top_indexes = top_indexes[sorted_top_values_indexes]
 
-    if return_indexes:
-        return top_values, top_indexes
+    return top_values, top_indexes
 
-    return top_values
+
+def get_top_values_by_sum(values, min_sum_value,):
+    &#34;&#34;&#34;
+    Returns top values until sum of their scores breaches `min_sum_value`.
+
+    Parameters
+    ----------
+    values : np.array
+        a one dimensional array of values
+    min_sum_value : float
+        min sum value of top values to return
+
+    Returns
+    -------
+    top_values : nd.array
+        array of top values with sum at least min_sum_value
+    top_indexes : nd.array
+        array of original indexes for top_values array (Default value = True)
+
+    Examples
+    --------
+    &gt;&gt;&gt; values = np.array([1, 3, 2, 0.1, 5, 0])
+    &gt;&gt;&gt; min_sum = 8.1
+    &gt;&gt;&gt; top_values, top_indexes = get_top_values_by_sum(values, min_sum)
+    Result: top_values, top_indexes = (array([5., 3., 2.]), array([4, 1, 2]))
+    &#34;&#34;&#34;
+    all_sum = np.sum(values)
+    if all_sum &lt; min_sum_value:
+        warnings.warn(f&#39;min_sum_value = {min_sum_value}&#39;
+                      f&#39; is greater than sum of all elements = {all_sum}&#39;,
+                      UserWarning)
+        min_sum_value = all_sum
+
+    top_indexes = np.argsort(values)[::-1]
+    top_values = values[top_indexes]
+    cum_sum = np.cumsum(top_values)
+    ind_min_sum = bisect.bisect_left(cum_sum, min_sum_value)
+    top_indexes = top_indexes[:ind_min_sum + 1]
+    top_values = values[top_indexes]
+
+    return top_values, top_indexes
 
 
 def compute_pt_distribution(model, class_ids=None):
@@ -90,9 +126,7 @@ def compute_pt_distribution(model, class_ids=None):
 
     Returns
     -------
-    float
-        probability that a random token from the collection belongs to that topic
-
+    float probability that a random token from the collection belongs to that topic
     &#34;&#34;&#34;
 
     n_wt = model.get_phi(class_ids=class_ids, model_name=model.model_nwt)
@@ -290,10 +324,12 @@ class TopTokensViewer(BaseViewer):
     &#34;&#34;&#34;Gets top tokens from topic (sorted by scores)&#34;&#34;&#34;
     def __init__(self,
                  model,
-                 class_ids=None,
-                 method=&#39;blei&#39;,
-                 num_top_tokens=10,
-                 alpha=1,
+                 class_ids: List[str] = None,
+                 method: str = &#39;blei&#39;,
+                 num_top_tokens: int = 10,
+                 alpha: float = 1,
+                 by_sum: bool = False,
+                 sum_value: float = None,
                  dataset=None):
         &#34;&#34;&#34;
         The class provide information about top tokens 
@@ -317,6 +353,12 @@ class TopTokensViewer(BaseViewer):
         alpha : float between 0 and 1
             additional constant needed for
             ptw method of scoring
+        by_sum
+            a flag providing adjustable ammount of top tokens
+            based on sum of their scores
+        sum_value
+            a constant deciding &#34;how many&#34; tokens to return in each topic
+            a good default value might be different depending on self.method value
         dataset: Dataset
             a class that stores infromation about the collection
 
@@ -327,6 +369,11 @@ class TopTokensViewer(BaseViewer):
 
         self.num_top_tokens = num_top_tokens
         self.class_ids = class_ids
+        self.sum_value = sum_value
+        self.by_sum = by_sum
+
+        if self.sum_value is not None:
+            self.by_sum = True
 
         if method in known:
             self.method = method
@@ -367,6 +414,22 @@ class TopTokensViewer(BaseViewer):
 
                 return ptw_component + phi_component
 
+    def _determine_sum(self, num_words_in_vocab):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        if self.method == &#39;blei&#39;:
+            self.sum_value = 2.0
+
+        elif self.method in [&#39;top&#39;, &#39;phi&#39;]:
+            self.sum_value = 1 / num_words_in_vocab * self.num_top_tokens
+
+        elif self.method == &#39;ptw&#39;:
+            self.sum_value = self.num_top_tokens
+
+        elif self.method == &#39;likelihood&#39;:
+            raise ValueError(&#39;There is no good way to determine&#39;
+                             &#39; automatical sum_value for method &#34;likelihood&#34;.&#39;
+                             &#39; Please, define it manually&#39;)
+
     def view(
             self,
             class_ids: List[str] = None,
@@ -396,6 +459,8 @@ class TopTokensViewer(BaseViewer):
             class_ids = self.class_ids
 
         phi = self.model.get_phi(class_ids=class_ids)
+        if self.by_sum and self.sum_value is None:
+            self._determine_sum(num_words_in_vocab=phi.shape[0])
 
         if self.method == &#39;tfidf&#39;:
             objects_cluster = (
@@ -428,10 +493,16 @@ class TopTokensViewer(BaseViewer):
             modality_top_tokens = {}
 
             for modality in modalities:
-                top_tokens_values, top_tokens_indexes = get_top_values(
-                    topic_column.loc[modality].values,
-                    top_number=self.num_top_tokens,
-                )
+                if self.by_sum:
+                    top_tokens_values, top_tokens_indexes = get_top_values_by_sum(
+                        topic_column.loc[modality].values,
+                        min_sum_value=self.sum_value,
+                    )
+                else:
+                    top_tokens_values, top_tokens_indexes = get_top_values(
+                        topic_column.loc[modality].values,
+                        top_number=self.num_top_tokens,
+                    )
                 top_tokens = topic_column.loc[modality].index[top_tokens_indexes]
 
                 if three_levels:
@@ -557,6 +628,7 @@ class TopTokensViewer(BaseViewer):
             topic_names: Union[str, List[str]] = None,
             digits: int = 5,
             horizontally_stack: bool = True,
+            one_topic_per_row: bool = True,
             display_output: bool = True,
             give_html: bool = False,
     ):
@@ -569,10 +641,13 @@ class TopTokensViewer(BaseViewer):
         topic_names
             topics requested for viewing
         digits
-            Number of digits to round each probability to
+            number of digits to round each probability to
         horizontally_stack
             if True, then tokens for each modality will be stacked horizontally
             (instead of being a single long multi-line DataFrame)
+        one_topic_per_row
+            if True, each topic will be on its own row;
+            if False, topics will be arranged in one row
         display_output
             request for function to output the information
             together with iterable output intended to be used
@@ -615,10 +690,15 @@ class TopTokensViewer(BaseViewer):
                 horizontally_stack=horizontally_stack,
             )
 
-            if display_output:
-                display_html(topic_html, raw=True)
-
             topic_html_strings.append(topic_html)
+
+        if not display_output:
+            pass
+        elif one_topic_per_row:
+            display_html(&#39;&lt;/br&gt;&#39;.join(topic_html_strings), raw=True)
+        else:
+            display_html(&#39;&amp;nbsp;&#39;.join(topic_html_strings), raw=True)
+
         if give_html:
             return topic_html_strings</code></pre>
 </details>
@@ -647,9 +727,7 @@ phi[wt] * [log(phi[wt]) - 1/T sum_k log(phi[wk])]</p>
 <dd>weighted phi matrix</dd>
 </dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def compute_blei_scores(phi):
     &#34;&#34;&#34;
     Computes Blei score  
@@ -708,9 +786,7 @@ if None than it will be calculated automatically from object_clusters</dd>
 <dd>ith element of list is list of top tokens of ith cluster</dd>
 </dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def compute_clusters_top_tokens_by_clusters_tfidf(
         objects_cluster, objects_content,
         max_top_number=10, n_topics=None):
@@ -803,9 +879,7 @@ wp_t = p(t) p(w|t)</p>
 belongs to that topic</dd>
 </dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def compute_joint_pwt_distribution(phi, p_t):
     &#34;&#34;&#34;
     p(t) is prob(topic = t), defined as p(t) = sum_t n_t / n  
@@ -860,9 +934,7 @@ belongs to that topic</dd>
 <dd>vector of likelihood ratios that tokens belong to the given topic</dd>
 </dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def compute_likelihood_vectorised(phi, p_t, joint_pwt):
     &#34;&#34;&#34;
     Likelihood ratio is defined as  
@@ -923,13 +995,11 @@ belongs to that topic</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>float</code></dt>
-<dd>probability that a random token from the collection belongs to that topic</dd>
+<dt><code>float</code> <code>probability</code> <code>that</code> <code>a</code> <code>random</code> <code>token</code> <code>from</code> <code>the</code> <code>collection</code> <code>belongs</code> <code>to</code> <code>that</code> <code>topic</code></dt>
+<dd>&nbsp;</dd>
 </dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def compute_pt_distribution(model, class_ids=None):
     &#34;&#34;&#34;
     Calculates the Prob(t) vector (vector contains an entry for each topic).
@@ -944,9 +1014,7 @@ belongs to that topic</dd>
 
     Returns
     -------
-    float
-        probability that a random token from the collection belongs to that topic
-
+    float probability that a random token from the collection belongs to that topic
     &#34;&#34;&#34;
 
     n_wt = model.get_phi(class_ids=class_ids, model_name=model.model_nwt)
@@ -962,9 +1030,7 @@ belongs to that topic</dd>
 <dd>
 <section class="desc"></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def compute_ptw(joint_pwt):
     return joint_pwt / np.sum(joint_pwt, axis=0)  # sum by all T</code></pre>
 </details>
@@ -975,9 +1041,7 @@ belongs to that topic</dd>
 <dd>
 <section class="desc"></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def convert_df_to_html(df):
     return df.style\
                .set_table_attributes(&#34;style=&#39;display:inline&#39;&#34;)\
@@ -985,7 +1049,7 @@ belongs to that topic</dd>
 </details>
 </dd>
 <dt id="topicnet.viewers.top_tokens_viewer.get_top_values"><code class="name flex">
-<span>def <span class="ident">get_top_values</span></span>(<span>values, top_number, return_indexes=True)</span>
+<span>def <span class="ident">get_top_values</span></span>(<span>values, top_number)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Returns top_number top values from the matrix for each column.</p>
@@ -995,21 +1059,17 @@ belongs to that topic</dd>
 <dd>a two dimensional array of values</dd>
 <dt><strong><code>top_number</code></strong> :&ensp;<code>int</code></dt>
 <dd>number of top values to return</dd>
-<dt><strong><code>return_indexes</code></strong> :&ensp;<code>bool</code></dt>
-<dd>a flag to return indexes together with the top values</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>top_values</code></strong> :&ensp;<code>nd.array</code></dt>
 <dd>array of top_number top values for each column of the initial array</dd>
-</dl>
-<p>(optional) top_indexes : nd.array
-array of original indexes for top_values array (Default value = True)</p></section>
+<dt><strong><code>top_indexes</code></strong> :&ensp;<code>nd.array</code></dt>
+<dd>array of original indexes for top_values array (Default value = True)</dd>
+</dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def get_top_values(values, top_number, return_indexes=True):
+<summary>Source code</summary>
+<pre><code class="python">def get_top_values(values, top_number):
     &#34;&#34;&#34;
     Returns top_number top values from the matrix for each column.
 
@@ -1019,14 +1079,12 @@ array of original indexes for top_values array (Default value = True)</p></secti
         a two dimensional array of values
     top_number : int
         number of top values to return
-    return_indexes : bool
-        a flag to return indexes together with the top values
 
     Returns
     -------
     top_values : nd.array
         array of top_number top values for each column of the initial array
-    (optional) top_indexes : nd.array
+    top_indexes : nd.array
         array of original indexes for top_values array (Default value = True)
 
     &#34;&#34;&#34;
@@ -1046,10 +1104,79 @@ array of original indexes for top_values array (Default value = True)</p></secti
     # get initial indexes
     top_indexes = top_indexes[sorted_top_values_indexes]
 
-    if return_indexes:
-        return top_values, top_indexes
+    return top_values, top_indexes</code></pre>
+</details>
+</dd>
+<dt id="topicnet.viewers.top_tokens_viewer.get_top_values_by_sum"><code class="name flex">
+<span>def <span class="ident">get_top_values_by_sum</span></span>(<span>values, min_sum_value)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns top values until sum of their scores breaches <code>min_sum_value</code>.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>values</code></strong> :&ensp;<code>np.array</code></dt>
+<dd>a one dimensional array of values</dd>
+<dt><strong><code>min_sum_value</code></strong> :&ensp;<code>float</code></dt>
+<dd>min sum value of top values to return</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>top_values</code></strong> :&ensp;<code>nd.array</code></dt>
+<dd>array of top values with sum at least min_sum_value</dd>
+<dt><strong><code>top_indexes</code></strong> :&ensp;<code>nd.array</code></dt>
+<dd>array of original indexes for top_values array (Default value = True)</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code>&gt;&gt;&gt; values = np.array([1, 3, 2, 0.1, 5, 0])
+&gt;&gt;&gt; min_sum = 8.1
+&gt;&gt;&gt; top_values, top_indexes = get_top_values_by_sum(values, min_sum)
+**`Result`** :&amp;ensp;`top_values`, `top_indexes` = (`array`([`5.`, `3.`, `2.`]), `array`([`4`, `1`, `2`]))
+</code></pre>
+<dl>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_top_values_by_sum(values, min_sum_value,):
+    &#34;&#34;&#34;
+    Returns top values until sum of their scores breaches `min_sum_value`.
 
-    return top_values</code></pre>
+    Parameters
+    ----------
+    values : np.array
+        a one dimensional array of values
+    min_sum_value : float
+        min sum value of top values to return
+
+    Returns
+    -------
+    top_values : nd.array
+        array of top values with sum at least min_sum_value
+    top_indexes : nd.array
+        array of original indexes for top_values array (Default value = True)
+
+    Examples
+    --------
+    &gt;&gt;&gt; values = np.array([1, 3, 2, 0.1, 5, 0])
+    &gt;&gt;&gt; min_sum = 8.1
+    &gt;&gt;&gt; top_values, top_indexes = get_top_values_by_sum(values, min_sum)
+    Result: top_values, top_indexes = (array([5., 3., 2.]), array([4, 1, 2]))
+    &#34;&#34;&#34;
+    all_sum = np.sum(values)
+    if all_sum &lt; min_sum_value:
+        warnings.warn(f&#39;min_sum_value = {min_sum_value}&#39;
+                      f&#39; is greater than sum of all elements = {all_sum}&#39;,
+                      UserWarning)
+        min_sum_value = all_sum
+
+    top_indexes = np.argsort(values)[::-1]
+    top_values = values[top_indexes]
+    cum_sum = np.cumsum(top_values)
+    ind_min_sum = bisect.bisect_left(cum_sum, min_sum_value)
+    top_indexes = top_indexes[:ind_min_sum + 1]
+    top_values = values[top_indexes]
+
+    return top_values, top_indexes</code></pre>
 </details>
 </dd>
 </dl>
@@ -1059,7 +1186,7 @@ array of original indexes for top_values array (Default value = True)</p></secti
 <dl>
 <dt id="topicnet.viewers.top_tokens_viewer.TopTokensViewer"><code class="flex name class">
 <span>class <span class="ident">TopTokensViewer</span></span>
-<span>(</span><span>model, class_ids=None, method='blei', num_top_tokens=10, alpha=1, dataset=None)</span>
+<span>(</span><span>model, class_ids=None, method='blei', num_top_tokens=10, alpha=1, by_sum=False, sum_value=None, dataset=None)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Gets top tokens from topic (sorted by scores)</p>
@@ -1083,21 +1210,27 @@ ptw - something like likelihood</dd>
 <dt><strong><code>alpha</code></strong> :&ensp;<code>float</code> <code>between</code> <code>0</code> <code>and</code> <code>1</code></dt>
 <dd>additional constant needed for
 ptw method of scoring</dd>
+<dt><strong><code>by_sum</code></strong></dt>
+<dd>a flag providing adjustable ammount of top tokens
+based on sum of their scores</dd>
+<dt><strong><code>sum_value</code></strong></dt>
+<dd>a constant deciding "how many" tokens to return in each topic
+a good default value might be different depending on self.method value</dd>
 <dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
 <dd>a class that stores infromation about the collection</dd>
 </dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">class TopTokensViewer(BaseViewer):
     &#34;&#34;&#34;Gets top tokens from topic (sorted by scores)&#34;&#34;&#34;
     def __init__(self,
                  model,
-                 class_ids=None,
-                 method=&#39;blei&#39;,
-                 num_top_tokens=10,
-                 alpha=1,
+                 class_ids: List[str] = None,
+                 method: str = &#39;blei&#39;,
+                 num_top_tokens: int = 10,
+                 alpha: float = 1,
+                 by_sum: bool = False,
+                 sum_value: float = None,
                  dataset=None):
         &#34;&#34;&#34;
         The class provide information about top tokens 
@@ -1121,6 +1254,12 @@ ptw method of scoring</dd>
         alpha : float between 0 and 1
             additional constant needed for
             ptw method of scoring
+        by_sum
+            a flag providing adjustable ammount of top tokens
+            based on sum of their scores
+        sum_value
+            a constant deciding &#34;how many&#34; tokens to return in each topic
+            a good default value might be different depending on self.method value
         dataset: Dataset
             a class that stores infromation about the collection
 
@@ -1131,6 +1270,11 @@ ptw method of scoring</dd>
 
         self.num_top_tokens = num_top_tokens
         self.class_ids = class_ids
+        self.sum_value = sum_value
+        self.by_sum = by_sum
+
+        if self.sum_value is not None:
+            self.by_sum = True
 
         if method in known:
             self.method = method
@@ -1171,6 +1315,22 @@ ptw method of scoring</dd>
 
                 return ptw_component + phi_component
 
+    def _determine_sum(self, num_words_in_vocab):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        if self.method == &#39;blei&#39;:
+            self.sum_value = 2.0
+
+        elif self.method in [&#39;top&#39;, &#39;phi&#39;]:
+            self.sum_value = 1 / num_words_in_vocab * self.num_top_tokens
+
+        elif self.method == &#39;ptw&#39;:
+            self.sum_value = self.num_top_tokens
+
+        elif self.method == &#39;likelihood&#39;:
+            raise ValueError(&#39;There is no good way to determine&#39;
+                             &#39; automatical sum_value for method &#34;likelihood&#34;.&#39;
+                             &#39; Please, define it manually&#39;)
+
     def view(
             self,
             class_ids: List[str] = None,
@@ -1200,6 +1360,8 @@ ptw method of scoring</dd>
             class_ids = self.class_ids
 
         phi = self.model.get_phi(class_ids=class_ids)
+        if self.by_sum and self.sum_value is None:
+            self._determine_sum(num_words_in_vocab=phi.shape[0])
 
         if self.method == &#39;tfidf&#39;:
             objects_cluster = (
@@ -1232,10 +1394,16 @@ ptw method of scoring</dd>
             modality_top_tokens = {}
 
             for modality in modalities:
-                top_tokens_values, top_tokens_indexes = get_top_values(
-                    topic_column.loc[modality].values,
-                    top_number=self.num_top_tokens,
-                )
+                if self.by_sum:
+                    top_tokens_values, top_tokens_indexes = get_top_values_by_sum(
+                        topic_column.loc[modality].values,
+                        min_sum_value=self.sum_value,
+                    )
+                else:
+                    top_tokens_values, top_tokens_indexes = get_top_values(
+                        topic_column.loc[modality].values,
+                        top_number=self.num_top_tokens,
+                    )
                 top_tokens = topic_column.loc[modality].index[top_tokens_indexes]
 
                 if three_levels:
@@ -1361,6 +1529,7 @@ ptw method of scoring</dd>
             topic_names: Union[str, List[str]] = None,
             digits: int = 5,
             horizontally_stack: bool = True,
+            one_topic_per_row: bool = True,
             display_output: bool = True,
             give_html: bool = False,
     ):
@@ -1373,10 +1542,13 @@ ptw method of scoring</dd>
         topic_names
             topics requested for viewing
         digits
-            Number of digits to round each probability to
+            number of digits to round each probability to
         horizontally_stack
             if True, then tokens for each modality will be stacked horizontally
             (instead of being a single long multi-line DataFrame)
+        one_topic_per_row
+            if True, each topic will be on its own row;
+            if False, topics will be arranged in one row
         display_output
             request for function to output the information
             together with iterable output intended to be used
@@ -1419,10 +1591,15 @@ ptw method of scoring</dd>
                 horizontally_stack=horizontally_stack,
             )
 
-            if display_output:
-                display_html(topic_html, raw=True)
-
             topic_html_strings.append(topic_html)
+
+        if not display_output:
+            pass
+        elif one_topic_per_row:
+            display_html(&#39;&lt;/br&gt;&#39;.join(topic_html_strings), raw=True)
+        else:
+            display_html(&#39;&amp;nbsp;&#39;.join(topic_html_strings), raw=True)
+
         if give_html:
             return topic_html_strings</code></pre>
 </details>
@@ -1436,9 +1613,7 @@ ptw method of scoring</dd>
 <dd>
 <section class="desc"></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">@property
 def cached_top_tokens(self):
     if self._cached_top_tokens is None:
@@ -1455,9 +1630,7 @@ def cached_top_tokens(self):
 <dd>
 <section class="desc"></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def to_df(self, topic_names: Iterator[str] = None, digits: int = 5) -&gt; pd.DataFrame:
     topic_top_tokens = self.cached_top_tokens
 
@@ -1505,9 +1678,7 @@ def cached_top_tokens(self):
 &gt;&gt;&gt; HTML(viewer.to_html())
 </code></pre></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def to_html(
         self,
         topic_names: Union[str, List[str]] = None,
@@ -1598,9 +1769,7 @@ def cached_top_tokens(self):
 Topic -&gt; (Modality, Token) -&gt; Probability</dd>
 </dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def view(
         self,
         class_ids: List[str] = None,
@@ -1630,6 +1799,8 @@ Topic -&gt; (Modality, Token) -&gt; Probability</dd>
         class_ids = self.class_ids
 
     phi = self.model.get_phi(class_ids=class_ids)
+    if self.by_sum and self.sum_value is None:
+        self._determine_sum(num_words_in_vocab=phi.shape[0])
 
     if self.method == &#39;tfidf&#39;:
         objects_cluster = (
@@ -1662,10 +1833,16 @@ Topic -&gt; (Modality, Token) -&gt; Probability</dd>
         modality_top_tokens = {}
 
         for modality in modalities:
-            top_tokens_values, top_tokens_indexes = get_top_values(
-                topic_column.loc[modality].values,
-                top_number=self.num_top_tokens,
-            )
+            if self.by_sum:
+                top_tokens_values, top_tokens_indexes = get_top_values_by_sum(
+                    topic_column.loc[modality].values,
+                    min_sum_value=self.sum_value,
+                )
+            else:
+                top_tokens_values, top_tokens_indexes = get_top_values(
+                    topic_column.loc[modality].values,
+                    top_number=self.num_top_tokens,
+                )
             top_tokens = topic_column.loc[modality].index[top_tokens_indexes]
 
             if three_levels:
@@ -1681,7 +1858,7 @@ Topic -&gt; (Modality, Token) -&gt; Probability</dd>
 </details>
 </dd>
 <dt id="topicnet.viewers.top_tokens_viewer.TopTokensViewer.view_from_jupyter"><code class="name flex">
-<span>def <span class="ident">view_from_jupyter</span></span>(<span>self, topic_names=None, digits=5, horizontally_stack=True, display_output=True, give_html=False)</span>
+<span>def <span class="ident">view_from_jupyter</span></span>(<span>self, topic_names=None, digits=5, horizontally_stack=True, one_topic_per_row=True, display_output=True, give_html=False)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>TopTokensViewer method recommended for use
@@ -1691,10 +1868,13 @@ from jupyter notebooks</p>
 <dt><strong><code>topic_names</code></strong></dt>
 <dd>topics requested for viewing</dd>
 <dt><strong><code>digits</code></strong></dt>
-<dd>Number of digits to round each probability to</dd>
+<dd>number of digits to round each probability to</dd>
 <dt><strong><code>horizontally_stack</code></strong></dt>
 <dd>if True, then tokens for each modality will be stacked horizontally
 (instead of being a single long multi-line DataFrame)</dd>
+<dt><strong><code>one_topic_per_row</code></strong></dt>
+<dd>if True, each topic will be on its own row;
+if False, topics will be arranged in one row</dd>
 <dt><strong><code>display_output</code></strong></dt>
 <dd>request for function to output the information
 together with iterable output intended to be used
@@ -1716,14 +1896,13 @@ as user defined output</dd>
 &gt;&gt;&gt; information = viewer.view_from_jupyter(output=False)
 </code></pre></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def view_from_jupyter(
         self,
         topic_names: Union[str, List[str]] = None,
         digits: int = 5,
         horizontally_stack: bool = True,
+        one_topic_per_row: bool = True,
         display_output: bool = True,
         give_html: bool = False,
 ):
@@ -1736,10 +1915,13 @@ as user defined output</dd>
     topic_names
         topics requested for viewing
     digits
-        Number of digits to round each probability to
+        number of digits to round each probability to
     horizontally_stack
         if True, then tokens for each modality will be stacked horizontally
         (instead of being a single long multi-line DataFrame)
+    one_topic_per_row
+        if True, each topic will be on its own row;
+        if False, topics will be arranged in one row
     display_output
         request for function to output the information
         together with iterable output intended to be used
@@ -1782,10 +1964,15 @@ as user defined output</dd>
             horizontally_stack=horizontally_stack,
         )
 
-        if display_output:
-            display_html(topic_html, raw=True)
-
         topic_html_strings.append(topic_html)
+
+    if not display_output:
+        pass
+    elif one_topic_per_row:
+        display_html(&#39;&lt;/br&gt;&#39;.join(topic_html_strings), raw=True)
+    else:
+        display_html(&#39;&amp;nbsp;&#39;.join(topic_html_strings), raw=True)
+
     if give_html:
         return topic_html_strings</code></pre>
 </details>
@@ -1816,6 +2003,7 @@ as user defined output</dd>
 <li><code><a title="topicnet.viewers.top_tokens_viewer.compute_ptw" href="#topicnet.viewers.top_tokens_viewer.compute_ptw">compute_ptw</a></code></li>
 <li><code><a title="topicnet.viewers.top_tokens_viewer.convert_df_to_html" href="#topicnet.viewers.top_tokens_viewer.convert_df_to_html">convert_df_to_html</a></code></li>
 <li><code><a title="topicnet.viewers.top_tokens_viewer.get_top_values" href="#topicnet.viewers.top_tokens_viewer.get_top_values">get_top_values</a></code></li>
+<li><code><a title="topicnet.viewers.top_tokens_viewer.get_top_values_by_sum" href="#topicnet.viewers.top_tokens_viewer.get_top_values_by_sum">get_top_values_by_sum</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
@@ -1836,7 +2024,7 @@ as user defined output</dd>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
 </footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad()</script>

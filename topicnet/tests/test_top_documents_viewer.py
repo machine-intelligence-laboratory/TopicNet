@@ -80,7 +80,7 @@ class TestTopDocumentsViewer:
     def test_check_precomputed_distances_parameter_workable(self):
         """ """
         index_of_topic_to_be_nearest_to_all_documents = 0
-        name_of_topic_to_be_nearest_to_all_document = 'topic_0' 
+        name_of_topic_to_be_nearest_to_all_document = 'topic_0'
 
         distances_all_one_except_to_one_topic = np.ones_like(TestTopDocumentsViewer.theta.values)
         distances_all_one_except_to_one_topic[:, index_of_topic_to_be_nearest_to_all_documents] = 0
@@ -110,7 +110,7 @@ class TestTopDocumentsViewer:
         assert all(len(value) <= max_num_top_documents
                    for _, value in viewer_output.items()),\
             'Not all top documents lists from "{}" have less elements than required "{}"'.format(
-                topics_documents, max_num_top_documents)
+                viewer_output, max_num_top_documents)
 
     def test_check_object_clusters_parameter_workable(self):
         """ """
