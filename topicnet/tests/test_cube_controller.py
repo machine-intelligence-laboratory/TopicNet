@@ -176,7 +176,7 @@ def experiment_enviroment(request):
         tm._model.regularizers.add(regularizer, overwrite=True)
 
     add_standard_scores(
-        tm._model, dictionary,
+        tm._model,
         main_modality=MAIN_MODALITY,
         all_modalities=[MAIN_MODALITY, NGRAM_MODALITY]
     )

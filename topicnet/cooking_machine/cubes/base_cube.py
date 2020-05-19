@@ -54,8 +54,7 @@ def put_to_queue(queue, puttable):
 
 # exists for multiprocessing debug
 def get_from_queue_till_fail(queue,  error_message='',):
-    while True:
-        return queue.get()
+    return queue.get()
 
 
 class BaseCube:

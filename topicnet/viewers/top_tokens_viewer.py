@@ -1,3 +1,4 @@
+import bisect
 import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -7,7 +8,7 @@ import warnings
 from .base_viewer import BaseViewer
 
 
-def get_top_values(values, top_number, return_indexes=True):
+def get_top_values(values, top_number):
     """
     Returns top_number top values from the matrix for each column.
 
@@ -17,14 +18,12 @@ def get_top_values(values, top_number, return_indexes=True):
         a two dimensional array of values
     top_number : int
         number of top values to return
-    return_indexes : bool
-        a flag to return indexes together with the top values
 
     Returns
     -------
     top_values : nd.array
         array of top_number top values for each column of the initial array
-    (optional) top_indexes : nd.array
+    top_indexes : nd.array
         array of original indexes for top_values array (Default value = True)
 
     """
@@ -44,10 +43,49 @@ def get_top_values(values, top_number, return_indexes=True):
     # get initial indexes
     top_indexes = top_indexes[sorted_top_values_indexes]
 
-    if return_indexes:
-        return top_values, top_indexes
+    return top_values, top_indexes
 
-    return top_values
+
+def get_top_values_by_sum(values, min_sum_value,):
+    """
+    Returns top values until sum of their scores breaches `min_sum_value`.
+
+    Parameters
+    ----------
+    values : np.array
+        a one dimensional array of values
+    min_sum_value : float
+        min sum value of top values to return
+
+    Returns
+    -------
+    top_values : nd.array
+        array of top values with sum at least min_sum_value
+    top_indexes : nd.array
+        array of original indexes for top_values array (Default value = True)
+
+    Examples
+    --------
+    >>> values = np.array([1, 3, 2, 0.1, 5, 0])
+    >>> min_sum = 8.1
+    >>> top_values, top_indexes = get_top_values_by_sum(values, min_sum)
+    Result: top_values, top_indexes = (array([5., 3., 2.]), array([4, 1, 2]))
+    """
+    all_sum = np.sum(values)
+    if all_sum < min_sum_value:
+        warnings.warn(f'min_sum_value = {min_sum_value}'
+                      f' is greater than sum of all elements = {all_sum}',
+                      UserWarning)
+        min_sum_value = all_sum
+
+    top_indexes = np.argsort(values)[::-1]
+    top_values = values[top_indexes]
+    cum_sum = np.cumsum(top_values)
+    ind_min_sum = bisect.bisect_left(cum_sum, min_sum_value)
+    top_indexes = top_indexes[:ind_min_sum + 1]
+    top_values = values[top_indexes]
+
+    return top_values, top_indexes
 
 
 def compute_pt_distribution(model, class_ids=None):
@@ -64,9 +102,7 @@ def compute_pt_distribution(model, class_ids=None):
 
     Returns
     -------
-    float
-        probability that a random token from the collection belongs to that topic
-
+    float probability that a random token from the collection belongs to that topic
     """
 
     n_wt = model.get_phi(class_ids=class_ids, model_name=model.model_nwt)
@@ -264,10 +300,12 @@ class TopTokensViewer(BaseViewer):
     """Gets top tokens from topic (sorted by scores)"""
     def __init__(self,
                  model,
-                 class_ids=None,
-                 method='blei',
-                 num_top_tokens=10,
-                 alpha=1,
+                 class_ids: List[str] = None,
+                 method: str = 'blei',
+                 num_top_tokens: int = 10,
+                 alpha: float = 1,
+                 by_sum: bool = False,
+                 sum_value: float = None,
                  dataset=None):
         """
         The class provide information about top tokens 
@@ -291,6 +329,12 @@ class TopTokensViewer(BaseViewer):
         alpha : float between 0 and 1
             additional constant needed for
             ptw method of scoring
+        by_sum
+            a flag providing adjustable ammount of top tokens
+            based on sum of their scores
+        sum_value
+            a constant deciding "how many" tokens to return in each topic
+            a good default value might be different depending on self.method value
         dataset: Dataset
             a class that stores infromation about the collection
 
@@ -301,6 +345,11 @@ class TopTokensViewer(BaseViewer):
 
         self.num_top_tokens = num_top_tokens
         self.class_ids = class_ids
+        self.sum_value = sum_value
+        self.by_sum = by_sum
+
+        if self.sum_value is not None:
+            self.by_sum = True
 
         if method in known:
             self.method = method
@@ -341,6 +390,22 @@ class TopTokensViewer(BaseViewer):
 
                 return ptw_component + phi_component
 
+    def _determine_sum(self, num_words_in_vocab):
+        """ """
+        if self.method == 'blei':
+            self.sum_value = 2.0
+
+        elif self.method in ['top', 'phi']:
+            self.sum_value = 1 / num_words_in_vocab * self.num_top_tokens
+
+        elif self.method == 'ptw':
+            self.sum_value = self.num_top_tokens
+
+        elif self.method == 'likelihood':
+            raise ValueError('There is no good way to determine'
+                             ' automatical sum_value for method "likelihood".'
+                             ' Please, define it manually')
+
     def view(
             self,
             class_ids: List[str] = None,
@@ -370,6 +435,8 @@ class TopTokensViewer(BaseViewer):
             class_ids = self.class_ids
 
         phi = self.model.get_phi(class_ids=class_ids)
+        if self.by_sum and self.sum_value is None:
+            self._determine_sum(num_words_in_vocab=phi.shape[0])
 
         if self.method == 'tfidf':
             objects_cluster = (
@@ -402,10 +469,16 @@ class TopTokensViewer(BaseViewer):
             modality_top_tokens = {}
 
             for modality in modalities:
-                top_tokens_values, top_tokens_indexes = get_top_values(
-                    topic_column.loc[modality].values,
-                    top_number=self.num_top_tokens,
-                )
+                if self.by_sum:
+                    top_tokens_values, top_tokens_indexes = get_top_values_by_sum(
+                        topic_column.loc[modality].values,
+                        min_sum_value=self.sum_value,
+                    )
+                else:
+                    top_tokens_values, top_tokens_indexes = get_top_values(
+                        topic_column.loc[modality].values,
+                        top_number=self.num_top_tokens,
+                    )
                 top_tokens = topic_column.loc[modality].index[top_tokens_indexes]
 
                 if three_levels:
@@ -531,6 +604,7 @@ class TopTokensViewer(BaseViewer):
             topic_names: Union[str, List[str]] = None,
             digits: int = 5,
             horizontally_stack: bool = True,
+            one_topic_per_row: bool = True,
             display_output: bool = True,
             give_html: bool = False,
     ):
@@ -543,10 +617,13 @@ class TopTokensViewer(BaseViewer):
         topic_names
             topics requested for viewing
         digits
-            Number of digits to round each probability to
+            number of digits to round each probability to
         horizontally_stack
             if True, then tokens for each modality will be stacked horizontally
             (instead of being a single long multi-line DataFrame)
+        one_topic_per_row
+            if True, each topic will be on its own row;
+            if False, topics will be arranged in one row
         display_output
             request for function to output the information
             together with iterable output intended to be used
@@ -589,9 +666,14 @@ class TopTokensViewer(BaseViewer):
                 horizontally_stack=horizontally_stack,
             )
 
-            if display_output:
-                display_html(topic_html, raw=True)
-
             topic_html_strings.append(topic_html)
+
+        if not display_output:
+            pass
+        elif one_topic_per_row:
+            display_html('</br>'.join(topic_html_strings), raw=True)
+        else:
+            display_html('&nbsp;'.join(topic_html_strings), raw=True)
+
         if give_html:
             return topic_html_strings

@@ -189,7 +189,12 @@ class TopDocumentsViewer(BaseViewer):
         self._dataset = dataset
         self.max_top_number = max_top_number
 
-    def view(self, current_num_top_doc=None):
+    def view(
+        self,
+        current_num_top_doc=None,
+        topic_names=None
+    ):
+
         """
         Returns list of tuples (token,score) for
         each topic in the model.
@@ -199,12 +204,15 @@ class TopDocumentsViewer(BaseViewer):
         current_num_top_doc : int
             number of top documents to provide for
             each cluster (Default value = None)
+        topic_names : list
+            list of topic names to view
 
         Returns
         -------
-        all_cluster_top_titles: list of list
-            returns list for each topic of the model list
+        all_cluster_top_titles: dict of dict
+            returns dict for each topic of the model dict
             contains document_ids of top documents for that topic
+            and their probability of belonging to the topic
 
         """
         # TODO review how top documents returned
@@ -214,6 +222,7 @@ class TopDocumentsViewer(BaseViewer):
             current_num_top_doc = self.max_top_number
 
         theta = self.model.get_theta(dataset=self._dataset)
+
         document_ids = theta.columns.values
         if self.precomputed_distances is None:
             precomputed_distances = 1.0 - theta.values
@@ -225,21 +234,37 @@ class TopDocumentsViewer(BaseViewer):
                 raise ValueError('number of topics differ from number of labels')
             if not set(range(num_clusters)) >= set(self.object_clusters):
                 raise ValueError('provided clusters are not in 0 to num_clusters - 1 range')
+
         all_cluster_top_indexes = compute_cluster_top_objects_by_distance(
             precomputed_distances,
             max_top_number=current_num_top_doc,
             object_clusters=self.object_clusters
         )
 
-        all_cluster_top_titles = list()
-        for cluster_top in all_cluster_top_indexes:
-            all_cluster_top_titles += [list(document_ids[cluster_top])]
-        return all_cluster_top_titles
+        all_cluster_top_documents_dict = {
+            topic: list(document_ids[cluster_top]) for topic, cluster_top
+            in zip(theta.index.values, all_cluster_top_indexes)
+        }
+
+        for topic in all_cluster_top_documents_dict:
+            all_cluster_top_documents_dict[topic] = {
+                doc: theta.loc[topic, doc] for doc in all_cluster_top_documents_dict[topic]
+            }
+
+        if topic_names is None:
+            return all_cluster_top_documents_dict
+        else:
+            for topic in topic_names:
+                if topic not in all_cluster_top_documents_dict.keys():
+                    raise ValueError(f'{topic} incorrect topic name')
+            view_topic = {topic: content for topic, content
+                          in all_cluster_top_documents_dict.items() if topic in topic_names}
+            return view_topic
 
     def view_from_jupyter(
             self,
             current_num_top_doc: int = None,
-            num_view_topics: int = None,
+            topic_names: list = None,
             display_output: bool = True,
             give_html: bool = False,
     ):
@@ -253,8 +278,8 @@ class TopDocumentsViewer(BaseViewer):
         current_num_top_doc
             number of top documents to provide for
             each cluster (Default value = None)
-        num_view_topics
-            number of topics to display the documents for
+        topic_names
+            list of topic names to view
         display_output
             if provide output at the end of method run
         give_html
@@ -270,9 +295,11 @@ class TopDocumentsViewer(BaseViewer):
 
         make_notebook_pretty()
         html_output = []
-        doc_list = self.view(current_num_top_doc)[:num_view_topics]
-        topic_list = self.model._model.topic_names
-        for topic_name, topic_docs in zip(topic_list, doc_list):
+
+        doc_list = self.view(current_num_top_doc, topic_names=topic_names)
+
+        for topic_name, topic_docs_dict in doc_list.items():
+            topic_docs = list(topic_docs_dict.keys())
             topic_html = ''
             topic_headline = f'<h1><b>Topic name:</b> {topic_name}</h1>'
             topic_html += topic_headline
@@ -280,8 +307,7 @@ class TopDocumentsViewer(BaseViewer):
                 document = self._dataset.get_source_document(doc_id)
                 topic_html += prepare_html_string(document)
             html_output.append(topic_html)
-        html_output = ''.join(html_output)
         if display_output:
-            display_html(''.join(html_output), raw=True)
+            display_html('<br />'.join(html_output), raw=True)
         if give_html:
             return html_output
