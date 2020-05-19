@@ -1,14 +1,19 @@
-import os
-import sys
 import csv
-import artm
+import os
+import pandas as pd
 import shutil
+import sys
 import tempfile
 import warnings
 
-import pandas as pd
 from glob import glob
-from typing import Optional
+from typing import (
+    List,
+    Optional,
+)
+
+import artm
+
 from .routine import blake2bchecksum
 
 VW_TEXT_COL = 'vw_text'
@@ -22,15 +27,22 @@ DEFAULT_ARTM_MODALITY = '@default_class'  # TODO: how to get this value from art
 MODALITY_START_SYMBOL = '|'
 
 
-def _fix_max_string_size():
+def _increase_csv_field_max_size():
+    """Makes document entry in dataset as big as possible
+
+    References
+    ----------
+    https://stackoverflow.com/questions/15063936/csv-error-field-larger-than-field-limit-131072
+
+    """
     max_int = sys.maxsize
 
     while True:
-        # decrease the max_int value by factor 10
-        # as long as the OverflowError occurs.
         try:
             csv.field_size_limit(max_int)
+
             break
+
         except OverflowError:
             max_int = int(max_int / 10)
 
@@ -153,12 +165,53 @@ class Dataset(BaseDataset):
         batch_size : int
             number of documents in one batch
 
+        Warnings
+        --------
+        This class contains method to determine dataset modalities which
+        relies on BigARTM library methods to work efficiently.
+        However, we strongly advice against using modality name as is
+        in `DEFAULT_ARTM_MODALITY` variable (currently `@default_class`)
+        because it could cause incorrect behaviour from other parts of the library.
+
+        It is also not recommended to use such symbols as comma ','
+        and newline character '\\n' in `raw_text` and `vw_text` columns of ones dataset.
+        This is because datasets are stored as .csv files which are to be read
+        by `pandas` or `dask.dataframe` libraries.
+        Mentioned symbols have special meaning for .csv file format,
+        and, if used in plain text, may lead to errors.
+
+        Notes
+        -----
+        Default way of training models in TopicNet is using :func:`artm.ARTM.fit_offline()`.
+        However, if a dataset is really big
+        (when `keep_in_memory` should definitely be set `False`),
+        model training with big `num_iterations` may take a lot of time.
+        ARTM library has another fit method for such cases: :func:`artm.ARTM.fit_online()`.
+        It is worth trying to use exactly this method when working with huge document collections
+        or collections which grow dynamically over time.
+        However, as was mentioned,
+        TopicNet is currently using only :func:`artm.ARTM.fit_offline()` under the hood.
+
+        Below are some links,
+        where one can fine some information about :func:`artm.ARTM.fit_online()`:
+
+        * `RU text 1
+        <http://www.machinelearning.ru/wiki/images/f/fb/Voron-ML-TopicModels.pdf>`_
+        * `RU text 2
+        <http://www.machinelearning.ru/wiki/index.php?title=ARTM>`_
+        * `Documentation
+        <bigartm.readthedocs.io/en/stable/api_references/python_interface/artm_model.html>`_
+
+        It is also worth emphasizing that, if the text collection is big,
+        `Theta` matrix may not fit in memory.
+        So, in this case, some BigARTM scores (which depend on `Theta`) will stop working.
         """
-        # set main data
         self._data_path = data_path
         self._small_data = keep_in_memory
-        # making document entry as big as possible
-        _fix_max_string_size()
+
+        # If not do so, some really long documents may be lost/or error may be raised
+        _increase_csv_field_max_size()
+
         self._data_hash = None
 
         self._dictionary: Optional[artm.Dictionary] = None
@@ -192,9 +245,18 @@ class Dataset(BaseDataset):
                 os.path.dirname(self._data_path),
                 f'{data_file_name}__{self._internals_folder_name_suffix}',
             )
-
-        self._modalities = self._extract_possible_modalities()
         self.batch_size = batch_size
+        self.get_batch_vectorizer()
+        self._modalities = self._extract_possible_modalities()
+
+        if self._small_data:
+            self._data_index = self._data.index
+        else:
+            self._data_index = self._data.index.compute()
+
+    @property
+    def documents(self) -> List[str]:
+        return list(self._data_index)
 
     @property
     def _batch_vectorizer_path(self) -> str:
@@ -314,6 +376,35 @@ class Dataset(BaseDataset):
 
         return data
 
+    @classmethod
+    def from_dataframe(
+        cls,
+        dataframe: pd.DataFrame,
+        save_dataset_path: str,
+        dataframe_name: str = 'dataset',
+        **kwargs
+    ) -> 'Dataset':
+        """
+        Creates dataset from pd.DataFrame
+        reuqires to specify technical folder for dataset files
+
+        Parameters
+        ----------
+        dataset
+            pandas DataFrame dataset
+        save_dataset_path
+            a folder where to store data.csv of your DataFrame
+        dataframe_name:
+            name for the dataset file to be saved in csv format
+        Another Parameters
+        ------------------
+        **kwargs
+            *kwargs* are optional init `topicnet.Dataset` parameters
+        """
+        data_path = os.path.join(save_dataset_path, dataframe_name + '.csv')
+        dataframe.to_csv(data_path)
+        return cls(data_path=data_path, **kwargs)
+
     def get_dataset(self):
         """ """
         return self._data
@@ -330,19 +421,19 @@ class Dataset(BaseDataset):
             missing_ids = ', '.join(missing_ids[:3])
         return ERROR_NO_DATA_ENTRY.format(missing_ids)
 
-    def get_vw_document(self, document_id):
+    def get_vw_document(self, document_id: str or List[str]) -> pd.DataFrame:
         """
-        Get 'vw_text' for the document with document_id.
+        Get 'vw_text' for the document with `document_id`.
 
         Parameters
         ----------
-        document_id : str or list of str
+        document_id
             document name or list of document names
+
         Returns
         -------
-        list of str
-            document id and content of 'vw_text' column
-
+        pd.DataFrame
+            `document_id` and content of 'vw_text' column
         """
         if not isinstance(document_id, list):
             document_id = [document_id]
@@ -360,10 +451,9 @@ class Dataset(BaseDataset):
             )
 
         else:
-            data_indices = self._data.index.compute()
             in_index = [
                 doc_id for doc_id in document_id
-                if doc_id in data_indices
+                if doc_id in self._data_index
             ]
             if len(in_index) < len(document_id):
                 error_message = self._prepare_no_entry_error_message(
@@ -376,19 +466,19 @@ class Dataset(BaseDataset):
                 .reindex(document_id)
             )
 
-    def get_source_document(self, document_id):
+    def get_source_document(self, document_id: str or List[str]) -> pd.DataFrame:
         """
-        Get 'raw_text' for the document with document_id.
+        Get 'raw_text' for the document with `document_id`.
 
         Parameters
         ----------
-        document_id : str
+        document_id
+            document name or list of document names
 
         Returns
         -------
-        list of str
-            document id and content of 'raw_text' column
-
+        pd.DataFrame
+            `document_id` and content of 'raw_text' column
         """
         if not isinstance(document_id, list):
             document_id = [document_id]
@@ -406,10 +496,9 @@ class Dataset(BaseDataset):
             )
 
         else:
-            data_indices = self._data.index.compute()
             in_index = [
                 doc_id for doc_id in document_id
-                if doc_id in data_indices
+                if doc_id in self._data_index
             ]
             if len(in_index) < len(document_id):
                 error_message = self._prepare_no_entry_error_message(
@@ -422,12 +511,34 @@ class Dataset(BaseDataset):
                 .reindex(document_id)
             )
 
-    def write_vw(self, file_path):
-        """ """
-        with open(file_path, 'w', encoding='utf-8') as f:
-            for index, data in self._data.iterrows():
-                vw_string = data[VW_TEXT_COL]
-                f.write(vw_string + '\n')
+    def write_vw(self, file_path: str) -> None:
+        """
+        Saves dataset as text file in Vowpal Wabbit format
+
+        """
+        save_kwargs = {
+            'header': False,
+            'columns': [VW_TEXT_COL],
+            'index': False,
+            'sep': '\n',
+            'quoting': csv.QUOTE_NONE,
+            'quotechar': '',
+        }
+        if not self._small_data:
+            save_kwargs['single_file'] = True
+        try:
+            self._data.to_csv(
+                file_path,
+                **save_kwargs
+            )
+        except csv.Error as e:
+            raise RuntimeError(
+                f'Failed to write Vowpal Wabbit file!'
+                f' This might happen due to data containing'
+                f' special symbol "\\n" that needed to be replaced.'
+                f' Make sure that text values in {VW_TEXT_COL} column'
+                f' do not contain new line symbols'
+            ) from e
 
     def _check_collection(self):
         """
@@ -558,16 +669,11 @@ class Dataset(BaseDataset):
             all modalities in Dataset
 
         """
-        modalities_list = [
-            get_modality_names(vw_string[VW_TEXT_COL])[1]
-            for _, vw_string in self._data.iterrows()
-        ]
-        all_modalities = set([
-            modality
-            for modalities in modalities_list
-            for modality in modalities
-        ])
-        return all_modalities
+        artm_dict = self.get_dictionary()
+        modalities = set(artm_dict._master.get_dictionary(artm_dict._name).class_id)
+        # ARTM fills modality name if none is present
+        modalities.discard(DEFAULT_ARTM_MODALITY)
+        return modalities
 
     def get_possible_modalities(self):
         """

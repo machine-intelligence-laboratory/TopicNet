@@ -15,6 +15,7 @@ MAIN_MODALITY = "@text"
 NGRAM_MODALITY = "@ngramms"
 EXTRA_MODALITY = "@str"
 
+
 # to run all test
 @pytest.fixture(scope="function")
 def experiment_enviroment(request):

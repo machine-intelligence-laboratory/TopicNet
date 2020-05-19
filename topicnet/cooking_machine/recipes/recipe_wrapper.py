@@ -1,4 +1,9 @@
+from typing import Tuple
+
+from .. import Dataset
+from .. import Experiment
 from ..config_parser import build_experiment_environment_from_yaml_config
+
 
 recipe_template_example = """
 This string should be formatted as a confing in YAML format.
@@ -38,7 +43,7 @@ class BaseRecipe:
             save_path: str,
             experiment_id: str = 'default_experiment_name',
             force_separate_thread: bool = False
-    ):
+    ) -> Tuple[Experiment, Dataset]:
         """
         Returns experiment and dataset instances
         needed to perform the hyperparameter tuning on the data
@@ -51,9 +56,6 @@ class BaseRecipe:
         force_separate_thread: train each model in dedicated process
             this feature helps to handle resources in Jupyter notebooks
 
-        Returns
-        -------
-        tuple experiment, dataset  instances of classes from topicnet
         """
         if self._recipe is None:
             raise ValueError(

@@ -132,6 +132,7 @@ class DocumentClusterViewer(BaseViewer):
         from IPython.display import IFrame, display_html
         out_html = self.view(
             dataset=dataset,
+            save_path=save_path,
             method=method,
             to_html=True,
         )

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.6.3" />
-<title>topicnet.cooking_machine.recipes.recipe_wrapper API documentation</title>
+<title>topicnet.cooking_machine.recipes.wntm API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
@@ -17,48 +17,105 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>topicnet.cooking_machine.recipes.recipe_wrapper</code></h1>
+<h1 class="title">Module <code>topicnet.cooking_machine.recipes.wntm</code></h1>
 </header>
 <section id="section-intro">
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">from typing import Tuple
+<pre><code class="python">from typing import List, Tuple
+
+from .recipe_wrapper import BaseRecipe
+from ..config_parser import parse
 
 from .. import Dataset
+from .. import DatasetCooc
 from .. import Experiment
-from ..config_parser import build_experiment_environment_from_yaml_config
+
+WNTM_template = &#39;&#39;&#39;
+# This config follows a pipline for training a Word Net Topic Model
+# https://link.springer.com/article/10.1007/s10115-015-0882-z
 
 
-recipe_template_example = &#34;&#34;&#34;
-This string should be formatted as a confing in YAML format.
-If you struggle making yours, look in other recipes for guidance.
-Also cooking_machine/config_parser.py docstring
-provides some insight on the matter.
-{field_to_fill}
-&#34;&#34;&#34;
+# Use .format(modality_list=modality_list, main_modality=main_modality, dataset_path=dataset_path,
+# specific_topics=specific_topics, background_topics=background_topics)
+# when loading the recipe to adjust for your dataset
+
+topics:
+# Describes number of model topics, better left to the user to define optimal topic number
+    specific_topics: {specific_topics}
+    background_topics: {background_topics}
+
+# Here is example of model with one modality
+regularizers:
+    - DecorrelatorPhiRegularizer:
+        name: decorrelation_phi
+        topic_names: specific_topics
+        class_ids: {modality_list}
+        tau: 0.2
+
+scores:
+    - BleiLaffertyScore:
+        num_top_tokens: 30
+model:
+    dataset_path: {dataset_path}
+    modalities_to_use: {modality_list}
+    main_modality: &#39;{main_modality}&#39;
+
+stages:
+- RegularizersModifierCube:
+    num_iter: 20
+    reg_search: add
+    regularizer_parameters:
+        name: decorrelation_phi
+    selection:
+        - PerplexityScore@all &lt; 1.05 * MINIMUM(PerplexityScore@all) and BleiLaffertyScore -&gt; max
+    strategy: PerplexityStrategy
+    # parameters of this strategy are intended for revision
+    strategy_params:
+        start_point: 0
+        step: 0.001
+        max_len: 50
+    tracked_score_function: PerplexityScore@all
+    verbose: false
+    use_relative_coefficients: true
+&#39;&#39;&#39;
 
 
-class BaseRecipe:
+class WNTMRecipe(BaseRecipe):
     &#34;&#34;&#34;
-    Base class to work with recipes
+    Class for baseline recipe creation and
+    unification of recipe interface
     &#34;&#34;&#34;
-    def __init__(self, recipe_template):
-        self.recipe_template = recipe_template
-        self._recipe = None
+    def __init__(self):
+        super().__init__(recipe_template=WNTM_template)
 
-    def __str__(self):
-        if self._recipe:
-            return self._recipe
-        else:
-            return self.recipe_template
+    def format_recipe(
+        self,
+        dataset_path: str,
+        modality_list: List[str] = None,
+        main_modality: str = None,
+        topic_number: int = 20,
+        background_topic_number: int = 0,
+        num_iter: int = 20,
+    ):
+        self.dataset_path = dataset_path
 
-    def format_recipe(self, *args, **kwargs) -&gt; str:
-        &#34;&#34;&#34;
-        Updates self._recipe variable
-        with variables specific for the dataset
-        &#34;&#34;&#34;
-        raise NotImplementedError(
-            &#39;Method needs to be specified for the recipe template&#39;
+        if modality_list is None:
+            modality_list = list(Dataset(dataset_path).get_possible_modalities())
+
+        if main_modality is None:
+            main_modality = modality_list[0]
+
+        specific_topics = [f&#39;topic_{i}&#39; for i in range(topic_number)]
+        background_topics = [f&#39;bcg_{i}&#39; for i in range(
+            len(specific_topics), len(specific_topics) + background_topic_number)]
+
+        self._recipe = self.recipe_template.format(
+            dataset_path=dataset_path,
+            modality_list=modality_list,
+            main_modality=main_modality,
+            specific_topics=specific_topics,
+            background_topics=background_topics,
         )
         return self._recipe
 
@@ -86,12 +143,15 @@ class BaseRecipe:
                 &#39;Recipe missing data specific parameters. &#39;
                 &#39;Provide them with &#34;format_recipe&#34; method!&#39;)
 
-        return build_experiment_environment_from_yaml_config(
+        settings, regs, model, dataset = parse(
             self._recipe,
-            save_path=save_path,
-            experiment_id=experiment_id,
-            force_separate_thread=force_separate_thread
-        )</code></pre>
+            force_separate_thread=force_separate_thread,
+            dataset_class=DatasetCooc
+        )
+        # TODO: handle dynamic addition of regularizers
+        experiment = Experiment(experiment_id=experiment_id, save_path=save_path, topic_model=model)
+        experiment.build(settings)
+        return experiment, dataset</code></pre>
 </details>
 </section>
 <section>
@@ -103,35 +163,49 @@ class BaseRecipe:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="topicnet.cooking_machine.recipes.recipe_wrapper.BaseRecipe"><code class="flex name class">
-<span>class <span class="ident">BaseRecipe</span></span>
-<span>(</span><span>recipe_template)</span>
+<dt id="topicnet.cooking_machine.recipes.wntm.WNTMRecipe"><code class="flex name class">
+<span>class <span class="ident">WNTMRecipe</span></span>
 </code></dt>
 <dd>
-<section class="desc"><p>Base class to work with recipes</p></section>
+<section class="desc"><p>Class for baseline recipe creation and
+unification of recipe interface</p></section>
 <details class="source">
 <summary>Source code</summary>
-<pre><code class="python">class BaseRecipe:
+<pre><code class="python">class WNTMRecipe(BaseRecipe):
     &#34;&#34;&#34;
-    Base class to work with recipes
+    Class for baseline recipe creation and
+    unification of recipe interface
     &#34;&#34;&#34;
-    def __init__(self, recipe_template):
-        self.recipe_template = recipe_template
-        self._recipe = None
+    def __init__(self):
+        super().__init__(recipe_template=WNTM_template)
 
-    def __str__(self):
-        if self._recipe:
-            return self._recipe
-        else:
-            return self.recipe_template
+    def format_recipe(
+        self,
+        dataset_path: str,
+        modality_list: List[str] = None,
+        main_modality: str = None,
+        topic_number: int = 20,
+        background_topic_number: int = 0,
+        num_iter: int = 20,
+    ):
+        self.dataset_path = dataset_path
 
-    def format_recipe(self, *args, **kwargs) -&gt; str:
-        &#34;&#34;&#34;
-        Updates self._recipe variable
-        with variables specific for the dataset
-        &#34;&#34;&#34;
-        raise NotImplementedError(
-            &#39;Method needs to be specified for the recipe template&#39;
+        if modality_list is None:
+            modality_list = list(Dataset(dataset_path).get_possible_modalities())
+
+        if main_modality is None:
+            main_modality = modality_list[0]
+
+        specific_topics = [f&#39;topic_{i}&#39; for i in range(topic_number)]
+        background_topics = [f&#39;bcg_{i}&#39; for i in range(
+            len(specific_topics), len(specific_topics) + background_topic_number)]
+
+        self._recipe = self.recipe_template.format(
+            dataset_path=dataset_path,
+            modality_list=modality_list,
+            main_modality=main_modality,
+            specific_topics=specific_topics,
+            background_topics=background_topics,
         )
         return self._recipe
 
@@ -159,93 +233,29 @@ class BaseRecipe:
                 &#39;Recipe missing data specific parameters. &#39;
                 &#39;Provide them with &#34;format_recipe&#34; method!&#39;)
 
-        return build_experiment_environment_from_yaml_config(
+        settings, regs, model, dataset = parse(
             self._recipe,
-            save_path=save_path,
-            experiment_id=experiment_id,
-            force_separate_thread=force_separate_thread
-        )</code></pre>
+            force_separate_thread=force_separate_thread,
+            dataset_class=DatasetCooc
+        )
+        # TODO: handle dynamic addition of regularizers
+        experiment = Experiment(experiment_id=experiment_id, save_path=save_path, topic_model=model)
+        experiment.build(settings)
+        return experiment, dataset</code></pre>
 </details>
-<h3>Subclasses</h3>
+<h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="topicnet.cooking_machine.recipes.multimodal_exploratory_search_pipeline.MultimodalSearchRecipe" href="multimodal_exploratory_search_pipeline.html#topicnet.cooking_machine.recipes.multimodal_exploratory_search_pipeline.MultimodalSearchRecipe">MultimodalSearchRecipe</a></li>
-<li><a title="topicnet.cooking_machine.recipes.artm_baseline_pipeline.BaselineRecipe" href="artm_baseline_pipeline.html#topicnet.cooking_machine.recipes.artm_baseline_pipeline.BaselineRecipe">BaselineRecipe</a></li>
-<li><a title="topicnet.cooking_machine.recipes.intratext_coherence_pipeline.IntratextCoherenceRecipe" href="intratext_coherence_pipeline.html#topicnet.cooking_machine.recipes.intratext_coherence_pipeline.IntratextCoherenceRecipe">IntratextCoherenceRecipe</a></li>
-<li><a title="topicnet.cooking_machine.recipes.exploratory_search_pipeline.SearchRecipe" href="exploratory_search_pipeline.html#topicnet.cooking_machine.recipes.exploratory_search_pipeline.SearchRecipe">SearchRecipe</a></li>
-<li><a title="topicnet.cooking_machine.recipes.wntm.WNTMRecipe" href="wntm.html#topicnet.cooking_machine.recipes.wntm.WNTMRecipe">WNTMRecipe</a></li>
+<li><a title="topicnet.cooking_machine.recipes.recipe_wrapper.BaseRecipe" href="recipe_wrapper.html#topicnet.cooking_machine.recipes.recipe_wrapper.BaseRecipe">BaseRecipe</a></li>
 </ul>
-<h3>Methods</h3>
-<dl>
-<dt id="topicnet.cooking_machine.recipes.recipe_wrapper.BaseRecipe.build_experiment_environment"><code class="name flex">
-<span>def <span class="ident">build_experiment_environment</span></span>(<span>self, save_path, experiment_id='default_experiment_name', force_separate_thread=False)</span>
-</code></dt>
-<dd>
-<section class="desc"><p>Returns experiment and dataset instances
-needed to perform the hyperparameter tuning on the data
-according to recipe</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>save_path</code></strong> :&ensp;<code>path</code> <code>to</code> <code>the</code> <code>folder</code> <code>to</code> <code>save</code> <code>experiment</code> <code>logs</code> <code>and</code> <code>models</code></dt>
-<dd>&nbsp;</dd>
-<dt><strong><code>experiment_id</code></strong> :&ensp;<code>name</code> of <code>the</code> <code>experiment</code> <code>folder</code></dt>
-<dd>&nbsp;</dd>
-<dt><strong><code>force_separate_thread</code></strong> :&ensp;<code>train</code> <code>each</code> <code>model</code> <code>in</code> <code>dedicated</code> <code>process</code></dt>
-<dd>this feature helps to handle resources in Jupyter notebooks</dd>
-</dl></section>
-<details class="source">
-<summary>Source code</summary>
-<pre><code class="python">def build_experiment_environment(
-        self,
-        save_path: str,
-        experiment_id: str = &#39;default_experiment_name&#39;,
-        force_separate_thread: bool = False
-) -&gt; Tuple[Experiment, Dataset]:
-    &#34;&#34;&#34;
-    Returns experiment and dataset instances
-    needed to perform the hyperparameter tuning on the data
-    according to recipe
-
-    Parameters
-    ----------
-    save_path: path to the folder to save experiment logs and models
-    experiment_id: name of the experiment folder
-    force_separate_thread: train each model in dedicated process
-        this feature helps to handle resources in Jupyter notebooks
-
-    &#34;&#34;&#34;
-    if self._recipe is None:
-        raise ValueError(
-            &#39;Recipe missing data specific parameters. &#39;
-            &#39;Provide them with &#34;format_recipe&#34; method!&#39;)
-
-    return build_experiment_environment_from_yaml_config(
-        self._recipe,
-        save_path=save_path,
-        experiment_id=experiment_id,
-        force_separate_thread=force_separate_thread
-    )</code></pre>
-</details>
-</dd>
-<dt id="topicnet.cooking_machine.recipes.recipe_wrapper.BaseRecipe.format_recipe"><code class="name flex">
-<span>def <span class="ident">format_recipe</span></span>(<span>self, *args, **kwargs)</span>
-</code></dt>
-<dd>
-<section class="desc"><p>Updates self._recipe variable
-with variables specific for the dataset</p></section>
-<details class="source">
-<summary>Source code</summary>
-<pre><code class="python">def format_recipe(self, *args, **kwargs) -&gt; str:
-    &#34;&#34;&#34;
-    Updates self._recipe variable
-    with variables specific for the dataset
-    &#34;&#34;&#34;
-    raise NotImplementedError(
-        &#39;Method needs to be specified for the recipe template&#39;
-    )
-    return self._recipe</code></pre>
-</details>
-</dd>
-</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="topicnet.cooking_machine.recipes.recipe_wrapper.BaseRecipe" href="recipe_wrapper.html#topicnet.cooking_machine.recipes.recipe_wrapper.BaseRecipe">BaseRecipe</a></b></code>:
+<ul class="hlist">
+<li><code><a title="topicnet.cooking_machine.recipes.recipe_wrapper.BaseRecipe.build_experiment_environment" href="recipe_wrapper.html#topicnet.cooking_machine.recipes.recipe_wrapper.BaseRecipe.build_experiment_environment">build_experiment_environment</a></code></li>
+<li><code><a title="topicnet.cooking_machine.recipes.recipe_wrapper.BaseRecipe.format_recipe" href="recipe_wrapper.html#topicnet.cooking_machine.recipes.recipe_wrapper.BaseRecipe.format_recipe">format_recipe</a></code></li>
+</ul>
+</li>
+</ul>
 </dd>
 </dl>
 </section>
@@ -264,11 +274,7 @@ with variables specific for the dataset</p></section>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="topicnet.cooking_machine.recipes.recipe_wrapper.BaseRecipe" href="#topicnet.cooking_machine.recipes.recipe_wrapper.BaseRecipe">BaseRecipe</a></code></h4>
-<ul class="">
-<li><code><a title="topicnet.cooking_machine.recipes.recipe_wrapper.BaseRecipe.build_experiment_environment" href="#topicnet.cooking_machine.recipes.recipe_wrapper.BaseRecipe.build_experiment_environment">build_experiment_environment</a></code></li>
-<li><code><a title="topicnet.cooking_machine.recipes.recipe_wrapper.BaseRecipe.format_recipe" href="#topicnet.cooking_machine.recipes.recipe_wrapper.BaseRecipe.format_recipe">format_recipe</a></code></li>
-</ul>
+<h4><code><a title="topicnet.cooking_machine.recipes.wntm.WNTMRecipe" href="#topicnet.cooking_machine.recipes.wntm.WNTMRecipe">WNTMRecipe</a></code></h4>
 </li>
 </ul>
 </li>

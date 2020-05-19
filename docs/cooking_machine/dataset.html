@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.7.2" />
+<meta name="generator" content="pdoc 0.6.3" />
 <title>topicnet.cooking_machine.dataset API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
 <style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
 </head>
@@ -21,20 +21,23 @@
 </header>
 <section id="section-intro">
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">import os
-import sys
-import csv
-import artm
+<summary>Source code</summary>
+<pre><code class="python">import csv
+import os
+import pandas as pd
 import shutil
+import sys
 import tempfile
 import warnings
 
-import pandas as pd
 from glob import glob
-from typing import Optional
+from typing import (
+    List,
+    Optional,
+)
+
+import artm
+
 from .routine import blake2bchecksum
 
 VW_TEXT_COL = &#39;vw_text&#39;
@@ -48,15 +51,22 @@ DEFAULT_ARTM_MODALITY = &#39;@default_class&#39;  # TODO: how to get this value 
 MODALITY_START_SYMBOL = &#39;|&#39;
 
 
-def _fix_max_string_size():
+def _increase_csv_field_max_size():
+    &#34;&#34;&#34;Makes document entry in dataset as big as possible
+
+    References
+    ----------
+    https://stackoverflow.com/questions/15063936/csv-error-field-larger-than-field-limit-131072
+
+    &#34;&#34;&#34;
     max_int = sys.maxsize
 
     while True:
-        # decrease the max_int value by factor 10
-        # as long as the OverflowError occurs.
         try:
             csv.field_size_limit(max_int)
+
             break
+
         except OverflowError:
             max_int = int(max_int / 10)
 
@@ -179,12 +189,53 @@ class Dataset(BaseDataset):
         batch_size : int
             number of documents in one batch
 
+        Warnings
+        --------
+        This class contains method to determine dataset modalities which
+        relies on BigARTM library methods to work efficiently.
+        However, we strongly advice against using modality name as is
+        in `DEFAULT_ARTM_MODALITY` variable (currently `@default_class`)
+        because it could cause incorrect behaviour from other parts of the library.
+
+        It is also not recommended to use such symbols as comma &#39;,&#39;
+        and newline character &#39;\\n&#39; in `raw_text` and `vw_text` columns of ones dataset.
+        This is because datasets are stored as .csv files which are to be read
+        by `pandas` or `dask.dataframe` libraries.
+        Mentioned symbols have special meaning for .csv file format,
+        and, if used in plain text, may lead to errors.
+
+        Notes
+        -----
+        Default way of training models in TopicNet is using :func:`artm.ARTM.fit_offline()`.
+        However, if a dataset is really big
+        (when `keep_in_memory` should definitely be set `False`),
+        model training with big `num_iterations` may take a lot of time.
+        ARTM library has another fit method for such cases: :func:`artm.ARTM.fit_online()`.
+        It is worth trying to use exactly this method when working with huge document collections
+        or collections which grow dynamically over time.
+        However, as was mentioned,
+        TopicNet is currently using only :func:`artm.ARTM.fit_offline()` under the hood.
+
+        Below are some links,
+        where one can fine some information about :func:`artm.ARTM.fit_online()`:
+
+        * `RU text 1
+        &lt;http://www.machinelearning.ru/wiki/images/f/fb/Voron-ML-TopicModels.pdf&gt;`_
+        * `RU text 2
+        &lt;http://www.machinelearning.ru/wiki/index.php?title=ARTM&gt;`_
+        * `Documentation
+        &lt;bigartm.readthedocs.io/en/stable/api_references/python_interface/artm_model.html&gt;`_
+
+        It is also worth emphasizing that, if the text collection is big,
+        `Theta` matrix may not fit in memory.
+        So, in this case, some BigARTM scores (which depend on `Theta`) will stop working.
         &#34;&#34;&#34;
-        # set main data
         self._data_path = data_path
         self._small_data = keep_in_memory
-        # making document entry as big as possible
-        _fix_max_string_size()
+
+        # If not do so, some really long documents may be lost/or error may be raised
+        _increase_csv_field_max_size()
+
         self._data_hash = None
 
         self._dictionary: Optional[artm.Dictionary] = None
@@ -218,9 +269,18 @@ class Dataset(BaseDataset):
                 os.path.dirname(self._data_path),
                 f&#39;{data_file_name}__{self._internals_folder_name_suffix}&#39;,
             )
-
-        self._modalities = self._extract_possible_modalities()
         self.batch_size = batch_size
+        self.get_batch_vectorizer()
+        self._modalities = self._extract_possible_modalities()
+
+        if self._small_data:
+            self._data_index = self._data.index
+        else:
+            self._data_index = self._data.index.compute()
+
+    @property
+    def documents(self) -&gt; List[str]:
+        return list(self._data_index)
 
     @property
     def _batch_vectorizer_path(self) -&gt; str:
@@ -340,6 +400,35 @@ class Dataset(BaseDataset):
 
         return data
 
+    @classmethod
+    def from_dataframe(
+        cls,
+        dataframe: pd.DataFrame,
+        save_dataset_path: str,
+        dataframe_name: str = &#39;dataset&#39;,
+        **kwargs
+    ) -&gt; &#39;Dataset&#39;:
+        &#34;&#34;&#34;
+        Creates dataset from pd.DataFrame
+        reuqires to specify technical folder for dataset files
+
+        Parameters
+        ----------
+        dataset
+            pandas DataFrame dataset
+        save_dataset_path
+            a folder where to store data.csv of your DataFrame
+        dataframe_name:
+            name for the dataset file to be saved in csv format
+        Another Parameters
+        ------------------
+        **kwargs
+            *kwargs* are optional init `topicnet.Dataset` parameters
+        &#34;&#34;&#34;
+        data_path = os.path.join(save_dataset_path, dataframe_name + &#39;.csv&#39;)
+        dataframe.to_csv(data_path)
+        return cls(data_path=data_path, **kwargs)
+
     def get_dataset(self):
         &#34;&#34;&#34; &#34;&#34;&#34;
         return self._data
@@ -356,19 +445,19 @@ class Dataset(BaseDataset):
             missing_ids = &#39;, &#39;.join(missing_ids[:3])
         return ERROR_NO_DATA_ENTRY.format(missing_ids)
 
-    def get_vw_document(self, document_id):
+    def get_vw_document(self, document_id: str or List[str]) -&gt; pd.DataFrame:
         &#34;&#34;&#34;
-        Get &#39;vw_text&#39; for the document with document_id.
+        Get &#39;vw_text&#39; for the document with `document_id`.
 
         Parameters
         ----------
-        document_id : str or list of str
+        document_id
             document name or list of document names
+
         Returns
         -------
-        list of str
-            document id and content of &#39;vw_text&#39; column
-
+        pd.DataFrame
+            `document_id` and content of &#39;vw_text&#39; column
         &#34;&#34;&#34;
         if not isinstance(document_id, list):
             document_id = [document_id]
@@ -386,10 +475,9 @@ class Dataset(BaseDataset):
             )
 
         else:
-            data_indices = self._data.index.compute()
             in_index = [
                 doc_id for doc_id in document_id
-                if doc_id in data_indices
+                if doc_id in self._data_index
             ]
             if len(in_index) &lt; len(document_id):
                 error_message = self._prepare_no_entry_error_message(
@@ -402,19 +490,19 @@ class Dataset(BaseDataset):
                 .reindex(document_id)
             )
 
-    def get_source_document(self, document_id):
+    def get_source_document(self, document_id: str or List[str]) -&gt; pd.DataFrame:
         &#34;&#34;&#34;
-        Get &#39;raw_text&#39; for the document with document_id.
+        Get &#39;raw_text&#39; for the document with `document_id`.
 
         Parameters
         ----------
-        document_id : str
+        document_id
+            document name or list of document names
 
         Returns
         -------
-        list of str
-            document id and content of &#39;raw_text&#39; column
-
+        pd.DataFrame
+            `document_id` and content of &#39;raw_text&#39; column
         &#34;&#34;&#34;
         if not isinstance(document_id, list):
             document_id = [document_id]
@@ -432,10 +520,9 @@ class Dataset(BaseDataset):
             )
 
         else:
-            data_indices = self._data.index.compute()
             in_index = [
                 doc_id for doc_id in document_id
-                if doc_id in data_indices
+                if doc_id in self._data_index
             ]
             if len(in_index) &lt; len(document_id):
                 error_message = self._prepare_no_entry_error_message(
@@ -448,12 +535,34 @@ class Dataset(BaseDataset):
                 .reindex(document_id)
             )
 
-    def write_vw(self, file_path):
-        &#34;&#34;&#34; &#34;&#34;&#34;
-        with open(file_path, &#39;w&#39;, encoding=&#39;utf-8&#39;) as f:
-            for index, data in self._data.iterrows():
-                vw_string = data[VW_TEXT_COL]
-                f.write(vw_string + &#39;\n&#39;)
+    def write_vw(self, file_path: str) -&gt; None:
+        &#34;&#34;&#34;
+        Saves dataset as text file in Vowpal Wabbit format
+
+        &#34;&#34;&#34;
+        save_kwargs = {
+            &#39;header&#39;: False,
+            &#39;columns&#39;: [VW_TEXT_COL],
+            &#39;index&#39;: False,
+            &#39;sep&#39;: &#39;\n&#39;,
+            &#39;quoting&#39;: csv.QUOTE_NONE,
+            &#39;quotechar&#39;: &#39;&#39;,
+        }
+        if not self._small_data:
+            save_kwargs[&#39;single_file&#39;] = True
+        try:
+            self._data.to_csv(
+                file_path,
+                **save_kwargs
+            )
+        except csv.Error as e:
+            raise RuntimeError(
+                f&#39;Failed to write Vowpal Wabbit file!&#39;
+                f&#39; This might happen due to data containing&#39;
+                f&#39; special symbol &#34;\\n&#34; that needed to be replaced.&#39;
+                f&#39; Make sure that text values in {VW_TEXT_COL} column&#39;
+                f&#39; do not contain new line symbols&#39;
+            ) from e
 
     def _check_collection(self):
         &#34;&#34;&#34;
@@ -584,16 +693,11 @@ class Dataset(BaseDataset):
             all modalities in Dataset
 
         &#34;&#34;&#34;
-        modalities_list = [
-            get_modality_names(vw_string[VW_TEXT_COL])[1]
-            for _, vw_string in self._data.iterrows()
-        ]
-        all_modalities = set([
-            modality
-            for modalities in modalities_list
-            for modality in modalities
-        ])
-        return all_modalities
+        artm_dict = self.get_dictionary()
+        modalities = set(artm_dict._master.get_dictionary(artm_dict._name).class_id)
+        # ARTM fills modality name if none is present
+        modalities.discard(DEFAULT_ARTM_MODALITY)
+        return modalities
 
     def get_possible_modalities(self):
         &#34;&#34;&#34;
@@ -654,9 +758,7 @@ class Dataset(BaseDataset):
 <dd>modalities in document</dd>
 </dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def get_modality_names(vw_string):
     &#34;&#34;&#34;
     Gets modality names from vw_string.
@@ -700,9 +802,7 @@ class Dataset(BaseDataset):
 <dd>content of modality_name modality</dd>
 </dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def get_modality_vw(vw_string, modality_name):
     &#34;&#34;&#34;
     Gets modality string from document vw string.
@@ -741,9 +841,7 @@ class Dataset(BaseDataset):
 <dd>
 <section class="desc"></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">class BaseDataset:
     &#34;&#34;&#34; &#34;&#34;&#34;
     def get_source_document(self, document_id):
@@ -776,9 +874,7 @@ class Dataset(BaseDataset):
 <dd>&nbsp;</dd>
 </dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def get_source_document(self, document_id):
     &#34;&#34;&#34;
 
@@ -834,11 +930,44 @@ there is no such folder: it will be created by Dataset.</p>
 </dd>
 <dt><strong><code>batch_size</code></strong> :&ensp;<code>int</code></dt>
 <dd>number of documents in one batch</dd>
-</dl></section>
+</dl>
+<h2 id="warnings">Warnings</h2>
+<p>This class contains method to determine dataset modalities which
+relies on BigARTM library methods to work efficiently.
+However, we strongly advice against using modality name as is
+in <code>DEFAULT_ARTM_MODALITY</code> variable (currently <code>@default_class</code>)
+because it could cause incorrect behaviour from other parts of the library.</p>
+<p>It is also not recommended to use such symbols as comma ','
+and newline character '\n' in <code>raw_text</code> and <code>vw_text</code> columns of ones dataset.
+This is because datasets are stored as .csv files which are to be read
+by <code>pandas</code> or <code>dask.dataframe</code> libraries.
+Mentioned symbols have special meaning for .csv file format,
+and, if used in plain text, may lead to errors.</p>
+<h2 id="notes">Notes</h2>
+<p>Default way of training models in TopicNet is using :func:<code>artm.ARTM.fit_offline()</code>.
+However, if a dataset is really big
+(when <code>keep_in_memory</code> should definitely be set <code>False</code>),
+model training with big <code>num_iterations</code> may take a lot of time.
+ARTM library has another fit method for such cases: :func:<code>artm.ARTM.fit_online()</code>.
+It is worth trying to use exactly this method when working with huge document collections
+or collections which grow dynamically over time.
+However, as was mentioned,
+TopicNet is currently using only :func:<code>artm.ARTM.fit_offline()</code> under the hood.</p>
+<p>Below are some links,
+where one can fine some information about :func:<code>artm.ARTM.fit_online()</code>:</p>
+<ul>
+<li><code>RU text 1
+&lt;http://www.machinelearning.ru/wiki/images/f/fb/Voron-ML-TopicModels.pdf&gt;</code>_</li>
+<li><code>RU text 2
+&lt;http://www.machinelearning.ru/wiki/index.php?title=ARTM&gt;</code>_</li>
+<li><code>Documentation
+&lt;bigartm.readthedocs.io/en/stable/api_references/python_interface/artm_model.html&gt;</code>_</li>
+</ul>
+<p>It is also worth emphasizing that, if the text collection is big,
+<code>Theta</code> matrix may not fit in memory.
+So, in this case, some BigARTM scores (which depend on <code>Theta</code>) will stop working.</p></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">class Dataset(BaseDataset):
     &#34;&#34;&#34;
     Class for keeping training data and documents for creation models.
@@ -889,12 +1018,53 @@ there is no such folder: it will be created by Dataset.</p>
         batch_size : int
             number of documents in one batch
 
+        Warnings
+        --------
+        This class contains method to determine dataset modalities which
+        relies on BigARTM library methods to work efficiently.
+        However, we strongly advice against using modality name as is
+        in `DEFAULT_ARTM_MODALITY` variable (currently `@default_class`)
+        because it could cause incorrect behaviour from other parts of the library.
+
+        It is also not recommended to use such symbols as comma &#39;,&#39;
+        and newline character &#39;\\n&#39; in `raw_text` and `vw_text` columns of ones dataset.
+        This is because datasets are stored as .csv files which are to be read
+        by `pandas` or `dask.dataframe` libraries.
+        Mentioned symbols have special meaning for .csv file format,
+        and, if used in plain text, may lead to errors.
+
+        Notes
+        -----
+        Default way of training models in TopicNet is using :func:`artm.ARTM.fit_offline()`.
+        However, if a dataset is really big
+        (when `keep_in_memory` should definitely be set `False`),
+        model training with big `num_iterations` may take a lot of time.
+        ARTM library has another fit method for such cases: :func:`artm.ARTM.fit_online()`.
+        It is worth trying to use exactly this method when working with huge document collections
+        or collections which grow dynamically over time.
+        However, as was mentioned,
+        TopicNet is currently using only :func:`artm.ARTM.fit_offline()` under the hood.
+
+        Below are some links,
+        where one can fine some information about :func:`artm.ARTM.fit_online()`:
+
+        * `RU text 1
+        &lt;http://www.machinelearning.ru/wiki/images/f/fb/Voron-ML-TopicModels.pdf&gt;`_
+        * `RU text 2
+        &lt;http://www.machinelearning.ru/wiki/index.php?title=ARTM&gt;`_
+        * `Documentation
+        &lt;bigartm.readthedocs.io/en/stable/api_references/python_interface/artm_model.html&gt;`_
+
+        It is also worth emphasizing that, if the text collection is big,
+        `Theta` matrix may not fit in memory.
+        So, in this case, some BigARTM scores (which depend on `Theta`) will stop working.
         &#34;&#34;&#34;
-        # set main data
         self._data_path = data_path
         self._small_data = keep_in_memory
-        # making document entry as big as possible
-        _fix_max_string_size()
+
+        # If not do so, some really long documents may be lost/or error may be raised
+        _increase_csv_field_max_size()
+
         self._data_hash = None
 
         self._dictionary: Optional[artm.Dictionary] = None
@@ -928,9 +1098,18 @@ there is no such folder: it will be created by Dataset.</p>
                 os.path.dirname(self._data_path),
                 f&#39;{data_file_name}__{self._internals_folder_name_suffix}&#39;,
             )
-
-        self._modalities = self._extract_possible_modalities()
         self.batch_size = batch_size
+        self.get_batch_vectorizer()
+        self._modalities = self._extract_possible_modalities()
+
+        if self._small_data:
+            self._data_index = self._data.index
+        else:
+            self._data_index = self._data.index.compute()
+
+    @property
+    def documents(self) -&gt; List[str]:
+        return list(self._data_index)
 
     @property
     def _batch_vectorizer_path(self) -&gt; str:
@@ -1050,6 +1229,35 @@ there is no such folder: it will be created by Dataset.</p>
 
         return data
 
+    @classmethod
+    def from_dataframe(
+        cls,
+        dataframe: pd.DataFrame,
+        save_dataset_path: str,
+        dataframe_name: str = &#39;dataset&#39;,
+        **kwargs
+    ) -&gt; &#39;Dataset&#39;:
+        &#34;&#34;&#34;
+        Creates dataset from pd.DataFrame
+        reuqires to specify technical folder for dataset files
+
+        Parameters
+        ----------
+        dataset
+            pandas DataFrame dataset
+        save_dataset_path
+            a folder where to store data.csv of your DataFrame
+        dataframe_name:
+            name for the dataset file to be saved in csv format
+        Another Parameters
+        ------------------
+        **kwargs
+            *kwargs* are optional init `topicnet.Dataset` parameters
+        &#34;&#34;&#34;
+        data_path = os.path.join(save_dataset_path, dataframe_name + &#39;.csv&#39;)
+        dataframe.to_csv(data_path)
+        return cls(data_path=data_path, **kwargs)
+
     def get_dataset(self):
         &#34;&#34;&#34; &#34;&#34;&#34;
         return self._data
@@ -1066,19 +1274,19 @@ there is no such folder: it will be created by Dataset.</p>
             missing_ids = &#39;, &#39;.join(missing_ids[:3])
         return ERROR_NO_DATA_ENTRY.format(missing_ids)
 
-    def get_vw_document(self, document_id):
+    def get_vw_document(self, document_id: str or List[str]) -&gt; pd.DataFrame:
         &#34;&#34;&#34;
-        Get &#39;vw_text&#39; for the document with document_id.
+        Get &#39;vw_text&#39; for the document with `document_id`.
 
         Parameters
         ----------
-        document_id : str or list of str
+        document_id
             document name or list of document names
+
         Returns
         -------
-        list of str
-            document id and content of &#39;vw_text&#39; column
-
+        pd.DataFrame
+            `document_id` and content of &#39;vw_text&#39; column
         &#34;&#34;&#34;
         if not isinstance(document_id, list):
             document_id = [document_id]
@@ -1096,10 +1304,9 @@ there is no such folder: it will be created by Dataset.</p>
             )
 
         else:
-            data_indices = self._data.index.compute()
             in_index = [
                 doc_id for doc_id in document_id
-                if doc_id in data_indices
+                if doc_id in self._data_index
             ]
             if len(in_index) &lt; len(document_id):
                 error_message = self._prepare_no_entry_error_message(
@@ -1112,19 +1319,19 @@ there is no such folder: it will be created by Dataset.</p>
                 .reindex(document_id)
             )
 
-    def get_source_document(self, document_id):
+    def get_source_document(self, document_id: str or List[str]) -&gt; pd.DataFrame:
         &#34;&#34;&#34;
-        Get &#39;raw_text&#39; for the document with document_id.
+        Get &#39;raw_text&#39; for the document with `document_id`.
 
         Parameters
         ----------
-        document_id : str
+        document_id
+            document name or list of document names
 
         Returns
         -------
-        list of str
-            document id and content of &#39;raw_text&#39; column
-
+        pd.DataFrame
+            `document_id` and content of &#39;raw_text&#39; column
         &#34;&#34;&#34;
         if not isinstance(document_id, list):
             document_id = [document_id]
@@ -1142,10 +1349,9 @@ there is no such folder: it will be created by Dataset.</p>
             )
 
         else:
-            data_indices = self._data.index.compute()
             in_index = [
                 doc_id for doc_id in document_id
-                if doc_id in data_indices
+                if doc_id in self._data_index
             ]
             if len(in_index) &lt; len(document_id):
                 error_message = self._prepare_no_entry_error_message(
@@ -1158,12 +1364,34 @@ there is no such folder: it will be created by Dataset.</p>
                 .reindex(document_id)
             )
 
-    def write_vw(self, file_path):
-        &#34;&#34;&#34; &#34;&#34;&#34;
-        with open(file_path, &#39;w&#39;, encoding=&#39;utf-8&#39;) as f:
-            for index, data in self._data.iterrows():
-                vw_string = data[VW_TEXT_COL]
-                f.write(vw_string + &#39;\n&#39;)
+    def write_vw(self, file_path: str) -&gt; None:
+        &#34;&#34;&#34;
+        Saves dataset as text file in Vowpal Wabbit format
+
+        &#34;&#34;&#34;
+        save_kwargs = {
+            &#39;header&#39;: False,
+            &#39;columns&#39;: [VW_TEXT_COL],
+            &#39;index&#39;: False,
+            &#39;sep&#39;: &#39;\n&#39;,
+            &#39;quoting&#39;: csv.QUOTE_NONE,
+            &#39;quotechar&#39;: &#39;&#39;,
+        }
+        if not self._small_data:
+            save_kwargs[&#39;single_file&#39;] = True
+        try:
+            self._data.to_csv(
+                file_path,
+                **save_kwargs
+            )
+        except csv.Error as e:
+            raise RuntimeError(
+                f&#39;Failed to write Vowpal Wabbit file!&#39;
+                f&#39; This might happen due to data containing&#39;
+                f&#39; special symbol &#34;\\n&#34; that needed to be replaced.&#39;
+                f&#39; Make sure that text values in {VW_TEXT_COL} column&#39;
+                f&#39; do not contain new line symbols&#39;
+            ) from e
 
     def _check_collection(self):
         &#34;&#34;&#34;
@@ -1294,16 +1522,11 @@ there is no such folder: it will be created by Dataset.</p>
             all modalities in Dataset
 
         &#34;&#34;&#34;
-        modalities_list = [
-            get_modality_names(vw_string[VW_TEXT_COL])[1]
-            for _, vw_string in self._data.iterrows()
-        ]
-        all_modalities = set([
-            modality
-            for modalities in modalities_list
-            for modality in modalities
-        ])
-        return all_modalities
+        artm_dict = self.get_dictionary()
+        modalities = set(artm_dict._master.get_dictionary(artm_dict._name).class_id)
+        # ARTM fills modality name if none is present
+        modalities.discard(DEFAULT_ARTM_MODALITY)
+        return modalities
 
     def get_possible_modalities(self):
         &#34;&#34;&#34;
@@ -1342,6 +1565,79 @@ there is no such folder: it will be created by Dataset.</p>
 <ul class="hlist">
 <li><a title="topicnet.cooking_machine.dataset.BaseDataset" href="#topicnet.cooking_machine.dataset.BaseDataset">BaseDataset</a></li>
 </ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="topicnet.cooking_machine.dataset_cooc.DatasetCooc" href="dataset_cooc.html#topicnet.cooking_machine.dataset_cooc.DatasetCooc">DatasetCooc</a></li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="topicnet.cooking_machine.dataset.Dataset.from_dataframe"><code class="name flex">
+<span>def <span class="ident">from_dataframe</span></span>(<span>dataframe, save_dataset_path, dataframe_name='dataset', **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Creates dataset from pd.DataFrame
+reuqires to specify technical folder for dataset files</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>dataset</code></strong></dt>
+<dd>pandas DataFrame dataset</dd>
+<dt><strong><code>save_dataset_path</code></strong></dt>
+<dd>a folder where to store data.csv of your DataFrame</dd>
+</dl>
+<p>dataframe_name:
+name for the dataset file to be saved in csv format
+Another Parameters</p>
+<hr>
+<dl>
+<dt><strong><code>**kwargs</code></strong></dt>
+<dd><em>kwargs</em> are optional init <code>topicnet.Dataset</code> parameters</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def from_dataframe(
+    cls,
+    dataframe: pd.DataFrame,
+    save_dataset_path: str,
+    dataframe_name: str = &#39;dataset&#39;,
+    **kwargs
+) -&gt; &#39;Dataset&#39;:
+    &#34;&#34;&#34;
+    Creates dataset from pd.DataFrame
+    reuqires to specify technical folder for dataset files
+
+    Parameters
+    ----------
+    dataset
+        pandas DataFrame dataset
+    save_dataset_path
+        a folder where to store data.csv of your DataFrame
+    dataframe_name:
+        name for the dataset file to be saved in csv format
+    Another Parameters
+    ------------------
+    **kwargs
+        *kwargs* are optional init `topicnet.Dataset` parameters
+    &#34;&#34;&#34;
+    data_path = os.path.join(save_dataset_path, dataframe_name + &#39;.csv&#39;)
+    dataframe.to_csv(data_path)
+    return cls(data_path=data_path, **kwargs)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="topicnet.cooking_machine.dataset.Dataset.documents"><code class="name">var <span class="ident">documents</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@property
+def documents(self) -&gt; List[str]:
+    return list(self._data_index)</code></pre>
+</details>
+</dd>
+</dl>
 <h3>Methods</h3>
 <dl>
 <dt id="topicnet.cooking_machine.dataset.Dataset.clear_batches_folder"><code class="name flex">
@@ -1350,9 +1646,7 @@ there is no such folder: it will be created by Dataset.</p>
 <dd>
 <section class="desc"><p>Clear batches folder</p></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def clear_batches_folder(self):
     &#34;&#34;&#34;
     Clear batches folder
@@ -1370,9 +1664,7 @@ there is no such folder: it will be created by Dataset.</p>
 <dd>
 <section class="desc"><p>Clear internals_folder_path</p></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def clear_folder(self):
     &#34;&#34;&#34;
     Clear internals_folder_path
@@ -1396,9 +1688,7 @@ there is no such folder: it will be created by Dataset.</p>
 <dd>&nbsp;</dd>
 </dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def get_batch_vectorizer(self) -&gt; artm.BatchVectorizer:
     &#34;&#34;&#34;
     Gets batch vectorizer.
@@ -1448,9 +1738,7 @@ there is no such folder: it will be created by Dataset.</p>
 <dd>
 <section class="desc"></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def get_dataset(self):
     &#34;&#34;&#34; &#34;&#34;&#34;
     return self._data</code></pre>
@@ -1467,9 +1755,7 @@ there is no such folder: it will be created by Dataset.</p>
 <dd>&nbsp;</dd>
 </dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def get_dictionary(self) -&gt; artm.Dictionary:
     &#34;&#34;&#34;
     Gets dataset&#39;s dictionary.
@@ -1518,9 +1804,7 @@ there is no such folder: it will be created by Dataset.</p>
 <dd>all modalities in Dataset</dd>
 </dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">def get_possible_modalities(self):
     &#34;&#34;&#34;
     Returns extracted modalities.
@@ -1538,34 +1822,32 @@ there is no such folder: it will be created by Dataset.</p>
 <span>def <span class="ident">get_source_document</span></span>(<span>self, document_id)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Get 'raw_text' for the document with document_id.</p>
+<section class="desc"><p>Get 'raw_text' for the document with <code>document_id</code>.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>document_id</code></strong> :&ensp;<code>str</code></dt>
-<dd>&nbsp;</dd>
+<dt><strong><code>document_id</code></strong></dt>
+<dd>document name or list of document names</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>list</code> of <code>str</code></dt>
-<dd>document id and content of 'raw_text' column</dd>
+<dt><code>pd.DataFrame</code></dt>
+<dd><code>document_id</code> and content of 'raw_text' column</dd>
 </dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def get_source_document(self, document_id):
+<summary>Source code</summary>
+<pre><code class="python">def get_source_document(self, document_id: str or List[str]) -&gt; pd.DataFrame:
     &#34;&#34;&#34;
-    Get &#39;raw_text&#39; for the document with document_id.
+    Get &#39;raw_text&#39; for the document with `document_id`.
 
     Parameters
     ----------
-    document_id : str
+    document_id
+        document name or list of document names
 
     Returns
     -------
-    list of str
-        document id and content of &#39;raw_text&#39; column
-
+    pd.DataFrame
+        `document_id` and content of &#39;raw_text&#39; column
     &#34;&#34;&#34;
     if not isinstance(document_id, list):
         document_id = [document_id]
@@ -1583,10 +1865,9 @@ there is no such folder: it will be created by Dataset.</p>
         )
 
     else:
-        data_indices = self._data.index.compute()
         in_index = [
             doc_id for doc_id in document_id
-            if doc_id in data_indices
+            if doc_id in self._data_index
         ]
         if len(in_index) &lt; len(document_id):
             error_message = self._prepare_no_entry_error_message(
@@ -1604,34 +1885,32 @@ there is no such folder: it will be created by Dataset.</p>
 <span>def <span class="ident">get_vw_document</span></span>(<span>self, document_id)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Get 'vw_text' for the document with document_id.</p>
+<section class="desc"><p>Get 'vw_text' for the document with <code>document_id</code>.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>document_id</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code></dt>
+<dt><strong><code>document_id</code></strong></dt>
 <dd>document name or list of document names</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>list</code> of <code>str</code></dt>
-<dd>document id and content of 'vw_text' column</dd>
+<dt><code>pd.DataFrame</code></dt>
+<dd><code>document_id</code> and content of 'vw_text' column</dd>
 </dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def get_vw_document(self, document_id):
+<summary>Source code</summary>
+<pre><code class="python">def get_vw_document(self, document_id: str or List[str]) -&gt; pd.DataFrame:
     &#34;&#34;&#34;
-    Get &#39;vw_text&#39; for the document with document_id.
+    Get &#39;vw_text&#39; for the document with `document_id`.
 
     Parameters
     ----------
-    document_id : str or list of str
+    document_id
         document name or list of document names
+
     Returns
     -------
-    list of str
-        document id and content of &#39;vw_text&#39; column
-
+    pd.DataFrame
+        `document_id` and content of &#39;vw_text&#39; column
     &#34;&#34;&#34;
     if not isinstance(document_id, list):
         document_id = [document_id]
@@ -1649,10 +1928,9 @@ there is no such folder: it will be created by Dataset.</p>
         )
 
     else:
-        data_indices = self._data.index.compute()
         in_index = [
             doc_id for doc_id in document_id
-            if doc_id in data_indices
+            if doc_id in self._data_index
         ]
         if len(in_index) &lt; len(document_id):
             error_message = self._prepare_no_entry_error_message(
@@ -1670,17 +1948,37 @@ there is no such folder: it will be created by Dataset.</p>
 <span>def <span class="ident">write_vw</span></span>(<span>self, file_path)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>Saves dataset as text file in Vowpal Wabbit format</p></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def write_vw(self, file_path):
-    &#34;&#34;&#34; &#34;&#34;&#34;
-    with open(file_path, &#39;w&#39;, encoding=&#39;utf-8&#39;) as f:
-        for index, data in self._data.iterrows():
-            vw_string = data[VW_TEXT_COL]
-            f.write(vw_string + &#39;\n&#39;)</code></pre>
+<summary>Source code</summary>
+<pre><code class="python">def write_vw(self, file_path: str) -&gt; None:
+    &#34;&#34;&#34;
+    Saves dataset as text file in Vowpal Wabbit format
+
+    &#34;&#34;&#34;
+    save_kwargs = {
+        &#39;header&#39;: False,
+        &#39;columns&#39;: [VW_TEXT_COL],
+        &#39;index&#39;: False,
+        &#39;sep&#39;: &#39;\n&#39;,
+        &#39;quoting&#39;: csv.QUOTE_NONE,
+        &#39;quotechar&#39;: &#39;&#39;,
+    }
+    if not self._small_data:
+        save_kwargs[&#39;single_file&#39;] = True
+    try:
+        self._data.to_csv(
+            file_path,
+            **save_kwargs
+        )
+    except csv.Error as e:
+        raise RuntimeError(
+            f&#39;Failed to write Vowpal Wabbit file!&#39;
+            f&#39; This might happen due to data containing&#39;
+            f&#39; special symbol &#34;\\n&#34; that needed to be replaced.&#39;
+            f&#39; Make sure that text values in {VW_TEXT_COL} column&#39;
+            f&#39; do not contain new line symbols&#39;
+        ) from e</code></pre>
 </details>
 </dd>
 </dl>
@@ -1718,6 +2016,8 @@ there is no such folder: it will be created by Dataset.</p>
 <ul class="">
 <li><code><a title="topicnet.cooking_machine.dataset.Dataset.clear_batches_folder" href="#topicnet.cooking_machine.dataset.Dataset.clear_batches_folder">clear_batches_folder</a></code></li>
 <li><code><a title="topicnet.cooking_machine.dataset.Dataset.clear_folder" href="#topicnet.cooking_machine.dataset.Dataset.clear_folder">clear_folder</a></code></li>
+<li><code><a title="topicnet.cooking_machine.dataset.Dataset.documents" href="#topicnet.cooking_machine.dataset.Dataset.documents">documents</a></code></li>
+<li><code><a title="topicnet.cooking_machine.dataset.Dataset.from_dataframe" href="#topicnet.cooking_machine.dataset.Dataset.from_dataframe">from_dataframe</a></code></li>
 <li><code><a title="topicnet.cooking_machine.dataset.Dataset.get_batch_vectorizer" href="#topicnet.cooking_machine.dataset.Dataset.get_batch_vectorizer">get_batch_vectorizer</a></code></li>
 <li><code><a title="topicnet.cooking_machine.dataset.Dataset.get_dataset" href="#topicnet.cooking_machine.dataset.Dataset.get_dataset">get_dataset</a></code></li>
 <li><code><a title="topicnet.cooking_machine.dataset.Dataset.get_dictionary" href="#topicnet.cooking_machine.dataset.Dataset.get_dictionary">get_dictionary</a></code></li>
@@ -1733,7 +2033,7 @@ there is no such folder: it will be created by Dataset.</p>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
 </footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad()</script>

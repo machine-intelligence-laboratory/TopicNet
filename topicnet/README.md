@@ -8,6 +8,7 @@ The library consists of the following modules:
 * `cooking_machine` — provides tools to design a topic model construction pipeline, or experiment with regularizers fitting
 * `viewers` — provides information about the topic model in an accessible format
 * `demos` — demo .ipynb notebooks
+* `dataset_manager` — gives opportunity to download datasets for experiments
 * `tests` — provides a user with means to test library functionality (contains some examples of intended library usage)
 
 

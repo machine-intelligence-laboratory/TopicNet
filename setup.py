@@ -12,13 +12,13 @@ setup(
         'topicnet.dataset_manager',
         'topicnet.viewers'
     ],
-    version = '0.7.0',
+    version = '0.7.1',
     license='MIT',
     description = 'TopicNet is a module for topic modelling using ARTM algorithm',
     author = 'Machine Intelligence Laboratory',
     author_email = 'alex.goncharov@phystech.edu',
     url = 'https://github.com/machine-intelligence-laboratory/TopicNet',
-    download_url = 'https://github.com/machine-intelligence-laboratory/TopicNet/archive/v0.7.0.tar.gz', 
+    download_url = 'https://github.com/machine-intelligence-laboratory/TopicNet/archive/v0.7.1.tar.gz', 
     keywords = [
         'ARTM',
         'topic modeling',
@@ -33,6 +33,7 @@ setup(
         'dill',
         'ipython',
         'jinja2',
+	'numba',
         'numexpr',
         'numpy',
         'pandas',

@@ -62,6 +62,8 @@ from strictyaml import Map, Str, Int, Seq, Float, Bool
 from strictyaml import Any, Optional, EmptyDict, EmptyNone, EmptyList
 from strictyaml import dirty_load
 
+from typing import Type
+
 # TODO: use stackoverflow.com/questions/37929851/parse-numpydoc-docstring-and-access-components
 # for now just hardcode most common / important types
 ARTM_TYPES = {
@@ -454,12 +456,17 @@ def parse_modalities_data(parsed):
         return modalities_to_use
 
 
-def parse(yaml_string, force_separate_thread=False):
+def parse(
+    yaml_string: str,
+    force_separate_thread: bool = False,
+    dataset_class: Type[Dataset] = Dataset
+):
     """
     Parameters
     ----------
     yaml_string : str
     force_separate_thread : bool
+    dataset_class : class
 
     Returns
     -------
@@ -482,7 +489,7 @@ def parse(yaml_string, force_separate_thread=False):
 
     cube_settings = []
 
-    dataset = Dataset(parsed.data["model"]["dataset_path"])
+    dataset = dataset_class(parsed.data["model"]["dataset_path"])
 
     modalities_to_use = parse_modalities_data(parsed)
 

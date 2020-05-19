@@ -51,10 +51,11 @@ class TestTopDocumentsViewer:
 
     def test_check_output_format(self):
         """ """
-        topics_documents = TestTopDocumentsViewer.top_documents_viewer.view()
+        viewer_output = TestTopDocumentsViewer.top_documents_viewer.view()
+        list_of_topics = list(viewer_output.keys())
 
-        assert isinstance(topics_documents, list), 'Result of view() not of type "list"'
-        assert all(isinstance(topic_documents, list) for topic_documents in topics_documents),\
+        assert isinstance(viewer_output, dict), 'Result of view() not of type "list"'
+        assert all(isinstance(viewer_output[topic], dict) for topic in list_of_topics),\
             'Some elements in the result list of view() not of type "list"'
 
     def test_check_output_content(self):
@@ -62,17 +63,24 @@ class TestTopDocumentsViewer:
         num_documents = TestTopDocumentsViewer.theta.shape[1]
         documents_indices = list(range(num_documents))
 
-        topics_documents_from_viewer = TestTopDocumentsViewer.top_documents_viewer.view()
-        documents_from_viewer = merge_lists(topics_documents_from_viewer)
-
-        assert sorted(documents_from_viewer) == documents_indices,\
+        viewer_output = TestTopDocumentsViewer.top_documents_viewer.view()
+        documents_from_viewer = list(
+            (viewer_output[key].keys())
+            for key in viewer_output.keys()
+        )
+        flattened_output = [
+            doc_id for topic_docs in documents_from_viewer
+            for doc_id in topic_docs
+        ]
+        assert sorted(flattened_output) == documents_indices,\
             'Viewer returned as documents "{0}".' \
             'But expected to get documents\' indices from "0" to "{1}"'.format(
-                documents_from_viewer, num_documents - 1)
+                flattened_output, num_documents - 1)
 
     def test_check_precomputed_distances_parameter_workable(self):
         """ """
         index_of_topic_to_be_nearest_to_all_documents = 0
+        name_of_topic_to_be_nearest_to_all_document = 'topic_0'
 
         distances_all_one_except_to_one_topic = np.ones_like(TestTopDocumentsViewer.theta.values)
         distances_all_one_except_to_one_topic[:, index_of_topic_to_be_nearest_to_all_documents] = 0
@@ -82,7 +90,7 @@ class TestTopDocumentsViewer:
 
         topics_documents = documents_viewer.view()
         num_documents_in_nearest_topic = len(
-            topics_documents[index_of_topic_to_be_nearest_to_all_documents])
+            topics_documents[name_of_topic_to_be_nearest_to_all_document])
         num_documents = TestTopDocumentsViewer.theta.shape[1]
 
         assert num_documents_in_nearest_topic == num_documents,\
@@ -97,17 +105,18 @@ class TestTopDocumentsViewer:
             model=TestTopDocumentsViewer.topic_model,
             max_top_number=max_num_top_documents)
 
-        topics_documents = documents_viewer.view()
+        viewer_output = documents_viewer.view()
 
-        assert all(len(topic_documents) <= max_num_top_documents
-                   for topic_documents in topics_documents),\
+        assert all(len(value) <= max_num_top_documents
+                   for _, value in viewer_output.items()),\
             'Not all top documents lists from "{}" have less elements than required "{}"'.format(
-                topics_documents, max_num_top_documents)
+                viewer_output, max_num_top_documents)
 
     def test_check_object_clusters_parameter_workable(self):
         """ """
         num_documents = TestTopDocumentsViewer.theta.shape[1]
         cluster_label_to_be_same_for_all_documents = 0
+        cluster_name_to_be_same_for_all_documents = 'topic_0'
         cluster_labels = list(
             cluster_label_to_be_same_for_all_documents for _ in range(num_documents))
 
@@ -117,7 +126,7 @@ class TestTopDocumentsViewer:
 
         topics_documents = documents_viewer.view()
         num_documents_with_given_cluster_label = len(
-            topics_documents[cluster_label_to_be_same_for_all_documents])
+            topics_documents[cluster_name_to_be_same_for_all_documents])
 
         assert num_documents_with_given_cluster_label == num_documents,\
             'Marked all documents with label "{}".' \
@@ -139,13 +148,3 @@ class TestTopDocumentsViewer:
             _ = top_documents_viewer.TopDocumentsViewer(
                 model=TestTopDocumentsViewer.topic_model,
                 object_clusters=cluster_labels).view()
-
-
-def merge_lists(iterable_of_lists):
-    """ """
-    result = []
-
-    for i in iterable_of_lists:
-        result += i
-
-    return result

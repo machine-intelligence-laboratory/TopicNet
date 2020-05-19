@@ -1,39 +1,74 @@
-from .rel_toolbox_lite import count_vocab_size, modality_weight_rel2abs
+import warnings
+
+from typing import (
+    Dict,
+    List,
+)
+
 import artm
+
+from .dataset import Dataset
+from .rel_toolbox_lite import (
+    count_vocab_size,
+    modality_weight_rel2abs,
+)
 
 
 def add_standard_scores(
-        model,
-        dictionary,
-        main_modality="@lemmatized",
-        all_modalities=("@lemmatized", "@ngramms")
-):
+        model: artm.ARTM,
+        dictionary: artm.Dictionary = None,
+        main_modality: str = "@lemmatized",
+        all_modalities: List[str] = ("@lemmatized", "@ngramms")
+) -> None:
     """
     Adds standard scores for the model.
 
+    Parameters
+    ----------
+    model
+    dictionary
+        Obsolete parameter, not used
+    main_modality
+    all_modalities
     """
     assert main_modality in all_modalities, "main_modality must be part of all_modalities"
 
-    model.scores.add(artm.scores.PerplexityScore(
-        name='PerplexityScore@all',
-        class_ids=all_modalities
-    ))
+    if dictionary is not None:
+        warnings.warn(
+            'Parameter `dictionary` is obsolete:'
+            ' it is not used in the function "add_standard_scores"!'
+        )
+
+    model.scores.add(
+        artm.scores.PerplexityScore(
+            name='PerplexityScore@all',
+            class_ids=all_modalities,
+        )
+    )
 
     model.scores.add(
         artm.scores.SparsityThetaScore(name='SparsityThetaScore')
     )
 
     for modality in all_modalities:
-        model.scores.add(artm.scores.SparsityPhiScore(
-            name=f'SparsityPhiScore{modality}', class_id=modality)
-        )
-        model.scores.add(artm.scores.PerplexityScore(
-            name=f'PerplexityScore{modality}',
-            class_ids=[modality]
-        ))
         model.scores.add(
-            artm.TopicKernelScore(name=f'TopicKernel{modality}',
-                                  probability_mass_threshold=0.3, class_id=modality)
+            artm.scores.SparsityPhiScore(
+                name=f'SparsityPhiScore{modality}',
+                class_id=modality,
+            )
+        )
+        model.scores.add(
+            artm.scores.PerplexityScore(
+                name=f'PerplexityScore{modality}',
+                class_ids=[modality],
+            )
+        )
+        model.scores.add(
+            artm.TopicKernelScore(
+                name=f'TopicKernel{modality}',
+                probability_mass_threshold=0.3,
+                class_id=modality,
+            )
         )
 
 
@@ -96,23 +131,40 @@ def create_default_topics(specific_topics, background_topics):
 
 
 def init_simple_default_model(
-        dataset, modalities_to_use, main_modality,
-        specific_topics, background_topics,
-):
+        dataset: Dataset,
+        modalities_to_use: List[str] or Dict[str, float],
+        main_modality: str,
+        specific_topics: List[str] or int,
+        background_topics: List[str] or int,
+) -> artm.ARTM:
     """
-    Creates simple artm model with standard scores.
+    Creates simple `artm.ARTM` model with standard scores.
 
     Parameters
     ----------
-    dataset : Dataset
-    modalities_to_use : list of str or dict
-    main_modality : str
-    specific_topics : list or int
-    background_topics : list or int
+    dataset
+        Dataset for model initialization
+    modalities_to_use
+        What modalities a model should know.
+        If `modalities_to_use` is a dictionary,
+        all given weights are assumed to be relative to `main_modality`:
+        weights will then be recalculated to absolute ones
+        using `dataset` and `main_modality`.
+        If `modalities_to_use` is a list,
+        then all relative weights are set equal to one.
+
+        The result model's `class_ids` field will contain absolute modality weights.
+    main_modality
+        Modality relative to which all modality weights are considered
+    specific_topics
+        Specific topic names or their number
+    background_topics
+        Background topic names or their number
 
     Returns
     -------
-    model: artm.ARTM() instance
+    model : artm.ARTM
+
     """
     if isinstance(modalities_to_use, dict):
         modalities_weights = modalities_to_use
@@ -154,7 +206,7 @@ def init_simple_default_model(
         )
 
     model.initialize(dictionary)
-    add_standard_scores(model, dictionary, main_modality=main_modality,
+    add_standard_scores(model, main_modality=main_modality,
                         all_modalities=modalities_to_use)
 
     return model

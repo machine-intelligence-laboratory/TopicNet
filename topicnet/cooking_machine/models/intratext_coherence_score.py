@@ -36,16 +36,16 @@ class ComputationMethod(IntEnum):
 
     Attributes
     ----------
-        SEGMENT_LENGTH :
-            Estimate the length of topic segments
-        SEGMENT_WEIGHT :
-            Estimate the weight of topic segment
-            (weight - sum of specificities for the topic over words in segment)
-        SUM_OVER_WINDOW :
-            Sum of specificities for the topic over words in given window.
-            The process is as follows:
-            word of the topic is found in text, it is the center of the first window;
-            next word of the topic is found (outside of the previous window), window; etc
+    SEGMENT_LENGTH :
+        Estimate the length of topic segments
+    SEGMENT_WEIGHT :
+        Estimate the weight of topic segment
+        (weight - sum of specificities for the topic over words in segment)
+    SUM_OVER_WINDOW :
+        Sum of specificities for the topic over words in given window.
+        The process is as follows:
+        word of the topic is found in text, it is the center of the first window;
+        next word of the topic is found (outside of the previous window), window; etc
     """
     SEGMENT_LENGTH = auto()
     SEGMENT_WEIGHT = auto()
@@ -58,10 +58,10 @@ class WordTopicRelatednessType(IntEnum):
 
     Attributes
     ----------
-        PWT :
-            p(w | t)
-        PTW :
-            p(t | w)
+    PWT :
+        p(w | t)
+    PTW :
+        p(t | w)
     """
     PWT = auto()
     PTW = auto()
@@ -77,14 +77,14 @@ class SpecificityEstimationMethod(IntEnum):
 
     Attributes
     ----------
-        NONE :
-            Don't try to estimate specificity_estimation, return the probability as is
-        MAXIMUM :
-            From probability, corresponding to word and topic,
-            extract *maximum* among probabilities for the word and other topics
-        AVERAGE :
-            From probability, corresponding to word and topic,
-            extract *average* among probabilities for the word and other topics
+    NONE :
+        Don't try to estimate specificity_estimation, return the probability as is
+    MAXIMUM :
+        From probability, corresponding to word and topic,
+        extract *maximum* among probabilities for the word and other topics
+    AVERAGE :
+        From probability, corresponding to word and topic,
+        extract *average* among probabilities for the word and other topics
     """
     NONE = auto()
     MAXIMUM = auto()
@@ -468,8 +468,8 @@ class IntratextCoherenceScore(BaseScore):
         elif self._specificity_estimation_method == SpecificityEstimationMethod.AVERAGE:
             word_topic_probs[:] = (
                 word_topic_probs.values -
-                    np.sum(word_topic_probs.values, axis=1, keepdims=True) /  # noqa: line alignment
-                        max(word_topic_probs.shape[1], 1)
+                    np.sum(word_topic_probs.values, axis=1, keepdims=True) /  # noqa E131
+                        max(word_topic_probs.shape[1], 1)  # noqa E131
             )
 
         elif self._specificity_estimation_method == SpecificityEstimationMethod.MAXIMUM:

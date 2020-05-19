@@ -142,3 +142,14 @@ class TestDataset:
             assert isinstance(data['raw_text'], str)
         for index, data in source_vw.iterrows():
             assert isinstance(data['vw_text'], str)
+
+    @pytest.mark.parametrize("small", KEEP_DATA)
+    def test_get_documents(self, small):
+        """ """
+        dataset = Dataset(self.dataset_path, keep_in_memory=small)
+        actual_documents = dataset.documents
+
+        df = pd.read_csv(self.dataset_path)
+        expected_documents = df['id'].to_list()
+
+        assert sorted(actual_documents) == sorted(expected_documents)
