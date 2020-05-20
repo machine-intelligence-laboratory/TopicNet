@@ -1,4 +1,5 @@
 <h1 align="center">TopicNet</h2>
+<img align="right" height="15%" width="15%" src="https://avatars3.githubusercontent.com/u/49844788?s=200&v=4" style="max-width:100%;">
 
 <div align="center">
     <a href="https://pypi.org/project/topicnet">
@@ -15,9 +16,6 @@
     </a>
     <a href="https://github.com/machine-intelligence-laboratory/TopicNet/blob/master/LICENSE.txt">
         <img alt="License" src="https://img.shields.io/pypi/l/TopicNet?color=Black">
-    </a>
-    <a href="https://github.com/machine-intelligence-laboratory/TopicNet/commits/master">
-        <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/machine-intelligence-laboratory/TopicNet">
     </a>
 </div>
 
@@ -351,4 +349,22 @@ parameters:[
         'class_ids@ngrams': [4, 5, 6]
     }
 ]
+```
+
+# Citing TopicNet
+When citing `topicnet` in academic papers and theses, please use this BibTeX entry:
+
+```
+@InProceedings{bulatov-EtAl:2020:LREC,
+  author    = {Bulatov, Victor  and  Alekseev, Vasiliy  and  Vorontsov, Konstantin  and  Polyudova, Darya  and  Veselova, Eugenia  and  Goncharov, Alexey  and  Egorov, Evgeny},
+  title     = {TopicNet: Making Additive Regularisation for Topic Modelling Accessible},
+  booktitle      = {Proceedings of The 12th Language Resources and Evaluation Conference},
+  month          = {May},
+  year           = {2020},
+  address        = {Marseille, France},
+  publisher      = {European Language Resources Association},
+  pages     = {6747--6754},
+  url       = {https://www.aclweb.org/anthology/2020.lrec-1.833}
+}
+
 ```
