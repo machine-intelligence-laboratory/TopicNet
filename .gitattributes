@@ -38,6 +38,8 @@
 *.svg    binary
 
 
-# Jupyter notebook
+# Visualisation/demo/documentation files
+# ============
 *.ipynb linguist-documentation
+*.html linguist-documentation
 
