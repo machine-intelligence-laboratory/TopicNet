@@ -31,6 +31,7 @@ setup(
         'colorlover',
         'dask[dataframe]',
         'dill',
+	'docstring-parser',
         'ipython',
         'jinja2',
 	'numba',

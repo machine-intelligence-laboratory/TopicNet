@@ -3,6 +3,7 @@ codecov
 colorlover
 coverage
 dask[dataframe]
+docstring-parser
 dill
 ipython
 jinja2
