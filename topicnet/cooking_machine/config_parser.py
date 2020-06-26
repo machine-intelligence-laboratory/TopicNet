@@ -439,7 +439,7 @@ def parse_modalities_data(parsed):
 
     # exactly one should be specified
     if has_modalities_to_use == has_weights:
-        raise ValueError(f"Either 'modalities_to_use' or 'modalities_weights' should be specified")
+        raise ValueError("Either 'modalities_to_use' or 'modalities_weights' should be specified")
 
     if has_weights:
         modalities_to_use = list(parsed["model"]["modalities_weights"].data)

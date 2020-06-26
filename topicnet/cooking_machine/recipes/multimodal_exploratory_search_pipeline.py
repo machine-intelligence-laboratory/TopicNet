@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List, Union, Dict
 from .recipe_wrapper import BaseRecipe
 from .. import Dataset
 
@@ -27,7 +27,7 @@ regularizers:
 
 model:
     dataset_path: {dataset_path}
-    modalities_to_use: {modality_list}
+    {modalities_description}
     main_modality: '{modality}'
 
 stages:
@@ -67,7 +67,7 @@ sparse_theta_cube_template = '''
     verbose: false
     use_relative_coefficients: True
 '''.format('PerplexityScore@all < 1.01 * MINIMUM(PerplexityScore@all)' +
-           ' and SparsityPhiScore{modality} -> max')
+           ' and SparsityThetaScore -> max')
 
 # Had to change tracked score function. Is it fine?
 decor_phi_cube_template = '''
@@ -80,9 +80,9 @@ decor_phi_cube_template = '''
         - {0}
     strategy: PerplexityStrategy
     strategy_params:
-        start_point: 0
-        step: 0.02
-        max_len: 20
+        start_point: 0.005
+        step: 0.005
+        max_len: 10
     tracked_score_function: PerplexityScore{{modality}}
     verbose: false
     use_relative_coefficients: True
@@ -134,11 +134,38 @@ class MultimodalSearchRecipe(BaseRecipe):
     def format_recipe(
         self,
         dataset_path: str,
-        modality_list: List[str] = None,
+        modality_list: List[str] or Dict = None,
+        main_modality: str = None,
         topic_number: int = 20,
         background_topic_number: int = 1,
         num_iter: Union[int, List[int]] = 20,
     ):
+        '''
+        Creates a recipe for multimodal search
+        using basic template at the top of this file
+
+        Parameters
+        ----------
+        dataset_path : path to the data
+        main_modality : str
+            chosen to be main modality from modality list, if possible
+            if it is not specified, the function attempts to user
+            the first entry of `modality_list` instead
+
+        modality_list : list of modality names to use
+                        or a dict specifying the (relative) weight of each
+        topic_number:
+            number of the model topics
+        background_topic_number :
+            number of background topics
+        num_iter :
+            specifying number of iterations for each cube
+
+        Returns
+        -------
+        string specifying recipe for multimodal search
+        '''
+
         if modality_list is None:
             modality_list = list(Dataset(dataset_path).get_possible_modalities())
 
@@ -146,8 +173,13 @@ class MultimodalSearchRecipe(BaseRecipe):
         background_topics = [f'bcg_{i}' for i in range(
             len(specific_topics), len(specific_topics) + background_topic_number)]
 
+        if main_modality is None:
+            if isinstance(modality_list, list):
+                main_modality = modality_list[0]
+            else:
+                raise TypeError("main_modality should be specified")
         self._make_multimodal_recipe(
-            modality=modality_list[0],
+            modality=main_modality,
             dataset_path=dataset_path,
             specific_topics=specific_topics,
             background_topics=background_topics,
@@ -211,14 +243,12 @@ class MultimodalSearchRecipe(BaseRecipe):
                                                                      num_iter=iterations))
                 cube_templates.append(smooth_phi_cube_template.format(modality=modality,
                                                                       num_iter=iterations))
-                cube_templates.append(sparse_theta_cube_template.format(modality=modality,
-                                                                        num_iter=iterations))
+                cube_templates.append(sparse_theta_cube_template.format(num_iter=iterations))
             else:
                 raise ValueError('That option is not availiable')
         if self._order == 'extended_modalities':
             iterations = num_iter[-1]
-            cube_templates.append(sparse_theta_cube_template.format(modality=modality_list[0],
-                                                                    num_iter=iterations))
+            cube_templates.append(sparse_theta_cube_template.format(num_iter=iterations))
         return ''.join(cube_templates)
 
     def _make_multimodal_recipe(
@@ -227,40 +257,30 @@ class MultimodalSearchRecipe(BaseRecipe):
             modality: str,
             specific_topics: List[str],
             background_topics: List[str],
-            modality_list: List[str] = None,
+            modality_list: List[str] or Dict = None,
             background_topic_number: int = 1,
             num_iter: Union[int, List[int]] = 20,
     ):
-        '''
-        Creates a recipe for multimodal search
-        using basic template at the top of this file
-
-        Parameters
-        ----------
-        dataset_path : path to the data
-        modality : str
-            chosen to be main modality from modality list
-        modality_list : list of modality names to use
-        specific_topics : list of str
-            names of the model topics
-        background_topics : list of background topic names
-        num_iter : number or list of numbers
-            specifying number of iterations for each cube
-
-        Returns
-        -------
-        string specifying recipe for multimodal search
-        '''
-
         reg_forms = self._form_regularizers(modality_list)
         cube_forms = self._form_and_order_cubes(
             modality_list,
             num_iter=num_iter,)
+        if isinstance(modality_list, list):
+            modalities_description = f"modalities_to_use: {modality_list}"
+        elif isinstance(modality_list, dict):
+            # this line has correct whitespace count
+            header_string = "modalities_weights:"
+            # these ones should be indented one level more, so 8 spaces
+            data_strings = [f"'{k}': {v}" for k, v in modality_list.items()]
+            strings = [header_string] + data_strings
+            modalities_description = "\n        ".join(strings)
+        else:
+            raise TypeError("modality_list should be either list or dict, not {type(modality_list}")
         self._recipe = self.recipe_template.format(
             modality=modality,
             dataset_path=dataset_path,
             specific_topics=specific_topics,
             background_topics=background_topics,
-            modality_list=modality_list,
+            modalities_description=modalities_description,
             syntesized_regularizers=reg_forms,
             syntesized_stages=cube_forms)

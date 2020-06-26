@@ -87,6 +87,8 @@ def load_dataset(dataset_name: str, **kwargs) -> Dataset:
 
     print(f'Downloading the "{dataset_name}" dataset...')
 
+    save_path = None
+
     try:
         with urlopen(req, data=data, context=context) as answer:
             total_size = int(answer.headers.get('content-length', 0))
@@ -122,19 +124,19 @@ def load_dataset(dataset_name: str, **kwargs) -> Dataset:
             return Dataset(save_path, **kwargs)
 
     except Exception as exception:
-        if os.path.isfile(save_path):
+        if save_path is not None and os.path.isfile(save_path):
             os.remove(save_path)
 
         raise exception
 
     finally:
-        if os.path.isfile(save_path + _ARCHIVE_EXTENSION):
+        if save_path is not None and os.path.isfile(save_path + _ARCHIVE_EXTENSION):
             os.remove(save_path + _ARCHIVE_EXTENSION)
 
 
 def _init_dataset_if_downloaded(dataset_path: str, **kwargs) -> Dataset:
     saved_dataset_path_candidates = [
-        p for p in glob(dataset_path + '*')
+        p for p in glob(dataset_path + '.*')
         if os.path.isfile(p) and not p.endswith(_ARCHIVE_EXTENSION)
     ]
     dataset = None

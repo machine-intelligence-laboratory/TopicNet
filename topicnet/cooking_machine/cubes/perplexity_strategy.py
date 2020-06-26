@@ -177,7 +177,7 @@ class PerplexityStrategy(BaseStrategy):
             self.grid = product(*all_coeffs_grid)
             self.grid_len = len(all_coeffs_grid[0])
         if self.grid is None:
-            raise ValueError(f'Failed to initialize self.grid, check initial parameters.')
+            raise ValueError('Failed to initialize self.grid, check initial parameters.')
 
     def grid_visit_generator(self, other_parameters, reg_search):
         """

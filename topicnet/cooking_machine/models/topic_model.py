@@ -9,7 +9,6 @@ import pickle
 import shutil
 import warnings
 
-from artm.wrapper.exceptions import ArtmException
 from copy import deepcopy
 from inspect import signature
 from numbers import Number
@@ -19,6 +18,8 @@ from typing import (
     Dict,
     List,
 )
+
+from artm.wrapper.exceptions import ArtmException
 
 from . import scores as tn_scores
 from .base_model import BaseModel
@@ -176,6 +177,25 @@ class TopicModel(BaseModel):
 
         return score_values
 
+    def _prepare_custom_regularizers(self, custom_regularizers):
+        if custom_regularizers is None:
+            custom_regularizers = dict()
+
+        all_custom_regularizers = deepcopy(custom_regularizers)
+        all_custom_regularizers.update(self.custom_regularizers)
+        base_regularizers_name, base_regularizers_tau = None, None
+
+        if len(all_custom_regularizers) != 0:
+            for regularizer in all_custom_regularizers.values():
+                regularizer.attach(self._model)
+
+            base_regularizers_name = [regularizer.name
+                                      for regularizer in self._model.regularizers.data.values()]
+            base_regularizers_tau = [regularizer.tau
+                                     for regularizer in self._model.regularizers.data.values()]
+
+        return base_regularizers_name, base_regularizers_tau, all_custom_regularizers
+
     def _fit(self, dataset_trainable, num_iterations, custom_regularizers=None):
         """
 
@@ -189,22 +209,14 @@ class TopicModel(BaseModel):
             Regularizers to apply to model
 
         """
-        if custom_regularizers is None:
-            custom_regularizers = dict()
-
-        all_custom_regularizers = deepcopy(custom_regularizers)
-        all_custom_regularizers.update(self.custom_regularizers)
-
-        if len(all_custom_regularizers) != 0:
-            for regularizer in all_custom_regularizers.values():
-                regularizer.attach(self._model)
-
-            base_regularizers_name = [regularizer.name
-                                      for regularizer in self._model.regularizers.data.values()]
-            base_regularizers_tau = [regularizer.tau
-                                     for regularizer in self._model.regularizers.data.values()]
+        (base_regularizers_name,
+         base_regularizers_tau,
+         all_custom_regularizers) = self._prepare_custom_regularizers(custom_regularizers)
 
         for cur_iter in range(num_iterations):
+            precomputed_data = dict()
+            iter_is_last = cur_iter == num_iterations - 1
+
             self._model.fit_offline(batch_vectorizer=dataset_trainable,
                                     num_collection_passes=1)
 
@@ -216,9 +228,26 @@ class TopicModel(BaseModel):
 
             for name, custom_score in self.custom_scores.items():
                 try:
-                    score = custom_score.call(self)
+                    should_compute_now = iter_is_last or custom_score._should_compute(cur_iter)
+
+                    if not should_compute_now:
+                        continue
+
+                    # TODO: this check is probably should be refined somehow...
+                    #  what if some new parameter added to BaseScore.call -> new check?..
+                    call_parameters = signature(custom_score.call).parameters
+
+                    # if-else instead of try-catch: to speed up
+                    if (BaseScore._PRECOMPUTED_DATA_PARAMETER_NAME not in call_parameters
+                            and not any(str(p).startswith('**') for p in call_parameters.values())):
+
+                        score = custom_score.call(self)
+                    else:
+                        score = custom_score.call(self, precomputed_data=precomputed_data)
+
                     custom_score.update(score)
                     self._model.score_tracker[name] = custom_score
+
                 except AttributeError:  # TODO: means no "call" attribute?
                     raise AttributeError(f'Score {name} doesn\'t have a desired attribute')
 

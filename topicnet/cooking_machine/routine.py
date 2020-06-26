@@ -1,11 +1,14 @@
-import numpy as np
+import glob
 import hashlib
 import json
+import numexpr as ne
+import numpy as np
+import os
 import re
 import warnings
+
 from datetime import datetime
 from statistics import mean, median
-import numexpr as ne
 
 
 W_TOO_STRICT = 'No models match criteria '
@@ -441,7 +444,7 @@ def choose_value_for_models_num_and_check(
         models_num = models_num_from_query
 
     if models_num is not None and int(models_num) < 0:
-        raise ValueError(f"Cannot return negative number of models")
+        raise ValueError("Cannot return negative number of models")
 
     return models_num
 
@@ -665,3 +668,26 @@ def blake2bchecksum(file_path):
                 break
             m.update(data)
         return m.hexdigest()
+
+
+def load_models_from_disk(experiment_directory, base_experiment_name):
+    """
+    Is useful for restoring failed experiment
+    """
+    from topicnet.cooking_machine.experiment import START
+    from topicnet.cooking_machine.models import DummyTopicModel
+
+    result_models = []
+
+    mask = f"{experiment_directory}/{base_experiment_name}_*"
+    msg = (f'Trying to load models from {mask}.'
+           f' {len(glob.glob(mask))} models found.')
+    print(msg)
+    for folder in glob.glob(mask):
+        model_pathes = [
+            f.path for f in os.scandir(folder)
+            if f.is_dir() and f.name != START
+        ]
+        result_models += [DummyTopicModel.load(path) for path in model_pathes]
+
+    return result_models

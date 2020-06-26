@@ -18,7 +18,7 @@ from ..cooking_machine.experiment import Experiment
 from ..cooking_machine.dataset import Dataset, W_DIFF_BATCHES_1
 from ..cooking_machine.rel_toolbox_lite import count_vocab_size, compute_regularizer_gimel
 
-DATA_PATH = f'tests/test_data/test_dataset.csv'
+DATA_PATH = 'tests/test_data/test_dataset.csv'
 
 MAIN_MODALITY = "@text"
 NGRAM_MODALITY = "@ngramms"

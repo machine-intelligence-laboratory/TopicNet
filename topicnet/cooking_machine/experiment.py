@@ -803,7 +803,7 @@ class Experiment(object):
              req_equal, metric, extremum) = parse_query_string(inner_query_string)
 
             if metric is not None or extremum is not None:
-                warnings.warn(f'You try to optimize model parameters.')
+                warnings.warn('You try to optimize model parameters.')
 
             candidate_tmodels = self.get_models_by_depth(level=level)
             special_models = choose_best_models(
