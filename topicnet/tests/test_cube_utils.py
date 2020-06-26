@@ -1,6 +1,9 @@
 import pytest
 
-from topicnet.cooking_machine.cubes.controller_cube import PerplexityScoreController, ControllerAgent
+from ..cooking_machine.cubes.controller_cube import (
+    ControllerAgent,
+    PerplexityScoreController,
+)
 
 DATA_REG_CONTROLLER_SORT_OF_DECREASING = [
     ([246.77072143554688,

@@ -148,7 +148,8 @@ class MockTopicModel(TopicModel):
 
     @staticmethod
     def get_start_model():
-        model = MockTopicModel(name=f'<<< Start Model >>>', depth=0)
+        # TODO: can we rename it because of Win compatibility?
+        model = MockTopicModel(name='<<< Start Model >>>', depth=0)
 
         for score in SCORES:
             model.set_score(score, [])
@@ -1082,7 +1083,7 @@ class TestExperimentSelect:
     def test_constraints_on_same_attribute_contradict(self, parameter, threshold, signs):
         experiment = TestExperimentSelect.get_experiment()
 
-        constraint_template = f'{{0}} {{1}} {{2}}'
+        constraint_template = f'{{0}} {{1}} {{2}}'  # noqa: F541
         query = combine_constraints(
             *[constraint_template.format(parameter, sign, threshold)
               for sign in signs]

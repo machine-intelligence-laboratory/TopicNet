@@ -30,3 +30,4 @@ This section provides demonstrations of how to use this library in NLP tasks.
 ----
 P.S. All the guides are supposed to contain **working** examples of the library code.
 If you happen to find code that is no longer works, please write about it in the library issues.
+We will try to resolve it as soon as possible and plan to include fixes in the nearest releases.
