@@ -5,7 +5,7 @@ cache:
     - $HOME/.ccache
 
 python:
-  - "3.6"
+  - "3.7"
 
 env:
   global:
@@ -31,7 +31,7 @@ install:
 
 script:
   - cd topicnet
-  - py.test . --timeout=60 --cov
+  - py.test tests --timeout=45 --reruns 3 --reruns-delay 3 --cov
 
 after_success:
   - codecov
