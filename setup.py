@@ -10,7 +10,7 @@ setup(
         'topicnet.cooking_machine.models',
         'topicnet.cooking_machine.recipes',
         'topicnet.dataset_manager',
-        'topicnet.viewers'
+        'topicnet.viewers',
     ],
     version='0.8.0',
     license='MIT',
@@ -24,7 +24,7 @@ setup(
         'topic modeling',
         'regularization',
         'multimodal learning',
-        'document vector representation'
+        'document vector representation',
     ],
     install_requires=[
         'bigartm',
