@@ -1,6 +1,10 @@
+import datetime
 import pytest
 import warnings
 import shutil
+import time
+
+
 import artm
 
 from ..cooking_machine.models.dummy_topic_model import DummyTopicModel
@@ -9,6 +13,7 @@ from ..cooking_machine.experiment import Experiment
 from ..cooking_machine.dataset import Dataset, W_DIFF_BATCHES_1
 from ..cooking_machine.models.example_score import ScoreExample
 from ..cooking_machine.models.blei_lafferty_score import BleiLaffertyScore
+from ..cooking_machine.models import BaseScore
 
 ARTM_NINE = artm.version().split(".")[1] == "9"
 MAIN_MODALITY = "@text"
@@ -230,3 +235,144 @@ def test_to_dummy_and_back_with_scores(experiment_enviroment):
 
     assert len(restored_topic_model.scores[custom_score_name]) == num_iterations
     assert len(restored_topic_model.scores[artm_score_name]) == num_iterations
+
+
+@pytest.mark.parametrize(
+    'should_compute',
+    [False, True, None, lambda i: False, lambda i: True, lambda i: i == 2]
+)
+def test_should_compute(experiment_enviroment, should_compute):
+    topic_model, dataset, experiment, dictionary = experiment_enviroment
+
+    score_name = 'blei'
+    topic_model.scores.add(
+        BleiLaffertyScore(
+            name=score_name,
+            should_compute=should_compute,
+        )
+    )
+    score_should_compute = topic_model.custom_scores[score_name]._should_compute
+
+    num_iters = 20
+    last_iter = num_iters - 1
+
+    score_num_iters = sum(
+        1 * [score_should_compute(i) for i in range(num_iters)]
+    )
+
+    if not score_should_compute(last_iter):
+        score_num_iters = score_num_iters + 1
+
+    topic_model._fit(dataset.get_batch_vectorizer(), num_iterations=num_iters)
+    model_scores = topic_model.scores
+
+    assert len(model_scores[score_name]) == score_num_iters
+
+
+def test_compute_on_custom_iterations(experiment_enviroment):
+    topic_model, dataset, experiment, dictionary = experiment_enviroment
+
+    score_name_a = 'blei'
+    score_should_compute_a = lambda iter: iter == 5  # noqa E731
+    topic_model.scores.add(
+        BleiLaffertyScore(
+            name=score_name_a,
+            should_compute=score_should_compute_a,
+        )
+    )
+
+    score_name_b = 'perp'
+    score_should_compute_b = lambda iter: iter % 2 == 0  # noqa E731
+    topic_model.scores.add(
+        BleiLaffertyScore(
+            name=score_name_b,
+            should_compute=score_should_compute_b,
+        )
+    )
+
+    num_iters = 20
+    last_iter = num_iters - 1
+
+    score_num_iters_a = sum(
+        1 * [score_should_compute_a(i) for i in range(num_iters)]
+    )
+    score_num_iters_b = sum(
+        1 * [score_should_compute_b(i) for i in range(num_iters)]
+    )
+
+    if not score_should_compute_a(last_iter):
+        score_num_iters_a = score_num_iters_a + 1
+    if not score_should_compute_b(last_iter):
+        score_num_iters_b = score_num_iters_b + 1
+
+    topic_model._fit(dataset.get_batch_vectorizer(), num_iterations=num_iters)
+    model_scores = topic_model.scores
+
+    assert len(model_scores[score_name_a]) == score_num_iters_a
+    assert len(model_scores[score_name_b]) == score_num_iters_b
+
+
+def test_precomputed(experiment_enviroment):
+    topic_model, dataset, experiment, dictionary = experiment_enviroment
+
+    class SlowScore(BaseScore):
+        def __init__(self, name):
+            super().__init__(name=name)
+
+            self._data_key = 'some_precomputed_data_key'
+
+        def call(self, model: TopicModel, **kwargs):
+            precomputed_data = kwargs.get(
+                BaseScore._PRECOMPUTED_DATA_PARAMETER_NAME, dict()
+            )
+
+            if self._data_key in precomputed_data:
+                return 0
+
+            time.sleep(1)
+
+            precomputed_data[self._data_key] = 0
+
+            return 1
+
+    topic_model.scores.add(SlowScore(name='slow_score'))
+
+    num_iters = 5
+    start_time = datetime.datetime.now()
+
+    topic_model._fit(dataset.get_batch_vectorizer(), num_iterations=num_iters)
+
+    middle_time = datetime.datetime.now()
+    time_for_one_score = (middle_time - start_time).total_seconds()
+
+    topic_model.scores.add(SlowScore(name='score_b'))
+    topic_model._fit(dataset.get_batch_vectorizer(), num_iterations=num_iters)
+
+    end_time = datetime.datetime.now()
+    time_for_two_scores = (end_time - middle_time).total_seconds()
+
+    assert time_for_two_scores / time_for_one_score < 1.1
+
+
+def test_score_with_no_precomputed_for_compatibility(experiment_enviroment):
+    topic_model, dataset, experiment, dictionary = experiment_enviroment
+
+    class ScoreWithNoKwargs(BaseScore):
+        return_value = 3
+
+        def __init__(self, name):
+            super().__init__(name=name)
+
+        def call(self, model: TopicModel):
+            time.sleep(0.01)
+
+            return self.return_value
+
+    score_name = 'score_without_precomputed'
+    topic_model.scores.add(ScoreWithNoKwargs(name=score_name))
+
+    num_iters = 5
+    topic_model._fit(dataset.get_batch_vectorizer(), num_iterations=num_iters)
+
+    assert len(topic_model.scores[score_name]) == num_iters
+    assert all(v == ScoreWithNoKwargs.return_value for v in topic_model.scores[score_name])

@@ -18,12 +18,15 @@ score_to_track: str
     We assume that if that metric is 'sort of decreasing', then everything is OK
     and we are allowed to change tau coefficient further; otherwise we revert back
     to the last "safe" value and stop
-    
-    'sort of decreasing' performs best with `PerplexityScore`, and all scores which 
-    behave like perplexity (nonnegative, and which should decrease when a model gets better).
-    If you want to track a different kind of score, it is recommended to use `score_controller` parameter
 
-    More formal definition of "sort of decreasing": if we divide a curve into two parts like so:
+    'sort of decreasing' performs best with `PerplexityScore`,
+    and all scores which behave like perplexity
+    (nonnegative, and which should decrease when a model gets better).
+    If you want to track a different kind of score,
+    it is recommended to use `score_controller` parameter
+
+    More formal definition of "sort of decreasing":
+    if we divide a curve into two parts like so:
 
 
         ##################################### 
@@ -52,13 +55,15 @@ score_to_track: str
     then the right part is no higher than 5% of global minimum
     (you can change 5% if you like by adjusting `fraction_threshold` parameter)
 
-    If `score_to_track` is None and `score_controller` is None, then `ControllerAgent` will never stop
+    If `score_to_track` is None and `score_controller` is None,
+    then `ControllerAgent` will never stop
     (useful for e.g. decaying coefficients)
 fraction_threshold: float
     Threshold to control a score by 'sort of decreasing' metric
 score_controller: BaseScoreController
     Custom score controller
-    In case of 'sort of decreasing' is not proper to control score, you are able to create custom Score Controller 
+    In case of 'sort of decreasing' is not proper to control score,
+    you are able to create custom Score Controller 
     inherited from `BaseScoreController`.
 tau_converter: str or callable
     Notably, def-style functions and lambda functions are allowed
@@ -120,13 +125,20 @@ max_iter: numeric
 import warnings
 from copy import deepcopy
 from dataclasses import dataclass
-from typing import List, Optional
+from numbers import Number
+from typing import (
+    Callable,
+    List,
+    Optional,
+    Union,
+)
 
 import numexpr as ne
 import numpy as np
 from dill.source import getsource
 
 from .base_cube import BaseCube
+from ..models.base_regularizer import BaseRegularizer
 from ..rel_toolbox_lite import count_vocab_size, handle_regularizer
 
 W_HALT_CONTROL = "Process of dynamically changing tau was stopped at {} iteration"
@@ -148,6 +160,7 @@ class BaseScoreController:
             return None
 
         vals = model.scores[self.score_name]
+
         if len(vals) == 0:
             return None
 
@@ -162,8 +175,10 @@ class BaseScoreController:
         try:
             out_of_control_result = self.is_out_of_control(values)
         except Exception as ex:
-            message = (f"An error occured while controlling {self.score_name}. Message: {ex}. Score values: {values}")
-            raise ValueError(message)
+            raise ValueError(
+                f"An error occurred while controlling {self.score_name}!"
+                f" Message: {ex}. Score values: {values}"
+            )
 
         if out_of_control_result.error_message is not None:
             warnings.warn(out_of_control_result.error_message)
@@ -176,7 +191,8 @@ class BaseScoreController:
 
 class PerplexityScoreController(BaseScoreController):
     """
-    Controller is proper to control the Perplexity score. For others, please ensure for yourself.
+    Controller is proper to control the Perplexity score.
+    For others, please ensure for yourself.
     """
     DEFAULT_FRACTION_THRESHOLD = 0.05
 
@@ -194,21 +210,24 @@ class PerplexityScoreController(BaseScoreController):
         minval = values[idxmin]
 
         if minval <= 0:
-            err_message = f"""Score {self.score_name} has min_value = {minval} which is <= 0. 
-                        This control scheme is using to control scores acting like Perplexity.
-                        Ensure you control the Perplexity score or write your own controller"""
-            raise ValueError(err_message)
+            raise ValueError(
+                f'Score "{self.score_name}" has min_value = {minval} which is <= 0.'
+                f' This control scheme is using to control scores acting like Perplexity.'
+                f' Ensure you control the Perplexity score or write your own controller!'
+            )
 
         answer = (right_maxval - minval) / minval > self.fraction_threshold
 
         if answer:
-            message = (f"Score {self.score_name} is too high! Right max value: {right_maxval}, min value: {minval}")
-            return OutOfControlAnswer(answer=answer, error_message=message)
+            return OutOfControlAnswer(
+                answer=answer,
+                error_message=(
+                    f"Score {self.score_name} is too high!"
+                    f" Right max value: {right_maxval}, min value: {minval}"
+                ),
+            )
 
         return OutOfControlAnswer(answer=answer)
-
-
-class ControllerAgentException(Exception): pass
 
 
 class ControllerAgent:
@@ -234,27 +253,39 @@ class ControllerAgent:
     See top-level docstring for details.
     """
 
-    def __init__(self, reg_name, tau_converter, max_iters, score_to_track=None, fraction_threshold=None,
-                 score_controller=None, local_dict=None):
+    def __init__(
+            self,
+            reg_name: str,
+            tau_converter: Callable or str,
+            max_iters: int or float,
+            score_to_track: Union[str, List[str], None] = None,
+            fraction_threshold: Union[float, List[float], None] = None,
+            score_controller: Union[BaseScoreController, List[BaseScoreController], None] = None,
+            local_dict: dict = None):
         """
 
         Parameters
         ----------
-        reg_name : str
-        tau_converter : callable or str
-        max_iters : int or float
-            Agent will stop changing tau after `max_iters` iterations
+        reg_name
+        tau_converter
+        max_iters
+            Agent will stop changing tau after `max_iters` iterations,
             `max_iters` could be `float("NaN")` and `float("inf")` values:
             that way agent will continue operating even outside this `RegularizationControllerCube`
-        score_to_track : str, list of str or None
+        score_to_track
             Name of score to track.
             Please, use this definition to track only scores of type PerplexityScore.
             In other cases we recommend you to write you own ScoreController
-        fraction_threshold : float, list of float of the same length as score_to_track  or None
+        fraction_threshold
             Uses to define threshold to control PerplexityScore
-            Default value is 0.05
-        score_controller : BaseScoreController, list of BaseScoreController or None
-        local_dict : dict
+            Default value is 0.05.
+            If `fraction_threshold` is a list, it should be of the same length, as `score_to_track`.
+        score_controller
+            Score controller or controllers.
+            One can use this parameter for scores other than Perplexity
+            (or other scores that behave like Perplexity).
+            This is a more flexible and customizable way to control scores.
+        local_dict
         """
         if local_dict is None:
             local_dict = dict()
@@ -262,40 +293,83 @@ class ControllerAgent:
         self.reg_name = reg_name
         self.tau_converter = tau_converter
 
-        self.score_controllers = []
-        if isinstance(score_to_track, list):
-            if fraction_threshold is None:
-                controller_params = [(name, PerplexityScoreController.DEFAULT_FRACTION_THRESHOLD) for name in
-                                     score_to_track]
-            elif isinstance(fraction_threshold, list) and len(score_to_track) == len(fraction_threshold):
-                controller_params = list(zip(score_to_track, fraction_threshold))
-            else:
-                err_message = """Length of score_to_track and fraction_threshold must be same.
-                Otherwise fraction_threshold must be None"""
-                raise ControllerAgentException(err_message)
+        scores_to_track = self._validate_score_to_track(score_to_track)
+        fraction_thresholds = self._validate_fraction_threshold(
+            fraction_threshold, required_length=len(scores_to_track)
+        )
 
-            self.score_controllers.append(
-                [PerplexityScoreController(name, threshold) for (name, threshold) in controller_params])
+        assert len(scores_to_track) == len(fraction_thresholds)
 
-        elif isinstance(score_to_track, str):
-            self.score_controllers.append([PerplexityScoreController(
-                score_to_track,
-                fraction_threshold or PerplexityScoreController.DEFAULT_FRACTION_THRESHOLD
-            )])
+        perplexity_like_score_controllers = [
+            PerplexityScoreController(name, threshold)
+            for (name, threshold) in zip(scores_to_track, fraction_thresholds)
+        ]
 
-        if isinstance(score_controller, BaseScoreController):
-            self.score_controllers.append(score_controller)
-        elif isinstance(score_controller, list):
-            if not all(isinstance(score, BaseScoreController) for score in score_controller):
-                err_message = """score_controller must be of type BaseScoreController or list of BaseScoreController"""
-                raise ControllerAgentException(err_message)
-
-            self.score_controllers.extend(score_controller)
+        self.score_controllers = list()
+        self.score_controllers.extend(perplexity_like_score_controllers)
+        self.score_controllers.extend(
+            self._validate_score_controller(score_controller)
+        )
 
         self.is_working = True
         self.local_dict = local_dict
         self.tau_history = []
         self.max_iters = max_iters
+
+    @staticmethod
+    def _validate_score_to_track(
+            score_to_track: Union[str, List[str], None]) -> List[str]:
+
+        if isinstance(score_to_track, list):
+            return score_to_track
+        if score_to_track is None:
+            return list()
+        if isinstance(score_to_track, str):
+            return [score_to_track]
+
+        raise TypeError(f'Wrong type of `score_to_track`: "{type(score_to_track)}"!')
+
+    @staticmethod
+    def _validate_fraction_threshold(
+            fraction_threshold: Union[float, List[float], None],
+            required_length: int,
+    ) -> List[float]:
+
+        if fraction_threshold is None:
+            return [PerplexityScoreController.DEFAULT_FRACTION_THRESHOLD] * required_length
+        if isinstance(fraction_threshold, Number):
+            return [float(fraction_threshold)] * required_length
+
+        if not isinstance(fraction_threshold, list):
+            raise TypeError(
+                f'Wrong type of `fraction_threshold`: "{type(fraction_threshold)}"!'
+            )
+
+        if len(fraction_threshold) != required_length:
+            raise ValueError(
+                f'Wrong length of `fraction_threshold`: {len(fraction_threshold)}!'
+                f' Expected the length to be equal to {required_length}.'
+            )
+
+        return fraction_threshold
+
+    @staticmethod
+    def _validate_score_controller(
+            score_controller: Union[BaseScoreController, List[BaseScoreController], None]
+    ) -> List[BaseScoreController]:
+
+        if score_controller is None:
+            return list()
+
+        elif isinstance(score_controller, BaseScoreController):
+            return [score_controller]
+
+        elif (not isinstance(score_controller, list) or not all(
+                isinstance(score, BaseScoreController) for score in score_controller)):
+            raise TypeError(f'Wrong type of `score_controller`: "{type(score_controller)}"!')
+
+        else:
+            return score_controller
 
     def _convert_tau(self):
         """ """
@@ -327,7 +401,7 @@ class ControllerAgent:
             Note that zero means "cube just started", not "the model is brand new"
 
         """
-        current_tau = model.regularizers[self.reg_name].tau
+        current_tau = model.get_regularizer(self.reg_name).tau
         self.tau_history.append(current_tau)
         self.local_dict["prev_tau"] = current_tau
         self.local_dict["cur_iter"] = cur_iter
@@ -346,9 +420,9 @@ class ControllerAgent:
             if should_stop:
                 warnings.warn(W_HALT_CONTROL.format(len(self.tau_history)))
                 self.is_working = False
-                model.regularizers[self.reg_name].tau = self._find_safe_tau()
+                model.get_regularizer(self.reg_name).tau = self._find_safe_tau()
             else:
-                model.regularizers[self.reg_name].tau = self._convert_tau()
+                model.get_regularizer(self.reg_name).tau = self._convert_tau()
 
 
 class RegularizationControllerCube(BaseCube):
@@ -390,7 +464,9 @@ class RegularizationControllerCube(BaseCube):
                     >>   )
                     >>   "score_to_track": None,
                     >>   "fraction_threshold": None,
-                    >>   "score_controller": [PerplexityScoreController("PerplexityScore@all", 0.1)],
+                    >>   "score_controller": [
+                    >>       PerplexityScoreController("PerplexityScore@all", 0.1)
+                    >>   ],
                     >>   "user_value_grid": [0, 1]}
 
         reg_search : str
@@ -417,9 +493,9 @@ class RegularizationControllerCube(BaseCube):
                          separate_thread=separate_thread)
         self._relative = use_relative_coefficients
         self.data_stats = None
-        self.raw_parameters = parameters
         if isinstance(parameters, dict):
             parameters = [parameters]
+        self.raw_parameters = parameters
         self._convert_parameters(parameters)
 
     def _convert_parameters(self, all_parameters):
@@ -480,22 +556,29 @@ class RegularizationControllerCube(BaseCube):
 
         for (agent_blueprint_template, field_name, current_user_value) in one_model_parameter:
             agent_blueprint = dict(agent_blueprint_template)
-            if agent_blueprint["reg_name"] is None:
-                regularizer = agent_blueprint["regularizer"]
-                new_regularizer = deepcopy(regularizer)
-                handle_regularizer(
-                    self._relative,
-                    new_model,
-                    new_regularizer,
-                    self.data_stats,
-                )
-                agent_blueprint["reg_name"] = new_regularizer.name
-            else:
-                if agent_blueprint['reg_name'] not in new_model.regularizers.data:
+            if agent_blueprint.get("reg_name") is not None:
+                reg_name = agent_blueprint['reg_name']
+
+                if reg_name not in new_model.all_regularizers:
                     error_msg = (f"Regularizer {agent_blueprint['reg_name']} does not exist. "
                                  f"Cannot be modified.")
                     raise ValueError(error_msg)
 
+            elif agent_blueprint.get("regularizer") is not None:
+                regularizer = agent_blueprint["regularizer"]
+                new_regularizer = deepcopy(regularizer)
+                if isinstance(regularizer, BaseRegularizer):
+                    new_model.custom_regularizers[new_regularizer.name] = new_regularizer
+                else:  # classic bigARTM regularizer, attempt to relativize it's coefficients
+                    handle_regularizer(
+                        self._relative,
+                        new_model,
+                        new_regularizer,
+                        self.data_stats,
+                    )
+                agent_blueprint["reg_name"] = new_regularizer.name
+            else:
+                raise ValueError("Either 'reg_name' or 'regularizer' should be set")
             agent_blueprint['local_dict']['user_value'] = current_user_value
             # ControllerAgent needs only reg_name in constructor
             agent_blueprint.pop("regularizer")

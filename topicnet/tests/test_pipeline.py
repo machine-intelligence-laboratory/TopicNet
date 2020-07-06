@@ -13,9 +13,10 @@ from ..cooking_machine.experiment import Experiment
 from ..cooking_machine.dataset import Dataset, W_DIFF_BATCHES_1
 from ..cooking_machine.config_parser import build_experiment_environment_from_yaml_config
 from ..cooking_machine.model_tracking import START
+from ..cooking_machine.recipes import BaselineRecipe
 
-# MULTIPROCESSING_FLAGS = [True, False]
-MULTIPROCESSING_FLAGS = [True]
+# TODO: MULTIPROCESSING_FLAGS = [True, False]
+MULTIPROCESSING_FLAGS = [False]
 USE_MULTIPROCESS = True
 
 
@@ -96,7 +97,7 @@ def experiment_enviroment(request):
 
 
 @pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
-def test_bad_empty_config(experiment_enviroment, thread_flag):
+def test_bad_empty_config(thread_flag):
     with open("tests/test_data/bad_empty_config.yml", "r", encoding='utf-8') as f:
         yaml_string = f.read()
 
@@ -113,7 +114,7 @@ def test_bad_empty_config(experiment_enviroment, thread_flag):
 
 
 @pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
-def test_bad_config(experiment_enviroment, thread_flag):
+def test_bad_config(thread_flag):
     with open("tests/test_data/bad_config.yml", "r", encoding='utf-8') as f:
         yaml_string = f.read()
 
@@ -127,7 +128,7 @@ def test_bad_config(experiment_enviroment, thread_flag):
 
 
 @pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
-def test_pipeline_from_config(experiment_enviroment, thread_flag):
+def test_pipeline_from_config(thread_flag):
     with open("tests/test_data/config.yml", "r", encoding='utf-8') as f:
         yaml_string = f.read()
 
@@ -188,7 +189,7 @@ def test_pipeline_from_config(experiment_enviroment, thread_flag):
 
 
 @pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
-def test_config_with_blei_score(experiment_enviroment, thread_flag):
+def test_config_with_blei_score(thread_flag):
     with open("tests/test_data/config_blei.yml", "r", encoding='utf-8') as f:
         yaml_string = f.read()
 
@@ -207,7 +208,7 @@ def test_config_with_blei_score(experiment_enviroment, thread_flag):
 
 
 @pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
-def test_config_with_scores(experiment_enviroment, thread_flag):
+def test_config_with_scores(thread_flag):
     with open("tests/test_data/config_short.yml", "r", encoding='utf-8') as f:
         yaml_string = f.read()
 
@@ -227,7 +228,7 @@ def test_config_with_scores(experiment_enviroment, thread_flag):
 
 
 @pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
-def test_config_with_greedy_strategy(experiment_enviroment, thread_flag):
+def test_config_with_greedy_strategy(thread_flag):
     with open("tests/test_data/config2.yml", "r", encoding='utf-8') as f:
         yaml_string = f.read()
 
@@ -286,3 +287,29 @@ def test_pipeline_with_new_cube_after(experiment_enviroment, thread_flag):
     assert len(new_models) == 3, 'Incorrect number of final models.'
     assert len(experiment.cubes) == 4, 'Incorrect number of cubes in the experiment.'
     assert len(experiment.criteria) == 4, 'Incorrect number of criteria in the experiment.'
+
+
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+def test_filter_dictionary(thread_flag):
+    datasets = dict()
+    big_dataset_name = 'big'
+    small_dataset_name = 'small'
+
+    for dataset_name, min_df in [(big_dataset_name, 0), (small_dataset_name, 2)]:
+        pipeline = BaselineRecipe()
+        pipeline.format_recipe(
+            dataset_path='./tests/test_data/test_dataset.csv',
+            dictionary_filter_parameters={'min_df': min_df},
+        )
+        _, dataset = pipeline.build_experiment_environment(
+            experiment_id=dataset_name,
+            save_path='tests/experiments',
+        )
+        datasets[dataset_name] = dataset
+
+    big_dictionary = datasets[big_dataset_name].get_dictionary()
+    small_dictionary = datasets[small_dataset_name].get_dictionary()
+    big_num_entries = Dataset._get_dictionary_num_entries(big_dictionary)
+    small_num_entries = Dataset._get_dictionary_num_entries(small_dictionary)
+
+    assert big_num_entries > small_num_entries

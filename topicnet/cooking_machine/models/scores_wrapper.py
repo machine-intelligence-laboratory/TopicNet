@@ -58,9 +58,9 @@ class ScoresWrapper(Mapping):
         elif isinstance(score, BaseScore):
             if score._name is None:
                 raise ValueError(
-                    f'When using `model.scores.add(score)` method,'
-                    f' one should specify score name parameter during score initialization.'
-                    f' For example `model.scores.add(IntratextCoherenceScore(name="name", ...))'
+                    'When using `model.scores.add(score)` method,'
+                    ' one should specify score name parameter during score initialization.'
+                    ' For example `model.scores.add(IntratextCoherenceScore(name="name", ...))'
                 )
 
             self._topicnet_scores[score._name] = score

@@ -6,6 +6,8 @@ from typing import List
 from .recipe_wrapper import BaseRecipe
 from .. import Dataset
 
+ONE_CONFIG_INDENT = 4 * ' '
+
 
 class IntratextCoherenceRecipe(BaseRecipe):
     """
@@ -35,6 +37,7 @@ class IntratextCoherenceRecipe(BaseRecipe):
             dataset_path: str,
             num_specific_topics: int,
             main_modality: str = None,
+            dictionary_filter_parameters: dict = None,
             num_background_topics: int = 1,
             modalities: List[str] = None,
             keep_dataset_in_memory: bool = True,
@@ -118,10 +121,19 @@ class IntratextCoherenceRecipe(BaseRecipe):
             for i in range(num_specific_topics, num_specific_topics + num_background_topics)
         ]
 
+        if dictionary_filter_parameters is None:
+            dictionary_filter_parameters = dict()
+
+        dictionary_filter_parameters_as_yml = self._format_dictionary_filter_parameters(
+            dictionary_filter_parameters,
+            indent=2 * ONE_CONFIG_INDENT,
+        )
+
         self._recipe = self.recipe_template.format(
             modality_names=modalities,
             main_modality=main_modality,
             dataset_path=dataset_path,
+            dictionary_filter_parameters=dictionary_filter_parameters_as_yml,
             keep_dataset_in_memory=keep_dataset_in_memory,
             keep_dataset=keep_dataset,
             documents_fraction=documents_fraction,

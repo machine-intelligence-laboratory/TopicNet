@@ -1,6 +1,8 @@
 from typing import List
+
 from .recipe_wrapper import BaseRecipe
 from .. import Dataset
+
 
 ARTM_baseline_template = '''
 # This config follows a strategy described by Murat Apishev
@@ -40,6 +42,7 @@ scores:
         num_top_tokens: 30
 model:
     dataset_path: {dataset_path}
+    {dictionary_filter_parameters}
     modalities_to_use: {modality_list}
     main_modality: '{main_modality}'
 
@@ -62,6 +65,8 @@ stages:
     use_relative_coefficients: true
 '''
 
+ONE_CONFIG_INDENT = 4 * ' '
+
 
 class BaselineRecipe(BaseRecipe):
     """
@@ -74,6 +79,7 @@ class BaselineRecipe(BaseRecipe):
     def format_recipe(
         self,
         dataset_path: str,
+        dictionary_filter_parameters: dict = None,
         modality_list: List[str] = None,
         topic_number: int = 20,
         background_topic_number: int = 1,
@@ -86,11 +92,21 @@ class BaselineRecipe(BaseRecipe):
         background_topics = [f'bcg_{i}' for i in range(
             len(specific_topics), len(specific_topics) + background_topic_number)]
 
+        if dictionary_filter_parameters is None:
+            dictionary_filter_parameters = dict()
+
+        dictionary_filter_parameters_as_yml = self._format_dictionary_filter_parameters(
+            dictionary_filter_parameters,
+            indent=2 * ONE_CONFIG_INDENT,
+        )
+
         self._recipe = self.recipe_template.format(
             dataset_path=dataset_path,
+            dictionary_filter_parameters=dictionary_filter_parameters_as_yml,
             modality_list=modality_list,
             main_modality=modality_list[0],
             specific_topics=specific_topics,
             background_topics=background_topics,
         )
+
         return self._recipe

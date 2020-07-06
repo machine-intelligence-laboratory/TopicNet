@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.6.3" />
+<meta name="generator" content="pdoc 0.8.1" />
 <title>topicnet.cooking_machine.routine API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
 </head>
 <body>
@@ -21,15 +21,20 @@
 </header>
 <section id="section-intro">
 <details class="source">
-<summary>Source code</summary>
-<pre><code class="python">import numpy as np
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import glob
 import hashlib
 import json
+import numexpr as ne
+import numpy as np
+import os
 import re
 import warnings
+
 from datetime import datetime
 from statistics import mean, median
-import numexpr as ne
 
 
 W_TOO_STRICT = &#39;No models match criteria &#39;
@@ -465,7 +470,7 @@ def choose_value_for_models_num_and_check(
         models_num = models_num_from_query
 
     if models_num is not None and int(models_num) &lt; 0:
-        raise ValueError(f&#34;Cannot return negative number of models&#34;)
+        raise ValueError(&#34;Cannot return negative number of models&#34;)
 
     return models_num
 
@@ -688,7 +693,30 @@ def blake2bchecksum(file_path):
             if not data:
                 break
             m.update(data)
-        return m.hexdigest()</code></pre>
+        return m.hexdigest()
+
+
+def load_models_from_disk(experiment_directory, base_experiment_name):
+    &#34;&#34;&#34;
+    Is useful for restoring failed experiment
+    &#34;&#34;&#34;
+    from topicnet.cooking_machine.experiment import START
+    from topicnet.cooking_machine.models import DummyTopicModel
+
+    result_models = []
+
+    mask = f&#34;{experiment_directory}/{base_experiment_name}_*&#34;
+    msg = (f&#39;Trying to load models from {mask}.&#39;
+           f&#39; {len(glob.glob(mask))} models found.&#39;)
+    print(msg)
+    for folder in glob.glob(mask):
+        model_pathes = [
+            f.path for f in os.scandir(folder)
+            if f.is_dir() and f.name != START
+        ]
+        result_models += [DummyTopicModel.load(path) for path in model_pathes]
+
+    return result_models</code></pre>
 </details>
 </section>
 <section>
@@ -702,14 +730,16 @@ def blake2bchecksum(file_path):
 <span>def <span class="ident">blake2bchecksum</span></span>(<span>file_path)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Calculates hash of the file</p>
+<div class="desc"><p>Calculates hash of the file</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>file_path</code></strong> :&ensp;<code>str</code></dt>
 <dd>path to the file</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def blake2bchecksum(file_path):
     &#34;&#34;&#34;
     Calculates hash of the file
@@ -730,10 +760,10 @@ def blake2bchecksum(file_path):
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.choose_best_models"><code class="name flex">
-<span>def <span class="ident">choose_best_models</span></span>(<span>models, requirement_lesser, requirement_greater, requirement_equal, metric, extremum='min', models_num=None)</span>
+<span>def <span class="ident">choose_best_models</span></span>(<span>models: list, requirement_lesser: list, requirement_greater: list, requirement_equal: list, metric: str, extremum='min', models_num=None)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Get best model according to specified metric.</p>
+<div class="desc"><p>Get best model according to specified metric.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>models</code></strong> :&ensp;<code>list</code> of <code>TopicModel</code></dt>
@@ -759,9 +789,11 @@ def blake2bchecksum(file_path):
 <dl>
 <dt><strong><code>best_models</code></strong> :&ensp;<code>list</code> of <code>models</code></dt>
 <dd>models with best scores or matching request</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def choose_best_models(models: list, requirement_lesser: list, requirement_greater: list,
                        requirement_equal: list, metric: str, extremum=&#34;min&#34;, models_num=None):
     &#34;&#34;&#34;
@@ -821,12 +853,14 @@ def blake2bchecksum(file_path):
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.choose_value_for_models_num_and_check"><code class="name flex">
-<span>def <span class="ident">choose_value_for_models_num_and_check</span></span>(<span>models_num_as_parameter, models_num_from_query)</span>
+<span>def <span class="ident">choose_value_for_models_num_and_check</span></span>(<span>models_num_as_parameter, models_num_from_query) -> int</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<div class="desc"></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def choose_value_for_models_num_and_check(
         models_num_as_parameter, models_num_from_query) -&gt; int:
 
@@ -851,7 +885,7 @@ def blake2bchecksum(file_path):
         models_num = models_num_from_query
 
     if models_num is not None and int(models_num) &lt; 0:
-        raise ValueError(f&#34;Cannot return negative number of models&#34;)
+        raise ValueError(&#34;Cannot return negative number of models&#34;)
 
     return models_num</code></pre>
 </details>
@@ -860,9 +894,11 @@ def blake2bchecksum(file_path):
 <span>def <span class="ident">compute_special_queries</span></span>(<span>special_models, special_queries)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Computes special queries with functions.</p></section>
+<div class="desc"><p>Computes special queries with functions.</p></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def compute_special_queries(special_models, special_queries):
     &#34;&#34;&#34;
     Computes special queries with functions.
@@ -908,7 +944,7 @@ def blake2bchecksum(file_path):
 <span>def <span class="ident">extract_required_parameter</span></span>(<span>model, parameter)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Extracts necessary parameter from model.</p>
+<div class="desc"><p>Extracts necessary parameter from model.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>model</code></strong> :&ensp;<code>TopicModel</code></dt>
@@ -918,11 +954,13 @@ def blake2bchecksum(file_path):
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt>optional</dt>
+<dt><code>optional</code></dt>
 <dd>&nbsp;</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def extract_required_parameter(model, parameter):
     &#34;&#34;&#34;
     Extracts necessary parameter from model.
@@ -975,10 +1013,10 @@ def blake2bchecksum(file_path):
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.get_equal_lists"><code class="name flex">
-<span>def <span class="ident">get_equal_lists</span></span>(<span>one_dict, min_len=0, sep=' ', sep_len='last')</span>
+<span>def <span class="ident">get_equal_lists</span></span>(<span>one_dict, min_len: int = 0, sep: str = ' ', sep_len='last')</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Transforms all lists to list with the same length, but not less that min_len.
+<div class="desc"><p>Transforms all lists to list with the same length, but not less that min_len.
 Fills lists with sep. Inplace.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -991,9 +1029,11 @@ Fills lists with sep. Inplace.</p>
 <dt><strong><code>sep_len</code></strong> :&ensp;<code>int</code> or <code>"last"</code></dt>
 <dd>length of added strings, if "last" than length of added strings is equal
 to the length of the last string in the list (Default value = "last")</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def get_equal_lists(one_dict, min_len: int = 0, sep: str = &#34; &#34;, sep_len=&#34;last&#34;):
     &#34;&#34;&#34;
     Transforms all lists to list with the same length, but not less that min_len.
@@ -1024,10 +1064,10 @@ to the length of the last string in the list (Default value = "last")</dd>
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.get_equal_strings"><code class="name flex">
-<span>def <span class="ident">get_equal_strings</span></span>(<span>strings, min_len=0, sep=' ')</span>
+<span>def <span class="ident">get_equal_strings</span></span>(<span>strings, min_len: int = 0, sep: str = ' ')</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Transforms all strings to strings with the same length, but not less that min_len.
+<div class="desc"><p>Transforms all strings to strings with the same length, but not less that min_len.
 Fills strings with sep. Inplace.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -1037,9 +1077,11 @@ Fills strings with sep. Inplace.</p>
 <dd>minimal length of the string (Default value = 0)</dd>
 <dt><strong><code>sep</code></strong> :&ensp;<code>str</code></dt>
 <dd>filling symbol (Default value = " ")</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def get_equal_strings(strings, min_len: int = 0, sep: str = &#34; &#34;):
     &#34;&#34;&#34;
     Transforms all strings to strings with the same length, but not less that min_len.
@@ -1063,10 +1105,10 @@ Fills strings with sep. Inplace.</p>
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.get_fix_list"><code class="name flex">
-<span>def <span class="ident">get_fix_list</span></span>(<span>input_list, length, num)</span>
+<span>def <span class="ident">get_fix_list</span></span>(<span>input_list: list, length: int, num: int)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns list with strings of size length that contains not more than num strings.</p>
+<div class="desc"><p>Returns list with strings of size length that contains not more than num strings.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>input_list</code></strong> :&ensp;<code>list</code></dt>
@@ -1080,9 +1122,11 @@ Fills strings with sep. Inplace.</p>
 <dl>
 <dt><code>list</code></dt>
 <dd>list with no more than num of beautiful strings</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def get_fix_list(input_list: list, length: int, num: int):
     &#34;&#34;&#34;
     Returns list with strings of size length that contains not more than num strings.
@@ -1130,10 +1174,10 @@ Fills strings with sep. Inplace.</p>
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.routine.get_fix_string"><code class="name flex">
-<span>def <span class="ident">get_fix_string</span></span>(<span>input_string, length)</span>
+<span>def <span class="ident">get_fix_string</span></span>(<span>input_string: str, length: int)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Transforms input_string to the string of the size length.</p>
+<div class="desc"><p>Transforms input_string to the string of the size length.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>input_string</code></strong> :&ensp;<code>str</code></dt>
@@ -1145,9 +1189,11 @@ Fills strings with sep. Inplace.</p>
 <dl>
 <dt><code>str</code></dt>
 <dd>beautiful string of the size length</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def get_fix_string(input_string: str, length: int):
     &#34;&#34;&#34;
     Transforms input_string to the string of the size length.
@@ -1184,19 +1230,21 @@ Fills strings with sep. Inplace.</p>
 <span>def <span class="ident">get_public_instance_attributes</span></span>(<span>instance)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Get list of all instance public atrributes.</p>
+<div class="desc"><p>Get list of all instance public atrributes.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>instance</code></strong> :&ensp;optional</dt>
+<dt><strong><code>instance</code></strong> :&ensp;<code>optional</code></dt>
 <dd>&nbsp;</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>list</code> of <code>str</code></dt>
 <dd>&nbsp;</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def get_public_instance_attributes(instance):
     &#34;&#34;&#34;
     Get list of all instance public atrributes.
@@ -1221,14 +1269,16 @@ Fills strings with sep. Inplace.</p>
 <span>def <span class="ident">get_timestamp_in_str_format</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns current timestamp.</p>
+<div class="desc"><p>Returns current timestamp.</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>str</code></dt>
 <dd>timestamp in "%Hh%Mm%Ss_%dd%mm%Yy" format</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def get_timestamp_in_str_format():
     &#34;&#34;&#34;
     Returns current timestamp.
@@ -1248,7 +1298,7 @@ Fills strings with sep. Inplace.</p>
 <span>def <span class="ident">is_acceptable</span></span>(<span>model, requirement_lesser, requirement_greater, requirement_equal)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Checks if model suits request.</p>
+<div class="desc"><p>Checks if model suits request.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>model</code></strong> :&ensp;<code>TopicModel</code></dt>
@@ -1264,9 +1314,11 @@ Fills strings with sep. Inplace.</p>
 <dl>
 <dt><code>bool</code></dt>
 <dd>&nbsp;</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def is_acceptable(model, requirement_lesser, requirement_greater, requirement_equal):
     &#34;&#34;&#34;
     Checks if model suits request.
@@ -1307,19 +1359,21 @@ Fills strings with sep. Inplace.</p>
 <span>def <span class="ident">is_jsonable</span></span>(<span>x)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Check that x is jsonable</p>
+<div class="desc"><p>Check that x is jsonable</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>x</code></strong> :&ensp;optional</dt>
+<dt><strong><code>x</code></strong> :&ensp;<code>optional</code></dt>
 <dd>&nbsp;</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>bool</code></dt>
 <dd>&nbsp;</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def is_jsonable(x):
     &#34;&#34;&#34;
     Check that x is jsonable
@@ -1344,9 +1398,11 @@ Fills strings with sep. Inplace.</p>
 <span>def <span class="ident">is_saveable_model</span></span>(<span>model=None, model_id=None, experiment=None)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Little helpful function. May be extended later.</p></section>
+<div class="desc"><p>Little helpful function. May be extended later.</p></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def is_saveable_model(model=None, model_id=None, experiment=None):
     &#34;&#34;&#34;
     Little helpful function. May be extended later.
@@ -1368,11 +1424,43 @@ Fills strings with sep. Inplace.</p>
     return isinstance(model, SUPPORTED_MODEL_CLASSES)</code></pre>
 </details>
 </dd>
-<dt id="topicnet.cooking_machine.routine.parse_query_string"><code class="name flex">
-<span>def <span class="ident">parse_query_string</span></span>(<span>query_string)</span>
+<dt id="topicnet.cooking_machine.routine.load_models_from_disk"><code class="name flex">
+<span>def <span class="ident">load_models_from_disk</span></span>(<span>experiment_directory, base_experiment_name)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>This function will parse query string and subdivide it into following parts:</p>
+<div class="desc"><p>Is useful for restoring failed experiment</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_models_from_disk(experiment_directory, base_experiment_name):
+    &#34;&#34;&#34;
+    Is useful for restoring failed experiment
+    &#34;&#34;&#34;
+    from topicnet.cooking_machine.experiment import START
+    from topicnet.cooking_machine.models import DummyTopicModel
+
+    result_models = []
+
+    mask = f&#34;{experiment_directory}/{base_experiment_name}_*&#34;
+    msg = (f&#39;Trying to load models from {mask}.&#39;
+           f&#39; {len(glob.glob(mask))} models found.&#39;)
+    print(msg)
+    for folder in glob.glob(mask):
+        model_pathes = [
+            f.path for f in os.scandir(folder)
+            if f.is_dir() and f.name != START
+        ]
+        result_models += [DummyTopicModel.load(path) for path in model_pathes]
+
+    return result_models</code></pre>
+</details>
+</dd>
+<dt id="topicnet.cooking_machine.routine.parse_query_string"><code class="name flex">
+<span>def <span class="ident">parse_query_string</span></span>(<span>query_string: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This function will parse query string and subdivide it into following parts:</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>query_string</code></strong> :&ensp;<code>str</code></dt>
@@ -1390,9 +1478,11 @@ Fills strings with sep. Inplace.</p>
 <dd>&nbsp;</dd>
 <dt><strong><code>extremum</code></strong> :&ensp;<code>str</code></dt>
 <dd>&nbsp;</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def parse_query_string(query_string: str):
     &#34;&#34;&#34;
     This function will parse query string and subdivide it into following parts:
@@ -1460,18 +1550,20 @@ Fills strings with sep. Inplace.</p>
 <span>def <span class="ident">transform_complex_entity_to_dict</span></span>(<span>some_entity)</span>
 </code></dt>
 <dd>
-<section class="desc"><h2 id="parameters">Parameters</h2>
+<div class="desc"><h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>some_entity</code></strong> :&ensp;optional</dt>
+<dt><strong><code>some_entity</code></strong> :&ensp;<code>optional</code></dt>
 <dd>&nbsp;</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>dict</code></dt>
 <dd>jsonable entity</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def transform_complex_entity_to_dict(some_entity):
     &#34;&#34;&#34;
 
@@ -1505,7 +1597,7 @@ Fills strings with sep. Inplace.</p>
 <span>def <span class="ident">transform_topic_model_description_to_jsonable</span></span>(<span>obj)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Change object to handle serialization problems with json.</p>
+<div class="desc"><p>Change object to handle serialization problems with json.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>obj</code></strong> :&ensp;<code>object</code></dt>
@@ -1515,9 +1607,11 @@ Fills strings with sep. Inplace.</p>
 <dl>
 <dt><code>int</code></dt>
 <dd>jsonable object</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def transform_topic_model_description_to_jsonable(obj):
     &#34;&#34;&#34;
     Change object to handle serialization problems with json.
@@ -1588,6 +1682,7 @@ Fills strings with sep. Inplace.</p>
 <li><code><a title="topicnet.cooking_machine.routine.is_acceptable" href="#topicnet.cooking_machine.routine.is_acceptable">is_acceptable</a></code></li>
 <li><code><a title="topicnet.cooking_machine.routine.is_jsonable" href="#topicnet.cooking_machine.routine.is_jsonable">is_jsonable</a></code></li>
 <li><code><a title="topicnet.cooking_machine.routine.is_saveable_model" href="#topicnet.cooking_machine.routine.is_saveable_model">is_saveable_model</a></code></li>
+<li><code><a title="topicnet.cooking_machine.routine.load_models_from_disk" href="#topicnet.cooking_machine.routine.load_models_from_disk">load_models_from_disk</a></code></li>
 <li><code><a title="topicnet.cooking_machine.routine.parse_query_string" href="#topicnet.cooking_machine.routine.parse_query_string">parse_query_string</a></code></li>
 <li><code><a title="topicnet.cooking_machine.routine.transform_complex_entity_to_dict" href="#topicnet.cooking_machine.routine.transform_complex_entity_to_dict">transform_complex_entity_to_dict</a></code></li>
 <li><code><a title="topicnet.cooking_machine.routine.transform_topic_model_description_to_jsonable" href="#topicnet.cooking_machine.routine.transform_topic_model_description_to_jsonable">transform_topic_model_description_to_jsonable</a></code></li>
@@ -1597,7 +1692,7 @@ Fills strings with sep. Inplace.</p>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
 </footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad()</script>

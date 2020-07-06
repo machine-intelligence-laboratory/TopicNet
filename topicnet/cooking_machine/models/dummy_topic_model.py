@@ -371,3 +371,6 @@ class _DummyArtmModel:
 
     def add_cube(self, cube):
         raise InvalidOperationError()
+
+    def describe_regularizers(self):
+        raise InvalidOperationError()

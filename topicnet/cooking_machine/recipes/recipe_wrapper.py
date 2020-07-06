@@ -1,8 +1,15 @@
-from typing import Tuple
+from typing import (
+    Dict,
+    Tuple,
+    Union,
+)
 
 from .. import Dataset
 from .. import Experiment
-from ..config_parser import build_experiment_environment_from_yaml_config
+from ..config_parser import (
+    build_experiment_environment_from_yaml_config,
+    KEY_DICTIONARY_FILTER_PARAMETERS,
+)
 
 
 recipe_template_example = """
@@ -30,19 +37,18 @@ class BaseRecipe:
 
     def format_recipe(self, *args, **kwargs) -> str:
         """
-        Updates self._recipe variable
-        with variables specific for the dataset
+        Updates `self._recipe`
+        with variables specific for the dataset.
         """
         raise NotImplementedError(
             'Method needs to be specified for the recipe template'
         )
-        return self._recipe
 
     def build_experiment_environment(
             self,
             save_path: str,
             experiment_id: str = 'default_experiment_name',
-            force_separate_thread: bool = False
+            force_separate_thread: bool = False,
     ) -> Tuple[Experiment, Dataset]:
         """
         Returns experiment and dataset instances
@@ -51,11 +57,13 @@ class BaseRecipe:
 
         Parameters
         ----------
-        save_path: path to the folder to save experiment logs and models
-        experiment_id: name of the experiment folder
-        force_separate_thread: train each model in dedicated process
+        save_path
+            path to the folder to save experiment logs and models
+        experiment_id
+            name of the experiment folder
+        force_separate_thread
+            train each model in dedicated process;
             this feature helps to handle resources in Jupyter notebooks
-
         """
         if self._recipe is None:
             raise ValueError(
@@ -66,5 +74,27 @@ class BaseRecipe:
             self._recipe,
             save_path=save_path,
             experiment_id=experiment_id,
-            force_separate_thread=force_separate_thread
+            force_separate_thread=force_separate_thread,
+        )
+
+    @staticmethod
+    def _format_dictionary_filter_parameters(
+            parameters: Dict[Union[int, float, str, bool], Union[int, float, str, bool]],
+            indent: str) -> str:
+
+        blank_dictionary = '{}'
+
+        if len(parameters) == 0:
+            parameters_block = blank_dictionary
+        else:
+            parameters_block = '\n'.join([
+                f'{indent}{k}: {v}'
+                for k, v in parameters.items()
+            ])
+
+        return (
+            KEY_DICTIONARY_FILTER_PARAMETERS
+            + ':'
+            + ('\n' if parameters_block != blank_dictionary else ' ')
+            + parameters_block
         )

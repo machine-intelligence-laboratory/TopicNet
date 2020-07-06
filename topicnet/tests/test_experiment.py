@@ -173,6 +173,9 @@ def test_double_steps_experiment(two_experiment_enviroments, thread_flag):
     dummies_second = cube_first_2(tm_2, dataset)
     tmodels_lvl2_2 = [dummy.restore() for dummy in dummies_second]
 
+    for models in zip(tmodels_lvl2_1, tmodels_lvl2_2):
+        assert np.array_equal(models[0].get_phi(), models[1].get_phi())
+
     experiment_1.save_path = 'tests/experiments/test'
     experiment_1.save()
     experiment = Experiment.load('tests/experiments/test_1')
@@ -209,9 +212,6 @@ def test_double_steps_experiment(two_experiment_enviroments, thread_flag):
 
     assert len(tmodels_lvl3) == len(tmodels_lvl3_2)
     assert cube_second.strategy.score == cube_second_2.strategy.score
-
-    for models in zip(tmodels_lvl2_1, tmodels_lvl2):
-        assert np.array_equal(models[0].get_phi(), models[1].get_phi())
 
     for models in zip(tmodels_lvl3, tmodels_lvl3_2):
         assert (
