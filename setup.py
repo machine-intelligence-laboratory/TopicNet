@@ -2,8 +2,8 @@ from distutils.core import setup
 
 
 setup(
-    name = 'topicnet',
-    packages = [
+    name='topicnet',
+    packages=[
         'topicnet',
         'topicnet.cooking_machine',
         'topicnet.cooking_machine.cubes',
@@ -12,14 +12,14 @@ setup(
         'topicnet.dataset_manager',
         'topicnet.viewers'
     ],
-    version = '0.7.1',
+    version='0.8.0',
     license='MIT',
-    description = 'TopicNet is a module for topic modelling using ARTM algorithm',
-    author = 'Machine Intelligence Laboratory',
-    author_email = 'alex.goncharov@phystech.edu',
-    url = 'https://github.com/machine-intelligence-laboratory/TopicNet',
-    download_url = 'https://github.com/machine-intelligence-laboratory/TopicNet/archive/v0.7.1.tar.gz', 
-    keywords = [
+    description='TopicNet is a module for topic modelling using ARTM algorithm',
+    author='Machine Intelligence Laboratory',
+    author_email='alex.goncharov@phystech.edu',
+    url='https://github.com/machine-intelligence-laboratory/TopicNet',
+    download_url='https://github.com/machine-intelligence-laboratory/TopicNet/archive/v0.8.0.tar.gz',
+    keywords=[
         'ARTM',
         'topic modeling',
         'regularization',
@@ -33,7 +33,7 @@ setup(
         'dill',
         'ipython',
         'jinja2',
-	'numba',
+        'numba',
         'numexpr',
         'numpy',
         'pandas',
@@ -52,6 +52,6 @@ setup(
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
         'Topic :: Scientific/Engineering :: Information Analysis',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
 )
