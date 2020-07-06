@@ -1,4 +1,4 @@
-<h1 align="center">TopicNet</h2>
+<h1 align="center">TopicNet</h1>
 <img align="right" height="15%" width="15%" src="https://avatars3.githubusercontent.com/u/49844788?s=200&v=4" style="max-width:100%;">
 
 <div align="center">
@@ -31,9 +31,9 @@ It aims at automating model training routine freeing more time for artistic proc
 
 Consider using TopicNet if:
 
-* you want to explore BigARTM functionality without writing an overhead.
-* you need help with rapid solution prototyping.
-* you want to build a good topic model quickly (out-of-box, with default parameters).
+* you want to explore BigARTM functionality without writing an overhead;
+* you need help with rapid solution prototyping;
+* you want to build a good topic model quickly (out-of-box, with default parameters);
 * you have an ARTM model at hand and you want to explore it's topics.
 
 `TopicNet` provides an infrastructure for your prototyping with the help of `Experiment` class and helps to observe results of your actions via [`viewers`](topicnet/viewers) module.
@@ -351,7 +351,20 @@ parameters:[
 ]
 ```
 
+# Contribution
+
+If you find a bug, or if you would like the library to have some new features — you are welcome to contact us or create an issue or a pull request!
+
+It also worth noting that TopicNet library is always open to improvements in several areas:
+
+* New custom regularizers.
+* New topic model scores.
+* New topic models or recipes to train topic models for a particular task/with some special properties.
+* New datasets (so as to make them available for everyone to download and conduct experiments with topic models).
+
+
 # Citing TopicNet
+
 When citing `topicnet` in academic papers and theses, please use this BibTeX entry:
 
 ```
