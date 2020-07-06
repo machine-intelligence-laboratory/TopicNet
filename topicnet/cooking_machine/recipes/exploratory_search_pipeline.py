@@ -20,6 +20,10 @@ exploratory_search_template = '''
 # specific_topics=specific_topics, background_topics=background_topics)
 # when loading the recipe to adjust for your dataset
 
+# If you have more than one modaity you want to use, we recommend employing
+# more advanced MultimodalSearchRecipe from multimodal_exploratory_search_pipeline instead
+
+
 topics:
 # Describes number of model topics, in the actuall article 200 topics were found to be optimal
     specific_topics: {{specific_topics}}

@@ -17,7 +17,7 @@ from urllib.request import (
 from ..cooking_machine.dataset import Dataset
 
 
-_SERVER_URL = 'https://93.175.29.159:8085'
+_SERVER_URL = 'https://topicnet-datasets.machine-intelligence.ru'
 _ARCHIVE_EXTENSION = '.gz'
 _DEFAULT_DATASET_FILE_EXTENSION = '.csv'
 
@@ -68,12 +68,14 @@ def load_dataset(dataset_name: str, **kwargs) -> Dataset:
     dataset_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), dataset_name)
 
     try:
+        print(f'Checking if dataset "{dataset_name}" was already downloaded before')
+
         saved_dataset = _init_dataset_if_downloaded(dataset_path, **kwargs)
     except FileNotFoundError:
-        pass
+        print(f'Dataset "{dataset_name}" not found on the machine')
     else:
         print(
-            f'Dataset already downloaded!'
+            f'Dataset is found on the machine.'
             f' Save path is: "{saved_dataset._data_path}"'
         )
 
@@ -86,6 +88,8 @@ def load_dataset(dataset_name: str, **kwargs) -> Dataset:
     data = urllib.parse.urlencode(values).encode("utf-8")
 
     print(f'Downloading the "{dataset_name}" dataset...')
+
+    save_path = None
 
     try:
         with urlopen(req, data=data, context=context) as answer:
@@ -109,7 +113,7 @@ def load_dataset(dataset_name: str, **kwargs) -> Dataset:
 
             if total_size != 0 and t.n != total_size:
                 raise RuntimeError(
-                    "Failed to download dataset!"
+                    "Failed to download the dataset!"
                     " Some data was lost during network transfer"
                 )
 
@@ -122,19 +126,19 @@ def load_dataset(dataset_name: str, **kwargs) -> Dataset:
             return Dataset(save_path, **kwargs)
 
     except Exception as exception:
-        if os.path.isfile(save_path):
+        if save_path is not None and os.path.isfile(save_path):
             os.remove(save_path)
 
         raise exception
 
     finally:
-        if os.path.isfile(save_path + _ARCHIVE_EXTENSION):
+        if save_path is not None and os.path.isfile(save_path + _ARCHIVE_EXTENSION):
             os.remove(save_path + _ARCHIVE_EXTENSION)
 
 
 def _init_dataset_if_downloaded(dataset_path: str, **kwargs) -> Dataset:
     saved_dataset_path_candidates = [
-        p for p in glob(dataset_path + '*')
+        p for p in glob(dataset_path + '.*')
         if os.path.isfile(p) and not p.endswith(_ARCHIVE_EXTENSION)
     ]
     dataset = None

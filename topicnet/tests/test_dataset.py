@@ -60,7 +60,6 @@ class TestDataset:
 
         assert len(record) == 0
 
-    @pytest.mark.xfail
     @pytest.mark.parametrize("small", KEEP_DATA)
     def test_get_dict_two_times_alternating(self, small):
         """ """

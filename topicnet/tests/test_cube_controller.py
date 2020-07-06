@@ -32,7 +32,7 @@ MULTIPROCESSING_FLAGS = [False]
 
 def resource_teardown():
     """ """
-    dataset = Dataset(f'tests/test_data/test_dataset.csv')
+    dataset = Dataset('tests/test_data/test_dataset.csv')
 
     if os.path.exists("tests/experiments"):
         shutil.rmtree("tests/experiments")
@@ -150,7 +150,7 @@ def experiment_enviroment(request):
     """ """
     with warnings.catch_warnings():
         warnings.filterwarnings(action="ignore", message=W_DIFF_BATCHES_1)
-        dataset = Dataset(f'tests/test_data/test_dataset.csv')
+        dataset = Dataset('tests/test_data/test_dataset.csv')
         dictionary = dataset.get_dictionary()
 
     model_artm = artm.ARTM(

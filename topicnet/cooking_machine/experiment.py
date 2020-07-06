@@ -457,7 +457,7 @@ class Experiment(object):
         Experiment
 
         """
-        from .models import TopicModel
+        from .models import DummyTopicModel
 
         files = os.listdir(load_path)
         if "params.json" not in files:
@@ -472,7 +472,7 @@ class Experiment(object):
             for model_id in experiment.models.keys():
                 if model_id != START:
                     model_save_path = os.path.join(load_path, model_id)
-                    experiment.models[model_id] = TopicModel.load(
+                    experiment.models[model_id] = DummyTopicModel.load(
                         model_save_path, experiment
                     )
 
@@ -643,7 +643,7 @@ class Experiment(object):
 
             return []
 
-    def run(self, dataset, verbose=False, nb_verbose=False):
+    def run(self, dataset, verbose=False, nb_verbose=False, restore_mode=False):  # noqa C901
         """
         Runs defined pipeline and prints out the result.
 
@@ -664,7 +664,22 @@ class Experiment(object):
                 continue
 
             cube = cube_description['cube']
-            cube(stage_models, dataset)
+            if not restore_mode:
+                cube(stage_models, dataset)
+            else:
+                if cube_index < self.depth - 1:
+                    print(f"[Restoring experiment]: skipping cube {cube_index}")
+                    continue
+                if cube_index == self.depth - 1:
+                    print(
+                        f"[Restoring experiment]: selecting models at cube number"
+                        f"{cube_index} (some models could be lost)"
+                    )
+                if cube_index >= self.depth:
+                    print(
+                        f"[Restoring experiment]: applying cube number {cube_index}"
+                    )
+                    cube(stage_models, dataset)
 
             # TODO: either delete this line completely
             #  or come up with a way to restore any cube using just info about it in self.cubes
@@ -803,7 +818,7 @@ class Experiment(object):
              req_equal, metric, extremum) = parse_query_string(inner_query_string)
 
             if metric is not None or extremum is not None:
-                warnings.warn(f'You try to optimize model parameters.')
+                warnings.warn('You try to optimize model parameters.')
 
             candidate_tmodels = self.get_models_by_depth(level=level)
             special_models = choose_best_models(
@@ -850,6 +865,9 @@ class Experiment(object):
             try:
                 self.cubes += [{
                     'action': stage_cube.action,
+                    # TODO: should it be 'params': cube_param instead?
+                    # it seems that it is possible to restore failed
+                    # experiment with load() that way..?
                     'params': stage_cube.get_jsonable_from_parameters(),
                     'cube': stage_cube
                 }]

@@ -3,7 +3,6 @@ import os
 import pandas as pd
 import shutil
 import sys
-import tempfile
 import warnings
 
 from glob import glob
@@ -403,6 +402,7 @@ class Dataset(BaseDataset):
         """
         data_path = os.path.join(save_dataset_path, dataframe_name + '.csv')
         dataframe.to_csv(data_path)
+
         return cls(data_path=data_path, **kwargs)
 
     def get_dataset(self):
@@ -558,17 +558,16 @@ class Dataset(BaseDataset):
             return False, path_to_collection
 
         if self._data_hash is None:
-            temp_file_descriptor, temp_file_path = tempfile.mkstemp(
-                prefix='temp_vw__',
-                suffix='.txt',
-                dir=self._internals_folder_path
+            temp_file_path = os.path.join(
+                self._internals_folder_path, 'temp_vw.txt'
             )
 
-            self.write_vw(temp_file_path)
-            self._data_hash = blake2bchecksum(temp_file_path)
-
-            os.close(temp_file_descriptor)
-            os.remove(temp_file_path)
+            try:
+                self.write_vw(temp_file_path)
+                self._data_hash = blake2bchecksum(temp_file_path)
+            finally:
+                if os.path.isfile(temp_file_path):
+                    os.remove(temp_file_path)
 
         if os.path.isfile(path_to_collection):
             same_collection = blake2bchecksum(path_to_collection) == self._data_hash

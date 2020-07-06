@@ -6,12 +6,14 @@ dask[dataframe]
 dill
 ipython
 jinja2
+numba
 numexpr
 numpy
 pandas
 plotly
 pytest
 pytest-cov
+pytest-rerunfailures
 pytest-timeout
 scikit-learn
 scipy

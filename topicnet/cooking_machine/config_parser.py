@@ -26,7 +26,7 @@ keep track of individual line numbers and which fragments are already
 checked and which aren't quite here yet.
 
 Our process consists of three stages:
-1) we check the high-level structure using `base_schema`.
+1) we check the high-level structure using `BASE_SCHEMA`.
 The presence of each required key is ensured.
 After this stage we could be sure than we can create a valid model
 using specified parameters.
@@ -45,60 +45,45 @@ Ideally, this stage should be performed using revalidate() as well,
 but it's a work-in-progress currently.
 
 """  # noqa: W291
-from .cubes import RegularizersModifierCube, CubeCreator
+
+from inspect import signature, Parameter
+from typing import (
+    Callable,
+    Type,
+)
+
+from .cubes import (
+    CubeCreator,
+    RegularizersModifierCube,
+    GreedyStrategy,
+    PerplexityStrategy,
+)
 from .experiment import Experiment
 from .dataset import Dataset
 from .models import scores as tnscores
 from .models import TopicModel
-
-from .cubes import PerplexityStrategy, GreedyStrategy
-from .model_constructor import init_simple_default_model, create_default_topics
-from .rel_toolbox_lite import count_vocab_size, handle_regularizer
+from .model_constructor import (
+    create_default_topics,
+    init_simple_default_model,
+)
+from .rel_toolbox_lite import (
+    count_vocab_size,
+    handle_regularizer,
+)
 
 import artm
 
-from inspect import signature, Parameter
 from strictyaml import Map, Str, Int, Seq, Float, Bool
 from strictyaml import Any, Optional, EmptyDict, EmptyNone, EmptyList
 from strictyaml import dirty_load
 
-from typing import Type
 
-# TODO: use stackoverflow.com/questions/37929851/parse-numpydoc-docstring-and-access-components
-# for now just hardcode most common / important types
-ARTM_TYPES = {
-    "tau": Float(),
-    "topic_names": Str() | Seq(Str()) | EmptyNone(),
-    # TODO: handle class_ids in model and in regularizers separately
-    "class_ids": Str() | Seq(Str()) | EmptyNone(),
-    "gamma": Float() | EmptyNone(),
-    "seed": Int(),
-    "num_document_passes": Int(),
-    "num_processors": Int(),
-    "cache_theta": Bool(),
-    "reuse_theta": Bool(),
-    "theta_name": Str()
-}
-
-
-element = Any()
-base_schema = Map({
-    'regularizers': Seq(element),
-    Optional('scores'): Seq(element),
-    'stages': Seq(element),
-    'model': Map({
-        "dataset_path": Str(),
-        Optional("modalities_to_use"): Seq(Str()),
-        Optional("modalities_weights"): Any(),
-        "main_modality": Str(),
-    }),
-    'topics': Map({
-        "background_topics": Seq(Str()) | Int() | EmptyList(),
-        "specific_topics": Seq(Str()) | Int() | EmptyList(),
-    })
-})
 SUPPORTED_CUBES = [CubeCreator, RegularizersModifierCube]
 SUPPORTED_STRATEGIES = [PerplexityStrategy, GreedyStrategy]
+
+TYPE_VALIDATORS = {
+    'int': Int(), 'bool': Bool(), 'str': Str(), 'float': Float()
+}
 
 
 def choose_key(param):
@@ -113,6 +98,7 @@ def choose_key(param):
     """
     if param.default is not Parameter.empty:
         return Optional(param.name)
+
     return param.name
 
 
@@ -136,7 +122,77 @@ def choose_validator(param):
         return Str()
     if param.name in ARTM_TYPES:
         return ARTM_TYPES[param.name]
+
     return Any()
+
+
+# TODO: maybe this is cool, but do we really need this?
+def build_schema_from_function(func: Callable) -> dict:
+    from docstring_parser import parse as docstring_parse
+
+    func_params = signature(func).parameters
+    func_params_schema = dict()
+
+    for elem in docstring_parse(func.__doc__).params:
+        if elem.arg_name in func_params:
+            key = choose_key(func_params[elem.arg_name])
+            func_params_schema[key] = TYPE_VALIDATORS[elem.type_name]
+
+    return func_params_schema
+
+
+# TODO: use stackoverflow.com/questions/37929851/parse-numpydoc-docstring-and-access-components
+#  for now just hardcode most common / important types
+ARTM_TYPES = {
+    "tau": Float(),
+    "topic_names": Str() | Seq(Str()) | EmptyNone(),
+    # TODO: handle class_ids in model and in regularizers separately
+    "class_ids": Str() | Seq(Str()) | EmptyNone(),
+    "gamma": Float() | EmptyNone(),
+    "seed": Int(),
+    "num_document_passes": Int(),
+    "num_processors": Int(),
+    "cache_theta": Bool(),
+    "reuse_theta": Bool(),
+    "theta_name": Str()
+}
+
+
+_ELEMENT = Any()
+
+# TODO: maybe better _DICTIONARY_FILTER_SCHEMA = build_schema_from_function(artm.Dictionary.filter)
+# TODO: modalities, filter params - these all are dataset's options, not model's
+#  maybe make separate YML block for dataset?
+
+BASE_SCHEMA = Map({
+    'regularizers': Seq(_ELEMENT),
+    Optional('scores'): Seq(_ELEMENT),
+    'stages': Seq(_ELEMENT),
+    'model': Map({
+        "dataset_path": Str(),
+        Optional("dictionary_filter_parameters"): Map({
+            Optional("class_id"): Str(),
+            Optional("min_df"): Float(),
+            Optional("max_df"): Float(),
+            Optional("min_df_rate"): Float(),
+            Optional("max_df_rate"): Float(),
+            Optional("min_tf"): Float(),
+            Optional("max_tf"): Float(),
+            Optional("max_dictionary_size"): Float(),
+            Optional("recalculate_value"): Bool(),
+        }),
+        Optional("keep_in_memory"): Bool(),
+        Optional("internals_folder_path"): Bool(),
+        Optional("modalities_to_use"): Seq(Str()),
+        Optional("modalities_weights"): Any(),
+        "main_modality": Str(),
+    }),
+    'topics': Map({
+        "background_topics": Seq(Str()) | Int() | EmptyList(),
+        "specific_topics": Seq(Str()) | Int() | EmptyList(),
+    })
+})
+KEY_DICTIONARY_FILTER_PARAMETERS = 'dictionary_filter_parameters'
 
 
 def build_schema_from_signature(class_of_object, use_optional=True):
@@ -439,7 +495,7 @@ def parse_modalities_data(parsed):
 
     # exactly one should be specified
     if has_modalities_to_use == has_weights:
-        raise ValueError(f"Either 'modalities_to_use' or 'modalities_weights' should be specified")
+        raise ValueError("Either 'modalities_to_use' or 'modalities_weights' should be specified")
 
     if has_weights:
         modalities_to_use = list(parsed["model"]["modalities_weights"].data)
@@ -474,8 +530,9 @@ def parse(
     regularizers: list
     topic_model: TopicModel
     dataset: Dataset
+
     """
-    parsed = dirty_load(yaml_string, base_schema, allow_flow_style=True)
+    parsed = dirty_load(yaml_string, BASE_SCHEMA, allow_flow_style=True)
 
     specific_topic_names, background_topic_names = create_default_topics(
         parsed.data["topics"]["specific_topics"],
@@ -484,12 +541,22 @@ def parse(
 
     revalidate_section(parsed, "stages")
     revalidate_section(parsed, "regularizers")
+
     if "scores" in parsed:
         revalidate_section(parsed, "scores")
 
-    cube_settings = []
+    dataset = dataset_class(
+        data_path=parsed.data["model"]["dataset_path"],
+        keep_in_memory=parsed.data["model"].get("keep_in_memory", True),
+        internals_folder_path=parsed.data["model"].get("internals_folder_path", None),
+    )
+    filter_parameters = parsed.data["model"].get(
+        KEY_DICTIONARY_FILTER_PARAMETERS, dict()
+    )
 
-    dataset = dataset_class(parsed.data["model"]["dataset_path"])
+    if len(filter_parameters) > 0:
+        filtered_dictionary = dataset.get_dictionary().filter(**filter_parameters)
+        dataset._cached_dict = filtered_dictionary
 
     modalities_to_use = parse_modalities_data(parsed)
 
@@ -508,11 +575,12 @@ def parse(
     topic_model = TopicModel(model)
     _add_parsed_scores(parsed, topic_model)
 
+    cube_settings = list()
+
     for stage in parsed['stages']:
         for elemtype, elem_args in stage.items():
             settings = build_cube_settings(elemtype.data, elem_args)
-            if force_separate_thread:
-                settings[elemtype]["separate_thread"] = False
+            settings[elemtype]["separate_thread"] = force_separate_thread
             cube_settings.append(settings)
 
     return cube_settings, regularizers, topic_model, dataset
@@ -548,8 +616,12 @@ def revalidate_section(parsed, section):
         stage.revalidate(local_schema)
 
 
-def build_experiment_environment_from_yaml_config(yaml_string, experiment_id,
-                                                  save_path, force_separate_thread=False):
+def build_experiment_environment_from_yaml_config(
+    yaml_string,
+    experiment_id,
+    save_path,
+    force_separate_thread=False,
+):
     """
     Wraps up parameter extraction and class instances creation
     from yaml formatted string
@@ -572,11 +644,12 @@ def build_experiment_environment_from_yaml_config(yaml_string, experiment_id,
 
     Returns
     -------
-
     tuple experiment, dataset instances of corresponding classes from topicnet
+
     """
     settings, regs, model, dataset = parse(yaml_string, force_separate_thread)
     # TODO: handle dynamic addition of regularizers
     experiment = Experiment(experiment_id=experiment_id, save_path=save_path, topic_model=model)
     experiment.build(settings)
+
     return experiment, dataset

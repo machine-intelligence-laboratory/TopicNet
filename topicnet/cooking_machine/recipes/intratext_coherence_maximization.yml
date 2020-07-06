@@ -67,6 +67,7 @@ scores:
 
 model:
     dataset_path: {dataset_path}
+    {dictionary_filter_parameters}
     modalities_to_use: {modality_names}
     main_modality: '{main_modality}'
 

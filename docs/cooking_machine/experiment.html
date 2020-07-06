@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.6.3" />
+<meta name="generator" content="pdoc 0.8.1" />
 <title>topicnet.cooking_machine.experiment API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
 </head>
 <body>
@@ -21,7 +21,9 @@
 </header>
 <section id="section-intro">
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">import os
 import re
 import json
@@ -481,7 +483,7 @@ class Experiment(object):
         Experiment
 
         &#34;&#34;&#34;
-        from .models import TopicModel
+        from .models import DummyTopicModel
 
         files = os.listdir(load_path)
         if &#34;params.json&#34; not in files:
@@ -496,7 +498,7 @@ class Experiment(object):
             for model_id in experiment.models.keys():
                 if model_id != START:
                     model_save_path = os.path.join(load_path, model_id)
-                    experiment.models[model_id] = TopicModel.load(
+                    experiment.models[model_id] = DummyTopicModel.load(
                         model_save_path, experiment
                     )
 
@@ -667,7 +669,7 @@ class Experiment(object):
 
             return []
 
-    def run(self, dataset, verbose=False, nb_verbose=False):
+    def run(self, dataset, verbose=False, nb_verbose=False, restore_mode=False):  # noqa C901
         &#34;&#34;&#34;
         Runs defined pipeline and prints out the result.
 
@@ -688,7 +690,22 @@ class Experiment(object):
                 continue
 
             cube = cube_description[&#39;cube&#39;]
-            cube(stage_models, dataset)
+            if not restore_mode:
+                cube(stage_models, dataset)
+            else:
+                if cube_index &lt; self.depth - 1:
+                    print(f&#34;[Restoring experiment]: skipping cube {cube_index}&#34;)
+                    continue
+                if cube_index == self.depth - 1:
+                    print(
+                        f&#34;[Restoring experiment]: selecting models at cube number&#34;
+                        f&#34;{cube_index} (some models could be lost)&#34;
+                    )
+                if cube_index &gt;= self.depth:
+                    print(
+                        f&#34;[Restoring experiment]: applying cube number {cube_index}&#34;
+                    )
+                    cube(stage_models, dataset)
 
             # TODO: either delete this line completely
             #  or come up with a way to restore any cube using just info about it in self.cubes
@@ -827,7 +844,7 @@ class Experiment(object):
              req_equal, metric, extremum) = parse_query_string(inner_query_string)
 
             if metric is not None or extremum is not None:
-                warnings.warn(f&#39;You try to optimize model parameters.&#39;)
+                warnings.warn(&#39;You try to optimize model parameters.&#39;)
 
             candidate_tmodels = self.get_models_by_depth(level=level)
             special_models = choose_best_models(
@@ -874,6 +891,9 @@ class Experiment(object):
             try:
                 self.cubes += [{
                     &#39;action&#39;: stage_cube.action,
+                    # TODO: should it be &#39;params&#39;: cube_param instead?
+                    # it seems that it is possible to restore failed
+                    # experiment with load() that way..?
                     &#39;params&#39;: stage_cube.get_jsonable_from_parameters(),
                     &#39;cube&#39;: stage_cube
                 }]
@@ -918,10 +938,10 @@ class Experiment(object):
 <dl>
 <dt id="topicnet.cooking_machine.experiment.Experiment"><code class="flex name class">
 <span>class <span class="ident">Experiment</span></span>
-<span>(</span><span>topic_model, experiment_id, save_path, save_model_history=False, save_experiment=True, tree=None, models_info=None, cubes=None, low_memory=False)</span>
+<span>(</span><span>topic_model, experiment_id: str, save_path: str, save_model_history: bool = False, save_experiment: bool = True, tree: dict = None, models_info: dict = None, cubes: List[dict] = None, low_memory: bool = False)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Contains experiment, its description and descriptions of all models in the experiment.</p>
+<div class="desc"><p>Contains experiment, its description and descriptions of all models in the experiment.</p>
 <p>Initialize stage, also used for loading and creating new experiments.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -954,9 +974,11 @@ Phi, Theta matrices, stays.
 If one wants to use squeezed topic model as before (eg. call <code>topic_model.get_phi()</code>),
 its inner ARTM model should be restored first.
 See docstring for <code>TopicModel.make_dummy()</code> method for reference.</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">class Experiment(object):
     &#34;&#34;&#34;
     Contains experiment, its description and descriptions of all models in the experiment.
@@ -1377,7 +1399,7 @@ See docstring for <code>TopicModel.make_dummy()</code> method for reference.</dd
         Experiment
 
         &#34;&#34;&#34;
-        from .models import TopicModel
+        from .models import DummyTopicModel
 
         files = os.listdir(load_path)
         if &#34;params.json&#34; not in files:
@@ -1392,7 +1414,7 @@ See docstring for <code>TopicModel.make_dummy()</code> method for reference.</dd
             for model_id in experiment.models.keys():
                 if model_id != START:
                     model_save_path = os.path.join(load_path, model_id)
-                    experiment.models[model_id] = TopicModel.load(
+                    experiment.models[model_id] = DummyTopicModel.load(
                         model_save_path, experiment
                     )
 
@@ -1563,7 +1585,7 @@ See docstring for <code>TopicModel.make_dummy()</code> method for reference.</dd
 
             return []
 
-    def run(self, dataset, verbose=False, nb_verbose=False):
+    def run(self, dataset, verbose=False, nb_verbose=False, restore_mode=False):  # noqa C901
         &#34;&#34;&#34;
         Runs defined pipeline and prints out the result.
 
@@ -1584,7 +1606,22 @@ See docstring for <code>TopicModel.make_dummy()</code> method for reference.</dd
                 continue
 
             cube = cube_description[&#39;cube&#39;]
-            cube(stage_models, dataset)
+            if not restore_mode:
+                cube(stage_models, dataset)
+            else:
+                if cube_index &lt; self.depth - 1:
+                    print(f&#34;[Restoring experiment]: skipping cube {cube_index}&#34;)
+                    continue
+                if cube_index == self.depth - 1:
+                    print(
+                        f&#34;[Restoring experiment]: selecting models at cube number&#34;
+                        f&#34;{cube_index} (some models could be lost)&#34;
+                    )
+                if cube_index &gt;= self.depth:
+                    print(
+                        f&#34;[Restoring experiment]: applying cube number {cube_index}&#34;
+                    )
+                    cube(stage_models, dataset)
 
             # TODO: either delete this line completely
             #  or come up with a way to restore any cube using just info about it in self.cubes
@@ -1723,7 +1760,7 @@ See docstring for <code>TopicModel.make_dummy()</code> method for reference.</dd
              req_equal, metric, extremum) = parse_query_string(inner_query_string)
 
             if metric is not None or extremum is not None:
-                warnings.warn(f&#39;You try to optimize model parameters.&#39;)
+                warnings.warn(&#39;You try to optimize model parameters.&#39;)
 
             candidate_tmodels = self.get_models_by_depth(level=level)
             special_models = choose_best_models(
@@ -1770,6 +1807,9 @@ See docstring for <code>TopicModel.make_dummy()</code> method for reference.</dd
             try:
                 self.cubes += [{
                     &#39;action&#39;: stage_cube.action,
+                    # TODO: should it be &#39;params&#39;: cube_param instead?
+                    # it seems that it is possible to restore failed
+                    # experiment with load() that way..?
                     &#39;params&#39;: stage_cube.get_jsonable_from_parameters(),
                     &#39;cube&#39;: stage_cube
                 }]
@@ -1808,7 +1848,7 @@ See docstring for <code>TopicModel.make_dummy()</code> method for reference.</dd
 <span>def <span class="ident">load</span></span>(<span>load_path)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Loads all params of the experiments. Recovers removed files if it is possible.</p>
+<div class="desc"><p>Loads all params of the experiments. Recovers removed files if it is possible.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>load_path</code></strong> :&ensp;<code>str</code></dt>
@@ -1816,11 +1856,13 @@ See docstring for <code>TopicModel.make_dummy()</code> method for reference.</dd
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><a title="topicnet.cooking_machine.experiment.Experiment" href="#topicnet.cooking_machine.experiment.Experiment"><code>Experiment</code></a></dt>
+<dt><code><a title="topicnet.cooking_machine.experiment.Experiment" href="#topicnet.cooking_machine.experiment.Experiment">Experiment</a></code></dt>
 <dd>&nbsp;</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">@staticmethod
 def load(load_path):
     &#34;&#34;&#34;
@@ -1836,7 +1878,7 @@ def load(load_path):
     Experiment
 
     &#34;&#34;&#34;
-    from .models import TopicModel
+    from .models import DummyTopicModel
 
     files = os.listdir(load_path)
     if &#34;params.json&#34; not in files:
@@ -1851,7 +1893,7 @@ def load(load_path):
         for model_id in experiment.models.keys():
             if model_id != START:
                 model_save_path = os.path.join(load_path, model_id)
-                experiment.models[model_id] = TopicModel.load(
+                experiment.models[model_id] = DummyTopicModel.load(
                     model_save_path, experiment
                 )
 
@@ -1863,10 +1905,12 @@ def load(load_path):
 <dl>
 <dt id="topicnet.cooking_machine.experiment.Experiment.depth"><code class="name">var <span class="ident">depth</span></code></dt>
 <dd>
-<section class="desc"><p>Returns depth of the tree.<br>
-Be careful, depth of the tree may not be the real experiment depth.</p></section>
+<div class="desc"><p>Returns depth of the tree.<br>
+Be careful, depth of the tree may not be the real experiment depth.</p></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">@property
 def depth(self):
     &#34;&#34;&#34;
@@ -1879,9 +1923,11 @@ def depth(self):
 </dd>
 <dt id="topicnet.cooking_machine.experiment.Experiment.root"><code class="name">var <span class="ident">root</span></code></dt>
 <dd>
-<section class="desc"></section>
+<div class="desc"></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">@property
 def root(self):
     &#34;&#34;&#34; &#34;&#34;&#34;
@@ -1895,14 +1941,16 @@ def root(self):
 <span>def <span class="ident">add_cube</span></span>(<span>self, cube)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Adds cube to the experiment.</p>
+<div class="desc"><p>Adds cube to the experiment.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>cube</code></strong> :&ensp;<code>dict</code></dt>
 <dd>cube's params</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def add_cube(self, cube):
     &#34;&#34;&#34;
     Adds cube to the experiment.
@@ -1922,16 +1970,18 @@ def root(self):
 <span>def <span class="ident">add_dataset</span></span>(<span>self, dataset_id, dataset)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Adds dataset to storage.</p>
+<div class="desc"><p>Adds dataset to storage.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>dataset_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>id of dataset to save</dd>
 <dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
 <dd>&nbsp;</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def add_dataset(self, dataset_id, dataset):
     &#34;&#34;&#34;
     Adds dataset to storage.
@@ -1953,14 +2003,16 @@ def root(self):
 <span>def <span class="ident">add_model</span></span>(<span>self, topic_model)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Adds model to the experiment.</p>
+<div class="desc"><p>Adds model to the experiment.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>topic_model</code></strong> :&ensp;<code>TopicModel</code></dt>
 <dd>topic model</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def add_model(self, topic_model):
     &#34;&#34;&#34;
     Adds model to the experiment.
@@ -1982,7 +2034,7 @@ def root(self):
 <span>def <span class="ident">build</span></span>(<span>self, settings)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Builds experiment pipeline from description.</p>
+<div class="desc"><p>Builds experiment pipeline from description.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>settings</code></strong> :&ensp;<code>list</code> of <code>dicts</code></dt>
@@ -1992,9 +2044,11 @@ def root(self):
 <dl>
 <dt><code>Nothing</code></dt>
 <dd>&nbsp;</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def build(self, settings):
     &#34;&#34;&#34;
     Builds experiment pipeline from description.
@@ -2026,6 +2080,9 @@ def root(self):
         try:
             self.cubes += [{
                 &#39;action&#39;: stage_cube.action,
+                # TODO: should it be &#39;params&#39;: cube_param instead?
+                # it seems that it is possible to restore failed
+                # experiment with load() that way..?
                 &#39;params&#39;: stage_cube.get_jsonable_from_parameters(),
                 &#39;cube&#39;: stage_cube
             }]
@@ -2039,7 +2096,7 @@ def root(self):
 <span>def <span class="ident">describe_model</span></span>(<span>self, model_id)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns all scores mentioned on the model stage criteria.</p>
+<div class="desc"><p>Returns all scores mentioned on the model stage criteria.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>model_id</code></strong> :&ensp;<code>str</code></dt>
@@ -2049,9 +2106,11 @@ def root(self):
 <dl>
 <dt><strong><code>description_string</code></strong> :&ensp;<code>str</code></dt>
 <dd>&nbsp;</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def describe_model(self, model_id):
     &#34;&#34;&#34;
     Returns all scores mentioned on the model stage criteria.
@@ -2090,10 +2149,10 @@ def root(self):
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.experiment.Experiment.get_description"><code class="name flex">
-<span>def <span class="ident">get_description</span></span>(<span>self, min_len_per_cube=26, len_tree_step=27)</span>
+<span>def <span class="ident">get_description</span></span>(<span>self, min_len_per_cube: int = 26, len_tree_step: int = 27)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Creates description of the tree that you can print.
+<div class="desc"><p>Creates description of the tree that you can print.
 Print is good when you use no more than 3 cubes at all.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -2108,9 +2167,11 @@ Print is good when you use no more than 3 cubes at all.</p>
 <dl>
 <dt><code>str</code></dt>
 <dd>description to print</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def get_description(self,
                     min_len_per_cube: int = MODEL_NAME_LENGTH,
                     len_tree_step: int = MODEL_NAME_LENGTH + 1):
@@ -2147,9 +2208,11 @@ Print is good when you use no more than 3 cubes at all.</p>
 <span>def <span class="ident">get_models_by_depth</span></span>(<span>self, level=None)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<div class="desc"></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def get_models_by_depth(self, level=None):
     &#34;&#34;&#34; &#34;&#34;&#34;
     if level is None:
@@ -2167,14 +2230,16 @@ Print is good when you use no more than 3 cubes at all.</p>
 <span>def <span class="ident">get_params</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Gets params of the experiment.</p>
+<div class="desc"><p>Gets params of the experiment.</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>parameters</code></strong> :&ensp;<code>dict</code></dt>
 <dd>&nbsp;</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def get_params(self):
     &#34;&#34;&#34;
     Gets params of the experiment.
@@ -2196,19 +2261,21 @@ Print is good when you use no more than 3 cubes at all.</p>
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.experiment.Experiment.preprocess_query"><code class="name flex">
-<span>def <span class="ident">preprocess_query</span></span>(<span>self, query_string, level)</span>
+<span>def <span class="ident">preprocess_query</span></span>(<span>self, query_string: str, level)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Preprocesses special queries with functions inside.</p>
+<div class="desc"><p>Preprocesses special queries with functions inside.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>query_string</code></strong> :&ensp;<code>str</code></dt>
 <dd>string for processing</dd>
 <dt><strong><code>level</code></strong> :&ensp;<code>int</code></dt>
 <dd>model level</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def preprocess_query(self, query_string: str, level):
     &#34;&#34;&#34;
     Preprocesses special queries with functions inside.
@@ -2246,7 +2313,7 @@ Print is good when you use no more than 3 cubes at all.</p>
          req_equal, metric, extremum) = parse_query_string(inner_query_string)
 
         if metric is not None or extremum is not None:
-            warnings.warn(f&#39;You try to optimize model parameters.&#39;)
+            warnings.warn(&#39;You try to optimize model parameters.&#39;)
 
         candidate_tmodels = self.get_models_by_depth(level=level)
         special_models = choose_best_models(
@@ -2267,14 +2334,16 @@ Print is good when you use no more than 3 cubes at all.</p>
 <span>def <span class="ident">remove_dataset</span></span>(<span>self, dataset_id)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Removes dataset from storage.</p>
+<div class="desc"><p>Removes dataset from storage.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>dataset_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>id of dataset to remove</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def remove_dataset(self, dataset_id):
     &#34;&#34;&#34;
     Removes dataset from storage.
@@ -2292,10 +2361,10 @@ Print is good when you use no more than 3 cubes at all.</p>
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.experiment.Experiment.run"><code class="name flex">
-<span>def <span class="ident">run</span></span>(<span>self, dataset, verbose=False, nb_verbose=False)</span>
+<span>def <span class="ident">run</span></span>(<span>self, dataset, verbose=False, nb_verbose=False, restore_mode=False)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Runs defined pipeline and prints out the result.</p>
+<div class="desc"><p>Runs defined pipeline and prints out the result.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
@@ -2305,10 +2374,12 @@ Print is good when you use no more than 3 cubes at all.</p>
 <dt><strong><code>nb_verbose</code></strong> :&ensp;<code>bool</code></dt>
 <dd>parameter that determines where the output is produced
 if False prints in console (Default value = False)</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
-<pre><code class="python">def run(self, dataset, verbose=False, nb_verbose=False):
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run(self, dataset, verbose=False, nb_verbose=False, restore_mode=False):  # noqa C901
     &#34;&#34;&#34;
     Runs defined pipeline and prints out the result.
 
@@ -2329,7 +2400,22 @@ if False prints in console (Default value = False)</dd>
             continue
 
         cube = cube_description[&#39;cube&#39;]
-        cube(stage_models, dataset)
+        if not restore_mode:
+            cube(stage_models, dataset)
+        else:
+            if cube_index &lt; self.depth - 1:
+                print(f&#34;[Restoring experiment]: skipping cube {cube_index}&#34;)
+                continue
+            if cube_index == self.depth - 1:
+                print(
+                    f&#34;[Restoring experiment]: selecting models at cube number&#34;
+                    f&#34;{cube_index} (some models could be lost)&#34;
+                )
+            if cube_index &gt;= self.depth:
+                print(
+                    f&#34;[Restoring experiment]: applying cube number {cube_index}&#34;
+                )
+                cube(stage_models, dataset)
 
         # TODO: either delete this line completely
         #  or come up with a way to restore any cube using just info about it in self.cubes
@@ -2358,17 +2444,19 @@ if False prints in console (Default value = False)</dd>
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.experiment.Experiment.save"><code class="name flex">
-<span>def <span class="ident">save</span></span>(<span>self, window_size=1500, mode='all')</span>
+<span>def <span class="ident">save</span></span>(<span>self, window_size: int = 1500, mode: str = 'all')</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Saves all params of the experiment to save_path/experiment_id.</p>
+<div class="desc"><p>Saves all params of the experiment to save_path/experiment_id.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>window_size</code></strong> :&ensp;<code>int</code></dt>
 <dd>pixels size of window in html description (Default value = 1500)</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def save(self, window_size: int = 1500, mode: str = &#39;all&#39;):
     &#34;&#34;&#34;
     Saves all params of the experiment to save_path/experiment_id.
@@ -2398,7 +2486,7 @@ if False prints in console (Default value = False)</dd>
 <span>def <span class="ident">save_models</span></span>(<span>self, mode='all')</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Saves experiment models with respect to selected way of saving.</p>
+<div class="desc"><p>Saves experiment models with respect to selected way of saving.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>mode</code></strong> :&ensp;<code>str</code></dt>
@@ -2406,9 +2494,11 @@ if False prints in console (Default value = False)</dd>
 'all' - save all models in experiment<br>
 'tree' - save only stem and leaves from the last level<br>
 'last' save only leaves from the last level</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def save_models(self, mode=&#39;all&#39;):
     &#34;&#34;&#34;
     Saves experiment models with respect to selected way of saving.
@@ -2454,7 +2544,7 @@ if False prints in console (Default value = False)</dd>
 <span>def <span class="ident">select</span></span>(<span>self, query_string='', models_num=None, level=None)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Selects all models satisfying the query string
+<div class="desc"><p>Selects all models satisfying the query string
 from all models on a particular depth.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -2467,7 +2557,7 @@ from all models on a particular depth.</p>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><strong><code>result_topic_models</code></strong> :&ensp;<code>list</code> of <code>restored</code> <code>TopicModels</code></dt>
+<dt><strong><code>result_topic_models</code></strong> :&ensp;<code>list</code> of <code>restored TopicModels</code></dt>
 <dd>&nbsp;</dd>
 </dl>
 <h2 id="string-format">String Format</h2>
@@ -2507,9 +2597,11 @@ then 4 models will be returned:
 "PerplexityScore@words &lt; 1.1 * MINIMUM(PerplexityScore@all) and model.num_topics &gt; 12"
 )</p>
 </blockquote>
-</blockquote></section>
+</blockquote></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def select(self, query_string=&#39;&#39;, models_num=None, level=None):
     &#34;&#34;&#34;
     Selects all models satisfying the query string
@@ -2628,7 +2720,7 @@ then 4 models will be returned:
 <span>def <span class="ident">set_criteria</span></span>(<span>self, cube_index, criteria)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Allows to edit model selection criteria
+<div class="desc"><p>Allows to edit model selection criteria
 on each stage of the Experiment</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -2641,9 +2733,11 @@ on each stage of the Experiment</p>
 <dl>
 <dt><code>Nothing</code></dt>
 <dd>&nbsp;</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def set_criteria(self, cube_index, criteria):
     &#34;&#34;&#34;
     Allows to edit model selection criteria
@@ -2673,9 +2767,11 @@ on each stage of the Experiment</p>
 <span>def <span class="ident">show</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Shows description of the experiment.</p></section>
+<div class="desc"><p>Shows description of the experiment.</p></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def show(self):
     &#34;&#34;&#34;
     Shows description of the experiment.
@@ -2687,17 +2783,19 @@ on each stage of the Experiment</p>
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.experiment.Experiment.squeeze_models"><code class="name flex">
-<span>def <span class="ident">squeeze_models</span></span>(<span>self, depth=None)</span>
+<span>def <span class="ident">squeeze_models</span></span>(<span>self, depth: int = None)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Transforms models to dummies so as to occupy less RAM memory</p>
+<div class="desc"><p>Transforms models to dummies so as to occupy less RAM memory</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>depth</code></strong> :&ensp;<code>int</code></dt>
 <dd>Models on what depth are to be squeezed, i.e. transformed to dummies</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def squeeze_models(self, depth: int = None):
     &#34;&#34;&#34;Transforms models to dummies so as to occupy less RAM memory
 
@@ -2764,7 +2862,7 @@ on each stage of the Experiment</p>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
 </footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad()</script>

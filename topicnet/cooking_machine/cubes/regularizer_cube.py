@@ -1,6 +1,7 @@
 from .base_cube import BaseCube
 from ..routine import transform_complex_entity_to_dict
 from ..rel_toolbox_lite import count_vocab_size, handle_regularizer
+from ..models.base_regularizer import BaseRegularizer
 from copy import deepcopy
 
 
@@ -144,18 +145,28 @@ class RegularizersModifierCube(BaseCube):
             regularizer_type = str(type(regularizer))
             if isinstance(regularizer, dict):
                 if regularizer['name'] in new_model.all_regularizers.keys():
+                    # TODO: do we actually need to deepcopy custom regularizers?
                     new_regularizer = deepcopy(new_model.all_regularizers[regularizer['name']])
-                    new_regularizer._tau = params
-                    handle_regularizer(
-                        self._relative,
-                        new_model,
-                        new_regularizer,
-                        self.data_stats,
-                    )
+                    if regularizer['name'] in new_model.custom_regularizers:
+                        new_model.custom_regularizers[regularizer['name']].tau = params
+                    else:
+                        # if this is classic regularizer, we attempt to relativize it's coefficients
+                        new_regularizer._tau = params
+                        handle_regularizer(
+                            self._relative,
+                            new_model,
+                            new_regularizer,
+                            self.data_stats,
+                        )
                 else:
                     error_msg = (f"Regularizer {regularizer['name']} does not exist. "
                                  f"Cannot be modified.")
                     raise ValueError(error_msg)
+            elif isinstance(regularizer, BaseRegularizer):
+                # TODO: do we actually need to deepcopy here?
+                new_regularizer = deepcopy(regularizer)
+                new_regularizer.tau = params
+                new_model.custom_regularizers[regularizer.name] = new_regularizer
             elif 'Regularizer' in regularizer_type:
                 new_regularizer = deepcopy(regularizer)
                 new_regularizer._tau = params

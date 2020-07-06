@@ -1,4 +1,7 @@
 import numpy as np
+
+from typing import Callable
+
 from .base_score import BaseScore
 
 
@@ -10,7 +13,11 @@ class ScoreExample(BaseScore):
     (the internal logic of TopicNet relies on them)
 
     """
-    def __init__(self, name: str = None, token_threshold: float = 1e-3):
+    def __init__(
+            self,
+            name: str = None,
+            token_threshold: float = 1e-3,
+            should_compute: Callable[[int], bool] = None):
         """
 
         Parameters
@@ -21,11 +28,11 @@ class ScoreExample(BaseScore):
             what probabilities to take as token belonging to the topic
 
         """
-        super().__init__(name=name)
+        super().__init__(name=name, should_compute=should_compute)
 
         self.threshold = token_threshold
 
-    def call(self, model):
+    def call(self, model, **kwargs):
         """
         Method that calculates the score
 

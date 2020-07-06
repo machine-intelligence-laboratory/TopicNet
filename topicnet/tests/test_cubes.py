@@ -10,7 +10,9 @@ import numpy as np
 from ..cooking_machine.cubes.greedy_strategy import GreedyStrategy
 from ..cooking_machine.cubes.perplexity_strategy import PerplexityStrategy
 
-from ..cooking_machine.cubes import RegularizersModifierCube, CubeCreator
+from ..cooking_machine.cubes import (
+    RegularizersModifierCube, CubeCreator, RegularizationControllerCube
+)
 from ..cooking_machine.models.topic_model import TopicModel
 from ..cooking_machine.models.topic_prior_regularizer import TopicPriorRegularizer
 from ..cooking_machine.models.topic_prior_regularizer import TopicPriorSampledRegularizer
@@ -18,7 +20,8 @@ from ..cooking_machine.experiment import Experiment
 from ..cooking_machine.dataset import Dataset, W_DIFF_BATCHES_1
 from ..cooking_machine.rel_toolbox_lite import count_vocab_size, compute_regularizer_gimel
 
-DATA_PATH = f'tests/test_data/test_dataset.csv'
+
+DATA_PATH = 'tests/test_data/test_dataset.csv'
 
 MAIN_MODALITY = "@text"
 NGRAM_MODALITY = "@ngramms"
@@ -92,11 +95,11 @@ def test_simple_experiment(experiment_enviroment, thread_flag):
     """ """
     tm, dataset, experiment, dictionary = experiment_enviroment
 
-    TAU_GRID = [0.1, 0.5, 1, 5, 10]
+    tau_grid = [0.1, 0.5, 1, 5, 10]
     regularizer_parameters = {
         "regularizer": artm.regularizers.SmoothSparsePhiRegularizer(name='test',
                                                                     class_ids=MAIN_MODALITY),
-        "tau_grid": TAU_GRID
+        "tau_grid": tau_grid
     }
 
     cube = RegularizersModifierCube(
@@ -110,9 +113,9 @@ def test_simple_experiment(experiment_enviroment, thread_flag):
 
     tmodels = [dummy.restore() for dummy in dummies]
 
-    assert len(tmodels) == len(TAU_GRID)
+    assert len(tmodels) == len(tau_grid)
     for i, one_model in enumerate(tmodels):
-        assert one_model.regularizers['test'].tau == TAU_GRID[i]
+        assert one_model.regularizers['test'].tau == tau_grid[i]
 
 
 @pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
@@ -120,11 +123,11 @@ def test_simple_experiment_pair_strategy(experiment_enviroment, thread_flag):
     """ """
     tm, dataset, experiment, dictionary = experiment_enviroment
 
-    TAU_GRID = [0.1, 0.5, 1, 5, 10]
+    tau_grid = [0.1, 0.5, 1, 5, 10]
     regularizer_parameters = {
         "regularizer": artm.regularizers.SmoothSparsePhiRegularizer(name='test',
                                                                     class_ids=MAIN_MODALITY),
-        "tau_grid": TAU_GRID
+        "tau_grid": tau_grid
     }
 
     cube_pair = RegularizersModifierCube(
@@ -145,7 +148,7 @@ def test_simple_experiment_pair_strategy(experiment_enviroment, thread_flag):
     assert len(tmodels_pair) == 5
 
     for i, one_model in enumerate(tmodels_pair):
-        assert one_model.regularizers['test'].tau == TAU_GRID[i]
+        assert one_model.regularizers['test'].tau == tau_grid[i]
 
 
 @pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
@@ -200,11 +203,11 @@ def test_relative_coefficients(experiment_enviroment, artm_regularizer, thread_f
     tm, dataset, experiment, dictionary = experiment_enviroment
     modality_weights = tm.class_ids
     random_tau = np.random.rand() + 0.01
-    TAU_GRID = np.array([1.0, 2.0, 3.0, 4.0, 5.0, ])
+    tau_grid = np.array([1.0, 2.0, 3.0, 4.0, 5.0, ])
 
     regularizer_parameters = {
         "regularizer": artm_regularizer,
-        "tau_grid": TAU_GRID * random_tau
+        "tau_grid": tau_grid * random_tau
     }
 
     cube_first = RegularizersModifierCube(
@@ -228,9 +231,9 @@ def test_relative_coefficients(experiment_enviroment, artm_regularizer, thread_f
     data_stats = count_vocab_size(dictionary, modality_weights)
     gimels = []
     if artm_regularizer.name == 'test_decor':
-        gimels = TAU_GRID * random_tau
+        gimels = tau_grid * random_tau
     else:
-        for tau in TAU_GRID * random_tau:
+        for tau in tau_grid * random_tau:
             artm_regularizer._tau = tau
             gimels.append(compute_regularizer_gimel(
                 data_stats,
@@ -254,12 +257,12 @@ def test_relative_coefficients(experiment_enviroment, artm_regularizer, thread_f
 
     second_cube_models = cube_second(tm, dataset)
 
-    assert len(first_cube_tmodels) == len(TAU_GRID) == len(second_cube_models)
+    assert len(first_cube_tmodels) == len(tau_grid) == len(second_cube_models)
     if artm_regularizer.name == 'test_decor':
         for one_model, second_model in zip(first_cube_tmodels, second_cube_models):
             assert one_model.scores['PerplexityScore'] != second_model.scores['PerplexityScore']
     else:
-        assert np.all(gimels != TAU_GRID * random_tau)
+        assert np.all(gimels != tau_grid * random_tau)
         for one_model, second_model in zip(first_cube_tmodels, second_cube_models):
             assert one_model.scores['PerplexityScore'] == second_model.scores['PerplexityScore']
 
@@ -621,11 +624,11 @@ def test_perplexity_strategy_grid(experiment_enviroment, thread_flag):
     """ """
     tm, dataset, experiment, dictionary = experiment_enviroment
 
-    TAU_GRID = [0.1, 0.5, 1, 5, 50]
+    tau_grid = [0.1, 0.5, 1, 5, 50]
     regularizer_parameters = {
         "regularizer": artm.DecorrelatorPhiRegularizer(name='decorrelator_phi_regularizer',
                                                        class_ids=MAIN_MODALITY),
-        "tau_grid": TAU_GRID
+        "tau_grid": tau_grid
     }
 
     cube = RegularizersModifierCube(
@@ -642,7 +645,7 @@ def test_perplexity_strategy_grid(experiment_enviroment, thread_flag):
         tmodels = [dummy.restore() for dummy in dummies]
 
     visited_taus = extract_visited_taus(tmodels)
-    expected_taus = [0] + TAU_GRID
+    expected_taus = [0] + tau_grid
     assert visited_taus == expected_taus
 
     SCORES = [3.756, 3.756, 3.753, 3.75, 3.72, 2.887]
@@ -821,3 +824,119 @@ def test_phi_matrix_after_lda_sampled_regularizer(experiment_enviroment):
     phi_second = tm_2.get_phi()
 
     assert any(phi_first != phi_second), 'Phi matrices are the same after regularization.'
+
+
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+@pytest.mark.parametrize('by_name', [True, False])
+def test_custom_regularizer_cubed(experiment_enviroment, thread_flag, by_name):
+    """ """
+    _, dataset, _, dictionary = experiment_enviroment
+    tau_grid = [1, 0, -1]
+
+    custom_reg = TopicPriorSampledRegularizer(
+        name='topic_prior', tau=5,
+        num_topics=5, beta_prior=[10, 1, 100, 2, 1000]
+    )
+
+    model_artm = artm.ARTM(
+        num_processors=1,
+        num_topics=5,
+        cache_theta=True,
+        class_ids={MAIN_MODALITY: 1.0, NGRAM_MODALITY: 1.0},
+        num_document_passes=1,
+        dictionary=dictionary,
+        scores=[artm.PerplexityScore(name='PerplexityScore',)],
+    )
+    tm = TopicModel(
+        model_artm, model_id='new_id_1',
+        custom_regularizers={custom_reg.name: custom_reg} if by_name else {}
+    )
+    experiment = Experiment(  # noqa: F841
+        tm, experiment_id="cubed_reg", save_path="tests/experiments"
+    )
+
+    if by_name:
+        regularizer_parameters = {
+            "name": custom_reg.name,
+            "tau_grid": tau_grid
+        }
+    else:
+        regularizer_parameters = {
+            "regularizer": custom_reg,
+            "tau_grid": tau_grid
+        }
+
+    cube = RegularizersModifierCube(
+        num_iter=10,
+        regularizer_parameters=regularizer_parameters,
+        reg_search="grid",
+        use_relative_coefficients=False,
+        separate_thread=thread_flag
+    )
+    dummies = cube(tm, dataset)
+
+    tmodels = [dummy.restore() for dummy in dummies]
+
+    assert len(tmodels) == len(tau_grid)
+    for tau, one_model in zip(tau_grid, tmodels):
+        assert one_model.all_regularizers[custom_reg.name].tau == tau
+
+
+@pytest.mark.parametrize('thread_flag', MULTIPROCESSING_FLAGS)
+@pytest.mark.parametrize('by_name', [True, False])
+def test_custom_regularizer_cubed_controlled(experiment_enviroment, thread_flag, by_name):
+    """ """
+    _, dataset, _, dictionary = experiment_enviroment
+    multiplier = 2
+    initial_tau = 5
+
+    custom_reg = TopicPriorSampledRegularizer(
+        name='topic_prior', tau=initial_tau,
+        num_topics=5, beta_prior=[10, 1, 100, 2, 1000]
+    )
+
+    model_artm = artm.ARTM(
+        num_processors=1,
+        num_topics=5,
+        cache_theta=True,
+        class_ids={MAIN_MODALITY: 1.0, NGRAM_MODALITY: 1.0},
+        num_document_passes=1,
+        dictionary=dictionary,
+        scores=[artm.PerplexityScore(name='PerplexityScore',)],
+    )
+    tm = TopicModel(
+        model_artm, model_id='new_id_1',
+        custom_regularizers={custom_reg.name: custom_reg} if by_name else {}
+    )
+    experiment = Experiment(  # noqa: F841
+        tm, experiment_id="cubed_controlled_reg", save_path="tests/experiments"
+    )
+
+    parameters = {
+        "score_to_track": None,
+        "tau_converter": f"prev_tau * {multiplier}",
+        "user_value_grid": [0.3],
+        "max_iters": float("inf")
+    }
+
+    if by_name:
+        parameters["reg_name"] = custom_reg.name
+    else:
+        parameters["regularizer"] = custom_reg
+
+    num_iter = 10
+    cube = RegularizationControllerCube(
+        num_iter=num_iter,
+        parameters=parameters,
+        reg_search="grid",
+        use_relative_coefficients=False,
+        separate_thread=thread_flag
+    )
+    dummies = cube(tm, dataset)
+
+    tmodels = [dummy.restore() for dummy in dummies]
+
+    for one_model in tmodels:
+        actual_tau = one_model.all_regularizers[custom_reg.name].tau
+
+        assert actual_tau == initial_tau * (multiplier ** num_iter)

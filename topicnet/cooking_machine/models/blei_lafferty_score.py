@@ -1,4 +1,7 @@
 import numpy as np
+
+from typing import Callable
+
 from .base_score import BaseScore
 
 
@@ -11,7 +14,11 @@ class BleiLaffertyScore(BaseScore):
     to describe given topic. Summing up that score helps to estimate how
     well the model distinguishes between topics. The higher this score - better
     """
-    def __init__(self, name: str = None, num_top_tokens: int = 30):
+    def __init__(
+            self,
+            name: str = None,
+            num_top_tokens: int = 30,
+            should_compute: Callable[[int], bool] = None):
         """
 
         Parameters
@@ -22,7 +29,7 @@ class BleiLaffertyScore(BaseScore):
             now many tokens we consider to be
 
         """
-        super().__init__(name=name)
+        super().__init__(name=name, should_compute=should_compute)
 
         self.num_top_tokens = num_top_tokens
 
@@ -60,7 +67,7 @@ class BleiLaffertyScore(BaseScore):
         scores = phi * multiplier
         return scores
 
-    def call(self, model):
+    def call(self, model, **kwargs):
         modalities = list(model.class_ids.keys())
 
         score = 0

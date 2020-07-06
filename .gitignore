@@ -2,3 +2,5 @@
 build/
 dist/
 
+topicnet/dataset_manager/*__internals
+topicnet/tests/test_data/*__internals

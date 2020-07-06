@@ -8,6 +8,7 @@ import warnings
 from collections import defaultdict
 from enum import Enum, IntEnum, auto
 from typing import (
+    Callable,
     Dict,
     List,
     Optional,
@@ -105,6 +106,7 @@ class IntratextCoherenceScore(BaseScore):
             self,
             dataset: Union[Dataset, str],
             name: str = None,
+            should_compute: Callable[[int], bool] = None,
             keep_dataset_in_memory: bool = None,
             keep_dataset: bool = True,
             documents: List[str] = None,
@@ -189,7 +191,7 @@ class IntratextCoherenceScore(BaseScore):
         >>> topic_model._fit(dataset.get_batch_vectorizer(), num_iterations=num_iterations)
         """
         # TODO: word_topic_relatedness seems to be connected with TopTokensViewer stuff
-        super().__init__(name=name)
+        super().__init__(name=name, should_compute=should_compute)
 
         self._keep_dataset = keep_dataset
 
@@ -363,7 +365,7 @@ class IntratextCoherenceScore(BaseScore):
 
         return score
 
-    def call(self, model: BaseModel) -> float:
+    def call(self, model: BaseModel, **kwargs) -> float:
         if (self._current_iteration - self._start_fit_iteration) % self._fit_iteration_step != 0:
             self._current_iteration += 1
 
