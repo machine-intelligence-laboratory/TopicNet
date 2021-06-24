@@ -89,7 +89,8 @@ def get_weight_for(token, dict_df, avg_scheme):
         w = data.idf
     elif avg_scheme == "unit":
         w = 1
-    else: raise NotImplementedError
+    else:
+        raise NotImplementedError
     return w
 
 
@@ -154,4 +155,3 @@ def get_doc_vec_phi(phi, doc_counter, dict_df, avg_scheme):
             n += 1
             vec += tf * w * phi.loc[key]
     return vec / (n or 1)
-

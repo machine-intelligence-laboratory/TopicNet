@@ -105,8 +105,8 @@ def dataset2counter(dataset):
         doc_id, *text_info = row['vw_text'].split('|@')
         doc_id = doc_id.strip()
         result[doc_id] = Counter()
+        # TODO: use get_content_of_modalty here
         vw_line = text_info[0]
-        tokens = []
         for token_with_counter in vw_line.split()[1:]:
             token, _, counter = token_with_counter.partition(':')
             result[doc_id][token] += int(counter or '1')
