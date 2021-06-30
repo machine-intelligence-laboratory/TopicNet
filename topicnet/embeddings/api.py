@@ -12,8 +12,7 @@ from urllib.request import (
 from ..cooking_machine.models import TopicModel
 
 
-_SERVER_URL = 'https://127.0.0.1:9001/'
-
+_SERVER_URL = 'https://93.175.29.159:8885'
 _ARCHIVE_EXTENSION = '.tar.gz'
 
 
@@ -31,9 +30,9 @@ def load_model(model_name: str) -> TopicModel:
     # model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), model_name)
     model_path = os.path.join('.', model_name)
 
-    print(f'Checking if model "{model_name}" was already downloaded before')
-
     if os.path.isdir(model_path):
+        print(f'The model "{model_name}" was already downloaded before, loading it...')
+
         return TopicModel.load(model_path)
 
     req = Request(_SERVER_URL + '/download/' + model_name)

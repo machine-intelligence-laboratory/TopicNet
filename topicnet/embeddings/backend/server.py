@@ -4,7 +4,7 @@ import os
 import shutil
 
 
-DATA_PATH = '/data/public_models/'
+DATA_PATH = '/data_mil/public_models/'
 app = Flask(__name__)
 
 
@@ -25,7 +25,7 @@ def download_file(model_name):
 
     response = send_from_directory(
         directory=DATA_PATH,
-        filename=base_file_name + '.tar.gz',
+        path=base_file_name + '.tar.gz',
         cache_timeout=0
     )
     response.headers['file-extension'] = os.path.splitext(source_archive)[-1]
@@ -33,4 +33,4 @@ def download_file(model_name):
 
 
 if __name__ == '__main__':
-    app.run(port='9001', debug=True)
+    app.run(port='9001')

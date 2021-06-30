@@ -38,7 +38,9 @@ def phi_to_keyed_vectors(phi):
     Gensim::KeyedVectors object
     """
     topics = phi.columns
-    words = phi.index.levels[1]
+    is_phi_multiindex = isinstance(phi.index, pd.core.indexes.multi.MultiIndex)
+    words = phi.index.levels[1] if is_phi_multiindex else phi.index
+
     model = KeyedVectors(len(topics))
     model.add(words, phi)
     return model
@@ -65,7 +67,7 @@ def calc_dataset_statistics(dataset):
     return dict_parap
 
 
-def get_weight_for(token, dict_df, avg_scheme):
+def get_weight_for(token, dict_df, avg_scheme, modality="@lemmatized"):
     """
     Calculates weight used for averaging
     See: Schmidt C. W. Improving a tf-idf weighted document vector embedding
@@ -83,7 +85,7 @@ def get_weight_for(token, dict_df, avg_scheme):
     -------
     float
     """
-    key = ('@lemmatized', token)
+    key = (modality, token)
     data = dict_df.loc[key, :]
     if avg_scheme == "tf-idf":
         w = data.idf
@@ -126,7 +128,7 @@ def get_doc_vec_keyedvectors(kv_obj, doc_counter, dict_df, avg_scheme):
     return vec / (n or 1)
 
 
-def get_doc_vec_phi(phi, doc_counter, dict_df, avg_scheme):
+def get_doc_vec_phi(phi, doc_counter, dict_df, avg_scheme, modality="@lemmatized"):
     """
     Calculates a document embedding via weighted averaging of entries from Phi matrix
 
@@ -148,8 +150,8 @@ def get_doc_vec_phi(phi, doc_counter, dict_df, avg_scheme):
     vec = pd.Series(data=np.zeros(dim), index=optional_index)
     n = 0
     for token, tf in doc_counter.items():
-        w = get_weight_for(token, dict_df, avg_scheme)
-        key = ('@lemmatized', token)
+        w = get_weight_for(token, dict_df, avg_scheme, modality)
+        key = (modality, token)
         if key in phi.index:
             # print(token, key, w, tf, phi.loc[key].sum())
             n += 1
