@@ -12,7 +12,7 @@ from urllib.request import (
 from ..cooking_machine.models import TopicModel
 
 
-_SERVER_URL = 'https://93.175.29.159:8885'
+_SERVER_URL = 'http://93.175.29.159:8885'
 _ARCHIVE_EXTENSION = '.tar.gz'
 
 
@@ -35,7 +35,7 @@ def load_model(model_name: str) -> TopicModel:
 
         return TopicModel.load(model_path)
 
-    req = Request(_SERVER_URL + '/download/' + model_name)
+    req = Request(_SERVER_URL + '/' + model_name)
 
     context = ssl._create_unverified_context()
 
