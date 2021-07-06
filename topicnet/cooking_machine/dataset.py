@@ -10,6 +10,8 @@ from typing import (
     List,
     Optional,
 )
+from collections import Counter
+
 
 import artm
 
@@ -95,6 +97,20 @@ def get_modality_vw(vw_string, modality_name):
             return one_modality_content[len(modality_name):]
 
     return ""
+
+
+def dataset2counter(dataset):
+    result = {}
+    for i, row in dataset._data.iterrows():
+        doc_id, *text_info = row['vw_text'].split('|@')
+        doc_id = doc_id.strip()
+        result[doc_id] = Counter()
+        # TODO: use get_content_of_modalty here
+        vw_line = text_info[0]
+        for token_with_counter in vw_line.split()[1:]:
+            token, _, counter = token_with_counter.partition(':')
+            result[doc_id][token] += int(counter or '1')
+    return result
 
 
 class BaseDataset:
