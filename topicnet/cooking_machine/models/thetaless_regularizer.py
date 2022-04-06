@@ -299,7 +299,6 @@ class ThetalessRegularizer(BaseRegularizer):
         )
         ind = self.n_dw_matrix.sum(axis=0)
         self.modalities_mask = np.ravel((ind == ind))
-        print(self.modalities_mask.shape)
         self.n_dw_matrix.data = np.nan_to_num(self.n_dw_matrix.data)
 
         self.B = scipy.sparse.csr_matrix(
@@ -345,13 +344,6 @@ class ThetalessRegularizer(BaseRegularizer):
 
         result = n_tw.T - nwt
         result = (result.T * self.modalities_mask).T
-
-        """
-        print(np.min((n_tw.T - nwt), axis=1))
-        print(n_tw.T.shape, np.min(n_tw.T))
-        print(nwt.shape, np.max(nwt))
-        print("----")
-        """
 
         return self.tau * result
 
