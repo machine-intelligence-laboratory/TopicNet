@@ -27,7 +27,7 @@ def artm_dict2df(artm_dict):
 
     """
     dictionary_data = artm_dict._master.get_dictionary(artm_dict._name)
-    dict_pandas = {field: getattr(dictionary_data, field)
+    dict_pandas = {field: list(getattr(dictionary_data, field))
                    for field in FIELDS}
     return pd.DataFrame(dict_pandas)
 
@@ -55,7 +55,7 @@ def obtain_token2id(dataset: Dataset):
     return df_inverted_index.to_dict()['index']
 
 
-def dataset2sparse_matrix(dataset, modality, modalities_to_use=None):
+def dataset2sparse_matrix(dataset, modality, modalities_to_use=None, remove_nans=True):
     """
     Builds a sparse matrix from batch_vectorizer linked to the Dataset
 
@@ -100,11 +100,11 @@ def dataset2sparse_matrix(dataset, modality, modalities_to_use=None):
     batch_vectorizer = dataset.get_batch_vectorizer()
 
     return _batch_vectorizer2sparse_matrix(
-        batch_vectorizer, token2id, modality, modalities_to_use
+        batch_vectorizer, token2id, modality, modalities_to_use, remove_nans
     )
 
 
-def _batch_vectorizer2sparse_matrix(batch_vectorizer, token2id, modality, modalities_to_use=None):
+def _batch_vectorizer2sparse_matrix(batch_vectorizer, token2id, modality, modalities_to_use=None, remove_nans=True):
     """
     """
     theta_column_naming = 'id'  # scipy sparse matrix doesn't support non-integer indices
@@ -127,6 +127,7 @@ def _batch_vectorizer2sparse_matrix(batch_vectorizer, token2id, modality, modali
                     # probably dictionary was filtered
                     continue
                 if modalities_to_use and token_class_id not in modalities_to_use:
+                    # skip foreign modality
                     continue
                 if token_class_id != modality:
                     # we still need these tokens,
@@ -147,11 +148,12 @@ def _batch_vectorizer2sparse_matrix(batch_vectorizer, token2id, modality, modali
     # this is needed to be in sync with artm dictionary after filtering elements out
     # (they need to have the same shape)
     ind = sparse_n_dw_matrix.sum(axis=0)
-    nonzeros = np.ravel(ind > 0)
+    nonzeros = np.ravel((ind > 0) | (ind != ind))
     sparse_n_dw_matrix = sparse_n_dw_matrix[:, nonzeros]
 
     # re-encode values to transform NaNs to explicitly stored zeros
-    sparse_n_dw_matrix.data = np.nan_to_num(sparse_n_dw_matrix.data)
+    if remove_nans:
+        sparse_n_dw_matrix.data = np.nan_to_num(sparse_n_dw_matrix.data)
 
     return sparse_n_dw_matrix
 
@@ -262,7 +264,7 @@ def calc_A_matrix(
 
 
 class ThetalessRegularizer(BaseRegularizer):
-    def __init__(self, name, tau, modality, dataset: Dataset):
+    def __init__(self, name, tau, modality, dataset: Dataset, modalities_to_use=None):
         """
         A regularizer based on a "thetaless" topic model inference
 
@@ -285,7 +287,7 @@ class ThetalessRegularizer(BaseRegularizer):
         super().__init__(name, tau)
 
         self.modality = modality
-        self.modalities_to_use = None
+        self.modalities_to_use = modalities_to_use
         self.n_dw_matrix = None
 
         self.token2id = obtain_token2id(dataset)
@@ -293,8 +295,13 @@ class ThetalessRegularizer(BaseRegularizer):
 
     def _initialize_matrices(self, batch_vectorizer, token2id):
         self.n_dw_matrix = _batch_vectorizer2sparse_matrix(
-            batch_vectorizer, token2id, self.modality, self.modalities_to_use
+            batch_vectorizer, token2id, self.modality, self.modalities_to_use, False
         )
+        ind = self.n_dw_matrix.sum(axis=0)
+        self.modalities_mask = np.ravel((ind == ind))
+        print(self.modalities_mask.shape)
+        self.n_dw_matrix.data = np.nan_to_num(self.n_dw_matrix.data)
+
         self.B = scipy.sparse.csr_matrix(
             (
                 1. * self.n_dw_matrix.data / calc_docsizes(self.n_dw_matrix),
@@ -336,7 +343,17 @@ class ThetalessRegularizer(BaseRegularizer):
         tmp = g_dt.T * self.B / (phi_matrix_tr.sum(axis=1) + EPS)
         n_tw += (tmp - np.einsum('ij,ji->i', phi_rev_matrix, tmp)) * phi_matrix
 
-        return self.tau * (n_tw.T - nwt)
+        result = n_tw.T - nwt
+        result = (result.T * self.modalities_mask).T
+
+        """
+        print(np.min((n_tw.T - nwt), axis=1))
+        print(n_tw.T.shape, np.min(n_tw.T))
+        print(nwt.shape, np.max(nwt))
+        print("----")
+        """
+
+        return self.tau * result
 
     def attach(self, model):
         """
@@ -352,7 +369,8 @@ class ThetalessRegularizer(BaseRegularizer):
                 f" should be set to {1} to correctly emulate a thetaless inference process"
             )
 
-        self.modalities_to_use = model.class_ids.keys()
+        if not self.modalities_to_use:
+            self.modalities_to_use = model.class_ids.keys()
         bv = artm.BatchVectorizer(data_path=self._batches_path, data_format='batches')
         self._initialize_matrices(bv, self.token2id)
 
