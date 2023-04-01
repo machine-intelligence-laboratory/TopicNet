@@ -1,8 +1,12 @@
-name: py33
+name: python_test
 channels:
   - conda-forge
 dependencies:
   - python==3.7
   - ipython
+  - protobuf==3.5.2
   - pip:
     - bigartm
+  - numpy 
+  - scipy 
+  - pandas 
