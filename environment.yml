@@ -1,0 +1,8 @@
+name: py33
+channels:
+  - conda-forge
+dependencies:
+  - python==3.7
+  - ipython
+  - pip:
+    - bigartm
