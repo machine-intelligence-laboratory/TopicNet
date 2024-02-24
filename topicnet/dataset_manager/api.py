@@ -17,7 +17,7 @@ from urllib.request import (
 from ..cooking_machine.dataset import Dataset
 
 
-_SERVER_URL = 'https://topicnet-datasets.machine-intelligence.ru'
+_SERVER_URL = 'https://topicnet-datasets.mil-team.ru'
 _ARCHIVE_EXTENSION = '.gz'
 _DEFAULT_DATASET_FILE_EXTENSION = '.csv'
 
