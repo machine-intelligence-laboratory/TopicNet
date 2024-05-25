@@ -28,7 +28,7 @@ ERROR_NO_DATA_ENTRY = 'Requested documents with ids: {0} not found in the datase
 DEFAULT_ARTM_MODALITY = '@default_class'  # TODO: how to get this value from artm library?
 MODALITY_START_SYMBOL = '|'
 
-NONEXISTENT_SEP = str(uuid.uuid4())  # to read vw as one-column csv
+NONEXISTENT_SEP = str(uuid.uuid4())  # To read vw as one-column csv
 
 
 def _increase_csv_field_max_size():
