@@ -3,6 +3,7 @@ import os
 import pandas as pd
 import shutil
 import sys
+import uuid
 import warnings
 
 from glob import glob
@@ -11,6 +12,7 @@ from typing import (
     Optional,
 )
 from collections import Counter
+
 
 import artm
 
@@ -25,6 +27,8 @@ ERROR_NO_DATA_ENTRY = 'Requested documents with ids: {0} not found in the datase
 
 DEFAULT_ARTM_MODALITY = '@default_class'  # TODO: how to get this value from artm library?
 MODALITY_START_SYMBOL = '|'
+
+NONEXISTENT_SEP = str(uuid.uuid4())  # to read vw as one-column csv
 
 
 def _increase_csv_field_max_size():
@@ -371,7 +375,7 @@ class Dataset(BaseDataset):
                 data_path,
                 engine='python',
                 on_bad_lines='warn',
-                sep='HELLO_WORLD!',
+                sep=NONEXISTENT_SEP,
                 header=None,
                 names=[VW_TEXT_COL]
             )

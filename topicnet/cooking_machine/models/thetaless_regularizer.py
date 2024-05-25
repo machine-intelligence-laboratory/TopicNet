@@ -29,9 +29,6 @@ def artm_dict2df(artm_dict):
     dictionary_data = artm_dict._master.get_dictionary(artm_dict._name)
     dict_pandas = {field: list(getattr(dictionary_data, field))
                    for field in FIELDS}
-    #print(type(getattr(dictionary_data, 'token')))
-    #print(list(dict_pandas.items())[:10])
-    #print(pd.DataFrame([dict_pandas]).head())
 
     return pd.DataFrame(dict_pandas)
 
