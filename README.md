@@ -72,7 +72,9 @@ experiment, dataset = (
         save_path     = 'sample_save_folder_path',
     )
 )
+
 experiment.run(dataset)
+
 best_model = experiment.select('PerplexityScore@all -> min')[0]
 ```
 
@@ -181,6 +183,7 @@ These datasets can be downloaded from code:
 ```python
 from topicnet.dataset_manager import api
 
+
 dataset = api.load_dataset('postnauka')
 ```
 
@@ -207,6 +210,7 @@ In case you want to start from a fresh model we suggest you use this code:
 
 ```python
 from topicnet.cooking_machine.model_constructor import init_simple_default_model
+
 
 artm_model = init_simple_default_model(
     dataset=dataset,
@@ -257,7 +261,9 @@ For further model training and tuning `Experiment` is necessary:
 from topicnet.cooking_machine.experiment import Experiment
 
 
-experiment = Experiment(experiment_id="simple_experiment", save_path="experiments", topic_model=topic_model)
+experiment = Experiment(
+    experiment_id="simple_experiment", save_path="experiments", topic_model=topic_model
+)
 ```
 
 ### Toy with the Cubes
@@ -296,11 +302,13 @@ If you need a topic model now, you can use one of the code snippets we call *rec
 from topicnet.cooking_machine.recipes import BaselineRecipe
 
 
-training_pipeline = BaselineRecipe()
 EXPERIMENT_PATH = '/home/user/experiment/'
 
+training_pipeline = BaselineRecipe()
 training_pipeline.format_recipe(dataset_path=DATASET_PATH)
-experiment, dataset = training_pipeline.build_experiment_environment(save_path=EXPERIMENT_PATH,)
+experiment, dataset = training_pipeline.build_experiment_environment(
+    save_path=EXPERIMENT_PATH
+)
 ```
 after that you can expect a following result:
 ![run_result](./docs/readme_images/experiment_train.gif)
