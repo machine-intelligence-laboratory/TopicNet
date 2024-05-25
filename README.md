@@ -83,6 +83,8 @@ Define `TopicModel` from an ARTM model at hand or with help from `model_construc
 
 Further you can read documentation [here](https://machine-intelligence-laboratory.github.io/TopicNet/).
 
+If you want to get familiar with BigARTM (which is not necessary, but generally useful), we recommend the following tutorial by [Murat Apishev](https://github.com/MelLain): https://youtu.be/AIN00vWOJGw (which includes video and Colab Notebook).
+
 
 ## Installation
 
@@ -158,7 +160,7 @@ All you need is to run the following command in a notebook cell:
 ```
 
 There is also a [notebook in Google Colab](https://colab.research.google.com/drive/1Tr1ZO03iPufj11HtIH3JjaWWU1Wyxkzv) made by [Nikolay Gerasimenko](https://github.com/Nikolay-Gerasimenko), where BigARTM is build from source.
-This may be useful, for example, if you want to use the BigARTM Command Line Utility.
+This may be useful, for example, if you plan to use the BigARTM Command Line Utility.
 
 
 # Usage
@@ -173,16 +175,29 @@ TopicNet does not perform data preprocessing itself.
 Instead, it demands data being prepared by the user and loaded via [Dataset](topicnet/cooking_machine/dataset.py) class.
 Here is a basic example of how one can achieve that: [rtl_wiki_preprocessing](topicnet/demos/RTL-Wiki-Preprocessing.ipynb).
 
+For the convenience of everyone who wants to use TopicNet and in general for everyone interested in topic modeling, we provide a couple of already proprocessed datasets (see [DemoDataset.ipynb](topicnet/dataset_manager/DemoDataset.ipynb) notebook for more info).
+These datasets can be downloaded from code:
+
+```python
+from topicnet.dataset_manager import api
+
+dataset = api.load_dataset('postnauka')
+```
+
+Or, in case the API is broken or something, you can just go to the [TopicNet's page on Hugging Face](https://huggingface.co/TopicNet) and get the needed .csv files there.
+
+
 ## Training a Topic Model
 
 Here we can finally get on the main part: making your own, best of them all, manually crafted Topic Model
 
 ### Get Your Data
 
-We need to load our data prepared previously with Dataset:
+We need to load our previously prepared data with Dataset:
 
 ```python
 DATASET_PATH = '/Wiki_raw_set/wiki_data.csv'
+
 dataset = Dataset(DATASET_PATH)
 ```
 
@@ -307,7 +322,7 @@ More info about different viewers is available here: [`viewers`](topicnet/viewer
 
 # FAQ
 
-### In the example we used to write vw modality like **@modality**, is it a VowpallWabbit format?
+### In the example we used to write vw modality like **@modality**, is it a VowpalWabbit format?
 
 It is a convention to write data designating modalities with @ sign taken by TopicNet from BigARTM.
 
