@@ -178,7 +178,7 @@ TopicNet does not perform data preprocessing itself.
 Instead, it demands data being prepared by the user and loaded via [Dataset](topicnet/cooking_machine/dataset.py) class.
 Here is a basic example of how one can achieve that: [rtl_wiki_preprocessing](topicnet/demos/RTL-Wiki-Preprocessing.ipynb).
 
-For the convenience of everyone who wants to use TopicNet and in general for everyone interested in topic modeling, we provide a couple of already proprocessed datasets (see [DemoDataset.ipynb](topicnet/dataset_manager/DemoDataset.ipynb) notebook for more info).
+For the convenience of everyone who wants to use TopicNet and in general for everyone interested in topic modeling, we provide a couple of already proprocessed datasets (see [DemoDataset.ipynb](topicnet/dataset_manager/DemoDataset.ipynb) notebook for more information).
 These datasets can be downloaded from code:
 
 ```python
