@@ -12,7 +12,6 @@ from typing import (
 )
 from collections import Counter
 
-
 import artm
 
 from .routine import blake2bchecksum
@@ -354,7 +353,7 @@ class Dataset(BaseDataset):
             data = data_handle.read_csv(
                 data_path,
                 engine='python',
-                error_bad_lines=False,
+                on_bad_lines='warn',
             )
 
         elif file_type == '.pkl':
@@ -362,7 +361,7 @@ class Dataset(BaseDataset):
                 data = data_handle.read_pickle(
                     data_path,
                     engine='python',
-                    error_bad_lines=False,
+                    on_bad_lines='warn',
                 )
             except AttributeError:
                 raise RuntimeError('Can\'t handle big *.pkl files!')
@@ -371,8 +370,8 @@ class Dataset(BaseDataset):
             data = data_handle.read_csv(
                 data_path,
                 engine='python',
-                error_bad_lines=False,
-                sep='\n',
+                on_bad_lines='warn',
+                sep='HELLO_WORLD!',
                 header=None,
                 names=[VW_TEXT_COL]
             )

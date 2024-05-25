@@ -286,7 +286,7 @@ class TopicModel(BaseModel):
                                             regularizer_tau=base_regularizers_tau)
 
         (meta, nd_array) = self._model.master.attach_model(rwt_name)
-        attached_rwt = pd.DataFrame(data=nd_array, columns=meta.topic_name, index=meta.token)
+        attached_rwt = pd.DataFrame(data=nd_array, columns=list(meta.topic_name), index=list(meta.token))
 
         for regularizer in custom_regularizers.values():
             attached_rwt.values[:, :] += regularizer.grad(pwt, nwt)

@@ -1,9 +1,10 @@
 import os
+import uuid
 
 
 def count_vocab_size(dictionary, modalities):
     # TODO: check tokens filtered by dict.filter()
-    fname = 'tmp.txt'
+    fname = str(uuid.uuid4()) + '.txt'  # 'tmp.txt'
     try:
         dictionary.save_text(fname)
         modality_count = {name: 0 for name in modalities}
