@@ -85,7 +85,7 @@ Define `TopicModel` from an ARTM model at hand or with help from `model_construc
 
 Further you can read documentation [here](https://machine-intelligence-laboratory.github.io/TopicNet/).
 
-If you want to get familiar with BigARTM (which is not necessary, but generally useful), we recommend the following tutorial by [Murat Apishev](https://github.com/MelLain): https://youtu.be/AIN00vWOJGw (which includes video and Colab Notebook).
+If you want to get familiar with BigARTM (which is not necessary, but generally useful), we recommend the [video tutorial](https://youtu.be/AIN00vWOJGw) by [Murat Apishev](https://github.com/MelLain) (which also includes a Colab Notebook).
 
 
 ## Installation
