@@ -69,7 +69,7 @@ def dataset2sparse_matrix(dataset, modality, modalities_to_use=None, remove_nans
     dataset: Dataset
     modality: str
         the remaining modalities will be ignored
-        (their occurrences will be replaced with zeros, but they will continue to exist)
+        (their occurrences will be replaced with zeros, but they will continue to exist).
     modalities_to_use: iterable
         a set of modalities the underlying topic model is using (this is about topic model,
         not regularizer; this parameter ensures that the shapes of n_dw matrix and actual
@@ -84,7 +84,7 @@ def dataset2sparse_matrix(dataset, modality, modalities_to_use=None, remove_nans
         If you hadn't explicitly listed any modalities yet, you probably could
         leave this argument as None.
 
-        If you use a single modality, wrap it into a list (e.g.['@word'])
+        If you use a single modality, wrap it into a list (e.g.['@word']).
     remove_nans: bool
         whether to re-encode values to transform NaNs in n_dw matrix to explicitly stored zeros.
 
@@ -277,15 +277,15 @@ class ThetalessRegularizer(BaseRegularizer):
         Parameters
         ----------
         name: str
-            name of the regularizer
+            name of the regularizer.
         tau: Number
             according to the math, `tau` should be set to 1 (to correctly emulate a different  
             inference process). But you do you, it's not like there's a regularizer  
             police or something.  
         modality: str
-            name of modality on which the inference should be based
+            name of modality on which the inference should be based.
         dataset: Dataset
-            will be transformed to n_dw_matrix
+            will be transformed to n_dw_matrix.
         modalities_to_use: iterable
             a set of modalities the underlying topic model is using (this is about topic model,
             not regularizer; this parameter ensures that the shapes of n_dw matrix and actual
@@ -300,7 +300,7 @@ class ThetalessRegularizer(BaseRegularizer):
             If you hadn't explicitly listed any modalities yet, you probably could
             leave this argument as None.
     
-            If you use a single modality, wrap it into a list (e.g.['@word'])
+            If you use a single modality, wrap it into a list (e.g.['@word']).
 
         """  # noqa: W291
         super().__init__(name, tau)
