@@ -5,7 +5,7 @@ cache:
     - $HOME/.ccache
 
 python:
-  - "3.7"
+  - "3.8"
 
 env:
   global:
