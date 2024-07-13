@@ -38,6 +38,7 @@ setup(
         'numpy',
         'pandas',
         'plotly',
+        'protobuf==3.20.0',
         'pytest',
         'scikit-learn',
         'scipy',
