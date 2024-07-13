@@ -57,7 +57,7 @@ def obtain_token2id(dataset: Dataset):
 
 def dataset2sparse_matrix(dataset, modality, modalities_to_use=None, remove_nans=True):
     """
-    Builds a sparse matrix from batch_vectorizer linked to the Dataset
+    Builds a sparse matrix from batch_vectorizer linked to the Dataset.
 
     If you need an inverse mapping:
 
@@ -86,13 +86,13 @@ def dataset2sparse_matrix(dataset, modality, modalities_to_use=None, remove_nans
 
         If you use a single modality, wrap it into a list (e.g.['@word'])
     remove_nans: bool
-        Re-encode values to transform NaNs in n_dw matrix to explicitly stored zeros.
+        whether to re-encode values to transform NaNs in n_dw matrix to explicitly stored zeros.
 
     Returns
     -------
     n_dw_matrix: scipy.sparse.csr_matrix
-        The matrix of document-word occurrences.
-        `n_dw` is a number of the occurrences of the word `w` in the document `d`.
+        the matrix of document-word occurrences
+        (`n_dw` is a number of the occurrences of the word `w` in the document `d`.)
         This matrix determines the dependence between the Theta and Phi matrices
         (Phi is the result of one iteration of the ARTM's EM algorihtm
         with uniform Theta initialization and `n_dw` matrix of the document-word occurrences).
@@ -151,11 +151,11 @@ def _batch_vectorizer2sparse_matrix(batch_vectorizer, token2id, modality, modali
     # this is needed to be in sync with artm dictionary after filtering elements out
     # (they need to have the same shape)
     ind = sparse_n_dw_matrix.sum(axis=0)
-    nonzeros = np.ravel((ind > 0) | (ind != ind))
+    nonzeros = np.ravel((ind > 0) | (ind != ind))  # also includes NaN-s
     sparse_n_dw_matrix = sparse_n_dw_matrix[:, nonzeros]
 
-    # re-encode values to transform NaNs to explicitly stored zeros
     if remove_nans:
+        # re-encode values to transform NaNs to explicitly stored zeros
         sparse_n_dw_matrix.data = np.nan_to_num(sparse_n_dw_matrix.data)
 
     return sparse_n_dw_matrix
@@ -284,8 +284,24 @@ class ThetalessRegularizer(BaseRegularizer):
             police or something.  
         modality: str
             name of modality on which the inference should be based
-        dataset
+        dataset: Dataset
             will be transformed to n_dw_matrix
+        modalities_to_use: iterable
+            a set of modalities the underlying topic model is using (this is about topic model,
+            not regularizer; this parameter ensures that the shapes of n_dw matrix and actual
+            Phi matrix match).
+    
+            The tokens outside of this list will be discarded utterly
+            (the resulting matrix will have no entries corresponding to them)
+    
+            For artm.ARTM() models, you need to pass whatever is inside class_ids;
+            while TopicModel usually requires this to be set inside modalities_to_use.
+    
+            If you hadn't explicitly listed any modalities yet, you probably could
+            leave this argument as None.
+    
+            If you use a single modality, wrap it into a list (e.g.['@word'])
+
         """  # noqa: W291
         super().__init__(name, tau)
 
@@ -298,10 +314,12 @@ class ThetalessRegularizer(BaseRegularizer):
 
     def _initialize_matrices(self, batch_vectorizer, token2id):
         self.n_dw_matrix = _batch_vectorizer2sparse_matrix(
-            batch_vectorizer, token2id, self.modality, self.modalities_to_use, False
+            batch_vectorizer, token2id,
+            self.modality, self.modalities_to_use,
+            remove_nans=False,
         )
         ind = self.n_dw_matrix.sum(axis=0)
-        self.modalities_mask = np.ravel((ind == ind))
+        self.modalities_mask = np.ravel((ind == ind))  # detects not-NaN-s
         self.n_dw_matrix.data = np.nan_to_num(self.n_dw_matrix.data)
 
         self.B = scipy.sparse.csr_matrix(
@@ -366,6 +384,7 @@ class ThetalessRegularizer(BaseRegularizer):
 
         if not self.modalities_to_use:
             self.modalities_to_use = model.class_ids.keys()
+
         bv = artm.BatchVectorizer(data_path=self._batches_path, data_format='batches')
         self._initialize_matrices(bv, self.token2id)
 

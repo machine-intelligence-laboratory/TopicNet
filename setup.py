@@ -38,7 +38,7 @@ setup(
         'numpy',
         'pandas',
         'plotly',
-        'protobuf==3.20.0',
+        'protobuf==3.20.0',  # BigARTM dependency
         'pytest',
         'scikit-learn',
         'scipy',
