@@ -56,9 +56,9 @@ def obtain_token2id(dataset: Dataset):
     return df_inverted_index.to_dict()['index']
 
 
-def dataset2sparse_matrix(dataset, modality, modalities_to_use=None):
+def dataset2sparse_matrix(dataset, modality, modalities_to_use=None, remove_nans=True):
     """
-    Builds a sparse matrix from batch_vectorizer linked to the Dataset
+    Builds a sparse matrix from batch_vectorizer linked to the Dataset.
 
     If you need an inverse mapping:
 
@@ -70,7 +70,7 @@ def dataset2sparse_matrix(dataset, modality, modalities_to_use=None):
     dataset: Dataset
     modality: str
         the remaining modalities will be ignored
-        (their occurrences will be replaced with zeros, but they will continue to exist)
+        (their occurrences will be replaced with zeros, but they will continue to exist).
     modalities_to_use: iterable
         a set of modalities the underlying topic model is using (this is about topic model,
         not regularizer; this parameter ensures that the shapes of n_dw matrix and actual
@@ -85,27 +85,30 @@ def dataset2sparse_matrix(dataset, modality, modalities_to_use=None):
         If you hadn't explicitly listed any modalities yet, you probably could
         leave this argument as None.
 
-        If you use a single modality, wrap it into a list (e.g.['@word'])
+        If you use a single modality, wrap it into a list (e.g.['@word']).
+    remove_nans: bool
+        whether to re-encode values to transform NaNs in n_dw matrix to explicitly stored zeros.
 
     Returns
     -------
-    n_dw_matrix: scipy.sparse.csr_matrix  
-        The matrix of document-word occurrences.  
-        `n_dw` is a number of the occurrences of the word `w` in the document `d`  
-        this matrix determines the dependence between the Theta and Phi matrices  
-        (Phi is the result of one iteration of the ARTM's EM algorihtm  
-        with uniform theta initialization and `n_dw` matrix of the document-word occurrences)  
+    n_dw_matrix: scipy.sparse.csr_matrix
+        the matrix of document-word occurrences
+        (`n_dw` is a number of the occurrences of the word `w` in the document `d`.)
+        This matrix determines the dependence between the Theta and Phi matrices
+        (Phi is the result of one iteration of the ARTM's EM algorihtm
+        with uniform Theta initialization and `n_dw` matrix of the document-word occurrences).
+
     """  # noqa: W291
     token2id = obtain_token2id(dataset)
 
     batch_vectorizer = dataset.get_batch_vectorizer()
 
     return _batch_vectorizer2sparse_matrix(
-        batch_vectorizer, token2id, modality, modalities_to_use
+        batch_vectorizer, token2id, modality, modalities_to_use, remove_nans
     )
 
 
-def _batch_vectorizer2sparse_matrix(batch_vectorizer, token2id, modality, modalities_to_use=None):
+def _batch_vectorizer2sparse_matrix(batch_vectorizer, token2id, modality, modalities_to_use=None, remove_nans=True):
     """
     """
     theta_column_naming = 'id'  # scipy sparse matrix doesn't support non-integer indices
@@ -128,6 +131,7 @@ def _batch_vectorizer2sparse_matrix(batch_vectorizer, token2id, modality, modali
                     # probably dictionary was filtered
                     continue
                 if modalities_to_use and token_class_id not in modalities_to_use:
+                    # skip foreign modality
                     continue
                 if token_class_id != modality:
                     # we still need these tokens,
@@ -148,11 +152,12 @@ def _batch_vectorizer2sparse_matrix(batch_vectorizer, token2id, modality, modali
     # this is needed to be in sync with artm dictionary after filtering elements out
     # (they need to have the same shape)
     ind = sparse_n_dw_matrix.sum(axis=0)
-    nonzeros = np.ravel(ind > 0)
+    nonzeros = np.ravel((ind > 0) | (ind != ind))  # also includes NaN-s
     sparse_n_dw_matrix = sparse_n_dw_matrix[:, nonzeros]
 
-    # re-encode values to transform NaNs to explicitly stored zeros
-    sparse_n_dw_matrix.data = np.nan_to_num(sparse_n_dw_matrix.data)
+    if remove_nans:
+        # re-encode values to transform NaNs to explicitly stored zeros
+        sparse_n_dw_matrix.data = np.nan_to_num(sparse_n_dw_matrix.data)
 
     return sparse_n_dw_matrix
 
@@ -263,7 +268,7 @@ def calc_A_matrix(
 
 
 class ThetalessRegularizer(BaseRegularizer):
-    def __init__(self, name, tau, modality, dataset: Dataset):
+    def __init__(self, name, tau, modality, dataset: Dataset, modalities_to_use=None):
         """
         A regularizer based on a "thetaless" topic model inference
 
@@ -273,20 +278,36 @@ class ThetalessRegularizer(BaseRegularizer):
         Parameters
         ----------
         name: str
-            name of the regularizer
+            name of the regularizer.
         tau: Number
             according to the math, `tau` should be set to 1 (to correctly emulate a different  
             inference process). But you do you, it's not like there's a regularizer  
             police or something.  
         modality: str
-            name of modality on which the inference should be based
-        dataset
-            will be transformed to n_dw_matrix
+            name of modality on which the inference should be based.
+        dataset: Dataset
+            will be transformed to n_dw_matrix.
+        modalities_to_use: iterable
+            a set of modalities the underlying topic model is using (this is about topic model,
+            not regularizer; this parameter ensures that the shapes of n_dw matrix and actual
+            Phi matrix match).
+    
+            The tokens outside of this list will be discarded utterly
+            (the resulting matrix will have no entries corresponding to them)
+    
+            For artm.ARTM() models, you need to pass whatever is inside class_ids;
+            while TopicModel usually requires this to be set inside modalities_to_use.
+    
+            If you hadn't explicitly listed any modalities yet, you probably could
+            leave this argument as None.
+    
+            If you use a single modality, wrap it into a list (e.g.['@word']).
+
         """  # noqa: W291
         super().__init__(name, tau)
 
         self.modality = modality
-        self.modalities_to_use = None
+        self.modalities_to_use = modalities_to_use
         self.n_dw_matrix = None
 
         self.token2id = obtain_token2id(dataset)
@@ -294,8 +315,14 @@ class ThetalessRegularizer(BaseRegularizer):
 
     def _initialize_matrices(self, batch_vectorizer, token2id):
         self.n_dw_matrix = _batch_vectorizer2sparse_matrix(
-            batch_vectorizer, token2id, self.modality, self.modalities_to_use
+            batch_vectorizer, token2id,
+            self.modality, self.modalities_to_use,
+            remove_nans=False,
         )
+        ind = self.n_dw_matrix.sum(axis=0)
+        self.modalities_mask = np.ravel((ind == ind))  # detects not-NaN-s
+        self.n_dw_matrix.data = np.nan_to_num(self.n_dw_matrix.data)
+
         self.B = scipy.sparse.csr_matrix(
             (
                 1. * self.n_dw_matrix.data / calc_docsizes(self.n_dw_matrix),
@@ -337,7 +364,10 @@ class ThetalessRegularizer(BaseRegularizer):
         tmp = g_dt.T * self.B / (phi_matrix_tr.sum(axis=1) + EPS)
         n_tw += (tmp - np.einsum('ij,ji->i', phi_rev_matrix, tmp)) * phi_matrix
 
-        return self.tau * (n_tw.T - nwt)
+        result = n_tw.T - nwt
+        result = (result.T * self.modalities_mask).T
+
+        return self.tau * result
 
     def attach(self, model):
         """
@@ -353,7 +383,9 @@ class ThetalessRegularizer(BaseRegularizer):
                 f" should be set to {1} to correctly emulate a thetaless inference process"
             )
 
-        self.modalities_to_use = model.class_ids.keys()
+        if not self.modalities_to_use:
+            self.modalities_to_use = model.class_ids.keys()
+
         bv = artm.BatchVectorizer(data_path=self._batches_path, data_format='batches')
         self._initialize_matrices(bv, self.token2id)
 
