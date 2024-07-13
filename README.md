@@ -44,9 +44,9 @@ Consider using TopicNet if:
     </div>
     <em>
         Example of the two-stage experiment scheme.
-        At the first stage, regularizer with parameter <img src="https://render.githubusercontent.com/render/math?math=\tau"> taking values in some range <img src="https://render.githubusercontent.com/render/math?math=\{\tau_1, \tau_2, \tau_3\}"> is applied.
+        At the first stage, regularizer with parameter $`\tau`$ taking values in some range $`\{\tau_1, \tau_2, \tau_3\}`$ is applied.
         Best models after the first stage are <em>Model 1</em> and <em>Model 2</em> — so <em>Model 3</em> is not taking part in the training process anymore.
-        The second stage is connected with another regularizer with parameter <img src="https://render.githubusercontent.com/render/math?math=\xi"> taking values in range <img src="https://render.githubusercontent.com/render/math?math=\{\xi_1, \xi_2\}">.
+        The second stage is connected with another regularizer with parameter $`\xi`$ taking values in range $`\{\xi_1, \xi_2\}`$.
         As a result of this stage, two descendant models of <em>Model 1</em> and two descendant models of <em>Model 2</em> are obtained.
     </em>
 </p>
