@@ -85,15 +85,18 @@ def dataset2sparse_matrix(dataset, modality, modalities_to_use=None, remove_nans
         leave this argument as None.
 
         If you use a single modality, wrap it into a list (e.g.['@word'])
+    remove_nans: bool
+        Re-encode values to transform NaNs in n_dw matrix to explicitly stored zeros.
 
     Returns
     -------
-    n_dw_matrix: scipy.sparse.csr_matrix  
-        The matrix of document-word occurrences.  
-        `n_dw` is a number of the occurrences of the word `w` in the document `d`  
-        this matrix determines the dependence between the Theta and Phi matrices  
-        (Phi is the result of one iteration of the ARTM's EM algorihtm  
-        with uniform theta initialization and `n_dw` matrix of the document-word occurrences)  
+    n_dw_matrix: scipy.sparse.csr_matrix
+        The matrix of document-word occurrences.
+        `n_dw` is a number of the occurrences of the word `w` in the document `d`.
+        This matrix determines the dependence between the Theta and Phi matrices
+        (Phi is the result of one iteration of the ARTM's EM algorihtm
+        with uniform Theta initialization and `n_dw` matrix of the document-word occurrences).
+
     """  # noqa: W291
     token2id = obtain_token2id(dataset)
 
