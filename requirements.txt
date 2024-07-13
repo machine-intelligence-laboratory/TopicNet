@@ -11,7 +11,7 @@ numexpr
 numpy
 pandas
 plotly
-protobuf==3.20.0
+protobuf==3.20.3
 pytest
 pytest-cov
 pytest-rerunfailures
