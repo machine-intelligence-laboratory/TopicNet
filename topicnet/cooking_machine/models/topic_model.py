@@ -424,8 +424,8 @@ class TopicModel(BaseModel):
                 score_object.save(save_path)
             except pickle.PicklingError:
                 warnings.warn(
-                    f'Failed to save custom score "{score_object}" correctly! '
-                    f'Freezing score (saving only its value)'
+                    f'Failed to save custom score "{score_object}" correctly!'
+                    f' Freezing score (saving only its value)'
                 )
 
                 frozen_score_object = FrozenScore(

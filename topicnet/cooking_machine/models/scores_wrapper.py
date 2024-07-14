@@ -52,15 +52,20 @@ class ScoresWrapper(Mapping):
         return key
 
     def add(self, score: Union[BaseScore, artm.scores.BaseScore]):
-        if isinstance(score, FrozenScore):
-            raise TypeError('FrozenScore is not supposed to be added to model')
+        if isinstance(score, BaseScore):
+            if isinstance(score, FrozenScore):
+                warnings.warn(
+                    f'Adding FrozenScore "{score._name}" to model.'
+                    f' It will not be used in computations!'
+                    f' If this is not the expected behaviour,'
+                    f' check if the score was saved correctly.'
+                )
 
-        elif isinstance(score, BaseScore):
             if score._name is None:
                 raise ValueError(
                     'When using `model.scores.add(score)` method,'
-                    ' one should specify score name parameter during score initialization.'
-                    ' For example `model.scores.add(IntratextCoherenceScore(name="name", ...))'
+                    ' one should specify score `name` parameter during score initialization.'
+                    ' For example, `model.scores.add(IntratextCoherenceScore(name="name", ...))'
                 )
 
             self._topicnet_scores[score._name] = score

@@ -84,3 +84,5 @@ class FrozenScore(BaseScore):
             except AttributeError:
                 # TODO: log?
                 pass
+
+        self._name = self._original_score._name
