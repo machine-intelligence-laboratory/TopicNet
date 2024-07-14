@@ -8,6 +8,9 @@
     <a href="https://www.python.org/downloads/release/python-360/">
         <img alt="Python Version" src="https://img.shields.io/pypi/pyversions/TopicNet">
     </a>
+    <a href="https://travis-ci.com/machine-intelligence-laboratory/TopicNet">
+        <img alt="Travis Build Status" src="https://travis-ci.com/machine-intelligence-laboratory/TopicNet.svg?branch=master">
+    </a>
     <a href="https://codecov.io/gh/machine-intelligence-laboratory/TopicNet">
         <img alt="Code Coverage" src="https://codecov.io/gh/machine-intelligence-laboratory/TopicNet/branch/master/graph/badge.svg">
     </a>
