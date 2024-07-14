@@ -5,7 +5,7 @@
     <a href="https://pypi.org/project/topicnet">
         <img alt="PyPI Version" src="https://img.shields.io/pypi/v/topicnet?color=blue">
     </a>
-    <a href="https://www.python.org/downloads/release/python-360/">
+    <a href="https://www.python.org/downloads/">
         <img alt="Python Version" src="https://img.shields.io/pypi/pyversions/TopicNet">
     </a>
     <a href="https://app.travis-ci.com/machine-intelligence-laboratory/TopicNet">
