@@ -187,6 +187,7 @@ def compute_likelihood_vectorised(phi, p_t, joint_pwt):
     return target_values
 
 
+# TODO: copy-paste from BleiLaffertyScore
 def compute_blei_scores(phi):
     """
     Computes Blei score  
@@ -208,7 +209,7 @@ def compute_blei_scores(phi):
     blei_eps = 1e-42
     log_phi = np.log(phi + blei_eps)
     denominator = np.sum(log_phi, axis=0)
-    denominator = denominator[np.newaxis, :]
+    denominator = denominator.to_numpy()[np.newaxis, :]
 
     if hasattr(log_phi, "values"):
         multiplier = log_phi.values - denominator / topic_number
