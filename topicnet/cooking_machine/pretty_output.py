@@ -284,7 +284,7 @@ def get_html(experiment, window_size: int = 1500):
 
 
 def make_notebook_pretty():
-    from IPython.core.display import display, HTML
+    from IPython.display import display, HTML
 
     display(HTML("""<style>
     div.output_html {
