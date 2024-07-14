@@ -1,6 +1,7 @@
 import pytest
 import shutil
 import pandas as pd
+import warnings
 
 from glob import glob
 from ..cooking_machine.dataset import BaseDataset
@@ -42,7 +43,7 @@ class TestDataset:
         """ """
         dataset = Dataset(self.dataset_path, keep_in_memory=small)
 
-        with pytest.warns(None) as record:
+        with warnings.catch_warnings(record=True) as record:
             dataset.get_dictionary()
 
         assert len(record) == 0
@@ -55,7 +56,7 @@ class TestDataset:
 
         dataset = Dataset(self.dataset_path, keep_in_memory=small)
 
-        with pytest.warns(None) as record:
+        with warnings.catch_warnings(record=True) as record:
             dataset.get_dictionary()
 
         assert len(record) == 0
@@ -68,7 +69,7 @@ class TestDataset:
 
         dataset = Dataset(self.dataset_path, keep_in_memory=not small)
 
-        with pytest.warns(None) as record:
+        with warnings.catch_warnings(record=True) as record:
             dataset.get_dictionary()
 
         assert len(record) == 0
