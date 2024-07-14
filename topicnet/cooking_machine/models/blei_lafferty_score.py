@@ -56,7 +56,8 @@ class BleiLaffertyScore(BaseScore):
         topic_number = phi.shape[1]
         blei_eps = 1e-42
         log_phi = np.log(phi + blei_eps)
-        numerator = np.sum(log_phi, axis=1, keepdims=True)
+        numerator = np.sum(log_phi, axis=1)
+        numerator = numerator.to_numpy()[:, np.newaxis]
 
         if hasattr(log_phi, "values"):
             multiplier = log_phi.values - numerator / topic_number
