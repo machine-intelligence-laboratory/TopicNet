@@ -5,11 +5,11 @@
     <a href="https://pypi.org/project/topicnet">
         <img alt="PyPI Version" src="https://img.shields.io/pypi/v/topicnet?color=blue">
     </a>
-    <a href="https://www.python.org/downloads/release/python-360/">
+    <a href="https://www.python.org/downloads/">
         <img alt="Python Version" src="https://img.shields.io/pypi/pyversions/TopicNet">
     </a>
-    <a href="https://travis-ci.com/machine-intelligence-laboratory/TopicNet">
-        <img alt="Travis Build Status" src="https://travis-ci.com/machine-intelligence-laboratory/TopicNet.svg?branch=master">
+    <a href="https://app.travis-ci.com/machine-intelligence-laboratory/TopicNet">
+        <img alt="Travis Build Status" src="https://api.travis-ci.com/machine-intelligence-laboratory/TopicNet.svg?branch=master">
     </a>
     <a href="https://codecov.io/gh/machine-intelligence-laboratory/TopicNet">
         <img alt="Code Coverage" src="https://codecov.io/gh/machine-intelligence-laboratory/TopicNet/branch/master/graph/badge.svg">
@@ -72,7 +72,9 @@ experiment, dataset = (
         save_path     = 'sample_save_folder_path',
     )
 )
+
 experiment.run(dataset)
+
 best_model = experiment.select('PerplexityScore@all -> min')[0]
 ```
 
@@ -82,6 +84,9 @@ best_model = experiment.select('PerplexityScore@all -> min')[0]
 Define `TopicModel` from an ARTM model at hand or with help from `model_constructor` module, where you can set models main parameters. Then create an `Experiment`, assigning a root position to this model and path to store your experiment. Further, you can define a set of training stages by the functionality provided by the `cooking_machine.cubes` module.
 
 Further you can read documentation [here](https://machine-intelligence-laboratory.github.io/TopicNet/).
+
+If you want to get familiar with BigARTM (which is not necessary, but generally useful), we recommend the [video tutorial](https://youtu.be/AIN00vWOJGw) by [Murat Apishev](https://github.com/MelLain).
+The tutorial is in Russian, but it comes with a [Colab Notebook](https://colab.research.google.com/drive/13oUI1yxZHdQWUfmMpFY4KVlkyWzAkoky).
 
 
 ## Installation
@@ -158,7 +163,7 @@ All you need is to run the following command in a notebook cell:
 ```
 
 There is also a [notebook in Google Colab](https://colab.research.google.com/drive/1Tr1ZO03iPufj11HtIH3JjaWWU1Wyxkzv) made by [Nikolay Gerasimenko](https://github.com/Nikolay-Gerasimenko), where BigARTM is build from source.
-This may be useful, for example, if you want to use the BigARTM Command Line Utility.
+This may be useful, for example, if you plan to use the BigARTM Command Line Utility.
 
 
 # Usage
@@ -173,16 +178,31 @@ TopicNet does not perform data preprocessing itself.
 Instead, it demands data being prepared by the user and loaded via [Dataset](topicnet/cooking_machine/dataset.py) class.
 Here is a basic example of how one can achieve that: [rtl_wiki_preprocessing](topicnet/demos/RTL-Wiki-Preprocessing.ipynb).
 
+For the convenience of everyone who wants to use TopicNet and in general for everyone interested in topic modeling, we provide a couple of already proprocessed datasets (see [DemoDataset.ipynb](topicnet/dataset_manager/DemoDataset.ipynb) notebook for more information).
+These datasets can be downloaded from code.
+For example:
+
+```python
+from topicnet.dataset_manager import api
+
+
+dataset = api.load_dataset('postnauka')
+```
+
+Or, in case the API is broken or something, you can just go to the [TopicNet's page on Hugging Face](https://huggingface.co/TopicNet) and get the needed .csv files there.
+
+
 ## Training a Topic Model
 
 Here we can finally get on the main part: making your own, best of them all, manually crafted Topic Model
 
 ### Get Your Data
 
-We need to load our data prepared previously with Dataset:
+We need to load our previously prepared data with Dataset:
 
 ```python
 DATASET_PATH = '/Wiki_raw_set/wiki_data.csv'
+
 dataset = Dataset(DATASET_PATH)
 ```
 
@@ -192,6 +212,7 @@ In case you want to start from a fresh model we suggest you use this code:
 
 ```python
 from topicnet.cooking_machine.model_constructor import init_simple_default_model
+
 
 artm_model = init_simple_default_model(
     dataset=dataset,
@@ -242,7 +263,9 @@ For further model training and tuning `Experiment` is necessary:
 from topicnet.cooking_machine.experiment import Experiment
 
 
-experiment = Experiment(experiment_id="simple_experiment", save_path="experiments", topic_model=topic_model)
+experiment = Experiment(
+    experiment_id="simple_experiment", save_path="experiments", topic_model=topic_model
+)
 ```
 
 ### Toy with the Cubes
@@ -281,11 +304,13 @@ If you need a topic model now, you can use one of the code snippets we call *rec
 from topicnet.cooking_machine.recipes import BaselineRecipe
 
 
-training_pipeline = BaselineRecipe()
 EXPERIMENT_PATH = '/home/user/experiment/'
 
+training_pipeline = BaselineRecipe()
 training_pipeline.format_recipe(dataset_path=DATASET_PATH)
-experiment, dataset = training_pipeline.build_experiment_environment(save_path=EXPERIMENT_PATH,)
+experiment, dataset = training_pipeline.build_experiment_environment(
+    save_path=EXPERIMENT_PATH
+)
 ```
 after that you can expect a following result:
 ![run_result](./docs/readme_images/experiment_train.gif)
@@ -307,7 +332,7 @@ More info about different viewers is available here: [`viewers`](topicnet/viewer
 
 # FAQ
 
-### In the example we used to write vw modality like **@modality**, is it a VowpallWabbit format?
+### In the example we used to write vw modality like **@modality**, is it a VowpalWabbit format?
 
 It is a convention to write data designating modalities with @ sign taken by TopicNet from BigARTM.
 
