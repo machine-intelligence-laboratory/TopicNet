@@ -265,8 +265,8 @@ class BaseCube:
         # TODO: будет странно работать, если бесконечный список
         parameter_description = self.get_jsonable_from_parameters()
         cube_description = {
-                'action': self.action,
-                'params': parameter_description
+            'action': self.action,
+            'params': parameter_description
         }
 
         # at one level only one cube can be implemented

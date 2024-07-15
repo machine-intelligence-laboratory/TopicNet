@@ -229,7 +229,7 @@ class BaseModel(object):
             "data_path": self.data_path,
             "description": self.description,
             "depth": self.depth,
-            "scores": self._get_short_scores()
+            "scores": self._get_scores()
         }
         if self.experiment is None:
             parameters["experiment_id"] = None
@@ -238,18 +238,22 @@ class BaseModel(object):
 
         return parameters
 
-    def _get_short_scores(self):
+    def _get_scores(self):
         short_scores = {}
+
         # sometimes self.scores could be None
         for score_name in self.scores or {}:
             values = self.scores[score_name]
+
             if len(values) == 0:
                 short_scores[score_name] = []
                 continue
+
             if isinstance(values[0], Number):
-                short_scores[score_name] = values[-1:]
+                short_scores[score_name] = values
             else:
                 short_scores[score_name] = [f"NaN ({type(values[0])})"]
+
         return short_scores
 
     @property
