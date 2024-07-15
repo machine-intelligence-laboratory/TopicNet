@@ -1,7 +1,8 @@
 import artm
 import copy
-from collections.abc import Mapping
+import warnings
 
+from collections.abc import Mapping
 from typing import (
     Dict,
     List,
