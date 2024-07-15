@@ -80,7 +80,7 @@ class BaseModel(object):
         else:
             experiment_id = None
 
-        return f'Model(id={self.model_id}, ' \
+        return f'{self.__class__.__name__}(id={self.model_id}, ' \
                f'parent_id={self.parent_model_id}, ' \
                f'experiment_id={experiment_id}' \
                f')'
