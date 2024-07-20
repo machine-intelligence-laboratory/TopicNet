@@ -250,8 +250,11 @@ class TopicModel(BaseModel):
                     custom_score.update(score)
                     self._model.score_tracker[name] = custom_score
 
-                except AttributeError:  # TODO: means no "call" attribute?
-                    raise AttributeError(f'Score {name} doesn\'t have a desired attribute')
+                except AttributeError as error:  # TODO: means no "call" attribute?
+                    raise AttributeError(
+                        f'Seems score {name} doesn\'t have a desired attribute...'
+                        f' Original error: "{error}".'
+                    )
 
             # TODO: think about performance issues
             for callback_agent in self.callbacks:
