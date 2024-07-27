@@ -32,7 +32,7 @@ setup(
         'dask[dataframe]==2023.5.0',
         'dill==0.3.8',
         'ipython==8.12.3',
-        'jinja2==3.1.3',
+        'jinja2==3.1.4',
         'numba==0.58.1',
         'numexpr==2.8.6',
         'numpy==1.24.4',
