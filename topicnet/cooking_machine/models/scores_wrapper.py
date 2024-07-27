@@ -59,7 +59,7 @@ class ScoresWrapper(Mapping):
                     f'Adding FrozenScore "{score._name}" to model.'
                     f' It will not be used in computations!'
                     f' If this is not the expected behaviour,'
-                    f' check if the score was saved correctly.'
+                    f' then perhaps the fact is that the score was not saved correctly.'
                 )
 
             if score._name is None:

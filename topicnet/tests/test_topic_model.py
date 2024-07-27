@@ -4,6 +4,7 @@ import warnings
 import shutil
 import time
 
+from numbers import Number
 
 import artm
 
@@ -225,6 +226,8 @@ def test_to_dummy_and_back_with_scores(experiment_enviroment):
     # Dummy model keeps all score values
     assert len(dummy.scores[custom_score_name]) == num_iterations
     assert len(dummy.scores[artm_score_name]) == num_iterations
+    assert all(isinstance(v, Number) for v in dummy.scores[custom_score_name])
+    assert all(isinstance(v, Number) for v in dummy.scores[artm_score_name])
     assert not hasattr(dummy.scores, '_score_caches')
 
     restored_topic_model = dummy.restore(dataset)
