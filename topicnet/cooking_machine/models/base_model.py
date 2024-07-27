@@ -249,10 +249,10 @@ class BaseModel(object):
                 short_scores[score_name] = []
                 continue
 
-            if isinstance(values[0], Number):
-                short_scores[score_name] = values
-            else:
-                short_scores[score_name] = [f"NaN ({type(values[0])})"]
+            short_scores[score_name] = [
+                v if isinstance(v, Number) else f"NaN ({type(v)})"
+                for v in values
+            ]
 
         return short_scores
 
