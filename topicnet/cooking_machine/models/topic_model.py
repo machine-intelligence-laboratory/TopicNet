@@ -217,7 +217,7 @@ class TopicModel(BaseModel):
 
         for cur_iter in range(num_iterations):
             precomputed_data = dict()
-            iter_is_last = cur_iter == num_iterations - 1
+            iter_is_last = (cur_iter == num_iterations - 1)
 
             self._model.fit_offline(batch_vectorizer=dataset_trainable,
                                     num_collection_passes=1)
@@ -252,9 +252,8 @@ class TopicModel(BaseModel):
 
                 except AttributeError as error:  # TODO: means no "call" attribute?
                     raise AttributeError(
-                        f'Seems score {name} doesn\'t have a desired attribute...'
-                        f' Original error: "{error}".'
-                    )
+                        f'Seems that score "{name}" doesn\'t have a desired attribute...'
+                    ) from error
 
             # TODO: think about performance issues
             for callback_agent in self.callbacks:
