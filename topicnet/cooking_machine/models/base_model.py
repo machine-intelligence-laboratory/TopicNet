@@ -229,7 +229,7 @@ class BaseModel(object):
             "data_path": self.data_path,
             "description": self.description,
             "depth": self.depth,
-            "scores": self._get_scores()
+            "scores": self._get_short_scores()
         }
         if self.experiment is None:
             parameters["experiment_id"] = None
@@ -238,7 +238,7 @@ class BaseModel(object):
 
         return parameters
 
-    def _get_scores(self):
+    def _get_short_scores(self):
         short_scores = {}
 
         # sometimes self.scores could be None
