@@ -45,7 +45,7 @@ setup(
         'six==1.16.0',
         'strictyaml==1.7.3',
         'toolz==0.12.1',
-        'tqdm==4.66.2',
+        'tqdm==4.66.3',
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
