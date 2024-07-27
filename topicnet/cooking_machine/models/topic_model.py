@@ -217,7 +217,7 @@ class TopicModel(BaseModel):
 
         for cur_iter in range(num_iterations):
             precomputed_data = dict()
-            iter_is_last = cur_iter == num_iterations - 1
+            iter_is_last = (cur_iter == num_iterations - 1)
 
             self._model.fit_offline(batch_vectorizer=dataset_trainable,
                                     num_collection_passes=1)
@@ -250,8 +250,10 @@ class TopicModel(BaseModel):
                     custom_score.update(score)
                     self._model.score_tracker[name] = custom_score
 
-                except AttributeError:  # TODO: means no "call" attribute?
-                    raise AttributeError(f'Score {name} doesn\'t have a desired attribute')
+                except AttributeError as error:  # TODO: means no "call" attribute?
+                    raise AttributeError(
+                        f'Seems that score "{name}" doesn\'t have a desired attribute...'
+                    ) from error
 
             # TODO: think about performance issues
             for callback_agent in self.callbacks:
@@ -286,7 +288,7 @@ class TopicModel(BaseModel):
                                             regularizer_tau=base_regularizers_tau)
 
         (meta, nd_array) = self._model.master.attach_model(rwt_name)
-        attached_rwt = pd.DataFrame(data=nd_array, columns=meta.topic_name, index=meta.token)
+        attached_rwt = pd.DataFrame(data=nd_array, columns=list(meta.topic_name), index=list(meta.token))
 
         for regularizer in custom_regularizers.values():
             attached_rwt.values[:, :] += regularizer.grad(pwt, nwt)
@@ -424,8 +426,8 @@ class TopicModel(BaseModel):
                 score_object.save(save_path)
             except pickle.PicklingError:
                 warnings.warn(
-                    f'Failed to save custom score "{score_object}" correctly! '
-                    f'Freezing score (saving only its value)'
+                    f'Failed to save custom score "{score_object}" correctly!'
+                    f' Freezing score (saving only its value)'
                 )
 
                 frozen_score_object = FrozenScore(

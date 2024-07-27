@@ -123,7 +123,7 @@ def compute_joint_pwt_distribution(phi, p_t):
     ----------
     phi : pd.Dataframe
         phi matrix of the model
-    p_t : np.array of float
+    p_t : pd.Series
         probability that a random token from the collection belongs to that topic
 
     Returns
@@ -134,7 +134,7 @@ def compute_joint_pwt_distribution(phi, p_t):
 
     """  # noqa: W291
 
-    joint_pwt = p_t[:, np.newaxis] * phi.transpose()
+    joint_pwt = p_t.to_numpy()[:, np.newaxis] * phi.transpose()
     return joint_pwt
 
 
@@ -172,7 +172,7 @@ def compute_likelihood_vectorised(phi, p_t, joint_pwt):
     # denominator will have the same Index/Columns as them
     # TODO: check equality
     denominator = (np.sum(joint_pwt, axis=0) - joint_pwt)
-    multiplier = (1 - p_t)[:, np.newaxis]
+    multiplier = (1 - p_t).to_numpy()[:, np.newaxis]
     if hasattr(phi, "values"):
         numerator = phi.values.transpose() * multiplier
     else:
@@ -187,6 +187,7 @@ def compute_likelihood_vectorised(phi, p_t, joint_pwt):
     return target_values
 
 
+# TODO: copy-paste from BleiLaffertyScore
 def compute_blei_scores(phi):
     """
     Computes Blei score  
@@ -208,7 +209,7 @@ def compute_blei_scores(phi):
     blei_eps = 1e-42
     log_phi = np.log(phi + blei_eps)
     denominator = np.sum(log_phi, axis=0)
-    denominator = denominator[np.newaxis, :]
+    denominator = denominator.to_numpy()[np.newaxis, :]
 
     if hasattr(log_phi, "values"):
         multiplier = log_phi.values - denominator / topic_number

@@ -31,7 +31,7 @@ install:
 
 script:
   - cd topicnet
-  - py.test tests -k "not tests/test_pipeline.py" --timeout=45 --reruns 3 --reruns-delay 3 --cov
+  - py.test tests --ignore tests/test_pipeline.py --timeout=45 --reruns 3 --reruns-delay 3 --cov
   # TODO: - py.test tests --timeout=45 --reruns 3 --reruns-delay 3 --cov
 
 after_success:

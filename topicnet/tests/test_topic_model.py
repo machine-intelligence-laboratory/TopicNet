@@ -4,6 +4,7 @@ import warnings
 import shutil
 import time
 
+from numbers import Number
 
 import artm
 
@@ -222,9 +223,11 @@ def test_to_dummy_and_back_with_scores(experiment_enviroment):
 
     dummy = DummyTopicModel.load(save_path)
 
-    # dummy model keeps only last value
-    assert len(dummy.scores[custom_score_name]) == 1
-    assert len(dummy.scores[artm_score_name]) == 1
+    # Dummy model keeps all score values
+    assert len(dummy.scores[custom_score_name]) == num_iterations
+    assert len(dummy.scores[artm_score_name]) == num_iterations
+    assert all(isinstance(v, Number) for v in dummy.scores[custom_score_name])
+    assert all(isinstance(v, Number) for v in dummy.scores[artm_score_name])
     assert not hasattr(dummy.scores, '_score_caches')
 
     restored_topic_model = dummy.restore(dataset)
@@ -235,6 +238,8 @@ def test_to_dummy_and_back_with_scores(experiment_enviroment):
 
     assert len(restored_topic_model.scores[custom_score_name]) == num_iterations
     assert len(restored_topic_model.scores[artm_score_name]) == num_iterations
+    assert restored_topic_model.scores[custom_score_name] == dummy.scores[custom_score_name]
+    assert restored_topic_model.scores[artm_score_name] == dummy.scores[artm_score_name]
 
 
 @pytest.mark.parametrize(

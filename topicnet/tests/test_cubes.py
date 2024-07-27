@@ -13,9 +13,12 @@ from ..cooking_machine.cubes.perplexity_strategy import PerplexityStrategy
 from ..cooking_machine.cubes import (
     RegularizersModifierCube, CubeCreator, RegularizationControllerCube
 )
+from ..cooking_machine.models.base_regularizer import BaseRegularizer
 from ..cooking_machine.models.topic_model import TopicModel
-from ..cooking_machine.models.topic_prior_regularizer import TopicPriorRegularizer
-from ..cooking_machine.models.topic_prior_regularizer import TopicPriorSampledRegularizer
+from ..cooking_machine.models.topic_prior_regularizer import (
+    TopicPriorRegularizer, TopicPriorSampledRegularizer
+)
+from ..cooking_machine.models.thetaless_regularizer import ThetalessRegularizer
 from ..cooking_machine.experiment import Experiment
 from ..cooking_machine.dataset import Dataset, W_DIFF_BATCHES_1
 from ..cooking_machine.rel_toolbox_lite import count_vocab_size, compute_regularizer_gimel
@@ -735,63 +738,58 @@ def test_perplexity_strategy_mul(experiment_enviroment, thread_flag):
 
 
 def test_phi_matrix_after_lda_regularizer(experiment_enviroment):
-    with warnings.catch_warnings():
-        warnings.filterwarnings(action="ignore", message=W_DIFF_BATCHES_1)
-        dataset = Dataset(DATA_PATH)
-        dictionary = dataset.get_dictionary()
-        batch_vectorizer = dataset.get_batch_vectorizer()
+    _, dataset, _, dictionary = experiment_enviroment
+    batch_vectorizer = dataset.get_batch_vectorizer()
 
     topic_prior_reg = TopicPriorRegularizer(
         name='topic_prior', tau=5,
         num_topics=5, beta=[10, 1, 100, 2, 1000]
     )
 
-    model_artm_1 = artm.ARTM(
-        num_processors=1,
-        num_topics=5,
-        cache_theta=True,
-        class_ids={MAIN_MODALITY: 1.0, NGRAM_MODALITY: 1.0},
-        num_document_passes=1,
+    _test_phi_matrix_after_regularizer(
+        regularizer=topic_prior_reg,
         dictionary=dictionary,
-        scores=[artm.PerplexityScore(name='PerplexityScore',)],
+        batch_vectorizer=batch_vectorizer,
     )
-    model_artm_2 = artm.ARTM(
-        num_processors=1,
-        num_topics=5,
-        cache_theta=True,
-        class_ids={MAIN_MODALITY: 1.0, NGRAM_MODALITY: 1.0},
-        num_document_passes=1,
-        dictionary=dictionary,
-        scores=[artm.PerplexityScore(name='PerplexityScore',)],
-    )
-
-    tm_1 = TopicModel(
-        model_artm_1, model_id='new_id_1',
-        custom_regularizers={topic_prior_reg.name: topic_prior_reg}
-    )
-    tm_2 = TopicModel(model_artm_2, model_id='new_id_2')
-
-    tm_1._fit(batch_vectorizer, 10)
-    tm_2._fit(batch_vectorizer, 10)
-
-    phi_first = tm_1.get_phi()
-    phi_second = tm_2.get_phi()
-
-    assert any(phi_first != phi_second), 'Phi matrices are the same after regularization.'
 
 
 def test_phi_matrix_after_lda_sampled_regularizer(experiment_enviroment):
-    with warnings.catch_warnings():
-        warnings.filterwarnings(action="ignore", message=W_DIFF_BATCHES_1)
-        dataset = Dataset(DATA_PATH)
-        dictionary = dataset.get_dictionary()
-        batch_vectorizer = dataset.get_batch_vectorizer()
+    _, dataset, _, dictionary = experiment_enviroment
+    batch_vectorizer = dataset.get_batch_vectorizer()
 
     topic_prior_reg = TopicPriorSampledRegularizer(
         name='topic_prior', tau=5,
         num_topics=5, beta_prior=[10, 1, 100, 2, 1000]
     )
 
+    _test_phi_matrix_after_regularizer(
+        regularizer=topic_prior_reg,
+        dictionary=dictionary,
+        batch_vectorizer=batch_vectorizer,
+    )
+
+
+def test_phi_matrix_after_thetaless_regularizer(experiment_enviroment):
+    _, dataset, _, dictionary = experiment_enviroment
+    batch_vectorizer = dataset.get_batch_vectorizer()
+
+    thetaless_reg = ThetalessRegularizer(
+        name='thetaless', tau=1,
+        modality=MAIN_MODALITY, dataset=dataset,
+    )
+
+    _test_phi_matrix_after_regularizer(
+        regularizer=thetaless_reg,
+        dictionary=dictionary,
+        batch_vectorizer=batch_vectorizer,
+    )
+
+
+def _test_phi_matrix_after_regularizer(
+        regularizer: BaseRegularizer,
+        dictionary: artm.Dictionary,
+        batch_vectorizer: artm.BatchVectorizer,
+        ):
     model_artm_1 = artm.ARTM(
         num_processors=1,
         num_topics=5,
@@ -813,7 +811,7 @@ def test_phi_matrix_after_lda_sampled_regularizer(experiment_enviroment):
 
     tm_1 = TopicModel(
         model_artm_1, model_id='new_id_1',
-        custom_regularizers={topic_prior_reg.name: topic_prior_reg}
+        custom_regularizers={regularizer.name: regularizer}
     )
     tm_2 = TopicModel(model_artm_2, model_id='new_id_2')
 

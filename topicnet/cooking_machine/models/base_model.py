@@ -80,7 +80,7 @@ class BaseModel(object):
         else:
             experiment_id = None
 
-        return f'Model(id={self.model_id}, ' \
+        return f'{self.__class__.__name__}(id={self.model_id}, ' \
                f'parent_id={self.parent_model_id}, ' \
                f'experiment_id={experiment_id}' \
                f')'
@@ -240,16 +240,20 @@ class BaseModel(object):
 
     def _get_short_scores(self):
         short_scores = {}
+
         # sometimes self.scores could be None
         for score_name in self.scores or {}:
             values = self.scores[score_name]
+
             if len(values) == 0:
                 short_scores[score_name] = []
                 continue
-            if isinstance(values[0], Number):
-                short_scores[score_name] = values[-1:]
-            else:
-                short_scores[score_name] = [f"NaN ({type(values[0])})"]
+
+            short_scores[score_name] = [
+                v if isinstance(v, Number) else f"NaN ({type(v)})"
+                for v in values
+            ]
+
         return short_scores
 
     @property

@@ -3,6 +3,7 @@ import os
 import pandas as pd
 import shutil
 import sys
+import uuid
 import warnings
 
 from glob import glob
@@ -26,6 +27,8 @@ ERROR_NO_DATA_ENTRY = 'Requested documents with ids: {0} not found in the datase
 
 DEFAULT_ARTM_MODALITY = '@default_class'  # TODO: how to get this value from artm library?
 MODALITY_START_SYMBOL = '|'
+
+NONEXISTENT_SEP = str(uuid.uuid4())  # To read vw as one-column csv
 
 
 def _increase_csv_field_max_size():
@@ -354,7 +357,7 @@ class Dataset(BaseDataset):
             data = data_handle.read_csv(
                 data_path,
                 engine='python',
-                error_bad_lines=False,
+                on_bad_lines='warn',
             )
 
         elif file_type == '.pkl':
@@ -362,7 +365,7 @@ class Dataset(BaseDataset):
                 data = data_handle.read_pickle(
                     data_path,
                     engine='python',
-                    error_bad_lines=False,
+                    on_bad_lines='warn',
                 )
             except AttributeError:
                 raise RuntimeError('Can\'t handle big *.pkl files!')
@@ -371,8 +374,8 @@ class Dataset(BaseDataset):
             data = data_handle.read_csv(
                 data_path,
                 engine='python',
-                error_bad_lines=False,
-                sep='\n',
+                on_bad_lines='warn',
+                sep=NONEXISTENT_SEP,
                 header=None,
                 names=[VW_TEXT_COL]
             )

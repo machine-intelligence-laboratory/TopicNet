@@ -29,6 +29,7 @@ def artm_dict2df(artm_dict):
     dictionary_data = artm_dict._master.get_dictionary(artm_dict._name)
     dict_pandas = {field: list(getattr(dictionary_data, field))
                    for field in FIELDS}
+
     return pd.DataFrame(dict_pandas)
 
 # ==================================
