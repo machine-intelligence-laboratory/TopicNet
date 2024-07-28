@@ -1,6 +1,8 @@
 from distutils.core import setup
 
 
+_README_CONTENT = open('README.md').read()
+
 setup(
     name='topicnet',
     packages=[
@@ -15,6 +17,8 @@ setup(
     version='0.9.0',
     license='MIT',
     description='TopicNet is a module for topic modelling using ARTM algorithm',
+    long_description=_README_CONTENT,
+    long_description_content_type='text/markdown',
     author='Machine Intelligence Laboratory',
     author_email='alex.goncharov@phystech.edu',
     url='https://github.com/machine-intelligence-laboratory/TopicNet',
