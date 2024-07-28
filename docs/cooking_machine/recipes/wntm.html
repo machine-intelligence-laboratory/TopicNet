@@ -2,16 +2,21 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.8.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
 <title>topicnet.cooking_machine.recipes.wntm API documentation</title>
-<meta name="description" content="" />
-<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
-<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
 </head>
 <body>
 <main>
@@ -20,141 +25,6 @@
 <h1 class="title">Module <code>topicnet.cooking_machine.recipes.wntm</code></h1>
 </header>
 <section id="section-intro">
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">from typing import List, Tuple
-
-from .recipe_wrapper import BaseRecipe
-from ..config_parser import parse
-
-from .. import Dataset
-from .. import DatasetCooc
-from .. import Experiment
-
-WNTM_template = &#39;&#39;&#39;
-# This config follows a pipline for training a Word Net Topic Model
-# https://link.springer.com/article/10.1007/s10115-015-0882-z
-
-
-# Use .format(modality_list=modality_list, main_modality=main_modality, dataset_path=dataset_path,
-# specific_topics=specific_topics, background_topics=background_topics)
-# when loading the recipe to adjust for your dataset
-
-topics:
-# Describes number of model topics, better left to the user to define optimal topic number
-    specific_topics: {specific_topics}
-    background_topics: {background_topics}
-
-# Here is example of model with one modality
-regularizers:
-    - DecorrelatorPhiRegularizer:
-        name: decorrelation_phi
-        topic_names: specific_topics
-        class_ids: {modality_list}
-        tau: 0.2
-
-scores:
-    - BleiLaffertyScore:
-        num_top_tokens: 30
-model:
-    dataset_path: {dataset_path}
-    modalities_to_use: {modality_list}
-    main_modality: &#39;{main_modality}&#39;
-
-stages:
-- RegularizersModifierCube:
-    num_iter: 20
-    reg_search: add
-    regularizer_parameters:
-        name: decorrelation_phi
-    selection:
-        - PerplexityScore@all &lt; 1.05 * MINIMUM(PerplexityScore@all) and BleiLaffertyScore -&gt; max
-    strategy: PerplexityStrategy
-    # parameters of this strategy are intended for revision
-    strategy_params:
-        start_point: 0
-        step: 0.001
-        max_len: 50
-    tracked_score_function: PerplexityScore@all
-    verbose: false
-    use_relative_coefficients: true
-&#39;&#39;&#39;
-
-
-class WNTMRecipe(BaseRecipe):
-    &#34;&#34;&#34;
-    Class for baseline recipe creation and
-    unification of recipe interface
-    &#34;&#34;&#34;
-    def __init__(self):
-        super().__init__(recipe_template=WNTM_template)
-
-    def format_recipe(
-        self,
-        dataset_path: str,
-        modality_list: List[str] = None,
-        main_modality: str = None,
-        topic_number: int = 20,
-        background_topic_number: int = 0,
-        num_iter: int = 20,
-    ):
-        self.dataset_path = dataset_path
-
-        if modality_list is None:
-            modality_list = list(Dataset(dataset_path).get_possible_modalities())
-
-        if main_modality is None:
-            main_modality = modality_list[0]
-
-        specific_topics = [f&#39;topic_{i}&#39; for i in range(topic_number)]
-        background_topics = [f&#39;bcg_{i}&#39; for i in range(
-            len(specific_topics), len(specific_topics) + background_topic_number)]
-
-        self._recipe = self.recipe_template.format(
-            dataset_path=dataset_path,
-            modality_list=modality_list,
-            main_modality=main_modality,
-            specific_topics=specific_topics,
-            background_topics=background_topics,
-        )
-        return self._recipe
-
-    def build_experiment_environment(
-            self,
-            save_path: str,
-            experiment_id: str = &#39;default_experiment_name&#39;,
-            force_separate_thread: bool = False
-    ) -&gt; Tuple[Experiment, Dataset]:
-        &#34;&#34;&#34;
-        Returns experiment and dataset instances
-        needed to perform the hyperparameter tuning on the data
-        according to recipe
-
-        Parameters
-        ----------
-        save_path: path to the folder to save experiment logs and models
-        experiment_id: name of the experiment folder
-        force_separate_thread: train each model in dedicated process
-            this feature helps to handle resources in Jupyter notebooks
-
-        &#34;&#34;&#34;
-        if self._recipe is None:
-            raise ValueError(
-                &#39;Recipe missing data specific parameters. &#39;
-                &#39;Provide them with &#34;format_recipe&#34; method!&#39;)
-
-        settings, regs, model, dataset = parse(
-            self._recipe,
-            force_separate_thread=force_separate_thread,
-            dataset_class=DatasetCooc
-        )
-        # TODO: handle dynamic addition of regularizers
-        experiment = Experiment(experiment_id=experiment_id, save_path=save_path, topic_model=model)
-        experiment.build(settings)
-        return experiment, dataset</code></pre>
-</details>
 </section>
 <section>
 </section>
@@ -254,7 +124,7 @@ unification of recipe interface</p></div>
 <h3>Methods</h3>
 <dl>
 <dt id="topicnet.cooking_machine.recipes.wntm.WNTMRecipe.build_experiment_environment"><code class="name flex">
-<span>def <span class="ident">build_experiment_environment</span></span>(<span>self, save_path: str, experiment_id: str = 'default_experiment_name', force_separate_thread: bool = False) -> Tuple[<a title="topicnet.cooking_machine.experiment.Experiment" href="../experiment.html#topicnet.cooking_machine.experiment.Experiment">Experiment</a>, <a title="topicnet.cooking_machine.dataset.Dataset" href="../dataset.html#topicnet.cooking_machine.dataset.Dataset">Dataset</a>]</span>
+<span>def <span class="ident">build_experiment_environment</span></span>(<span>self, save_path: str, experiment_id: str = 'default_experiment_name', force_separate_thread: bool = False) ‑> Tuple[<a title="topicnet.cooking_machine.experiment.Experiment" href="../experiment.html#topicnet.cooking_machine.experiment.Experiment">Experiment</a>, <a title="topicnet.cooking_machine.dataset.Dataset" href="../dataset.html#topicnet.cooking_machine.dataset.Dataset">Dataset</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns experiment and dataset instances
@@ -269,44 +139,6 @@ according to recipe</p>
 <dt><strong><code>force_separate_thread</code></strong> :&ensp;<code>train each model in dedicated process</code></dt>
 <dd>this feature helps to handle resources in Jupyter notebooks</dd>
 </dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def build_experiment_environment(
-        self,
-        save_path: str,
-        experiment_id: str = &#39;default_experiment_name&#39;,
-        force_separate_thread: bool = False
-) -&gt; Tuple[Experiment, Dataset]:
-    &#34;&#34;&#34;
-    Returns experiment and dataset instances
-    needed to perform the hyperparameter tuning on the data
-    according to recipe
-
-    Parameters
-    ----------
-    save_path: path to the folder to save experiment logs and models
-    experiment_id: name of the experiment folder
-    force_separate_thread: train each model in dedicated process
-        this feature helps to handle resources in Jupyter notebooks
-
-    &#34;&#34;&#34;
-    if self._recipe is None:
-        raise ValueError(
-            &#39;Recipe missing data specific parameters. &#39;
-            &#39;Provide them with &#34;format_recipe&#34; method!&#39;)
-
-    settings, regs, model, dataset = parse(
-        self._recipe,
-        force_separate_thread=force_separate_thread,
-        dataset_class=DatasetCooc
-    )
-    # TODO: handle dynamic addition of regularizers
-    experiment = Experiment(experiment_id=experiment_id, save_path=save_path, topic_model=model)
-    experiment.build(settings)
-    return experiment, dataset</code></pre>
-</details>
 </dd>
 </dl>
 <h3>Inherited members</h3>
@@ -322,7 +154,6 @@ according to recipe</p>
 </section>
 </article>
 <nav id="sidebar">
-<h1>Index</h1>
 <div class="toc">
 <ul></ul>
 </div>
@@ -346,9 +177,7 @@ according to recipe</p>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
 </footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>

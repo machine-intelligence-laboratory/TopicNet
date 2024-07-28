@@ -2,16 +2,21 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.8.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
 <title>topicnet.cooking_machine.cubes.perplexity_strategy API documentation</title>
-<meta name="description" content="" />
-<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
-<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
 </head>
 <body>
 <main>
@@ -20,239 +25,6 @@
 <h1 class="title">Module <code>topicnet.cooking_machine.cubes.perplexity_strategy</code></h1>
 </header>
 <section id="section-intro">
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">import numpy as np
-from itertools import product
-import warnings
-
-from .strategy import BaseStrategy
-
-
-class PerplexityStrategy(BaseStrategy):
-    &#34;&#34;&#34;
-    Search for the best perplexity score.
-
-    &#34;&#34;&#34;
-    def __init__(self, start_point: float = None, step: float = None,
-                 max_len: float = 25, threshold: float = 1.05):
-        &#34;&#34;&#34;
-        Initialize stage.
-
-        Parameters
-        ----------
-        start_point : float
-           first point for tau progression
-        step : float
-            step in tau progression
-        max_len : int
-            length of progression
-        threshold : float
-            threshold for &#34;perplexity out of control&#34;
-
-        &#34;&#34;&#34;
-        self.score = []
-        self.threshold = threshold
-        self.best_point = None
-        self.last_point = None
-        self.grid = None
-        self.grid_len = None
-
-        self.start_point = start_point
-        self.step = step
-        self.max_len = max_len
-
-    def _set_parameters(self, parameters):
-        &#34;&#34;&#34;
-
-        Parameters
-        ----------
-        parameters : dict
-
-        &#34;&#34;&#34;
-        if isinstance(parameters, dict):
-            parameters = [parameters]
-        for entry in parameters:
-            if any(key not in entry.keys() for key in [&#34;field&#34;, &#34;object&#34;, &#34;values&#34;]):
-                raise ValueError(entry)
-        self.parameters = parameters
-
-    def _get_strategy_parameters(self, saveable_only=False):
-        &#34;&#34;&#34;
-        &#34;&#34;&#34;
-        strategy_parameters = {
-            &#34;score&#34;: self.score,
-            &#34;threshold&#34;: self.threshold,
-            &#34;grid_len&#34;: self.grid_len,
-            &#34;start_point&#34;: self.start_point,
-            &#34;step&#34;: self.step,
-            &#34;max_len&#34;: self.max_len
-        }
-
-        if not saveable_only:
-            strategy_parameters[&#34;best_point&#34;] = self.best_point
-            strategy_parameters[&#34;last_point&#34;] = self.last_point
-            strategy_parameters[&#34;grid&#34;] = self.grid
-            if hasattr(self, &#34;parameters&#34;):
-                strategy_parameters[&#34;parameters&#34;] = self.parameters
-        else:
-            strategy_parameters[&#34;best_point&#34;] = self.best_point[0][-1]
-            strategy_parameters[&#34;last_point&#34;] = self.last_point[0][-1]
-
-        return strategy_parameters
-
-    def _set_strategy_parameters(self, strategy_parameters):
-        &#34;&#34;&#34;
-        &#34;&#34;&#34;
-        if not isinstance(strategy_parameters, dict):
-            raise ValueError(&#34;Input parameters must be dict.&#34;)
-
-        for parameter_name in strategy_parameters.keys():
-            if parameter_name in [&#34;best_point&#34;, &#34;last_point&#34;]:
-                if isinstance(strategy_parameters[parameter_name], (int, float)):
-                    setattr(self, parameter_name,
-                            self._implement_tau(strategy_parameters[parameter_name]))
-            else:
-                setattr(self, parameter_name, strategy_parameters[parameter_name])
-
-    def _implement_tau(self, tau):
-        &#34;&#34;&#34;
-        Converts the tau value given to the internal format.
-
-        Parameters
-        ----------
-        tau : float
-
-        Returns
-        -------
-        tuple
-
-        &#34;&#34;&#34;
-        return ([self.parameters[0][&#34;object&#34;], self.parameters[0][&#34;field&#34;], tau],)
-
-    def _endless_generator(self, mode):
-        &#34;&#34;&#34;
-
-        Parameters
-        ----------
-        mode : str
-            &#34;add&#34; or &#34;mul&#34;
-
-        Yields
-        ------
-        float in internal format
-
-        &#34;&#34;&#34;
-        yield self._implement_tau(0)
-
-        start_point = self.start_point
-        step = self.step
-
-        if mode == &#34;add&#34;:
-            if step == 0:
-                warnings.warn(&#39;The hyperparameter search space is limited to one point&#39;,
-                              UserWarning)
-            while True:
-                yield self._implement_tau(start_point)
-                start_point += step
-        else:
-            if start_point == 0:
-                raise ValueError(&#34;Invalid start point {} for mul strategy&#34;.format(start_point))
-            if step &lt;= 1:
-                raise ValueError(&#34;Invalid step {} for mul strategy&#34;.format(step))
-            while True:
-                yield self._implement_tau(start_point)
-                start_point *= step
-
-    def prepare_grid(self, other_parameters, reg_search=&#34;add&#34;):
-        &#34;&#34;&#34;
-        Creates search space and length for tqdm.
-        Note, that first point in sequence is always 0.
-
-        Parameters
-        ----------
-        other_parameters : dict or list of dict
-            the parameters describing search space. This is a list of entries like
-            {&#34;object&#34;: &#34;smoothSparsePhi&#34;, &#34;field&#34;: &#34;tau&#34;, &#34;values&#34;: []}
-        reg_search : str
-            &#34;grid&#34;, &#34;add&#34; or &#34;mul&#34;
-            defines grid search or arithmetic or geometric progression
-
-        &#34;&#34;&#34;
-        self.score = []
-        if self.start_point and self.step:
-            if reg_search == &#34;grid&#34;:
-                warnings.warn(f&#34;Grid would be used &#34;
-                              f&#34;instead of start point {self.start_point} and step {self.step}&#34;)
-            elif reg_search not in [&#34;add&#34;, &#34;mul&#34;]:
-                raise TypeError(&#34;Invalid search type&#34;)
-
-        self._set_parameters(other_parameters)
-        if reg_search == &#34;grid&#34;:
-            self.parameters[0][&#34;values&#34;] = [0] + self.parameters[0][&#34;values&#34;]
-        all_coeffs_grid = [
-            [[params[&#34;object&#34;], params[&#34;field&#34;], one_value] for one_value in params[&#34;values&#34;]]
-            for params in self.parameters
-        ]
-
-        if reg_search != &#34;grid&#34; and self.start_point is not None and self.step is not None:
-            self.grid = self._endless_generator(reg_search)
-        elif reg_search == &#34;grid&#34;:
-            self.grid = product(*all_coeffs_grid)
-            self.grid_len = len(all_coeffs_grid[0])
-        if self.grid is None:
-            raise ValueError(&#39;Failed to initialize self.grid, check initial parameters.&#39;)
-
-    def grid_visit_generator(self, other_parameters, reg_search):
-        &#34;&#34;&#34;
-        Yields points from search space with sanity checking of current result.
-
-        Parameters
-        ----------
-        other_parameters : dict
-
-        reg_search : str
-            &#34;add&#34;, &#34;mul&#34; or &#34;grid&#34;
-
-        Yields
-        ------
-        sequence of points in search space
-
-        &#34;&#34;&#34;
-        for one_model_values in self.grid:
-            yield one_model_values
-
-            if reg_search != &#34;grid&#34;:
-                self.parameters[0][&#34;values&#34;].append(one_model_values[0][2])
-                if self.score[-1] / max(self.score[0], 1e-5) &gt; self.threshold:
-                    warnings.warn(f&#34;Perplexity is too high for threshold {self.threshold}&#34;)
-                    break
-
-            if len(self.score) &gt; 4 and len(set(self.score[:-6:-1])) == 1:
-                warnings.warn(&#34;Last five scores are equal, interrupting search&#34;)
-                break
-            if len(self.score) &gt; self.max_len:
-                warnings.warn(&#34;Max progression length exceeded&#34;)
-                break
-
-        best_tau = self.parameters[0][&#34;values&#34;][1:][np.argmin(self.score[1:])]
-        self.best_point = self._implement_tau(best_tau)
-        self.last_point = self._implement_tau(self.parameters[0][&#34;values&#34;][-1])
-
-    def update_scores(self, new_value):
-        &#34;&#34;&#34;
-
-        Parameters
-        ----------
-        new_value : float
-
-        &#34;&#34;&#34;
-        if isinstance(new_value, list):
-            new_value = new_value[0]
-        self.score.append(new_value)</code></pre>
-</details>
 </section>
 <section>
 </section>
@@ -531,46 +303,6 @@ class PerplexityStrategy(BaseStrategy):
 <dt><code>sequence</code> of <code>points in search space</code></dt>
 <dd>&nbsp;</dd>
 </dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def grid_visit_generator(self, other_parameters, reg_search):
-    &#34;&#34;&#34;
-    Yields points from search space with sanity checking of current result.
-
-    Parameters
-    ----------
-    other_parameters : dict
-
-    reg_search : str
-        &#34;add&#34;, &#34;mul&#34; or &#34;grid&#34;
-
-    Yields
-    ------
-    sequence of points in search space
-
-    &#34;&#34;&#34;
-    for one_model_values in self.grid:
-        yield one_model_values
-
-        if reg_search != &#34;grid&#34;:
-            self.parameters[0][&#34;values&#34;].append(one_model_values[0][2])
-            if self.score[-1] / max(self.score[0], 1e-5) &gt; self.threshold:
-                warnings.warn(f&#34;Perplexity is too high for threshold {self.threshold}&#34;)
-                break
-
-        if len(self.score) &gt; 4 and len(set(self.score[:-6:-1])) == 1:
-            warnings.warn(&#34;Last five scores are equal, interrupting search&#34;)
-            break
-        if len(self.score) &gt; self.max_len:
-            warnings.warn(&#34;Max progression length exceeded&#34;)
-            break
-
-    best_tau = self.parameters[0][&#34;values&#34;][1:][np.argmin(self.score[1:])]
-    self.best_point = self._implement_tau(best_tau)
-    self.last_point = self._implement_tau(self.parameters[0][&#34;values&#34;][-1])</code></pre>
-</details>
 </dd>
 <dt id="topicnet.cooking_machine.cubes.perplexity_strategy.PerplexityStrategy.prepare_grid"><code class="name flex">
 <span>def <span class="ident">prepare_grid</span></span>(<span>self, other_parameters, reg_search='add')</span>
@@ -586,49 +318,6 @@ Note, that first point in sequence is always 0.</p>
 <dd>"grid", "add" or "mul"
 defines grid search or arithmetic or geometric progression</dd>
 </dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def prepare_grid(self, other_parameters, reg_search=&#34;add&#34;):
-    &#34;&#34;&#34;
-    Creates search space and length for tqdm.
-    Note, that first point in sequence is always 0.
-
-    Parameters
-    ----------
-    other_parameters : dict or list of dict
-        the parameters describing search space. This is a list of entries like
-        {&#34;object&#34;: &#34;smoothSparsePhi&#34;, &#34;field&#34;: &#34;tau&#34;, &#34;values&#34;: []}
-    reg_search : str
-        &#34;grid&#34;, &#34;add&#34; or &#34;mul&#34;
-        defines grid search or arithmetic or geometric progression
-
-    &#34;&#34;&#34;
-    self.score = []
-    if self.start_point and self.step:
-        if reg_search == &#34;grid&#34;:
-            warnings.warn(f&#34;Grid would be used &#34;
-                          f&#34;instead of start point {self.start_point} and step {self.step}&#34;)
-        elif reg_search not in [&#34;add&#34;, &#34;mul&#34;]:
-            raise TypeError(&#34;Invalid search type&#34;)
-
-    self._set_parameters(other_parameters)
-    if reg_search == &#34;grid&#34;:
-        self.parameters[0][&#34;values&#34;] = [0] + self.parameters[0][&#34;values&#34;]
-    all_coeffs_grid = [
-        [[params[&#34;object&#34;], params[&#34;field&#34;], one_value] for one_value in params[&#34;values&#34;]]
-        for params in self.parameters
-    ]
-
-    if reg_search != &#34;grid&#34; and self.start_point is not None and self.step is not None:
-        self.grid = self._endless_generator(reg_search)
-    elif reg_search == &#34;grid&#34;:
-        self.grid = product(*all_coeffs_grid)
-        self.grid_len = len(all_coeffs_grid[0])
-    if self.grid is None:
-        raise ValueError(&#39;Failed to initialize self.grid, check initial parameters.&#39;)</code></pre>
-</details>
 </dd>
 </dl>
 <h3>Inherited members</h3>
@@ -644,7 +333,6 @@ defines grid search or arithmetic or geometric progression</dd>
 </section>
 </article>
 <nav id="sidebar">
-<h1>Index</h1>
 <div class="toc">
 <ul></ul>
 </div>
@@ -669,9 +357,7 @@ defines grid search or arithmetic or geometric progression</dd>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
 </footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>
