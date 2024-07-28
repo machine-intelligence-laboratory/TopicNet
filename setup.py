@@ -40,7 +40,7 @@ setup(
         'plotly==5.20.0',
         'protobuf==3.20.3',  # BigARTM dependency
         'pytest==8.1.1',
-        'scikit-learn==1.3.2',
+        'scikit-learn==1.5.0',
         'scipy==1.10.1',
         'six==1.16.0',
         'strictyaml==1.7.3',
