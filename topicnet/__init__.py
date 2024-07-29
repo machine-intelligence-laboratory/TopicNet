@@ -6,4 +6,7 @@ lc.minloglevel = 3
 lib = artm.wrapper.LibArtm(logging_config=lc)
 
 
-__pdoc__ = {"tests": False}
+__pdoc__ = {
+    "embeddings": False,
+    "tests": False,
+}
