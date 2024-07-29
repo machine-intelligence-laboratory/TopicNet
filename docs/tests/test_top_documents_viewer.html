@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>topicnet.tests.test_top_documents_viewer API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>topicnet.tests.test_top_documents_viewer</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer"><code class="flex name class">
+<span>class <span class="ident">TestTopDocumentsViewer</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TestTopDocumentsViewer:
+    &#34;&#34;&#34; &#34;&#34;&#34;
+    topic_model = None
+    theta = None
+    top_documents_viewer = None
+    dataset = None
+
+    @classmethod
+    def setup_class(cls):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        with warnings.catch_warnings():
+            warnings.filterwarnings(action=&#34;ignore&#34;, message=W_DIFF_BATCHES_1)
+            cls.dataset = Dataset(&#39;tests/test_data/test_dataset.csv&#39;)
+            dictionary = cls.dataset.get_dictionary()
+            batch_vectorizer = cls.dataset.get_batch_vectorizer()
+
+        model_artm = artm.ARTM(
+            num_topics=NUM_TOPICS,
+            cache_theta=True,
+            num_document_passes=NUM_DOCUMENT_PASSES,
+            dictionary=dictionary,
+            scores=[artm.PerplexityScore(name=&#39;PerplexityScore&#39;)],)
+
+        cls.topic_model = TopicModel(model_artm, model_id=&#39;model_id&#39;)
+        cls.topic_model._fit(batch_vectorizer, num_iterations=NUM_ITERATIONS)
+        cls.theta = cls.topic_model.get_theta(dataset=cls.dataset)
+
+        cls.top_documents_viewer = top_documents_viewer.TopDocumentsViewer(model=cls.topic_model)
+
+    @classmethod
+    def teardown_class(cls):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        shutil.rmtree(cls.dataset._internals_folder_path)
+
+    def test_check_output_format(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        viewer_output = TestTopDocumentsViewer.top_documents_viewer.view()
+        list_of_topics = list(viewer_output.keys())
+
+        assert isinstance(viewer_output, dict), &#39;Result of view() not of type &#34;list&#34;&#39;
+        assert all(isinstance(viewer_output[topic], dict) for topic in list_of_topics),\
+            &#39;Some elements in the result list of view() not of type &#34;list&#34;&#39;
+
+    def test_check_output_content(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        num_documents = TestTopDocumentsViewer.theta.shape[1]
+        documents_indices = list(range(num_documents))
+
+        viewer_output = TestTopDocumentsViewer.top_documents_viewer.view()
+        documents_from_viewer = list(
+            (viewer_output[key].keys())
+            for key in viewer_output.keys()
+        )
+        flattened_output = [
+            doc_id for topic_docs in documents_from_viewer
+            for doc_id in topic_docs
+        ]
+        assert sorted(flattened_output) == documents_indices,\
+            &#39;Viewer returned as documents &#34;{0}&#34;.&#39; \
+            &#39;But expected to get documents\&#39; indices from &#34;0&#34; to &#34;{1}&#34;&#39;.format(
+                flattened_output, num_documents - 1)
+
+    def test_check_precomputed_distances_parameter_workable(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        index_of_topic_to_be_nearest_to_all_documents = 0
+        name_of_topic_to_be_nearest_to_all_document = &#39;topic_0&#39;
+
+        distances_all_one_except_to_one_topic = np.ones_like(TestTopDocumentsViewer.theta.values)
+        distances_all_one_except_to_one_topic[:, index_of_topic_to_be_nearest_to_all_documents] = 0
+        documents_viewer = top_documents_viewer.TopDocumentsViewer(
+            model=TestTopDocumentsViewer.topic_model,
+            precomputed_distances=distances_all_one_except_to_one_topic)
+
+        topics_documents = documents_viewer.view()
+        num_documents_in_nearest_topic = len(
+            topics_documents[name_of_topic_to_be_nearest_to_all_document])
+        num_documents = TestTopDocumentsViewer.theta.shape[1]
+
+        assert num_documents_in_nearest_topic == num_documents,\
+            &#39;Expected to see all documents in one topic.&#39; \
+            &#39;But the topic has &#34;{}&#34; documents instead of &#34;{}&#34;&#39;.format(
+                num_documents_in_nearest_topic, num_documents)
+
+    @pytest.mark.parametrize(&#34;max_num_top_documents&#34;, [0, 1])
+    def test_check_max_top_documents_number_parameter_workable(self, max_num_top_documents):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        documents_viewer = top_documents_viewer.TopDocumentsViewer(
+            model=TestTopDocumentsViewer.topic_model,
+            max_top_number=max_num_top_documents)
+
+        viewer_output = documents_viewer.view()
+
+        assert all(len(value) &lt;= max_num_top_documents
+                   for _, value in viewer_output.items()),\
+            &#39;Not all top documents lists from &#34;{}&#34; have less elements than required &#34;{}&#34;&#39;.format(
+                viewer_output, max_num_top_documents)
+
+    def test_check_object_clusters_parameter_workable(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        num_documents = TestTopDocumentsViewer.theta.shape[1]
+        cluster_label_to_be_same_for_all_documents = 0
+        cluster_name_to_be_same_for_all_documents = &#39;topic_0&#39;
+        cluster_labels = list(
+            cluster_label_to_be_same_for_all_documents for _ in range(num_documents))
+
+        documents_viewer = top_documents_viewer.TopDocumentsViewer(
+            model=TestTopDocumentsViewer.topic_model,
+            object_clusters=cluster_labels)
+
+        topics_documents = documents_viewer.view()
+        num_documents_with_given_cluster_label = len(
+            topics_documents[cluster_name_to_be_same_for_all_documents])
+
+        assert num_documents_with_given_cluster_label == num_documents,\
+            &#39;Marked all documents with label &#34;{}&#34;.&#39; \
+            &#39;Expected to see all &#34;{}&#34; documents in that topic,&#39; \
+            &#39;but there are only &#34;{}&#34; documents&#39;.format(
+                cluster_label_to_be_same_for_all_documents, num_documents,
+                num_documents_with_given_cluster_label)
+
+    @pytest.mark.parametrize(&#34;illegal_cluster_label&#34;, [-1, NUM_TOPICS])
+    def test_check_object_clusters_parameter_validates_range_of_input_labels(
+            self, illegal_cluster_label):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        num_documents = TestTopDocumentsViewer.theta.shape[1]
+        cluster_labels = list(0 for _ in range(num_documents))
+
+        cluster_labels[0] = illegal_cluster_label
+
+        with pytest.raises(ValueError):
+            _ = top_documents_viewer.TopDocumentsViewer(
+                model=TestTopDocumentsViewer.topic_model,
+                object_clusters=cluster_labels).view()</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.dataset"><code class="name">var <span class="ident">dataset</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.theta"><code class="name">var <span class="ident">theta</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.top_documents_viewer"><code class="name">var <span class="ident">top_documents_viewer</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.topic_model"><code class="name">var <span class="ident">topic_model</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.setup_class"><code class="name flex">
+<span>def <span class="ident">setup_class</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.teardown_class"><code class="name flex">
+<span>def <span class="ident">teardown_class</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.test_check_max_top_documents_number_parameter_workable"><code class="name flex">
+<span>def <span class="ident">test_check_max_top_documents_number_parameter_workable</span></span>(<span>self, max_num_top_documents)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.test_check_object_clusters_parameter_validates_range_of_input_labels"><code class="name flex">
+<span>def <span class="ident">test_check_object_clusters_parameter_validates_range_of_input_labels</span></span>(<span>self, illegal_cluster_label)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.test_check_object_clusters_parameter_workable"><code class="name flex">
+<span>def <span class="ident">test_check_object_clusters_parameter_workable</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.test_check_output_content"><code class="name flex">
+<span>def <span class="ident">test_check_output_content</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.test_check_output_format"><code class="name flex">
+<span>def <span class="ident">test_check_output_format</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.test_check_precomputed_distances_parameter_workable"><code class="name flex">
+<span>def <span class="ident">test_check_precomputed_distances_parameter_workable</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="topicnet.tests" href="index.html">topicnet.tests</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer" href="#topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer">TestTopDocumentsViewer</a></code></h4>
+<ul class="">
+<li><code><a title="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.dataset" href="#topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.dataset">dataset</a></code></li>
+<li><code><a title="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.setup_class" href="#topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.setup_class">setup_class</a></code></li>
+<li><code><a title="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.teardown_class" href="#topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.teardown_class">teardown_class</a></code></li>
+<li><code><a title="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.test_check_max_top_documents_number_parameter_workable" href="#topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.test_check_max_top_documents_number_parameter_workable">test_check_max_top_documents_number_parameter_workable</a></code></li>
+<li><code><a title="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.test_check_object_clusters_parameter_validates_range_of_input_labels" href="#topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.test_check_object_clusters_parameter_validates_range_of_input_labels">test_check_object_clusters_parameter_validates_range_of_input_labels</a></code></li>
+<li><code><a title="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.test_check_object_clusters_parameter_workable" href="#topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.test_check_object_clusters_parameter_workable">test_check_object_clusters_parameter_workable</a></code></li>
+<li><code><a title="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.test_check_output_content" href="#topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.test_check_output_content">test_check_output_content</a></code></li>
+<li><code><a title="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.test_check_output_format" href="#topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.test_check_output_format">test_check_output_format</a></code></li>
+<li><code><a title="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.test_check_precomputed_distances_parameter_workable" href="#topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.test_check_precomputed_distances_parameter_workable">test_check_precomputed_distances_parameter_workable</a></code></li>
+<li><code><a title="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.theta" href="#topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.theta">theta</a></code></li>
+<li><code><a title="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.top_documents_viewer" href="#topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.top_documents_viewer">top_documents_viewer</a></code></li>
+<li><code><a title="topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.topic_model" href="#topicnet.tests.test_top_documents_viewer.TestTopDocumentsViewer.topic_model">topic_model</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>

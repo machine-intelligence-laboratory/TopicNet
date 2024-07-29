@@ -3,15 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.6.3" />
+<meta name="generator" content="pdoc 0.9.0" />
 <title>topicnet.cooking_machine.models.scores API documentation</title>
 <meta name="description" content="" />
-<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
-<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
 </head>
 <body>
 <main>
@@ -21,7 +23,9 @@
 </header>
 <section id="section-intro">
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">from .example_score import ScoreExample
 from .intratext_coherence_score import IntratextCoherenceScore
 from .blei_lafferty_score import BleiLaffertyScore
@@ -41,10 +45,10 @@ __all__ = [&#34;ScoreExample&#34;, &#34;IntratextCoherenceScore&#34;, &#34;BleiL
 <dl>
 <dt id="topicnet.cooking_machine.models.scores.BleiLaffertyScore"><code class="flex name class">
 <span>class <span class="ident">BleiLaffertyScore</span></span>
-<span>(</span><span>name=None, num_top_tokens=30, should_compute=None)</span>
+<span>(</span><span>name: str = None, num_top_tokens: int = 30, should_compute: Callable[[int], bool] = None)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>This score implements method described in 2009 paper
+<div class="desc"><p>This score implements method described in 2009 paper
 Blei, David M., and John D. Laﬀerty. "Topic models." Text Mining.
 Chapman and Hall/CRC, 2009. 101-124.
 At the core this score helps to discover tokens that are most likely
@@ -56,9 +60,11 @@ well the model distinguishes between topics. The higher this score - better</p>
 <dt>name of the score</dt>
 <dt><strong><code>num_top_tokens</code></strong> :&ensp;<code>int</code></dt>
 <dd>now many tokens we consider to be</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">class BleiLaffertyScore(BaseScore):
     &#34;&#34;&#34;
     This score implements method described in 2009 paper
@@ -151,10 +157,10 @@ well the model distinguishes between topics. The higher this score - better</p>
 </dd>
 <dt id="topicnet.cooking_machine.models.scores.IntratextCoherenceScore"><code class="flex name class">
 <span>class <span class="ident">IntratextCoherenceScore</span></span>
-<span>(</span><span>dataset, name=None, should_compute=None, keep_dataset_in_memory=None, keep_dataset=True, documents=None, documents_fraction=1.0, text_type=<TextType.VW_TEXT: 'vw_text'>, computation_method=<ComputationMethod.SEGMENT_WEIGHT: 2>, word_topic_relatedness=<WordTopicRelatednessType.PWT: 1>, specificity_estimation=<SpecificityEstimationMethod.NONE: 1>, max_num_out_of_topic_words=10, window=20, start_fit_iteration=0, fit_iteration_step=1, seed=11221963, verbose=False)</span>
+<span>(</span><span>dataset: Union[<a title="topicnet.cooking_machine.dataset.Dataset" href="../dataset.html#topicnet.cooking_machine.dataset.Dataset">Dataset</a>, str], name: str = None, should_compute: Callable[[int], bool] = None, keep_dataset_in_memory: bool = None, keep_dataset: bool = True, documents: List[str] = None, documents_fraction: float = 1.0, text_type: <a title="topicnet.cooking_machine.models.intratext_coherence_score.TextType" href="intratext_coherence_score.html#topicnet.cooking_machine.models.intratext_coherence_score.TextType">TextType</a> = TextType.VW_TEXT, computation_method: <a title="topicnet.cooking_machine.models.intratext_coherence_score.ComputationMethod" href="intratext_coherence_score.html#topicnet.cooking_machine.models.intratext_coherence_score.ComputationMethod">ComputationMethod</a> = ComputationMethod.SEGMENT_WEIGHT, word_topic_relatedness: <a title="topicnet.cooking_machine.models.intratext_coherence_score.WordTopicRelatednessType" href="intratext_coherence_score.html#topicnet.cooking_machine.models.intratext_coherence_score.WordTopicRelatednessType">WordTopicRelatednessType</a> = WordTopicRelatednessType.PWT, specificity_estimation: <a title="topicnet.cooking_machine.models.intratext_coherence_score.SpecificityEstimationMethod" href="intratext_coherence_score.html#topicnet.cooking_machine.models.intratext_coherence_score.SpecificityEstimationMethod">SpecificityEstimationMethod</a> = SpecificityEstimationMethod.NONE, max_num_out_of_topic_words: int = 10, window: int = 20, start_fit_iteration: int = 0, fit_iteration_step: int = 1, seed: int = 11221963, verbose: bool = False)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Computes intratext coherence</p>
+<div class="desc"><p>Computes intratext coherence</p>
 <p>For each topic of topic model its distribution throughout document collection is observed.
 Hypothetically, the better the topic, the more often it is represented by
 long segments of words highly related to the topic.
@@ -217,7 +223,7 @@ If one is interested only in the last score value
 at the end of the training process (and not in the dependence of score on iteration),
 one should adjust <code>start_fit_iteration</code> and <code>fit_iteration_step</code> correspondingly.
 For example:</p>
-<pre><code>&gt;&gt;&gt; # dataset = Dataset(...)
+<pre><code class="python-repl">&gt;&gt;&gt; # dataset = Dataset(...)
 &gt;&gt;&gt; # topic_model = TopicModel(...)
 &gt;&gt;&gt; num_iterations = 100
 &gt;&gt;&gt; topic_model.custom_scores['intratext_coherence'] = IntratextCoherenceScore(
@@ -225,9 +231,11 @@ For example:</p>
 &gt;&gt;&gt;     start_fit_iteration=num_iterations - 1  # last iteration: starting from zero
 &gt;&gt;&gt; )
 &gt;&gt;&gt; topic_model._fit(dataset.get_batch_vectorizer(), num_iterations=num_iterations)
-</code></pre></section>
+</code></pre></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">class IntratextCoherenceScore(BaseScore):
     &#34;&#34;&#34;Computes intratext coherence
 
@@ -845,21 +853,23 @@ For example:</p>
 <h3>Static methods</h3>
 <dl>
 <dt id="topicnet.cooking_machine.models.scores.IntratextCoherenceScore.load"><code class="name flex">
-<span>def <span class="ident">load</span></span>(<span>path)</span>
+<span>def <span class="ident">load</span></span>(<span>path: str)</span>
 </code></dt>
 <dd>
-<section class="desc"><h2 id="parameters">Parameters</h2>
+<div class="desc"><h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>path</code></strong></dt>
 <dd>&nbsp;</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><a title="topicnet.cooking_machine.models.scores.IntratextCoherenceScore" href="#topicnet.cooking_machine.models.scores.IntratextCoherenceScore"><code>IntratextCoherenceScore</code></a></dt>
+<dt><code><a title="topicnet.cooking_machine.models.scores.IntratextCoherenceScore" href="#topicnet.cooking_machine.models.scores.IntratextCoherenceScore">IntratextCoherenceScore</a></code></dt>
 <dd>&nbsp;</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">@classmethod
 def load(cls, path: str):
     &#34;&#34;&#34;
@@ -893,11 +903,13 @@ def load(cls, path: str):
 </dl>
 <h3>Instance variables</h3>
 <dl>
-<dt id="topicnet.cooking_machine.models.scores.IntratextCoherenceScore.dataset"><code class="name">var <span class="ident">dataset</span></code></dt>
+<dt id="topicnet.cooking_machine.models.scores.IntratextCoherenceScore.dataset"><code class="name">var <span class="ident">dataset</span> : <a title="topicnet.cooking_machine.dataset.Dataset" href="../dataset.html#topicnet.cooking_machine.dataset.Dataset">Dataset</a></code></dt>
 <dd>
-<section class="desc"></section>
+<div class="desc"></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">@property
 def dataset(self) -&gt; Dataset:
     return self._dataset</code></pre>
@@ -907,12 +919,14 @@ def dataset(self) -&gt; Dataset:
 <h3>Methods</h3>
 <dl>
 <dt id="topicnet.cooking_machine.models.scores.IntratextCoherenceScore.compute"><code class="name flex">
-<span>def <span class="ident">compute</span></span>(<span>self, model, topics=None, documents=None)</span>
+<span>def <span class="ident">compute</span></span>(<span>self, model: <a title="topicnet.cooking_machine.models.base_model.BaseModel" href="base_model.html#topicnet.cooking_machine.models.base_model.BaseModel">BaseModel</a>, topics: List[str] = None, documents: List[str] = None) ‑> Dict[str, Union[float, NoneType]]</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<div class="desc"></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def compute(
         self,
         model: BaseModel,
@@ -976,12 +990,14 @@ def dataset(self) -&gt; Dataset:
 </details>
 </dd>
 <dt id="topicnet.cooking_machine.models.scores.IntratextCoherenceScore.save"><code class="name flex">
-<span>def <span class="ident">save</span></span>(<span>self, path)</span>
+<span>def <span class="ident">save</span></span>(<span>self, path: str) ‑> NoneType</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<div class="desc"></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def save(self, path: str) -&gt; None:
     dataset = self._dataset
     self._dataset = None
@@ -1005,10 +1021,10 @@ def dataset(self) -&gt; Dataset:
 </dd>
 <dt id="topicnet.cooking_machine.models.scores.ScoreExample"><code class="flex name class">
 <span>class <span class="ident">ScoreExample</span></span>
-<span>(</span><span>name=None, token_threshold=0.001, should_compute=None)</span>
+<span>(</span><span>name: str = None, token_threshold: float = 0.001, should_compute: Callable[[int], bool] = None)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Example score that calculates
+<div class="desc"><p>Example score that calculates
 average size of topic kernel across all topics.
 We inherit from BaseScore in order to have self.value property and self.update() method
 (the internal logic of TopicNet relies on them)</p>
@@ -1018,9 +1034,11 @@ We inherit from BaseScore in order to have self.value property and self.update()
 <dt>name of the score</dt>
 <dt><strong><code>token_threshold</code></strong> :&ensp;<code>float</code></dt>
 <dd>what probabilities to take as token belonging to the topic</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">class ScoreExample(BaseScore):
     &#34;&#34;&#34;
     Example score that calculates
@@ -1077,7 +1095,7 @@ We inherit from BaseScore in order to have self.value property and self.update()
 <span>def <span class="ident">call</span></span>(<span>self, model, **kwargs)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Method that calculates the score</p>
+<div class="desc"><p>Method that calculates the score</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>model</code></strong> :&ensp;<code>TopicModel</code></dt>
@@ -1087,9 +1105,11 @@ We inherit from BaseScore in order to have self.value property and self.update()
 <dl>
 <dt><strong><code>score</code></strong> :&ensp;<code>float</code></dt>
 <dd>mean kernel size for all topics in the model</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def call(self, model, **kwargs):
     &#34;&#34;&#34;
     Method that calculates the score
@@ -1122,10 +1142,10 @@ We inherit from BaseScore in order to have self.value property and self.update()
 </dd>
 <dt id="topicnet.cooking_machine.models.scores.SemanticRadiusScore"><code class="flex name class">
 <span>class <span class="ident">SemanticRadiusScore</span></span>
-<span>(</span><span>batch_vectorizer, name=None)</span>
+<span>(</span><span>batch_vectorizer, name: str = None)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>This score implements cluster semantic radius, described in paper
+<div class="desc"><p>This score implements cluster semantic radius, described in paper
 'Проверка гипотезы условной независимости
 для оценивания качества тематической кластеризации' by Rogozina A.
 At the core this score helps to discover topics uniformity.
@@ -1136,9 +1156,11 @@ The lower this score - better</p>
 <dt>Name of the score</dt>
 <dt><strong><code>batch_vectorizer</code></strong></dt>
 <dd>&nbsp;</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">class SemanticRadiusScore(BaseScore):
     &#34;&#34;&#34;
     This score implements cluster semantic radius, described in paper
@@ -1218,7 +1240,7 @@ The lower this score - better</p>
 <span>def <span class="ident">call</span></span>(<span>self, model, max_sampled_document_len=None, sample_step=5, sample_size=3, alpha=0.1)</span>
 </code></dt>
 <dd>
-<section class="desc"><h2 id="parameters">Parameters</h2>
+<div class="desc"><h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>model</code></strong> :&ensp;<code>TopicModel</code></dt>
 <dd>&nbsp;</dd>
@@ -1234,9 +1256,11 @@ The lower this score - better</p>
 <dt><strong><code>alpha</code></strong> :&ensp;<code>float</code></dt>
 <dd>(1 - alpha) quantile level, must be &lt;= 1<br>
 (Default value = 0.1)</dd>
-</dl></section>
+</dl></div>
 <details class="source">
-<summary>Source code</summary>
+<summary>
+<span>Expand source code</span>
+</summary>
 <pre><code class="python">def call(self, model, max_sampled_document_len=None, sample_step=5, sample_size=3, alpha=0.1):
     &#34;&#34;&#34;
 
@@ -1330,9 +1354,7 @@ The lower this score - better</p>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.0</a>.</p>
 </footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>
