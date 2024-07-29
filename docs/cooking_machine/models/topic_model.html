@@ -2,21 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-<meta name="generator" content="pdoc3 0.11.1">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.3" />
 <title>topicnet.cooking_machine.models.topic_model API documentation</title>
-<meta name="description" content="">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
-<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
-<script>window.addEventListener('DOMContentLoaded', () => {
-hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
-hljs.highlightAll();
-})</script>
 </head>
 <body>
 <main>
@@ -25,6 +20,911 @@ hljs.highlightAll();
 <h1 class="title">Module <code>topicnet.cooking_machine.models.topic_model</code></h1>
 </header>
 <section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">import artm
+import dill
+import glob
+import inspect
+import json
+import os
+import pandas as pd
+import pickle
+import shutil
+import warnings
+
+from copy import deepcopy
+from inspect import signature
+from numbers import Number
+from six import iteritems
+from typing import (
+    Any,
+    Dict,
+    List,
+    Union,
+)
+
+from artm.wrapper.exceptions import ArtmException
+
+from . import scores as tn_scores
+from .base_model import BaseModel
+from .base_regularizer import BaseRegularizer
+from .base_score import BaseScore
+from .frozen_score import FrozenScore
+from ..cubes.controller_cube import ControllerAgent
+from ..routine import transform_complex_entity_to_dict
+
+# TODO: can&#39;t import Experiment from here (to specify type in init)
+#  probably need to rearrange imports
+#  (Experiment and Models are kind of in one bunch: one should be able to know about the other)
+
+from .scores_wrapper import ScoresWrapper
+
+
+LIBRARY_VERSION = artm.version()
+ARTM_NINE = LIBRARY_VERSION.split(&#34;.&#34;)[1] == &#34;9&#34;
+
+SUPPORTED_SCORES_WITHOUT_VALUE_PROPERTY = (
+    artm.score_tracker.TopTokensScoreTracker,
+    artm.score_tracker.ThetaSnippetScoreTracker,
+    artm.score_tracker.TopicKernelScoreTracker,
+)
+
+
+class TopicModel(BaseModel):
+    &#34;&#34;&#34;
+    Topic Model contains artm model and all necessary information: scores, training pipeline, etc.
+
+    &#34;&#34;&#34;
+    def __init__(
+            self,
+            artm_model: artm.ARTM = None,
+            model_id: str = None,
+            parent_model_id: str = None,
+            data_path: str = None,
+            description: List[Dict[str, Any]] = None,
+            experiment=None,
+            callbacks: List[ControllerAgent] = None,
+            custom_scores: Dict[str, BaseScore] = None,
+            custom_regularizers: Dict[str, BaseRegularizer] = None,
+            *args, **kwargs):
+        &#34;&#34;&#34;
+        Initialize stage, also used for loading previously saved experiments.
+
+        Parameters
+        ----------
+        artm_model : artm model or None
+            model to use, None if you want to create model (Default value = None)
+        model_id : str
+            model id (Default value = None)
+        parent_model_id : str
+            model id from which current model was created (Default value = None)
+        data_path : str
+            path to the data (Default value = None)
+        description : list of dict
+            description of the model (Default value = None)
+        experiment : Experiment
+            the experiment to which the model is bound (Default value = None)
+        callbacks : list of objects with invoke() method
+            function called inside _fit which alters model parameters
+            mainly used for fancy regularizer coefficients manipulation
+        custom_scores : dict
+            dictionary with score names as keys and score classes as functions
+            (score class with functionality like those of BaseScore)
+        custom_regularizers : dict
+            dictionary with regularizer names as keys and regularizer classes as values
+
+        &#34;&#34;&#34;
+        super().__init__(model_id=model_id, parent_model_id=parent_model_id,
+                         experiment=experiment, *args, **kwargs)
+
+        if callbacks is None:
+            callbacks = list()
+        if custom_scores is None:
+            custom_scores = dict()
+        if custom_regularizers is None:
+            custom_regularizers = dict()
+
+        self.callbacks = list(callbacks)
+
+        if artm_model is not None:
+            self._model = artm_model
+        else:
+            artm_ARTM_args = inspect.getfullargspec(artm.ARTM).args
+            kwargs = {k: v for k, v in kwargs.items() if k in artm_ARTM_args}
+
+            try:
+                self._model = artm.ARTM(**kwargs)
+            except ArtmException as e:
+                error_message = repr(e)
+
+                raise ValueError(
+                    f&#39;Cannot create artm model with parameters {kwargs}.\n&#39;
+                    &#34;ARTM failed with following: &#34; + error_message
+                )
+
+        self.data_path = data_path
+        self.custom_scores = custom_scores
+        self.custom_regularizers = custom_regularizers
+        self.library_version = LIBRARY_VERSION
+
+        self._description = []
+
+        if description is None and self._model._initialized:
+            init_params = self.get_jsonable_from_parameters()
+            self._description = [{&#34;action&#34;: &#34;init&#34;,
+                                  &#34;params&#34;: [init_params]}]
+        else:
+            self._description = description
+
+        self._scores_wrapper = ScoresWrapper(
+            topicnet_scores=self.custom_scores,
+            artm_scores=self._model.scores
+        )
+
+    def __getattr__(self, attr_name):
+        return getattr(self._model, attr_name)
+
+    def _get_all_scores(self):
+        if len(self._model.score_tracker.items()) == 0:
+            yield from {
+                key: FrozenScore(list())
+                for key in self._model.scores.data.keys()
+            }.items()
+        yield from self._model.score_tracker.items()
+
+        if self.custom_scores is not None:  # default is dict(), but maybe better to set None?
+            yield from self.custom_scores.items()
+
+    def _compute_score_values(self):
+        def get_score_properties_and_values(score_name, score_object):
+            for internal_name in dir(score_object):
+                if internal_name.startswith(&#39;_&#39;) or internal_name.startswith(&#39;last&#39;):
+                    continue
+
+                score_property_name = score_name + &#39;.&#39; + internal_name
+
+                yield score_property_name, getattr(score_object, internal_name)
+
+        score_values = dict()
+
+        for score_name, score_object in self._get_all_scores():
+            try:
+                score_values[score_name] = getattr(score_object, &#39;value&#39;)
+            except AttributeError:
+                if not isinstance(score_object, SUPPORTED_SCORES_WITHOUT_VALUE_PROPERTY):
+                    warnings.warn(f&#39;Score &#34;{str(score_object.__class__)}&#34; is not supported&#39;)
+                    continue
+
+                for score_property_name, value in get_score_properties_and_values(
+                        score_name, score_object):
+
+                    score_values[score_property_name] = value
+
+        return score_values
+
+    def _prepare_custom_regularizers(self, custom_regularizers):
+        if custom_regularizers is None:
+            custom_regularizers = dict()
+
+        all_custom_regularizers = deepcopy(custom_regularizers)
+        all_custom_regularizers.update(self.custom_regularizers)
+        base_regularizers_name, base_regularizers_tau = None, None
+
+        if len(all_custom_regularizers) != 0:
+            for regularizer in all_custom_regularizers.values():
+                regularizer.attach(self._model)
+
+            base_regularizers_name = [regularizer.name
+                                      for regularizer in self._model.regularizers.data.values()]
+            base_regularizers_tau = [regularizer.tau
+                                     for regularizer in self._model.regularizers.data.values()]
+
+        return base_regularizers_name, base_regularizers_tau, all_custom_regularizers
+
+    def _fit(self, dataset_trainable, num_iterations, custom_regularizers=None):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        dataset_trainable : BatchVectorizer
+            Data for model fit
+        num_iterations : int
+            Amount of fit steps
+        custom_regularizers : dict of BaseRegularizer
+            Regularizers to apply to model
+
+        &#34;&#34;&#34;
+        (base_regularizers_name,
+         base_regularizers_tau,
+         all_custom_regularizers) = self._prepare_custom_regularizers(custom_regularizers)
+
+        for cur_iter in range(num_iterations):
+            precomputed_data = dict()
+            iter_is_last = (cur_iter == num_iterations - 1)
+
+            self._model.fit_offline(batch_vectorizer=dataset_trainable,
+                                    num_collection_passes=1)
+
+            if len(all_custom_regularizers) != 0:
+                self._apply_custom_regularizers(
+                    dataset_trainable, all_custom_regularizers,
+                    base_regularizers_name, base_regularizers_tau
+                )
+
+            for name, custom_score in self.custom_scores.items():
+                try:
+                    should_compute_now = iter_is_last or custom_score._should_compute(cur_iter)
+
+                    if not should_compute_now:
+                        continue
+
+                    # TODO: this check is probably should be refined somehow...
+                    #  what if some new parameter added to BaseScore.call -&gt; new check?..
+                    call_parameters = signature(custom_score.call).parameters
+
+                    # if-else instead of try-catch: to speed up
+                    if (BaseScore._PRECOMPUTED_DATA_PARAMETER_NAME not in call_parameters
+                            and not any(str(p).startswith(&#39;**&#39;) for p in call_parameters.values())):
+
+                        score = custom_score.call(self)
+                    else:
+                        score = custom_score.call(self, precomputed_data=precomputed_data)
+
+                    custom_score.update(score)
+                    self._model.score_tracker[name] = custom_score
+
+                except AttributeError as error:  # TODO: means no &#34;call&#34; attribute?
+                    raise AttributeError(
+                        f&#39;Seems that score &#34;{name}&#34; doesn\&#39;t have a desired attribute...&#39;
+                    ) from error
+
+            # TODO: think about performance issues
+            for callback_agent in self.callbacks:
+                callback_agent.invoke(self, cur_iter)
+
+            self._scores_wrapper._reset_score_caches()
+
+    def _apply_custom_regularizers(self, dataset_trainable, custom_regularizers,
+                                   base_regularizers_name, base_regularizers_tau):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        dataset_trainable : BatchVectorizer
+            Data for model fit
+        custom_regularizers : dict of BaseRegularizer
+            Regularizers to apply to model
+        base_regularizers_name : list of str
+            List with all artm.regularizers names, applied to model
+        base_regularizers_tau : list of float
+            List with tau for all artm.regularizers, applied to model
+
+        &#34;&#34;&#34;
+        pwt = self._model.get_phi(model_name=self._model.model_pwt)
+        nwt = self._model.get_phi(model_name=self._model.model_nwt)
+        rwt_name = &#39;rwt&#39;
+
+        self._model.master.regularize_model(pwt=self._model.model_pwt,
+                                            nwt=self._model.model_nwt,
+                                            rwt=rwt_name,
+                                            regularizer_name=base_regularizers_name,
+                                            regularizer_tau=base_regularizers_tau)
+
+        (meta, nd_array) = self._model.master.attach_model(rwt_name)
+        attached_rwt = pd.DataFrame(data=nd_array, columns=list(meta.topic_name), index=list(meta.token))
+
+        for regularizer in custom_regularizers.values():
+            attached_rwt.values[:, :] += regularizer.grad(pwt, nwt)
+
+        self._model.master.normalize_model(pwt=self._model.model_pwt,
+                                           nwt=self._model.model_nwt,
+                                           rwt=rwt_name)
+
+    def get_jsonable_from_parameters(self):
+        &#34;&#34;&#34;
+        Gets artm model params.
+
+        Returns
+        -------
+        dict
+            artm model parameters
+
+        &#34;&#34;&#34;
+        parameters = transform_complex_entity_to_dict(self._model)
+
+        regularizers = {}
+        for name, regularizer in iteritems(self._model._regularizers.data):
+            tau = None
+            gamma = None
+            try:
+                tau = regularizer.tau
+                gamma = regularizer.gamma
+            except KeyError:
+                pass
+            regularizers[name] = [str(regularizer.config), tau, gamma]
+        for name, regularizer in iteritems(self.custom_regularizers):
+            tau = getattr(regularizer, &#39;tau&#39;, None)
+            gamma = getattr(regularizer, &#39;gamma&#39;, None)
+            config = str(getattr(regularizer, &#39;config&#39;, &#39;&#39;))
+            regularizers[name] = [config, tau, gamma]
+
+        parameters[&#39;regularizers&#39;] = regularizers
+        parameters[&#39;version&#39;] = self.library_version
+
+        return parameters
+
+    def get_init_parameters(self, not_include=None):
+        if not_include is None:
+            not_include = list()
+
+        init_artm_parameter_names = [
+            p.name for p in list(signature(artm.ARTM.__init__).parameters.values())
+        ][1:]
+        parameters = transform_complex_entity_to_dict(self._model)
+        filtered = dict()
+        for parameter_name, parameter_value in parameters.items():
+            if parameter_name not in not_include and parameter_name in init_artm_parameter_names:
+                filtered[parameter_name] = parameter_value
+        return filtered
+
+    def save_custom_regularizers(self, model_save_path=None):
+        if model_save_path is None:
+            model_save_path = self.model_default_save_path
+
+        for regularizer_name, regularizer_object in self.custom_regularizers.items():
+            # If not do this, there may be problems with pickling:
+            # `model` is an ARTM-C-like thing, and it may cause problems
+            # This is safe, because `model` appears in attach(),
+            # which is called before each iteration
+            # P.S. and the `model` itself may be needed for a regularizer inside `grad()`
+            regularizer_object._model = None
+
+            managed_to_pickle = False
+
+            for (pickler, extension) in zip([dill, pickle], [&#39;.rd&#39;, &#39;.rp&#39;]):
+                save_path = os.path.join(model_save_path, regularizer_name + extension)
+
+                try:
+                    with open(save_path, &#39;wb&#39;) as reg_f:
+                        pickler.dump(regularizer_object, reg_f)
+                except (TypeError, AttributeError):
+                    if os.path.isfile(save_path):
+                        os.remove(save_path)
+                else:
+                    managed_to_pickle = True
+
+                if managed_to_pickle:
+                    break
+
+            if not managed_to_pickle:
+                warnings.warn(f&#39;Cannot save {regularizer_name} regularizer!&#39;)
+
+    def save(self,
+             model_save_path=None,
+             phi=True,
+             theta=False,
+             dataset=None,):
+        &#34;&#34;&#34;
+        Saves model description and dumps artm model.
+        Use this method if you want to dump the model.
+
+        Parameters
+        ----------
+        model_save_path : str
+            path to the folder with dumped info about model
+        phi : bool
+            save phi in csv format if True
+        theta : bool
+            save theta in csv format if True
+        dataset : Dataset
+             dataset
+
+        &#34;&#34;&#34;
+        if model_save_path is None:
+            model_save_path = self.model_default_save_path
+
+        if not os.path.exists(model_save_path):
+            os.makedirs(model_save_path)
+        if phi:
+            self._model.get_phi().to_csv(os.path.join(model_save_path, &#39;phi.csv&#39;))
+        if theta:
+            self.get_theta(dataset=dataset).to_csv(os.path.join(model_save_path, &#39;theta.csv&#39;))
+
+        model_itself_save_path = os.path.join(model_save_path, &#39;model&#39;)
+
+        if os.path.exists(model_itself_save_path):
+            shutil.rmtree(model_itself_save_path)
+
+        self._model.dump_artm_model(model_itself_save_path)
+        self.save_parameters(model_save_path)
+
+        for score_name, score_object in self.custom_scores.items():
+            class_name = score_object.__class__.__name__
+            save_path = os.path.join(
+                model_save_path,
+                &#39;.&#39;.join([score_name, class_name, &#39;p&#39;])
+            )
+
+            try:
+                score_object.save(save_path)
+            except pickle.PicklingError:
+                warnings.warn(
+                    f&#39;Failed to save custom score &#34;{score_object}&#34; correctly!&#39;
+                    f&#39; Freezing score (saving only its value)&#39;
+                )
+
+                frozen_score_object = FrozenScore(
+                    score_object.value,
+                    original_score=score_object
+                )
+                frozen_score_object.save(save_path)
+
+        self.save_custom_regularizers(model_save_path)
+
+        for i, agent in enumerate(self.callbacks):
+            save_path = os.path.join(model_save_path, f&#34;callback_{i}.pkl&#34;)
+
+            with open(save_path, &#39;wb&#39;) as agent_file:
+                dill.dump(agent, agent_file)
+
+    @staticmethod
+    def load(path, experiment=None):
+        &#34;&#34;&#34;
+        Loads the model.
+
+        Parameters
+        ----------
+        path : str
+            path to the model&#39;s folder
+        experiment : Experiment
+
+        Returns
+        -------
+        TopicModel
+
+        &#34;&#34;&#34;
+        if &#34;model&#34; in os.listdir(f&#34;{path}&#34;):
+            model = artm.load_artm_model(f&#34;{path}/model&#34;)
+        else:
+            model = None
+            print(&#34;There is no dumped model. You should train it again.&#34;)
+
+        with open(os.path.join(path, &#39;params.json&#39;), &#39;r&#39;, encoding=&#39;utf-8&#39;) as params_file:
+            params = json.load(params_file)
+
+        topic_model = TopicModel(model, **params)
+        topic_model.experiment = experiment
+
+        for score_path in glob.glob(os.path.join(path, &#39;*.p&#39;)):
+            # TODO: file &#39;..p&#39; is not included, so score with name &#39;.&#39; will be lost
+            #  Need to validate score name?
+            score_file_name = os.path.basename(score_path)
+            *score_name, score_cls_name, _ = score_file_name.split(&#39;.&#39;)
+            score_name = &#39;.&#39;.join(score_name)
+
+            score_cls = getattr(tn_scores, score_cls_name)
+            loaded_score = score_cls.load(score_path)
+            # TODO check what happens with score name
+            loaded_score._name = score_name
+            topic_model.scores.add(loaded_score)
+
+        for reg_file_extension, loader in zip([&#39;.rd&#39;, &#39;.rp&#39;], [dill, pickle]):
+            for regularizer_path in glob.glob(os.path.join(path, f&#39;*{reg_file_extension}&#39;)):
+                regularizer_file_name = os.path.basename(regularizer_path)
+                regularizer_name = os.path.splitext(regularizer_file_name)[0]
+
+                with open(regularizer_path, &#39;rb&#39;) as reg_file:
+                    topic_model.custom_regularizers[regularizer_name] = loader.load(reg_file)
+
+        all_agents = glob.glob(os.path.join(path, &#39;callback*.pkl&#39;))
+        topic_model.callbacks = [None for _ in enumerate(all_agents)]
+
+        for agent_path in all_agents:
+            file_name = os.path.basename(agent_path).split(&#39;.&#39;)[0]
+            original_index = int(file_name.partition(&#34;_&#34;)[2])
+
+            with open(agent_path, &#39;rb&#39;) as agent_file:
+                topic_model.callbacks[original_index] = dill.load(agent_file)
+
+        topic_model._scores_wrapper._reset_score_caches()
+        _ = topic_model.scores
+
+        return topic_model
+
+    def clone(self, model_id=None):
+        &#34;&#34;&#34;
+        Creates a copy of the model except model_id.
+
+        Parameters
+        ----------
+        model_id : str
+            (Default value = None)
+
+        Returns
+        -------
+        TopicModel
+
+        &#34;&#34;&#34;
+        topic_model = TopicModel(artm_model=self._model.clone(),
+                                 model_id=model_id,
+                                 parent_model_id=self.parent_model_id,
+                                 description=deepcopy(self.description),
+                                 custom_scores=deepcopy(self.custom_scores),
+                                 custom_regularizers=deepcopy(self.custom_regularizers),
+                                 experiment=self.experiment)
+        topic_model._score_functions = deepcopy(topic_model.score_functions)
+        topic_model._scores = deepcopy(topic_model.scores)
+        topic_model.callbacks = deepcopy(self.callbacks)
+
+        return topic_model
+
+    def get_phi(self, topic_names=None, class_ids=None, model_name=None):
+        &#34;&#34;&#34;
+        Gets custom Phi matrix of model.
+
+        Parameters
+        ----------
+        topic_names : list of str or str
+            list with topics or single topic to extract,
+            None value means all topics (Default value = None)
+        class_ids : list of str or str
+            list with class_ids or single class_id to extract,
+            None means all class ids (Default value = None)
+        model_name : str
+            self.model.model_pwt by default, self.model.model_nwt is also
+            reasonable to extract unnormalized counters
+
+        Returns
+        -------
+        pd.DataFrame
+            phi matrix
+
+        &#34;&#34;&#34;
+        if ARTM_NINE:
+            phi_parts_array = []
+            if isinstance(class_ids, str):
+                class_ids = [class_ids]
+            class_ids_iter = class_ids or self._model.class_ids
+            # TODO: this workaround seems to be a correct solution to this problem
+            # maybe the next for-loop could be replaced with these three lines
+            if not class_ids_iter:
+                valid_model_name = self._model.model_pwt
+                info = self._model.master.get_phi_info(valid_model_name)
+                class_ids_iter = list(set(info.class_id))
+
+            for class_id in class_ids_iter:
+                phi_part = self._model.get_phi(topic_names, class_id, model_name)
+                phi_part.index.rename(&#34;token&#34;, inplace=True)
+                phi_part.reset_index(inplace=True)
+                phi_part[&#34;modality&#34;] = class_id
+                phi_parts_array.append(phi_part)
+            phi = pd.concat(phi_parts_array).set_index([&#39;modality&#39;, &#39;token&#39;])
+        else:
+            phi = self._model.get_phi(topic_names, class_ids, model_name)
+            phi.index = pd.MultiIndex.from_tuples(phi.index, names=(&#39;modality&#39;, &#39;token&#39;))
+
+        return phi
+
+    def get_phi_dense(self, topic_names=None, class_ids=None, model_name=None):
+        &#34;&#34;&#34;
+        Gets custom Phi matrix of model.
+
+        Parameters
+        ----------
+        topic_names : list of str or str
+            list with topics or single topic to extract,
+            None value means all topics (Default value = None)
+        class_ids : list of str or str
+            list with class_ids or single class_id to extract,
+            None means all class ids (Default value = None)
+        model_name : str
+            self.model.model_pwt by default, self.model.model_nwt is also
+            reasonable to extract unnormalized counters
+
+        Returns
+        -------
+        3-tuple
+            dense phi matrix
+
+        &#34;&#34;&#34;
+        return self._model.get_phi_dense(topic_names, class_ids, model_name)
+
+    def get_phi_sparse(self, topic_names=None, class_ids=None, model_name=None, eps=None):
+        &#34;&#34;&#34;
+        Gets custom Phi matrix of model as sparse scipy matrix.
+
+        Parameters
+        ----------
+        topic_names : list of str or str
+            list with topics or single topic to extract,
+            None value means all topics (Default value = None)
+        class_ids : list of str or str
+            list with class_ids or single class_id to extract,
+            None means all class ids (Default value = None)
+        model_name : str
+            self.model.model_pwt by default, self.model.model_nwt is also
+            reasonable to extract unnormalized counters
+        eps : float
+            threshold to consider values as zero (Default value = None)
+
+        Returns
+        -------
+        3-tuple
+            sparse phi matrix
+
+        &#34;&#34;&#34;
+        return self._model.get_phi_sparse(topic_names, class_ids, model_name, eps)
+
+    def get_theta(self, topic_names=None,
+                  dataset=None,
+                  theta_matrix_type=&#39;dense_theta&#39;,
+                  predict_class_id=None,
+                  sparse=False,
+                  eps=None,):
+        &#34;&#34;&#34;
+        Gets Theta matrix as pandas DataFrame
+        or sparse scipy matrix.
+
+        Parameters
+        ----------
+        topic_names : list of str or str
+            list with topics or single topic to extract,
+            None value means all topics (Default value = None)
+        dataset : Dataset
+            an instance of Dataset class (Default value = None)
+        theta_matrix_type : str
+            type of matrix to be returned, possible values:
+            ‘dense_theta’, ‘dense_ptdw’, ‘cache’, None (Default value = ’dense_theta’)
+        predict_class_id : str
+            class_id of a target modality to predict. When this option
+            is enabled the resulting columns of theta matrix will
+            correspond to unique labels of a target modality. The values
+            will represent p(c|d), which give the probability of class
+            label c for document d (Default value = None)
+        sparse : bool
+            if method returns sparse representation of the data (Default value = False)
+        eps : float
+            threshold to consider values as zero. Required for sparse matrix.
+            depends on the collection (Default value = None)
+
+        Returns
+        -------
+        pd.DataFrame
+            theta matrix
+
+        &#34;&#34;&#34;
+        # assuming particular case of BigARTM library that user can&#39;t get theta matrix
+        # without cache_theta == True. This also covers theta_name == None case
+        if self._cache_theta:
+            # TODO wrap sparse in pd.SparseDataFrame and check that viewers work with that output
+            if sparse:
+                return self._model.get_theta_sparse(topic_names, eps)
+            else:
+                return self._model.get_theta(topic_names)
+        else:
+            if dataset is None:
+                raise ValueError(&#34;To get theta a dataset is required&#34;)
+            else:
+                batch_vectorizer = dataset.get_batch_vectorizer()
+                if sparse:
+                    return self._model.transform_sparse(batch_vectorizer, eps)
+                else:
+                    theta = self._model.transform(batch_vectorizer,
+                                                  theta_matrix_type,
+                                                  predict_class_id)
+                    return theta
+
+    def to_dummy(self, save_path=None):
+        &#34;&#34;&#34;Creates dummy model
+
+        Parameters
+        ----------
+        save_path : str (or None)
+            Path to folder with dumped info about topic model
+
+        Returns
+        -------
+        DummyTopicModel
+            Dummy model: without inner ARTM model,
+            but with scores and init parameters of calling TopicModel
+
+        Notes
+        -----
+        Dummy model has the same model_id as the original model,
+        but &#34;model_id&#34; key in experiment.models contains original model, not dummy
+        &#34;&#34;&#34;
+        from .dummy_topic_model import DummyTopicModel
+        # python crashes if place this import on top of the file
+        # import circle: TopicModel -&gt; DummyTopicModel -&gt; TopicModel
+
+        if save_path is None:
+            save_path = self.model_default_save_path
+
+        dummy = DummyTopicModel(
+            init_parameters=self.get_init_parameters(),
+            scores=dict(self.scores),
+            model_id=self.model_id,
+            parent_model_id=self.parent_model_id,
+            description=self.description,
+            experiment=self.experiment,
+            save_path=save_path,
+        )
+
+        # BaseModel spoils model_id trying to make it unique
+        dummy._model_id = self.model_id  # accessing private field instead of public property
+
+        return dummy
+
+    def make_dummy(self, save_to_drive=True, save_path=None, dataset=None):
+        &#34;&#34;&#34;Makes topic model dummy in-place.
+
+        Parameters
+        ----------
+        save_to_drive : bool
+            Whether to save model to drive or not. If not, the info will be lost
+        save_path : str (or None)
+            Path to folder to dump info to
+        dataset : Dataset
+            Dataset with text collection on which the model was trained.
+            Needed for saving Theta matrix
+
+        Notes
+        -----
+        After calling the method, the model is still of type TopicModel,
+        but there is no ARTM model inside! (so `model.get_phi()` won&#39;t work!)
+        If one wants to use the topic model as before,
+        this ARTM model should be restored first:
+        &gt;&gt;&gt; save_path = topic_model.model_default_save_path
+        &gt;&gt;&gt; topic_model._model = artm.load_artm_model(f&#39;{save_path}/model&#39;)
+        &#34;&#34;&#34;
+        from .dummy_topic_model import DummyTopicModel
+        from .dummy_topic_model import WARNING_ALREADY_DUMMY
+
+        if hasattr(self, DummyTopicModel._dummy_attribute):
+            warnings.warn(WARNING_ALREADY_DUMMY)
+
+            return
+
+        if not save_to_drive:
+            save_path = None
+        else:
+            save_path = save_path or self.model_default_save_path
+            save_theta = self._model._cache_theta or (dataset is not None)
+            self.save(save_path, phi=True, theta=save_theta, dataset=dataset)
+
+        dummy = self.to_dummy(save_path=save_path)
+        dummy._original_model_save_folder_path = save_path
+
+        self._model.dispose()
+        self._model = dummy._model
+
+        del dummy
+
+        setattr(self, DummyTopicModel._dummy_attribute, True)
+
+    @property
+    def scores(self) -&gt; Dict[str, List[float]]:
+        &#34;&#34;&#34;
+        Gets score values by name.
+
+        Returns
+        -------
+        dict : string -&gt; list
+            dictionary with scores and corresponding values
+        &#34;&#34;&#34;
+        if self._scores_wrapper._score_caches is None:
+            self._scores_wrapper._score_caches = self._compute_score_values()
+
+        return self._scores_wrapper
+
+    @property
+    def description(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        return self._description
+
+    @property
+    def regularizers(self):
+        &#34;&#34;&#34;
+        Gets regularizers from model.
+
+        &#34;&#34;&#34;
+        return self._model.regularizers
+
+    @property
+    def all_regularizers(self):
+        &#34;&#34;&#34;
+        Gets all regularizers with custom regularizers.
+
+        Returns
+        -------
+        regularizers_dict : dict
+            dict with artm.regularizer and BaseRegularizer instances
+
+        &#34;&#34;&#34;
+        regularizers_dict = dict()
+        for custom_regularizer_name, custom_regularizer in self.custom_regularizers.items():
+            regularizers_dict[custom_regularizer_name] = custom_regularizer
+        regularizers_dict.update(self._model.regularizers.data)
+
+        return regularizers_dict
+
+    def select_topics(self, substrings, invert=False):
+        &#34;&#34;&#34;
+        Gets all topics containing specified substring
+
+        Returns
+        -------
+        list
+        &#34;&#34;&#34;
+        return [
+            topic_name for topic_name in self.topic_names
+            if invert != any(
+                substring.lower() in topic_name.lower() for substring in substrings
+            )
+        ]
+
+    @property
+    def background_topics(self):
+        return self.select_topics([&#34;background&#34;, &#34;bcg&#34;])
+
+    @property
+    def specific_topics(self):
+        return self.select_topics([&#34;background&#34;, &#34;bcg&#34;], invert=True)
+
+    @property
+    def class_ids(self):
+        &#34;&#34;&#34; &#34;&#34;&#34;
+        return self._model.class_ids
+
+    def describe_scores(self, verbose=False):
+        data = []
+        for score_name, score in self.scores.items():
+            data.append([self.model_id, score_name, score[-1]])
+        result = pd.DataFrame(columns=[&#34;model_id&#34;, &#34;score_name&#34;, &#34;last_value&#34;], data=data)
+        if not verbose:
+            printable_types = result.last_value.apply(lambda x: isinstance(x, Number))
+            result = result.loc[printable_types]
+
+        return result.set_index([&#34;model_id&#34;, &#34;score_name&#34;])
+
+    def describe_regularizers(self):
+        data = []
+        for reg_name, reg in self.regularizers._data.items():
+            entry = [self.model_id, reg_name, reg.tau,
+                     reg.gamma, getattr(reg, &#34;class_ids&#34;, None)]
+            data.append(entry)
+        for custom_reg_name, custom_reg in self.custom_regularizers.items():
+            entry = [self.model_id, custom_reg_name, custom_reg.tau,
+                     custom_reg.gamma, getattr(custom_reg, &#34;class_ids&#34;, None)]
+            data.append(entry)
+        result = pd.DataFrame(
+            columns=[&#34;model_id&#34;, &#34;regularizer_name&#34;, &#34;tau&#34;, &#34;gamma&#34;, &#34;class_ids&#34;], data=data
+        )
+        return result.set_index([&#34;model_id&#34;, &#34;regularizer_name&#34;]).sort_values(by=&#34;regularizer_name&#34;)
+
+    def get_regularizer(
+            self, reg_name: str) -&gt; Union[BaseRegularizer, artm.regularizers.BaseRegularizer]:
+        &#34;&#34;&#34;
+        Retrieves the regularizer specified, no matter is it custom or &#34;classic&#34;
+
+        Returns
+        -------
+        regularizer
+
+        &#34;&#34;&#34;
+        # TODO: RegularizersWrapper?
+
+        if reg_name in self.custom_regularizers:
+            return self.custom_regularizers[reg_name]
+        elif reg_name in self._model.regularizers.data:
+            return self._model.regularizers.data[reg_name]
+        else:
+            raise KeyError(
+                f&#39;There is no such regularizer &#34;{reg_name}&#34;&#39;
+                f&#39; among custom and ARTM regularizers!&#39;
+            )</code></pre>
+</details>
 </section>
 <section>
 </section>
@@ -37,14 +937,14 @@ hljs.highlightAll();
 <dl>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel"><code class="flex name class">
 <span>class <span class="ident">TopicModel</span></span>
-<span>(</span><span>artm_model: artm.artm_model.ARTM = None, model_id: str = None, parent_model_id: str = None, data_path: str = None, description: List[Dict[str, Any]] = None, experiment=None, callbacks: List[<a title="topicnet.cooking_machine.cubes.controller_cube.ControllerAgent" href="../cubes/controller_cube.html#topicnet.cooking_machine.cubes.controller_cube.ControllerAgent">ControllerAgent</a>] = None, custom_scores: Dict[str, <a title="topicnet.cooking_machine.models.base_score.BaseScore" href="base_score.html#topicnet.cooking_machine.models.base_score.BaseScore">BaseScore</a>] = None, custom_regularizers: Dict[str, <a title="topicnet.cooking_machine.models.base_regularizer.BaseRegularizer" href="base_regularizer.html#topicnet.cooking_machine.models.base_regularizer.BaseRegularizer">BaseRegularizer</a>] = None, *args, **kwargs)</span>
+<span>(</span><span>artm_model=None, model_id=None, parent_model_id=None, data_path=None, description=None, experiment=None, callbacks=None, custom_scores=None, custom_regularizers=None, *args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Topic Model contains artm model and all necessary information: scores, training pipeline, etc.</p>
+<section class="desc"><p>Topic Model contains artm model and all necessary information: scores, training pipeline, etc.</p>
 <p>Initialize stage, also used for loading previously saved experiments.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>artm_model</code></strong> :&ensp;<code>artm model</code> or <code>None</code></dt>
+<dt><strong><code>artm_model</code></strong> :&ensp;<code>artm</code> <code>model</code> or <code>None</code></dt>
 <dd>model to use, None if you want to create model (Default value = None)</dd>
 <dt><strong><code>model_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>model id (Default value = None)</dd>
@@ -56,7 +956,7 @@ hljs.highlightAll();
 <dd>description of the model (Default value = None)</dd>
 <dt><strong><code>experiment</code></strong> :&ensp;<code>Experiment</code></dt>
 <dd>the experiment to which the model is bound (Default value = None)</dd>
-<dt><strong><code>callbacks</code></strong> :&ensp;<code>list</code> of <code>objects with invoke() method</code></dt>
+<dt><strong><code>callbacks</code></strong> :&ensp;<code>list</code> of <code>objects</code> <code>with</code> <code>invoke</code>() <code>method</code></dt>
 <dd>function called inside _fit which alters model parameters
 mainly used for fancy regularizer coefficients manipulation</dd>
 <dt><strong><code>custom_scores</code></strong> :&ensp;<code>dict</code></dt>
@@ -64,11 +964,9 @@ mainly used for fancy regularizer coefficients manipulation</dd>
 (score class with functionality like those of BaseScore)</dd>
 <dt><strong><code>custom_regularizers</code></strong> :&ensp;<code>dict</code></dt>
 <dd>dictionary with regularizer names as keys and regularizer classes as values</dd>
-</dl></div>
+</dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">class TopicModel(BaseModel):
     &#34;&#34;&#34;
     Topic Model contains artm model and all necessary information: scores, training pipeline, etc.
@@ -937,7 +1835,7 @@ mainly used for fancy regularizer coefficients manipulation</dd>
 <span>def <span class="ident">load</span></span>(<span>path, experiment=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Loads the model.</p>
+<section class="desc"><p>Loads the model.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>path</code></strong> :&ensp;<code>str</code></dt>
@@ -947,25 +1845,89 @@ mainly used for fancy regularizer coefficients manipulation</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel" href="#topicnet.cooking_machine.models.topic_model.TopicModel">TopicModel</a></code></dt>
+<dt><a title="topicnet.cooking_machine.models.topic_model.TopicModel" href="#topicnet.cooking_machine.models.topic_model.TopicModel"><code>TopicModel</code></a></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@staticmethod
+def load(path, experiment=None):
+    &#34;&#34;&#34;
+    Loads the model.
+
+    Parameters
+    ----------
+    path : str
+        path to the model&#39;s folder
+    experiment : Experiment
+
+    Returns
+    -------
+    TopicModel
+
+    &#34;&#34;&#34;
+    if &#34;model&#34; in os.listdir(f&#34;{path}&#34;):
+        model = artm.load_artm_model(f&#34;{path}/model&#34;)
+    else:
+        model = None
+        print(&#34;There is no dumped model. You should train it again.&#34;)
+
+    with open(os.path.join(path, &#39;params.json&#39;), &#39;r&#39;, encoding=&#39;utf-8&#39;) as params_file:
+        params = json.load(params_file)
+
+    topic_model = TopicModel(model, **params)
+    topic_model.experiment = experiment
+
+    for score_path in glob.glob(os.path.join(path, &#39;*.p&#39;)):
+        # TODO: file &#39;..p&#39; is not included, so score with name &#39;.&#39; will be lost
+        #  Need to validate score name?
+        score_file_name = os.path.basename(score_path)
+        *score_name, score_cls_name, _ = score_file_name.split(&#39;.&#39;)
+        score_name = &#39;.&#39;.join(score_name)
+
+        score_cls = getattr(tn_scores, score_cls_name)
+        loaded_score = score_cls.load(score_path)
+        # TODO check what happens with score name
+        loaded_score._name = score_name
+        topic_model.scores.add(loaded_score)
+
+    for reg_file_extension, loader in zip([&#39;.rd&#39;, &#39;.rp&#39;], [dill, pickle]):
+        for regularizer_path in glob.glob(os.path.join(path, f&#39;*{reg_file_extension}&#39;)):
+            regularizer_file_name = os.path.basename(regularizer_path)
+            regularizer_name = os.path.splitext(regularizer_file_name)[0]
+
+            with open(regularizer_path, &#39;rb&#39;) as reg_file:
+                topic_model.custom_regularizers[regularizer_name] = loader.load(reg_file)
+
+    all_agents = glob.glob(os.path.join(path, &#39;callback*.pkl&#39;))
+    topic_model.callbacks = [None for _ in enumerate(all_agents)]
+
+    for agent_path in all_agents:
+        file_name = os.path.basename(agent_path).split(&#39;.&#39;)[0]
+        original_index = int(file_name.partition(&#34;_&#34;)[2])
+
+        with open(agent_path, &#39;rb&#39;) as agent_file:
+            topic_model.callbacks[original_index] = dill.load(agent_file)
+
+    topic_model._scores_wrapper._reset_score_caches()
+    _ = topic_model.scores
+
+    return topic_model</code></pre>
+</details>
 </dd>
 </dl>
 <h3>Instance variables</h3>
 <dl>
-<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.all_regularizers"><code class="name">prop <span class="ident">all_regularizers</span></code></dt>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.all_regularizers"><code class="name">var <span class="ident">all_regularizers</span></code></dt>
 <dd>
-<div class="desc"><p>Gets all regularizers with custom regularizers.</p>
+<section class="desc"><p>Gets all regularizers with custom regularizers.</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>regularizers_dict</code></strong> :&ensp;<code>dict</code></dt>
 <dd>dict with artm.regularizer and BaseRegularizer instances</dd>
-</dl></div>
+</dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">@property
 def all_regularizers(self):
     &#34;&#34;&#34;
@@ -985,51 +1947,43 @@ def all_regularizers(self):
     return regularizers_dict</code></pre>
 </details>
 </dd>
-<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.background_topics"><code class="name">prop <span class="ident">background_topics</span></code></dt>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.background_topics"><code class="name">var <span class="ident">background_topics</span></code></dt>
 <dd>
-<div class="desc"></div>
+<section class="desc"></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">@property
 def background_topics(self):
     return self.select_topics([&#34;background&#34;, &#34;bcg&#34;])</code></pre>
 </details>
 </dd>
-<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.class_ids"><code class="name">prop <span class="ident">class_ids</span></code></dt>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.class_ids"><code class="name">var <span class="ident">class_ids</span></code></dt>
 <dd>
-<div class="desc"></div>
+<section class="desc"></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">@property
 def class_ids(self):
     &#34;&#34;&#34; &#34;&#34;&#34;
     return self._model.class_ids</code></pre>
 </details>
 </dd>
-<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.description"><code class="name">prop <span class="ident">description</span></code></dt>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.description"><code class="name">var <span class="ident">description</span></code></dt>
 <dd>
-<div class="desc"></div>
+<section class="desc"></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">@property
 def description(self):
     &#34;&#34;&#34; &#34;&#34;&#34;
     return self._description</code></pre>
 </details>
 </dd>
-<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.regularizers"><code class="name">prop <span class="ident">regularizers</span></code></dt>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.regularizers"><code class="name">var <span class="ident">regularizers</span></code></dt>
 <dd>
-<div class="desc"><p>Gets regularizers from model.</p></div>
+<section class="desc"><p>Gets regularizers from model.</p></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">@property
 def regularizers(self):
     &#34;&#34;&#34;
@@ -1039,18 +1993,16 @@ def regularizers(self):
     return self._model.regularizers</code></pre>
 </details>
 </dd>
-<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.scores"><code class="name">prop <span class="ident">scores</span> : Dict[str, List[float]]</code></dt>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.scores"><code class="name">var <span class="ident">scores</span></code></dt>
 <dd>
-<div class="desc"><p>Gets score values by name.</p>
+<section class="desc"><p>Gets score values by name.</p>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><strong><code>dict</code></strong> :&ensp;<code>string -&gt; list</code></dt>
+<dt><strong><code>dict</code></strong> :&ensp;<code>string</code> -&gt; <code>list</code></dt>
 <dd>dictionary with scores and corresponding values</dd>
-</dl></div>
+</dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">@property
 def scores(self) -&gt; Dict[str, List[float]]:
     &#34;&#34;&#34;
@@ -1067,13 +2019,11 @@ def scores(self) -&gt; Dict[str, List[float]]:
     return self._scores_wrapper</code></pre>
 </details>
 </dd>
-<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.specific_topics"><code class="name">prop <span class="ident">specific_topics</span></code></dt>
+<dt id="topicnet.cooking_machine.models.topic_model.TopicModel.specific_topics"><code class="name">var <span class="ident">specific_topics</span></code></dt>
 <dd>
-<div class="desc"></div>
+<section class="desc"></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">@property
 def specific_topics(self):
     return self.select_topics([&#34;background&#34;, &#34;bcg&#34;], invert=True)</code></pre>
@@ -1086,7 +2036,7 @@ def specific_topics(self):
 <span>def <span class="ident">clone</span></span>(<span>self, model_id=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Creates a copy of the model except model_id.</p>
+<section class="desc"><p>Creates a copy of the model except model_id.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>model_id</code></strong> :&ensp;<code>str</code></dt>
@@ -1094,44 +2044,154 @@ def specific_topics(self):
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code><a title="topicnet.cooking_machine.models.topic_model.TopicModel" href="#topicnet.cooking_machine.models.topic_model.TopicModel">TopicModel</a></code></dt>
+<dt><a title="topicnet.cooking_machine.models.topic_model.TopicModel" href="#topicnet.cooking_machine.models.topic_model.TopicModel"><code>TopicModel</code></a></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def clone(self, model_id=None):
+    &#34;&#34;&#34;
+    Creates a copy of the model except model_id.
+
+    Parameters
+    ----------
+    model_id : str
+        (Default value = None)
+
+    Returns
+    -------
+    TopicModel
+
+    &#34;&#34;&#34;
+    topic_model = TopicModel(artm_model=self._model.clone(),
+                             model_id=model_id,
+                             parent_model_id=self.parent_model_id,
+                             description=deepcopy(self.description),
+                             custom_scores=deepcopy(self.custom_scores),
+                             custom_regularizers=deepcopy(self.custom_regularizers),
+                             experiment=self.experiment)
+    topic_model._score_functions = deepcopy(topic_model.score_functions)
+    topic_model._scores = deepcopy(topic_model.scores)
+    topic_model.callbacks = deepcopy(self.callbacks)
+
+    return topic_model</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.describe_regularizers"><code class="name flex">
 <span>def <span class="ident">describe_regularizers</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def describe_regularizers(self):
+    data = []
+    for reg_name, reg in self.regularizers._data.items():
+        entry = [self.model_id, reg_name, reg.tau,
+                 reg.gamma, getattr(reg, &#34;class_ids&#34;, None)]
+        data.append(entry)
+    for custom_reg_name, custom_reg in self.custom_regularizers.items():
+        entry = [self.model_id, custom_reg_name, custom_reg.tau,
+                 custom_reg.gamma, getattr(custom_reg, &#34;class_ids&#34;, None)]
+        data.append(entry)
+    result = pd.DataFrame(
+        columns=[&#34;model_id&#34;, &#34;regularizer_name&#34;, &#34;tau&#34;, &#34;gamma&#34;, &#34;class_ids&#34;], data=data
+    )
+    return result.set_index([&#34;model_id&#34;, &#34;regularizer_name&#34;]).sort_values(by=&#34;regularizer_name&#34;)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.describe_scores"><code class="name flex">
 <span>def <span class="ident">describe_scores</span></span>(<span>self, verbose=False)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def describe_scores(self, verbose=False):
+    data = []
+    for score_name, score in self.scores.items():
+        data.append([self.model_id, score_name, score[-1]])
+    result = pd.DataFrame(columns=[&#34;model_id&#34;, &#34;score_name&#34;, &#34;last_value&#34;], data=data)
+    if not verbose:
+        printable_types = result.last_value.apply(lambda x: isinstance(x, Number))
+        result = result.loc[printable_types]
+
+    return result.set_index([&#34;model_id&#34;, &#34;score_name&#34;])</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.get_init_parameters"><code class="name flex">
 <span>def <span class="ident">get_init_parameters</span></span>(<span>self, not_include=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_init_parameters(self, not_include=None):
+    if not_include is None:
+        not_include = list()
+
+    init_artm_parameter_names = [
+        p.name for p in list(signature(artm.ARTM.__init__).parameters.values())
+    ][1:]
+    parameters = transform_complex_entity_to_dict(self._model)
+    filtered = dict()
+    for parameter_name, parameter_value in parameters.items():
+        if parameter_name not in not_include and parameter_name in init_artm_parameter_names:
+            filtered[parameter_name] = parameter_value
+    return filtered</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.get_jsonable_from_parameters"><code class="name flex">
 <span>def <span class="ident">get_jsonable_from_parameters</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets artm model params.</p>
+<section class="desc"><p>Gets artm model params.</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>dict</code></dt>
 <dd>artm model parameters</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_jsonable_from_parameters(self):
+    &#34;&#34;&#34;
+    Gets artm model params.
+
+    Returns
+    -------
+    dict
+        artm model parameters
+
+    &#34;&#34;&#34;
+    parameters = transform_complex_entity_to_dict(self._model)
+
+    regularizers = {}
+    for name, regularizer in iteritems(self._model._regularizers.data):
+        tau = None
+        gamma = None
+        try:
+            tau = regularizer.tau
+            gamma = regularizer.gamma
+        except KeyError:
+            pass
+        regularizers[name] = [str(regularizer.config), tau, gamma]
+    for name, regularizer in iteritems(self.custom_regularizers):
+        tau = getattr(regularizer, &#39;tau&#39;, None)
+        gamma = getattr(regularizer, &#39;gamma&#39;, None)
+        config = str(getattr(regularizer, &#39;config&#39;, &#39;&#39;))
+        regularizers[name] = [config, tau, gamma]
+
+    parameters[&#39;regularizers&#39;] = regularizers
+    parameters[&#39;version&#39;] = self.library_version
+
+    return parameters</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.get_phi"><code class="name flex">
 <span>def <span class="ident">get_phi</span></span>(<span>self, topic_names=None, class_ids=None, model_name=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets custom Phi matrix of model.</p>
+<section class="desc"><p>Gets custom Phi matrix of model.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>topic_names</code></strong> :&ensp;<code>list</code> of <code>str</code> or <code>str</code></dt>
@@ -1148,13 +2208,62 @@ reasonable to extract unnormalized counters</dd>
 <dl>
 <dt><code>pd.DataFrame</code></dt>
 <dd>phi matrix</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_phi(self, topic_names=None, class_ids=None, model_name=None):
+    &#34;&#34;&#34;
+    Gets custom Phi matrix of model.
+
+    Parameters
+    ----------
+    topic_names : list of str or str
+        list with topics or single topic to extract,
+        None value means all topics (Default value = None)
+    class_ids : list of str or str
+        list with class_ids or single class_id to extract,
+        None means all class ids (Default value = None)
+    model_name : str
+        self.model.model_pwt by default, self.model.model_nwt is also
+        reasonable to extract unnormalized counters
+
+    Returns
+    -------
+    pd.DataFrame
+        phi matrix
+
+    &#34;&#34;&#34;
+    if ARTM_NINE:
+        phi_parts_array = []
+        if isinstance(class_ids, str):
+            class_ids = [class_ids]
+        class_ids_iter = class_ids or self._model.class_ids
+        # TODO: this workaround seems to be a correct solution to this problem
+        # maybe the next for-loop could be replaced with these three lines
+        if not class_ids_iter:
+            valid_model_name = self._model.model_pwt
+            info = self._model.master.get_phi_info(valid_model_name)
+            class_ids_iter = list(set(info.class_id))
+
+        for class_id in class_ids_iter:
+            phi_part = self._model.get_phi(topic_names, class_id, model_name)
+            phi_part.index.rename(&#34;token&#34;, inplace=True)
+            phi_part.reset_index(inplace=True)
+            phi_part[&#34;modality&#34;] = class_id
+            phi_parts_array.append(phi_part)
+        phi = pd.concat(phi_parts_array).set_index([&#39;modality&#39;, &#39;token&#39;])
+    else:
+        phi = self._model.get_phi(topic_names, class_ids, model_name)
+        phi.index = pd.MultiIndex.from_tuples(phi.index, names=(&#39;modality&#39;, &#39;token&#39;))
+
+    return phi</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.get_phi_dense"><code class="name flex">
 <span>def <span class="ident">get_phi_dense</span></span>(<span>self, topic_names=None, class_ids=None, model_name=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets custom Phi matrix of model.</p>
+<section class="desc"><p>Gets custom Phi matrix of model.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>topic_names</code></strong> :&ensp;<code>list</code> of <code>str</code> or <code>str</code></dt>
@@ -1169,15 +2278,41 @@ reasonable to extract unnormalized counters</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>3-tuple</code></dt>
+<dt><code>3</code>-<code>tuple</code></dt>
 <dd>dense phi matrix</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_phi_dense(self, topic_names=None, class_ids=None, model_name=None):
+    &#34;&#34;&#34;
+    Gets custom Phi matrix of model.
+
+    Parameters
+    ----------
+    topic_names : list of str or str
+        list with topics or single topic to extract,
+        None value means all topics (Default value = None)
+    class_ids : list of str or str
+        list with class_ids or single class_id to extract,
+        None means all class ids (Default value = None)
+    model_name : str
+        self.model.model_pwt by default, self.model.model_nwt is also
+        reasonable to extract unnormalized counters
+
+    Returns
+    -------
+    3-tuple
+        dense phi matrix
+
+    &#34;&#34;&#34;
+    return self._model.get_phi_dense(topic_names, class_ids, model_name)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.get_phi_sparse"><code class="name flex">
 <span>def <span class="ident">get_phi_sparse</span></span>(<span>self, topic_names=None, class_ids=None, model_name=None, eps=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets custom Phi matrix of model as sparse scipy matrix.</p>
+<section class="desc"><p>Gets custom Phi matrix of model as sparse scipy matrix.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>topic_names</code></strong> :&ensp;<code>list</code> of <code>str</code> or <code>str</code></dt>
@@ -1194,26 +2329,78 @@ reasonable to extract unnormalized counters</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>3-tuple</code></dt>
+<dt><code>3</code>-<code>tuple</code></dt>
 <dd>sparse phi matrix</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_phi_sparse(self, topic_names=None, class_ids=None, model_name=None, eps=None):
+    &#34;&#34;&#34;
+    Gets custom Phi matrix of model as sparse scipy matrix.
+
+    Parameters
+    ----------
+    topic_names : list of str or str
+        list with topics or single topic to extract,
+        None value means all topics (Default value = None)
+    class_ids : list of str or str
+        list with class_ids or single class_id to extract,
+        None means all class ids (Default value = None)
+    model_name : str
+        self.model.model_pwt by default, self.model.model_nwt is also
+        reasonable to extract unnormalized counters
+    eps : float
+        threshold to consider values as zero (Default value = None)
+
+    Returns
+    -------
+    3-tuple
+        sparse phi matrix
+
+    &#34;&#34;&#34;
+    return self._model.get_phi_sparse(topic_names, class_ids, model_name, eps)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.get_regularizer"><code class="name flex">
-<span>def <span class="ident">get_regularizer</span></span>(<span>self, reg_name: str) ‑> Union[<a title="topicnet.cooking_machine.models.base_regularizer.BaseRegularizer" href="base_regularizer.html#topicnet.cooking_machine.models.base_regularizer.BaseRegularizer">BaseRegularizer</a>, artm.regularizers.BaseRegularizer]</span>
+<span>def <span class="ident">get_regularizer</span></span>(<span>self, reg_name)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Retrieves the regularizer specified, no matter is it custom or "classic"</p>
+<section class="desc"><p>Retrieves the regularizer specified, no matter is it custom or "classic"</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>regularizer</code></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_regularizer(
+        self, reg_name: str) -&gt; Union[BaseRegularizer, artm.regularizers.BaseRegularizer]:
+    &#34;&#34;&#34;
+    Retrieves the regularizer specified, no matter is it custom or &#34;classic&#34;
+
+    Returns
+    -------
+    regularizer
+
+    &#34;&#34;&#34;
+    # TODO: RegularizersWrapper?
+
+    if reg_name in self.custom_regularizers:
+        return self.custom_regularizers[reg_name]
+    elif reg_name in self._model.regularizers.data:
+        return self._model.regularizers.data[reg_name]
+    else:
+        raise KeyError(
+            f&#39;There is no such regularizer &#34;{reg_name}&#34;&#39;
+            f&#39; among custom and ARTM regularizers!&#39;
+        )</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.get_theta"><code class="name flex">
 <span>def <span class="ident">get_theta</span></span>(<span>self, topic_names=None, dataset=None, theta_matrix_type='dense_theta', predict_class_id=None, sparse=False, eps=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets Theta matrix as pandas DataFrame
+<section class="desc"><p>Gets Theta matrix as pandas DataFrame
 or sparse scipy matrix.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -1241,18 +2428,79 @@ depends on the collection (Default value = None)</dd>
 <dl>
 <dt><code>pd.DataFrame</code></dt>
 <dd>theta matrix</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def get_theta(self, topic_names=None,
+              dataset=None,
+              theta_matrix_type=&#39;dense_theta&#39;,
+              predict_class_id=None,
+              sparse=False,
+              eps=None,):
+    &#34;&#34;&#34;
+    Gets Theta matrix as pandas DataFrame
+    or sparse scipy matrix.
+
+    Parameters
+    ----------
+    topic_names : list of str or str
+        list with topics or single topic to extract,
+        None value means all topics (Default value = None)
+    dataset : Dataset
+        an instance of Dataset class (Default value = None)
+    theta_matrix_type : str
+        type of matrix to be returned, possible values:
+        ‘dense_theta’, ‘dense_ptdw’, ‘cache’, None (Default value = ’dense_theta’)
+    predict_class_id : str
+        class_id of a target modality to predict. When this option
+        is enabled the resulting columns of theta matrix will
+        correspond to unique labels of a target modality. The values
+        will represent p(c|d), which give the probability of class
+        label c for document d (Default value = None)
+    sparse : bool
+        if method returns sparse representation of the data (Default value = False)
+    eps : float
+        threshold to consider values as zero. Required for sparse matrix.
+        depends on the collection (Default value = None)
+
+    Returns
+    -------
+    pd.DataFrame
+        theta matrix
+
+    &#34;&#34;&#34;
+    # assuming particular case of BigARTM library that user can&#39;t get theta matrix
+    # without cache_theta == True. This also covers theta_name == None case
+    if self._cache_theta:
+        # TODO wrap sparse in pd.SparseDataFrame and check that viewers work with that output
+        if sparse:
+            return self._model.get_theta_sparse(topic_names, eps)
+        else:
+            return self._model.get_theta(topic_names)
+    else:
+        if dataset is None:
+            raise ValueError(&#34;To get theta a dataset is required&#34;)
+        else:
+            batch_vectorizer = dataset.get_batch_vectorizer()
+            if sparse:
+                return self._model.transform_sparse(batch_vectorizer, eps)
+            else:
+                theta = self._model.transform(batch_vectorizer,
+                                              theta_matrix_type,
+                                              predict_class_id)
+                return theta</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.make_dummy"><code class="name flex">
 <span>def <span class="ident">make_dummy</span></span>(<span>self, save_to_drive=True, save_path=None, dataset=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Makes topic model dummy in-place.</p>
+<section class="desc"><p>Makes topic model dummy in-place.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>save_to_drive</code></strong> :&ensp;<code>bool</code></dt>
 <dd>Whether to save model to drive or not. If not, the info will be lost</dd>
-<dt><strong><code>save_path</code></strong> :&ensp;<code>str (or None)</code></dt>
+<dt><strong><code>save_path</code></strong> :&ensp;<code>str</code> (or <code>None</code>)</dt>
 <dd>Path to folder to dump info to</dd>
 <dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
 <dd>Dataset with text collection on which the model was trained.
@@ -1263,15 +2511,64 @@ Needed for saving Theta matrix</dd>
 but there is no ARTM model inside! (so <code>model.get_phi()</code> won't work!)
 If one wants to use the topic model as before,
 this ARTM model should be restored first:</p>
-<pre><code class="language-python-repl">&gt;&gt;&gt; save_path = topic_model.model_default_save_path
+<pre><code>&gt;&gt;&gt; save_path = topic_model.model_default_save_path
 &gt;&gt;&gt; topic_model._model = artm.load_artm_model(f'{save_path}/model')
-</code></pre></div>
+</code></pre></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def make_dummy(self, save_to_drive=True, save_path=None, dataset=None):
+    &#34;&#34;&#34;Makes topic model dummy in-place.
+
+    Parameters
+    ----------
+    save_to_drive : bool
+        Whether to save model to drive or not. If not, the info will be lost
+    save_path : str (or None)
+        Path to folder to dump info to
+    dataset : Dataset
+        Dataset with text collection on which the model was trained.
+        Needed for saving Theta matrix
+
+    Notes
+    -----
+    After calling the method, the model is still of type TopicModel,
+    but there is no ARTM model inside! (so `model.get_phi()` won&#39;t work!)
+    If one wants to use the topic model as before,
+    this ARTM model should be restored first:
+    &gt;&gt;&gt; save_path = topic_model.model_default_save_path
+    &gt;&gt;&gt; topic_model._model = artm.load_artm_model(f&#39;{save_path}/model&#39;)
+    &#34;&#34;&#34;
+    from .dummy_topic_model import DummyTopicModel
+    from .dummy_topic_model import WARNING_ALREADY_DUMMY
+
+    if hasattr(self, DummyTopicModel._dummy_attribute):
+        warnings.warn(WARNING_ALREADY_DUMMY)
+
+        return
+
+    if not save_to_drive:
+        save_path = None
+    else:
+        save_path = save_path or self.model_default_save_path
+        save_theta = self._model._cache_theta or (dataset is not None)
+        self.save(save_path, phi=True, theta=save_theta, dataset=dataset)
+
+    dummy = self.to_dummy(save_path=save_path)
+    dummy._original_model_save_folder_path = save_path
+
+    self._model.dispose()
+    self._model = dummy._model
+
+    del dummy
+
+    setattr(self, DummyTopicModel._dummy_attribute, True)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.save"><code class="name flex">
 <span>def <span class="ident">save</span></span>(<span>self, model_save_path=None, phi=True, theta=False, dataset=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Saves model description and dumps artm model.
+<section class="desc"><p>Saves model description and dumps artm model.
 Use this method if you want to dump the model.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -1283,33 +2580,154 @@ Use this method if you want to dump the model.</p>
 <dd>save theta in csv format if True</dd>
 <dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
 <dd>dataset</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def save(self,
+         model_save_path=None,
+         phi=True,
+         theta=False,
+         dataset=None,):
+    &#34;&#34;&#34;
+    Saves model description and dumps artm model.
+    Use this method if you want to dump the model.
+
+    Parameters
+    ----------
+    model_save_path : str
+        path to the folder with dumped info about model
+    phi : bool
+        save phi in csv format if True
+    theta : bool
+        save theta in csv format if True
+    dataset : Dataset
+         dataset
+
+    &#34;&#34;&#34;
+    if model_save_path is None:
+        model_save_path = self.model_default_save_path
+
+    if not os.path.exists(model_save_path):
+        os.makedirs(model_save_path)
+    if phi:
+        self._model.get_phi().to_csv(os.path.join(model_save_path, &#39;phi.csv&#39;))
+    if theta:
+        self.get_theta(dataset=dataset).to_csv(os.path.join(model_save_path, &#39;theta.csv&#39;))
+
+    model_itself_save_path = os.path.join(model_save_path, &#39;model&#39;)
+
+    if os.path.exists(model_itself_save_path):
+        shutil.rmtree(model_itself_save_path)
+
+    self._model.dump_artm_model(model_itself_save_path)
+    self.save_parameters(model_save_path)
+
+    for score_name, score_object in self.custom_scores.items():
+        class_name = score_object.__class__.__name__
+        save_path = os.path.join(
+            model_save_path,
+            &#39;.&#39;.join([score_name, class_name, &#39;p&#39;])
+        )
+
+        try:
+            score_object.save(save_path)
+        except pickle.PicklingError:
+            warnings.warn(
+                f&#39;Failed to save custom score &#34;{score_object}&#34; correctly!&#39;
+                f&#39; Freezing score (saving only its value)&#39;
+            )
+
+            frozen_score_object = FrozenScore(
+                score_object.value,
+                original_score=score_object
+            )
+            frozen_score_object.save(save_path)
+
+    self.save_custom_regularizers(model_save_path)
+
+    for i, agent in enumerate(self.callbacks):
+        save_path = os.path.join(model_save_path, f&#34;callback_{i}.pkl&#34;)
+
+        with open(save_path, &#39;wb&#39;) as agent_file:
+            dill.dump(agent, agent_file)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.save_custom_regularizers"><code class="name flex">
 <span>def <span class="ident">save_custom_regularizers</span></span>(<span>self, model_save_path=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def save_custom_regularizers(self, model_save_path=None):
+    if model_save_path is None:
+        model_save_path = self.model_default_save_path
+
+    for regularizer_name, regularizer_object in self.custom_regularizers.items():
+        # If not do this, there may be problems with pickling:
+        # `model` is an ARTM-C-like thing, and it may cause problems
+        # This is safe, because `model` appears in attach(),
+        # which is called before each iteration
+        # P.S. and the `model` itself may be needed for a regularizer inside `grad()`
+        regularizer_object._model = None
+
+        managed_to_pickle = False
+
+        for (pickler, extension) in zip([dill, pickle], [&#39;.rd&#39;, &#39;.rp&#39;]):
+            save_path = os.path.join(model_save_path, regularizer_name + extension)
+
+            try:
+                with open(save_path, &#39;wb&#39;) as reg_f:
+                    pickler.dump(regularizer_object, reg_f)
+            except (TypeError, AttributeError):
+                if os.path.isfile(save_path):
+                    os.remove(save_path)
+            else:
+                managed_to_pickle = True
+
+            if managed_to_pickle:
+                break
+
+        if not managed_to_pickle:
+            warnings.warn(f&#39;Cannot save {regularizer_name} regularizer!&#39;)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.select_topics"><code class="name flex">
 <span>def <span class="ident">select_topics</span></span>(<span>self, substrings, invert=False)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets all topics containing specified substring</p>
+<section class="desc"><p>Gets all topics containing specified substring</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>list</code></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def select_topics(self, substrings, invert=False):
+    &#34;&#34;&#34;
+    Gets all topics containing specified substring
+
+    Returns
+    -------
+    list
+    &#34;&#34;&#34;
+    return [
+        topic_name for topic_name in self.topic_names
+        if invert != any(
+            substring.lower() in topic_name.lower() for substring in substrings
+        )
+    ]</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.topic_model.TopicModel.to_dummy"><code class="name flex">
 <span>def <span class="ident">to_dummy</span></span>(<span>self, save_path=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Creates dummy model</p>
+<section class="desc"><p>Creates dummy model</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>save_path</code></strong> :&ensp;<code>str (or None)</code></dt>
+<dt><strong><code>save_path</code></strong> :&ensp;<code>str</code> (or <code>None</code>)</dt>
 <dd>Path to folder with dumped info about topic model</dd>
 </dl>
 <h2 id="returns">Returns</h2>
@@ -1320,7 +2738,50 @@ but with scores and init parameters of calling TopicModel</dd>
 </dl>
 <h2 id="notes">Notes</h2>
 <p>Dummy model has the same model_id as the original model,
-but "model_id" key in experiment.models contains original model, not dummy</p></div>
+but "model_id" key in experiment.models contains original model, not dummy</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def to_dummy(self, save_path=None):
+    &#34;&#34;&#34;Creates dummy model
+
+    Parameters
+    ----------
+    save_path : str (or None)
+        Path to folder with dumped info about topic model
+
+    Returns
+    -------
+    DummyTopicModel
+        Dummy model: without inner ARTM model,
+        but with scores and init parameters of calling TopicModel
+
+    Notes
+    -----
+    Dummy model has the same model_id as the original model,
+    but &#34;model_id&#34; key in experiment.models contains original model, not dummy
+    &#34;&#34;&#34;
+    from .dummy_topic_model import DummyTopicModel
+    # python crashes if place this import on top of the file
+    # import circle: TopicModel -&gt; DummyTopicModel -&gt; TopicModel
+
+    if save_path is None:
+        save_path = self.model_default_save_path
+
+    dummy = DummyTopicModel(
+        init_parameters=self.get_init_parameters(),
+        scores=dict(self.scores),
+        model_id=self.model_id,
+        parent_model_id=self.parent_model_id,
+        description=self.description,
+        experiment=self.experiment,
+        save_path=save_path,
+    )
+
+    # BaseModel spoils model_id trying to make it unique
+    dummy._model_id = self.model_id  # accessing private field instead of public property
+
+    return dummy</code></pre>
+</details>
 </dd>
 </dl>
 <h3>Inherited members</h3>
@@ -1339,6 +2800,7 @@ but "model_id" key in experiment.models contains original model, not dummy</p></
 </section>
 </article>
 <nav id="sidebar">
+<h1>Index</h1>
 <div class="toc">
 <ul></ul>
 </div>
@@ -1384,7 +2846,9 @@ but "model_id" key in experiment.models contains original model, not dummy</p></
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>

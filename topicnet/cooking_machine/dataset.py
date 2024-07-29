@@ -417,7 +417,7 @@ class Dataset(BaseDataset):
         Another Parameters
         ------------------
         **kwargs
-            *kwargs* are optional init `topicnet.Dataset` parameters
+            *kwargs* are optional init parameters
         """
         data_path = os.path.join(save_dataset_path, dataframe_name + '.csv')
         dataframe.to_csv(data_path)

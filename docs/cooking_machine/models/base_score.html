@@ -2,21 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-<meta name="generator" content="pdoc3 0.11.1">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.3" />
 <title>topicnet.cooking_machine.models.base_score API documentation</title>
-<meta name="description" content="">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
-<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
-<script>window.addEventListener('DOMContentLoaded', () => {
-hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
-hljs.highlightAll();
-})</script>
 </head>
 <body>
 <main>
@@ -25,6 +20,215 @@ hljs.highlightAll();
 <h1 class="title">Module <code>topicnet.cooking_machine.models.base_score</code></h1>
 </header>
 <section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">import dill
+
+from typing import (
+    Any,
+    Callable,
+    Dict,
+)
+
+from . import scores as tn_scores
+
+
+class BaseScore:
+    &#34;&#34;&#34;
+    Base Class to construct custom score functions.
+
+    &#34;&#34;&#34;
+    _PRECOMPUTED_DATA_PARAMETER_NAME = &#39;precomputed_data&#39;
+
+    # TODO: name should not be optional
+    def __init__(
+            self,
+            name: str = None,
+            should_compute: Callable[[int], bool] or bool = None):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        name
+            Name of the score
+        should_compute
+            Function which decides whether the score should be computed
+            on the current fit iteration or not.
+            If `should_compute` is `None`, then score is going to be computed on every iteration.
+            At the same time, whatever function one defines,
+            score is always computed on the last fit iteration.
+            This is done for two reasons.
+            Firstly, so that the score is always computed at least once during `model._fit()`.
+            Secondly, so that `experiment.select()` works correctly.
+
+            The parameter `should_compute` might be helpful
+            if the score is slow but one still needs
+            to get the dependence of the score on iteration
+            (for the described case, one may compute the score
+            on every even iteration or somehow else).
+            However, be aware that if `should_compute` is used for some model&#39;s scores,
+            then the scores may have different number of values in `model.scores`!
+            Number of score values is the number of times the scores was calculated;
+            first value corresponds to the first fit iteration
+            which passed `should_compute` etc.
+
+            There are a couple of things also worth noting.
+            Fit iteration numbering starts from zero.
+            And every new `model._fit()` call is a new range of fit iterations.
+
+        Examples
+        --------
+        Scores created below are unworkable (as BaseScore has no `call` method inplemented).
+        These are just the examples of how one can create a score and set some of its parameters.
+
+        Scores to be computed on every iteration:
+
+        &gt;&gt;&gt; score = BaseScore()
+        &gt;&gt;&gt; score = BaseScore(should_compute=BaseScore.compute_always)
+        &gt;&gt;&gt; score = BaseScore(should_compute=lambda i: True)
+        &gt;&gt;&gt; score = BaseScore(should_compute=True)
+
+        Scores to be computed only on the last iteration:
+
+        &gt;&gt;&gt; score = BaseScore(should_compute=BaseScore.compute_on_last)
+        &gt;&gt;&gt; score = BaseScore(should_compute=lambda i: False)
+        &gt;&gt;&gt; score = BaseScore(should_compute=False)
+
+        Score to be computed only on even iterations:
+
+        &gt;&gt;&gt; score = BaseScore(should_compute=lambda i: i % 2 == 0)
+        &#34;&#34;&#34;
+        self._name = name
+
+        if should_compute is None:
+            should_compute = self.compute_always
+        elif should_compute is True:
+            should_compute = self.compute_always
+        elif should_compute is False:
+            should_compute = self.compute_on_last
+        elif not isinstance(should_compute, type(lambda: None)):
+            raise TypeError(f&#39;Unknown type of `should_compute`: {type(should_compute)}!&#39;)
+        else:
+            pass
+
+        self._should_compute = should_compute
+        self.value = []
+
+        if not hasattr(tn_scores, self.__class__.__name__):
+            setattr(tn_scores, self.__class__.__name__, self.__class__)
+
+    @staticmethod
+    def compute_always(fit_iteration: int) -&gt; bool:
+        return True
+
+    @staticmethod
+    def compute_on_last(fit_iteration: int) -&gt; bool:
+        return False
+
+    def __repr__(self):
+        return f&#39;{self.__class__.__name__}&#39;
+
+    def save(self, path):
+        with open(path, &#34;wb&#34;) as f:
+            dill.dump(self, f)
+
+    @classmethod
+    def load(cls, path):
+        with open(path, &#34;rb&#34;) as f:
+            score = dill.load(f)
+
+        return score
+
+    def update(self, score):
+        &#34;&#34;&#34;
+
+        Parameters
+        ----------
+        score : float
+            score value
+
+        Returns
+        -------
+
+        &#34;&#34;&#34;
+        known_errors = (ValueError, TypeError)
+
+        try:
+            score = float(score)
+        except known_errors:
+            raise ValueError(f&#39;Score call should return float but not {score}&#39;)
+
+        self.value.append(score)
+
+    def call(self, model, precomputed_data: Dict[str, Any] = None):
+        &#34;&#34;&#34;
+        Call to custom score function.
+
+        Parameters
+        ----------
+        model : TopicModel
+            a TopicNet model inherited from BaseModel
+        precomputed_data
+            Data which scores may share between each other during *one fit iteration*.
+            For example, if the model has several scores of the same score class,
+            and there is a heavy time consuming computation inside this score class,
+            it may be useful to perform the calculations *only once*, for one score instance,
+            and then make the result visible for all other scores that might need it.
+
+        Returns
+        -------
+        float
+            score
+
+        Notes
+        -----
+        Higher score not necessarily should correspond to better model.
+        It is up to user to decide what the meaning is behind the score,
+        and then use this logic in query in Experiment&#39;s `select()` method.
+
+        If one need ARTM model for score (not TopicNet one), it is available as model._model
+
+        When creating a custom score class,
+        it is recommended to use `**kwargs` in the score&#39;s `call` method,
+        so that all `BaseScore` optional parameters are also available
+        in its successor score classes.
+
+        Examples
+        --------
+
+        Score which uses `precomputed_data`:
+
+        &gt;&gt;&gt; import time
+        ...
+        &gt;&gt;&gt; class NewScore(BaseScore):
+        ...     def __init__(self, name: str, multiplier: float):
+        ...         super().__init__(name=name)
+        ...
+        ...         self._multiplier = multiplier
+        ...         self._heavy_value_name = &#39;time_consuming_value_name&#39;
+        ...
+        ...     def call(self, model, precomputed_data = None):
+        ...         if precomputed_data is None:
+        ...             # Parameter `precomputed_data` is optional in BaseScore
+        ...             # So this case also should be supported
+        ...             heavy_value = self._compute_heavy(model)
+        ...         elif self._heavy_value_name in precomputed_data:
+        ...             # This is going to be fast
+        ...             heavy_value = precomputed_data[self._heavy_value_name]
+        ...         else:
+        ...             # This is slow (but only one such call!)
+        ...             heavy_value = self._compute_heavy(model)
+        ...             precomputed_data[self._heavy_value_name] = heavy_value
+        ...
+        ...         return heavy_value * self._multiplier
+        ...
+        ...     def _compute_heavy(self, model):
+        ...         time.sleep(100)  # just for demonstration
+        ...
+        ...         return 0
+        &#34;&#34;&#34;
+        raise NotImplementedError(&#39;Define your score here&#39;)</code></pre>
+</details>
 </section>
 <section>
 </section>
@@ -37,10 +241,10 @@ hljs.highlightAll();
 <dl>
 <dt id="topicnet.cooking_machine.models.base_score.BaseScore"><code class="flex name class">
 <span>class <span class="ident">BaseScore</span></span>
-<span>(</span><span>name: str = None, should_compute: Callable[[int], bool] = None)</span>
+<span>(</span><span>name=None, should_compute=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Base Class to construct custom score functions.</p>
+<section class="desc"><p>Base Class to construct custom score functions.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>name</code></strong></dt>
@@ -74,23 +278,21 @@ And every new <code>model._fit()</code> call is a new range of fit iterations.</
 <p>Scores created below are unworkable (as BaseScore has no <code>call</code> method inplemented).
 These are just the examples of how one can create a score and set some of its parameters.</p>
 <p>Scores to be computed on every iteration:</p>
-<pre><code class="language-python-repl">&gt;&gt;&gt; score = BaseScore()
+<pre><code>&gt;&gt;&gt; score = BaseScore()
 &gt;&gt;&gt; score = BaseScore(should_compute=BaseScore.compute_always)
 &gt;&gt;&gt; score = BaseScore(should_compute=lambda i: True)
 &gt;&gt;&gt; score = BaseScore(should_compute=True)
 </code></pre>
 <p>Scores to be computed only on the last iteration:</p>
-<pre><code class="language-python-repl">&gt;&gt;&gt; score = BaseScore(should_compute=BaseScore.compute_on_last)
+<pre><code>&gt;&gt;&gt; score = BaseScore(should_compute=BaseScore.compute_on_last)
 &gt;&gt;&gt; score = BaseScore(should_compute=lambda i: False)
 &gt;&gt;&gt; score = BaseScore(should_compute=False)
 </code></pre>
 <p>Score to be computed only on even iterations:</p>
-<pre><code class="language-python-repl">&gt;&gt;&gt; score = BaseScore(should_compute=lambda i: i % 2 == 0)
-</code></pre></div>
+<pre><code>&gt;&gt;&gt; score = BaseScore(should_compute=lambda i: i % 2 == 0)
+</code></pre></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">class BaseScore:
     &#34;&#34;&#34;
     Base Class to construct custom score functions.
@@ -289,40 +491,61 @@ These are just the examples of how one can create a score and set some of its pa
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="topicnet.cooking_machine.models.blei_lafferty_score.BleiLaffertyScore" href="blei_lafferty_score.html#topicnet.cooking_machine.models.blei_lafferty_score.BleiLaffertyScore">BleiLaffertyScore</a></li>
 <li><a title="topicnet.cooking_machine.models.example_score.ScoreExample" href="example_score.html#topicnet.cooking_machine.models.example_score.ScoreExample">ScoreExample</a></li>
-<li><a title="topicnet.cooking_machine.models.frozen_score.FrozenScore" href="frozen_score.html#topicnet.cooking_machine.models.frozen_score.FrozenScore">FrozenScore</a></li>
 <li><a title="topicnet.cooking_machine.models.intratext_coherence_score.IntratextCoherenceScore" href="intratext_coherence_score.html#topicnet.cooking_machine.models.intratext_coherence_score.IntratextCoherenceScore">IntratextCoherenceScore</a></li>
+<li><a title="topicnet.cooking_machine.models.blei_lafferty_score.BleiLaffertyScore" href="blei_lafferty_score.html#topicnet.cooking_machine.models.blei_lafferty_score.BleiLaffertyScore">BleiLaffertyScore</a></li>
 <li><a title="topicnet.cooking_machine.models.semantic_radius_score.SemanticRadiusScore" href="semantic_radius_score.html#topicnet.cooking_machine.models.semantic_radius_score.SemanticRadiusScore">SemanticRadiusScore</a></li>
+<li><a title="topicnet.cooking_machine.models.frozen_score.FrozenScore" href="frozen_score.html#topicnet.cooking_machine.models.frozen_score.FrozenScore">FrozenScore</a></li>
 </ul>
 <h3>Static methods</h3>
 <dl>
 <dt id="topicnet.cooking_machine.models.base_score.BaseScore.compute_always"><code class="name flex">
-<span>def <span class="ident">compute_always</span></span>(<span>fit_iteration: int) ‑> bool</span>
+<span>def <span class="ident">compute_always</span></span>(<span>fit_iteration)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@staticmethod
+def compute_always(fit_iteration: int) -&gt; bool:
+    return True</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.base_score.BaseScore.compute_on_last"><code class="name flex">
-<span>def <span class="ident">compute_on_last</span></span>(<span>fit_iteration: int) ‑> bool</span>
+<span>def <span class="ident">compute_on_last</span></span>(<span>fit_iteration)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@staticmethod
+def compute_on_last(fit_iteration: int) -&gt; bool:
+    return False</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.base_score.BaseScore.load"><code class="name flex">
 <span>def <span class="ident">load</span></span>(<span>path)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">@classmethod
+def load(cls, path):
+    with open(path, &#34;rb&#34;) as f:
+        score = dill.load(f)
+
+    return score</code></pre>
+</details>
 </dd>
 </dl>
 <h3>Methods</h3>
 <dl>
 <dt id="topicnet.cooking_machine.models.base_score.BaseScore.call"><code class="name flex">
-<span>def <span class="ident">call</span></span>(<span>self, model, precomputed_data: Dict[str, Any] = None)</span>
+<span>def <span class="ident">call</span></span>(<span>self, model, precomputed_data=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Call to custom score function.</p>
+<section class="desc"><p>Call to custom score function.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>model</code></strong> :&ensp;<code>TopicModel</code></dt>
@@ -346,11 +569,11 @@ and then use this logic in query in Experiment's <code>select()</code> method.</
 <p>If one need ARTM model for score (not TopicNet one), it is available as model._model</p>
 <p>When creating a custom score class,
 it is recommended to use <code>**kwargs</code> in the score's <code>call</code> method,
-so that all <code><a title="topicnet.cooking_machine.models.base_score.BaseScore" href="#topicnet.cooking_machine.models.base_score.BaseScore">BaseScore</a></code> optional parameters are also available
+so that all <a title="topicnet.cooking_machine.models.base_score.BaseScore" href="#topicnet.cooking_machine.models.base_score.BaseScore"><code>BaseScore</code></a> optional parameters are also available
 in its successor score classes.</p>
 <h2 id="examples">Examples</h2>
 <p>Score which uses <code>precomputed_data</code>:</p>
-<pre><code class="language-python-repl">&gt;&gt;&gt; import time
+<pre><code>&gt;&gt;&gt; import time
 ...
 &gt;&gt;&gt; class NewScore(BaseScore):
 ...     def __init__(self, name: str, multiplier: float):
@@ -361,7 +584,7 @@ in its successor score classes.</p>
 ...
 ...     def call(self, model, precomputed_data = None):
 ...         if precomputed_data is None:
-...             # Parameter &lt;code&gt;precomputed\_data&lt;/code&gt; is optional in BaseScore
+...             # Parameter `precomputed_data` is optional in BaseScore
 ...             # So this case also should be supported
 ...             heavy_value = self._compute_heavy(model)
 ...         elif self._heavy_value_name in precomputed_data:
@@ -378,24 +601,124 @@ in its successor score classes.</p>
 ...         time.sleep(100)  # just for demonstration
 ...
 ...         return 0
-</code></pre></div>
+</code></pre></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def call(self, model, precomputed_data: Dict[str, Any] = None):
+    &#34;&#34;&#34;
+    Call to custom score function.
+
+    Parameters
+    ----------
+    model : TopicModel
+        a TopicNet model inherited from BaseModel
+    precomputed_data
+        Data which scores may share between each other during *one fit iteration*.
+        For example, if the model has several scores of the same score class,
+        and there is a heavy time consuming computation inside this score class,
+        it may be useful to perform the calculations *only once*, for one score instance,
+        and then make the result visible for all other scores that might need it.
+
+    Returns
+    -------
+    float
+        score
+
+    Notes
+    -----
+    Higher score not necessarily should correspond to better model.
+    It is up to user to decide what the meaning is behind the score,
+    and then use this logic in query in Experiment&#39;s `select()` method.
+
+    If one need ARTM model for score (not TopicNet one), it is available as model._model
+
+    When creating a custom score class,
+    it is recommended to use `**kwargs` in the score&#39;s `call` method,
+    so that all `BaseScore` optional parameters are also available
+    in its successor score classes.
+
+    Examples
+    --------
+
+    Score which uses `precomputed_data`:
+
+    &gt;&gt;&gt; import time
+    ...
+    &gt;&gt;&gt; class NewScore(BaseScore):
+    ...     def __init__(self, name: str, multiplier: float):
+    ...         super().__init__(name=name)
+    ...
+    ...         self._multiplier = multiplier
+    ...         self._heavy_value_name = &#39;time_consuming_value_name&#39;
+    ...
+    ...     def call(self, model, precomputed_data = None):
+    ...         if precomputed_data is None:
+    ...             # Parameter `precomputed_data` is optional in BaseScore
+    ...             # So this case also should be supported
+    ...             heavy_value = self._compute_heavy(model)
+    ...         elif self._heavy_value_name in precomputed_data:
+    ...             # This is going to be fast
+    ...             heavy_value = precomputed_data[self._heavy_value_name]
+    ...         else:
+    ...             # This is slow (but only one such call!)
+    ...             heavy_value = self._compute_heavy(model)
+    ...             precomputed_data[self._heavy_value_name] = heavy_value
+    ...
+    ...         return heavy_value * self._multiplier
+    ...
+    ...     def _compute_heavy(self, model):
+    ...         time.sleep(100)  # just for demonstration
+    ...
+    ...         return 0
+    &#34;&#34;&#34;
+    raise NotImplementedError(&#39;Define your score here&#39;)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.base_score.BaseScore.save"><code class="name flex">
 <span>def <span class="ident">save</span></span>(<span>self, path)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def save(self, path):
+    with open(path, &#34;wb&#34;) as f:
+        dill.dump(self, f)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.models.base_score.BaseScore.update"><code class="name flex">
 <span>def <span class="ident">update</span></span>(<span>self, score)</span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="parameters">Parameters</h2>
+<section class="desc"><h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>score</code></strong> :&ensp;<code>float</code></dt>
 <dd>score value</dd>
 </dl>
-<h2 id="returns">Returns</h2></div>
+<h2 id="returns">Returns</h2></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def update(self, score):
+    &#34;&#34;&#34;
+
+    Parameters
+    ----------
+    score : float
+        score value
+
+    Returns
+    -------
+
+    &#34;&#34;&#34;
+    known_errors = (ValueError, TypeError)
+
+    try:
+        score = float(score)
+    except known_errors:
+        raise ValueError(f&#39;Score call should return float but not {score}&#39;)
+
+    self.value.append(score)</code></pre>
+</details>
 </dd>
 </dl>
 </dd>
@@ -403,6 +726,7 @@ in its successor score classes.</p>
 </section>
 </article>
 <nav id="sidebar">
+<h1>Index</h1>
 <div class="toc">
 <ul></ul>
 </div>
@@ -431,7 +755,9 @@ in its successor score classes.</p>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>

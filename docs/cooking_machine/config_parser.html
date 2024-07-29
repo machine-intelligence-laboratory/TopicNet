@@ -2,22 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-<meta name="generator" content="pdoc3 0.11.1">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.3" />
 <title>topicnet.cooking_machine.config_parser API documentation</title>
 <meta name="description" content="Parsing text file into Experiment instance using strictyaml
-(github.com/crdoconnor/strictyaml/) …">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
-<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+(github.com/crdoconnor/strictyaml/) …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
-<script>window.addEventListener('DOMContentLoaded', () => {
-hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
-hljs.highlightAll();
-})</script>
 </head>
 <body>
 <main>
@@ -29,8 +24,8 @@ hljs.highlightAll();
 <p>Parsing text file into Experiment instance using strictyaml
 (github.com/crdoconnor/strictyaml/)</p>
 <p>The aim here is to make config:
-* possible to use even for non-programmers
-* hard to misuse
+<em> possible to use even for non-programmers
+</em> hard to misuse
 * easy debuggable</p>
 <p>Hence, the process of parsing config is a bit more complicated than
 it could be, but it produces more useful error messages. For example:</p>
@@ -63,6 +58,664 @@ but it isn't strictly required.</p>
 and implement some shortcuts.
 Ideally, this stage should be performed using revalidate() as well,
 but it's a work-in-progress currently.</p>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">&#34;&#34;&#34;
+Parsing text file into Experiment instance using strictyaml
+(github.com/crdoconnor/strictyaml/)
+
+The aim here is to make config:
+* possible to use even for non-programmers
+* hard to misuse
+* easy debuggable
+
+Hence, the process of parsing config is a bit more complicated than
+it could be, but it produces more useful error messages. For example:
+
+    File $YOUR_CONFIG.yaml, line 42
+        topic_names: 10
+        ^ this value should be a &#39;list&#39; instead of &#39;int&#39;
+    YAMLValidationError: &#39;int&#39; passed instead of &#39;list&#39;
+
+instead of:
+
+    File $SOME_FILE.py, line 666, in $SOME_FUNCTION
+        for topic_name in topic_names:
+    TypeError: &#39;int&#39; object is not iterable
+
+To achieve this, strictyaml makes use of various validators which
+keep track of individual line numbers and which fragments are already
+checked and which aren&#39;t quite here yet.
+
+Our process consists of three stages:
+1) we check the high-level structure using `BASE_SCHEMA`.
+The presence of each required key is ensured.
+After this stage we could be sure than we can create a valid model
+using specified parameters.
+
+2) we make a second pass and revalidate &#39;regularizers&#39; and &#39;stages&#39;
+This step is performed semi-automatically: using `inspect`,
+we extract everything from `__init__` method signature.
+    For example:
+        def __init__(self, num_iters: int = 5)
+    allows us to infer that num_iters parameter should be int,
+    but it isn&#39;t strictly required.
+
+3) we construct instances of classes required, convert types manually
+and implement some shortcuts.
+Ideally, this stage should be performed using revalidate() as well,
+but it&#39;s a work-in-progress currently.
+
+&#34;&#34;&#34;  # noqa: W291
+
+from inspect import signature, Parameter
+from typing import (
+    Callable,
+    Type,
+)
+
+from .cubes import (
+    CubeCreator,
+    RegularizersModifierCube,
+    GreedyStrategy,
+    PerplexityStrategy,
+)
+from .experiment import Experiment
+from .dataset import Dataset
+from .models import scores as tnscores
+from .models import TopicModel
+from .model_constructor import (
+    create_default_topics,
+    init_simple_default_model,
+)
+from .rel_toolbox_lite import (
+    count_vocab_size,
+    handle_regularizer,
+)
+
+import artm
+
+from strictyaml import Map, Str, Int, Seq, Float, Bool
+from strictyaml import Any, Optional, EmptyDict, EmptyNone, EmptyList
+from strictyaml import dirty_load
+
+
+SUPPORTED_CUBES = [CubeCreator, RegularizersModifierCube]
+SUPPORTED_STRATEGIES = [PerplexityStrategy, GreedyStrategy]
+
+TYPE_VALIDATORS = {
+    &#39;int&#39;: Int(), &#39;bool&#39;: Bool(), &#39;str&#39;: Str(), &#39;float&#39;: Float()
+}
+
+
+def choose_key(param):
+    &#34;&#34;&#34;
+    Parameters
+    ----------
+    param : inspect.Parameter
+
+    Returns
+    -------
+    str or strictyaml.Optional
+    &#34;&#34;&#34;
+    if param.default is not Parameter.empty:
+        return Optional(param.name)
+
+    return param.name
+
+
+def choose_validator(param):
+    &#34;&#34;&#34;
+    Parameters
+    ----------
+    param : inspect.Parameter
+
+    Returns
+    -------
+    instance of strictyaml.Validator
+    &#34;&#34;&#34;
+    if param.annotation is int:
+        return Int()
+    if param.annotation is float:
+        return Float()
+    if param.annotation is bool:
+        return Bool()
+    if param.annotation is str:
+        return Str()
+    if param.name in ARTM_TYPES:
+        return ARTM_TYPES[param.name]
+
+    return Any()
+
+
+# TODO: maybe this is cool, but do we really need this?
+def build_schema_from_function(func: Callable) -&gt; dict:
+    from docstring_parser import parse as docstring_parse
+
+    func_params = signature(func).parameters
+    func_params_schema = dict()
+
+    for elem in docstring_parse(func.__doc__).params:
+        if elem.arg_name in func_params:
+            key = choose_key(func_params[elem.arg_name])
+            func_params_schema[key] = TYPE_VALIDATORS[elem.type_name]
+
+    return func_params_schema
+
+
+# TODO: use stackoverflow.com/questions/37929851/parse-numpydoc-docstring-and-access-components
+#  for now just hardcode most common / important types
+ARTM_TYPES = {
+    &#34;tau&#34;: Float(),
+    &#34;topic_names&#34;: Str() | Seq(Str()) | EmptyNone(),
+    # TODO: handle class_ids in model and in regularizers separately
+    &#34;class_ids&#34;: Str() | Seq(Str()) | EmptyNone(),
+    &#34;gamma&#34;: Float() | EmptyNone(),
+    &#34;seed&#34;: Int(),
+    &#34;num_document_passes&#34;: Int(),
+    &#34;num_processors&#34;: Int(),
+    &#34;cache_theta&#34;: Bool(),
+    &#34;reuse_theta&#34;: Bool(),
+    &#34;theta_name&#34;: Str()
+}
+
+
+_ELEMENT = Any()
+
+# TODO: maybe better _DICTIONARY_FILTER_SCHEMA = build_schema_from_function(artm.Dictionary.filter)
+# TODO: modalities, filter params - these all are dataset&#39;s options, not model&#39;s
+#  maybe make separate YML block for dataset?
+
+BASE_SCHEMA = Map({
+    &#39;regularizers&#39;: Seq(_ELEMENT),
+    Optional(&#39;scores&#39;): Seq(_ELEMENT),
+    &#39;stages&#39;: Seq(_ELEMENT),
+    &#39;model&#39;: Map({
+        &#34;dataset_path&#34;: Str(),
+        Optional(&#34;dictionary_filter_parameters&#34;): Map({
+            Optional(&#34;class_id&#34;): Str(),
+            Optional(&#34;min_df&#34;): Float(),
+            Optional(&#34;max_df&#34;): Float(),
+            Optional(&#34;min_df_rate&#34;): Float(),
+            Optional(&#34;max_df_rate&#34;): Float(),
+            Optional(&#34;min_tf&#34;): Float(),
+            Optional(&#34;max_tf&#34;): Float(),
+            Optional(&#34;max_dictionary_size&#34;): Float(),
+            Optional(&#34;recalculate_value&#34;): Bool(),
+        }),
+        Optional(&#34;keep_in_memory&#34;): Bool(),
+        Optional(&#34;internals_folder_path&#34;): Bool(),
+        Optional(&#34;modalities_to_use&#34;): Seq(Str()),
+        Optional(&#34;modalities_weights&#34;): Any(),
+        &#34;main_modality&#34;: Str(),
+    }),
+    &#39;topics&#39;: Map({
+        &#34;background_topics&#34;: Seq(Str()) | Int() | EmptyList(),
+        &#34;specific_topics&#34;: Seq(Str()) | Int() | EmptyList(),
+    })
+})
+KEY_DICTIONARY_FILTER_PARAMETERS = &#39;dictionary_filter_parameters&#39;
+
+
+def build_schema_from_signature(class_of_object, use_optional=True):
+    &#34;&#34;&#34;
+    Parameters
+    ----------
+    class_of_object : class
+
+    Returns
+    -------
+    dict
+        each element is either str -&gt; Validator or Optional(str) -&gt; Validator
+    &#34;&#34;&#34;
+    choose_key_func = choose_key if use_optional else (lambda param: param.name)
+    return {choose_key_func(param): choose_validator(param)
+            for param in signature(class_of_object.__init__).parameters.values()
+            if param.name != &#39;self&#39;}
+
+
+def wrap_in_map(dictionary):
+    could_be_empty = all(isinstance(key, Optional) for key in dictionary)
+    if could_be_empty:
+        return Map(dictionary) | EmptyDict()
+    return Map(dictionary)
+
+
+def build_schema_for_scores():
+    &#34;&#34;&#34;
+    Returns
+    -------
+    strictyaml.Map
+        schema used for validation and type-coercion
+    &#34;&#34;&#34;
+    schemas = {}
+    for elem in artm.scores.__all__:
+        if &#34;Score&#34; in elem:
+            class_of_object = getattr(artm.scores, elem)
+            # TODO: check if every key is Optional. If it is, then &#34;| EmptyDict()&#34;
+            # otherwise, just Map()
+            res = wrap_in_map(build_schema_from_signature(class_of_object))
+
+            specific_schema = Map({class_of_object.__name__: res})
+            schemas[class_of_object.__name__] = specific_schema
+
+    for elem in tnscores.__all__:
+        if &#34;Score&#34; in elem:
+            class_of_object = getattr(tnscores, elem)
+            res = build_schema_from_signature(class_of_object)
+            # res[&#34;name&#34;] = Str()  # TODO: support custom names
+            res = wrap_in_map(res)
+
+            specific_schema = Map({class_of_object.__name__: res})
+            schemas[class_of_object.__name__] = specific_schema
+
+    return schemas
+
+
+def build_schema_for_regs():
+    &#34;&#34;&#34;
+    Returns
+    -------
+    strictyaml.Map
+        schema used for validation and type-coercion
+    &#34;&#34;&#34;
+    schemas = {}
+    for elem in artm.regularizers.__all__:
+        if &#34;Regularizer&#34; in elem:
+            class_of_object = getattr(artm.regularizers, elem)
+            res = build_schema_from_signature(class_of_object)
+            if elem in [&#34;SmoothSparseThetaRegularizer&#34;, &#34;SmoothSparsePhiRegularizer&#34;,
+                        &#34;DecorrelatorPhiRegularizer&#34;]:
+                res[Optional(&#34;relative&#34;, default=None)] = Bool()
+            res = wrap_in_map(res)
+
+            specific_schema = Map({class_of_object.__name__: res})
+            schemas[class_of_object.__name__] = specific_schema
+
+    return schemas
+
+
+def is_key_in_schema(key, schema):
+    if key in schema:
+        return True
+    return any(
+        key_val.key == key for key_val in schema
+        if isinstance(key_val, Optional)
+    )
+
+
+def build_schema_for_cubes():
+    &#34;&#34;&#34;
+    Returns
+    -------
+    dict
+        each element is str -&gt; strictyaml.Map
+        where key is name of cube,
+        value is a schema used for validation and type-coercion
+    &#34;&#34;&#34;
+    schemas = {}
+    for class_of_object in SUPPORTED_CUBES:
+        res = build_schema_from_signature(class_of_object)
+
+        # &#34;selection&#34; isn&#39;t used in __init__, but we will need it later
+        res[&#34;selection&#34;] = Seq(Str())
+
+        # shortcut for strategy intialization
+        if is_key_in_schema(&#34;strategy&#34;, res):
+            signature_validation = {}
+            for strategy_class in SUPPORTED_STRATEGIES:
+                local_signature_validation = build_schema_from_signature(strategy_class)
+                signature_validation.update(local_signature_validation)
+            res[Optional(&#34;strategy_params&#34;)] = Map(signature_validation)
+
+        # we will deal with &#34;values&#34; later, but we can check at least some simple things already
+        if class_of_object.__name__ == &#34;CubeCreator&#34;:
+            element = Map({&#34;name&#34;: Str(), &#34;values&#34;: Seq(Any())})
+            res[&#34;parameters&#34;] = Seq(element)
+        if class_of_object.__name__ == &#34;RegularizersModifierCube&#34;:
+            element = Map({
+                Optional(&#34;name&#34;): Str(),
+                Optional(&#34;regularizer&#34;): Any(),
+                Optional(&#34;tau_grid&#34;): Seq(Float())
+            })
+            res[&#34;regularizer_parameters&#34;] = element | Seq(element)
+
+        res = Map(res)
+
+        specific_schema = Map({class_of_object.__name__: res})
+        schemas[class_of_object.__name__] = specific_schema
+    return schemas
+
+
+def preprocess_parameters_for_cube_creator(elem_args):
+    &#34;&#34;&#34;
+    This function does two things:
+        1) convert class_ids from
+            name: class_ids@text, values: [0, 1, 2, 3]
+           to
+            name: class_ids, values: {&#34;@text&#34;: [0, 1, 2, 3]}
+        2) type conversion for &#34;values&#34; field.
+
+    Parameters
+    ----------
+    elem_args: strictyaml.YAML object
+        (contains dict inside)
+
+    Returns
+    -------
+    new_elem_args: dict
+    &#34;&#34;&#34;
+
+    for param_portion in elem_args[&#34;parameters&#34;]:
+        name = str(param_portion[&#34;name&#34;])
+        if name.startswith(&#34;class_ids&#34;):
+            validator = Float() | Seq(Float())
+        else:
+            validator = Seq(ARTM_TYPES[name])
+        param_schema = Map({
+            &#34;name&#34;: Str(),
+            &#34;values&#34;: validator
+        })
+        param_portion.revalidate(param_schema)
+
+
+def handle_special_cases(elem_args, kwargs):
+    &#34;&#34;&#34;
+    In-place fixes kwargs, handling special cases and shortcuts
+    (only strategy for now)
+    Parameters
+    ----------
+    elem_args: dict
+    kwargs: dict
+    &#34;&#34;&#34;
+    # special case: shortcut for strategy
+    if &#34;strategy&#34; in elem_args:
+        strategy = None
+        for strategy_class in SUPPORTED_STRATEGIES:
+            if strategy_class.__name__ == elem_args[&#34;strategy&#34;]:
+                strat_schema = build_schema_from_signature(strategy_class, use_optional=False)
+                strat_kwargs = {}
+
+                for key, value in elem_args[&#34;strategy_params&#34;].items():
+                    key = str(key)
+                    value.revalidate(strat_schema[key])
+                    strat_kwargs[key] = value.data
+
+                strategy = strategy_class(**strat_kwargs)
+
+        kwargs[&#34;strategy&#34;] = strategy  # or None if failed to identify it
+
+
+def build_score(elemtype, elem_args, is_artm_score):
+    &#34;&#34;&#34;
+    Parameters
+    ----------
+    elemtype : str
+        name of score
+    elem_args: dict
+    is_artm_score: bool
+
+    Returns
+    -------
+    instance of artm.scores.BaseScore or topicnet.cooking_machine.models.base_score
+    &#34;&#34;&#34;
+    module = artm.scores if is_artm_score else tnscores
+    class_of_object = getattr(module, elemtype)
+    kwargs = {name: value
+              for name, value in elem_args.items()}
+
+    return class_of_object(**kwargs)
+
+
+def build_regularizer(elemtype, elem_args, specific_topic_names, background_topic_names):
+    &#34;&#34;&#34;
+    Parameters
+    ----------
+    elemtype : str
+        name of regularizer
+    elem_args: dict
+    parsed: strictyaml.YAML object
+
+    Returns
+    -------
+    instance of artm.Regularizer
+    &#34;&#34;&#34;
+    class_of_object = getattr(artm.regularizers, elemtype)
+    kwargs = {name: value
+              for name, value in elem_args.items()}
+    # special case: shortcut for topic_names
+    if &#34;topic_names&#34; in kwargs:
+        if kwargs[&#34;topic_names&#34;] == &#34;background_topics&#34;:
+            kwargs[&#34;topic_names&#34;] = background_topic_names
+        if kwargs[&#34;topic_names&#34;] == &#34;specific_topics&#34;:
+            kwargs[&#34;topic_names&#34;] = specific_topic_names
+
+    return class_of_object(**kwargs)
+
+
+def build_cube_settings(elemtype, elem_args):
+    &#34;&#34;&#34;
+    Parameters
+    ----------
+    elemtype : str
+        name of regularizer
+    elem_args: strictyaml.YAML object
+        (contains dict inside)
+
+    Returns
+    -------
+    list of dict
+    &#34;&#34;&#34;
+    if elemtype == &#34;CubeCreator&#34;:
+        preprocess_parameters_for_cube_creator(elem_args)
+
+    kwargs = {name: value
+              for name, value in elem_args.data.items()
+              if name not in [&#39;selection&#39;, &#39;strategy&#39;, &#39;strategy_params&#39;]}
+
+    handle_special_cases(elem_args, kwargs)
+    return {elemtype: kwargs,
+            &#34;selection&#34;: elem_args[&#39;selection&#39;].data}
+
+
+def _add_parsed_scores(parsed, topic_model):
+    &#34;&#34;&#34; &#34;&#34;&#34;
+    for score in parsed.data.get(&#39;scores&#39;, []):
+        for elemtype, elem_args in score.items():
+            is_artm_score = elemtype in artm.scores.__all__
+            score_object = build_score(elemtype, elem_args, is_artm_score)
+            if is_artm_score:
+                topic_model._model.scores.add(score_object, overwrite=True)
+            else:
+                topic_model.custom_scores[elemtype] = score_object
+
+
+def _add_parsed_regularizers(
+    parsed, model, specific_topic_names, background_topic_names, data_stats
+):
+    &#34;&#34;&#34; &#34;&#34;&#34;
+    regularizers = []
+    for stage in parsed.data[&#39;regularizers&#39;]:
+        for elemtype, elem_args in stage.items():
+            should_be_relative = None
+            if &#34;relative&#34; in elem_args:
+                should_be_relative = elem_args[&#34;relative&#34;]
+                elem_args.pop(&#34;relative&#34;)
+
+            regularizer_object = build_regularizer(
+                elemtype, elem_args, specific_topic_names, background_topic_names
+            )
+            handle_regularizer(should_be_relative, model, regularizer_object, data_stats)
+            regularizers.append(model.regularizers[regularizer_object.name])
+    return regularizers
+
+
+def parse_modalities_data(parsed):
+    has_modalities_to_use = is_key_in_schema(&#34;modalities_to_use&#34;, parsed[&#34;model&#34;])
+    has_weights = is_key_in_schema(&#34;modalities_weights&#34;, parsed[&#34;model&#34;])
+    main_modality = parsed[&#34;model&#34;][&#34;main_modality&#34;]
+
+    # exactly one should be specified
+    if has_modalities_to_use == has_weights:
+        raise ValueError(&#34;Either &#39;modalities_to_use&#39; or &#39;modalities_weights&#39; should be specified&#34;)
+
+    if has_weights:
+        modalities_to_use = list(parsed[&#34;model&#34;][&#34;modalities_weights&#34;].data)
+        if main_modality not in modalities_to_use:
+            modalities_to_use.append(main_modality)
+        local_schema = Map({
+            key: Float() for key in modalities_to_use
+        })
+        parsed[&#34;model&#34;][&#34;modalities_weights&#34;].revalidate(local_schema)
+        modalities_weights = parsed[&#34;model&#34;][&#34;modalities_weights&#34;].data
+        return modalities_weights
+    else:
+        modalities_to_use = parsed.data[&#34;model&#34;][&#34;modalities_to_use&#34;]
+        return modalities_to_use
+
+
+def parse(
+    yaml_string: str,
+    force_separate_thread: bool = False,
+    dataset_class: Type[Dataset] = Dataset
+):
+    &#34;&#34;&#34;
+    Parameters
+    ----------
+    yaml_string : str
+    force_separate_thread : bool
+    dataset_class : class
+
+    Returns
+    -------
+    cube_settings: list of dict
+    regularizers: list
+    topic_model: TopicModel
+    dataset: Dataset
+
+    &#34;&#34;&#34;
+    parsed = dirty_load(yaml_string, BASE_SCHEMA, allow_flow_style=True)
+
+    specific_topic_names, background_topic_names = create_default_topics(
+        parsed.data[&#34;topics&#34;][&#34;specific_topics&#34;],
+        parsed.data[&#34;topics&#34;][&#34;background_topics&#34;]
+    )
+
+    revalidate_section(parsed, &#34;stages&#34;)
+    revalidate_section(parsed, &#34;regularizers&#34;)
+
+    if &#34;scores&#34; in parsed:
+        revalidate_section(parsed, &#34;scores&#34;)
+
+    dataset = dataset_class(
+        data_path=parsed.data[&#34;model&#34;][&#34;dataset_path&#34;],
+        keep_in_memory=parsed.data[&#34;model&#34;].get(&#34;keep_in_memory&#34;, True),
+        internals_folder_path=parsed.data[&#34;model&#34;].get(&#34;internals_folder_path&#34;, None),
+    )
+    filter_parameters = parsed.data[&#34;model&#34;].get(
+        KEY_DICTIONARY_FILTER_PARAMETERS, dict()
+    )
+
+    if len(filter_parameters) &gt; 0:
+        filtered_dictionary = dataset.get_dictionary().filter(**filter_parameters)
+        dataset._cached_dict = filtered_dictionary
+
+    modalities_to_use = parse_modalities_data(parsed)
+
+    data_stats = count_vocab_size(dataset.get_dictionary(), modalities_to_use)
+    model = init_simple_default_model(
+        dataset=dataset,
+        modalities_to_use=modalities_to_use,
+        main_modality=parsed.data[&#34;model&#34;][&#34;main_modality&#34;],
+        specific_topics=parsed.data[&#34;topics&#34;][&#34;specific_topics&#34;],
+        background_topics=parsed.data[&#34;topics&#34;][&#34;background_topics&#34;],
+    )
+
+    regularizers = _add_parsed_regularizers(
+        parsed, model, specific_topic_names, background_topic_names, data_stats
+    )
+    topic_model = TopicModel(model)
+    _add_parsed_scores(parsed, topic_model)
+
+    cube_settings = list()
+
+    for stage in parsed[&#39;stages&#39;]:
+        for elemtype, elem_args in stage.items():
+            settings = build_cube_settings(elemtype.data, elem_args)
+            settings[elemtype][&#34;separate_thread&#34;] = force_separate_thread
+            cube_settings.append(settings)
+
+    return cube_settings, regularizers, topic_model, dataset
+
+
+def revalidate_section(parsed, section):
+    &#34;&#34;&#34;
+    Perofrms in-place type coercion and validation
+
+    Parameters
+    ----------
+    parsed : strictyaml.YAML object
+        (half-parsed, half-validated chunk of config)
+    section: str
+    &#34;&#34;&#34;
+    if section == &#34;stages&#34;:
+        schemas = build_schema_for_cubes()
+    elif section == &#34;regularizers&#34;:
+        schemas = build_schema_for_regs()
+    elif section == &#34;scores&#34;:
+        schemas = build_schema_for_scores()
+    else:
+        raise ValueError(f&#34;Unknown section name &#39;{section}&#39;&#34;)
+
+    for i, stage in enumerate(parsed[section]):
+        assert len(stage) == 1
+        name = list(stage.data)[0]
+
+        if name not in schemas:
+            raise ValueError(f&#34;Unsupported {section} value: {name} at line {stage.start_line}&#34;)
+        local_schema = schemas[name]
+
+        stage.revalidate(local_schema)
+
+
+def build_experiment_environment_from_yaml_config(
+    yaml_string,
+    experiment_id,
+    save_path,
+    force_separate_thread=False,
+):
+    &#34;&#34;&#34;
+    Wraps up parameter extraction and class instances creation
+    from yaml formatted string
+    together with the method that builds experiment pipeline from
+    given experiment parameters (model, cubes, regularizers, etc)
+
+    Parameters
+    ----------
+    yaml_string: str
+        config that contains the whole experiment pipeline description
+        with its parameters
+    save_path: str
+        path to the folder to save experiment logs and models
+    experiment_id: str
+        name of the experiment folder
+    force_separate_thread: bool default = False
+        experimental feature that packs model training into
+        separate process which is killed upon training completion
+        by default is not used
+
+    Returns
+    -------
+    tuple experiment, dataset instances of corresponding classes from topicnet
+
+    &#34;&#34;&#34;
+    settings, regs, model, dataset = parse(yaml_string, force_separate_thread)
+    # TODO: handle dynamic addition of regularizers
+    experiment = Experiment(experiment_id=experiment_id, save_path=save_path, topic_model=model)
+    experiment.build(settings)
+
+    return experiment, dataset</code></pre>
+</details>
 </section>
 <section>
 </section>
@@ -75,24 +728,50 @@ but it's a work-in-progress currently.</p>
 <span>def <span class="ident">build_cube_settings</span></span>(<span>elemtype, elem_args)</span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="parameters">Parameters</h2>
+<section class="desc"><h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>elemtype</code></strong> :&ensp;<code>str</code></dt>
 <dd>name of regularizer</dd>
-<dt><strong><code>elem_args</code></strong> :&ensp;<code>strictyaml.YAML object</code></dt>
+<dt><strong><code>elem_args</code></strong> :&ensp;<code>strictyaml.YAML</code> <code>object</code></dt>
 <dd>(contains dict inside)</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>list</code> of <code>dict</code></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def build_cube_settings(elemtype, elem_args):
+    &#34;&#34;&#34;
+    Parameters
+    ----------
+    elemtype : str
+        name of regularizer
+    elem_args: strictyaml.YAML object
+        (contains dict inside)
+
+    Returns
+    -------
+    list of dict
+    &#34;&#34;&#34;
+    if elemtype == &#34;CubeCreator&#34;:
+        preprocess_parameters_for_cube_creator(elem_args)
+
+    kwargs = {name: value
+              for name, value in elem_args.data.items()
+              if name not in [&#39;selection&#39;, &#39;strategy&#39;, &#39;strategy_params&#39;]}
+
+    handle_special_cases(elem_args, kwargs)
+    return {elemtype: kwargs,
+            &#34;selection&#34;: elem_args[&#39;selection&#39;].data}</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.build_experiment_environment_from_yaml_config"><code class="name flex">
 <span>def <span class="ident">build_experiment_environment_from_yaml_config</span></span>(<span>yaml_string, experiment_id, save_path, force_separate_thread=False)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Wraps up parameter extraction and class instances creation
+<section class="desc"><p>Wraps up parameter extraction and class instances creation
 from yaml formatted string
 together with the method that builds experiment pipeline from
 given experiment parameters (model, cubes, regularizers, etc)</p>
@@ -105,79 +784,261 @@ with its parameters</dd>
 <dd>path to the folder to save experiment logs and models</dd>
 <dt><strong><code>experiment_id</code></strong> :&ensp;<code>str</code></dt>
 <dd>name of the experiment folder</dd>
-<dt><strong><code>force_separate_thread</code></strong> :&ensp;<code>bool default = False</code></dt>
+<dt><strong><code>force_separate_thread</code></strong> :&ensp;<code>bool</code> default = <code>False</code></dt>
 <dd>experimental feature that packs model training into
 separate process which is killed upon training completion
 by default is not used</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>tuple experiment, dataset instances</code> of <code>corresponding classes from <a title="topicnet" href="../index.html">topicnet</a></code></dt>
+<dt><code>tuple</code> <code>experiment</code>, <code>dataset</code> <code>instances</code> of <code>corresponding</code> <code>classes</code> <code>from</code> <a title="topicnet" href="../index.html"><code>topicnet</code></a></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def build_experiment_environment_from_yaml_config(
+    yaml_string,
+    experiment_id,
+    save_path,
+    force_separate_thread=False,
+):
+    &#34;&#34;&#34;
+    Wraps up parameter extraction and class instances creation
+    from yaml formatted string
+    together with the method that builds experiment pipeline from
+    given experiment parameters (model, cubes, regularizers, etc)
+
+    Parameters
+    ----------
+    yaml_string: str
+        config that contains the whole experiment pipeline description
+        with its parameters
+    save_path: str
+        path to the folder to save experiment logs and models
+    experiment_id: str
+        name of the experiment folder
+    force_separate_thread: bool default = False
+        experimental feature that packs model training into
+        separate process which is killed upon training completion
+        by default is not used
+
+    Returns
+    -------
+    tuple experiment, dataset instances of corresponding classes from topicnet
+
+    &#34;&#34;&#34;
+    settings, regs, model, dataset = parse(yaml_string, force_separate_thread)
+    # TODO: handle dynamic addition of regularizers
+    experiment = Experiment(experiment_id=experiment_id, save_path=save_path, topic_model=model)
+    experiment.build(settings)
+
+    return experiment, dataset</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.build_regularizer"><code class="name flex">
 <span>def <span class="ident">build_regularizer</span></span>(<span>elemtype, elem_args, specific_topic_names, background_topic_names)</span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="parameters">Parameters</h2>
+<section class="desc"><h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>elemtype</code></strong> :&ensp;<code>str</code></dt>
 <dd>name of regularizer</dd>
 <dt><strong><code>elem_args</code></strong> :&ensp;<code>dict</code></dt>
 <dd>&nbsp;</dd>
-<dt><strong><code>parsed</code></strong> :&ensp;<code>strictyaml.YAML object</code></dt>
+<dt><strong><code>parsed</code></strong> :&ensp;<code>strictyaml.YAML</code> <code>object</code></dt>
 <dd>&nbsp;</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>instance</code> of <code>artm.Regularizer</code></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def build_regularizer(elemtype, elem_args, specific_topic_names, background_topic_names):
+    &#34;&#34;&#34;
+    Parameters
+    ----------
+    elemtype : str
+        name of regularizer
+    elem_args: dict
+    parsed: strictyaml.YAML object
+
+    Returns
+    -------
+    instance of artm.Regularizer
+    &#34;&#34;&#34;
+    class_of_object = getattr(artm.regularizers, elemtype)
+    kwargs = {name: value
+              for name, value in elem_args.items()}
+    # special case: shortcut for topic_names
+    if &#34;topic_names&#34; in kwargs:
+        if kwargs[&#34;topic_names&#34;] == &#34;background_topics&#34;:
+            kwargs[&#34;topic_names&#34;] = background_topic_names
+        if kwargs[&#34;topic_names&#34;] == &#34;specific_topics&#34;:
+            kwargs[&#34;topic_names&#34;] = specific_topic_names
+
+    return class_of_object(**kwargs)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.build_schema_for_cubes"><code class="name flex">
 <span>def <span class="ident">build_schema_for_cubes</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="returns">Returns</h2>
+<section class="desc"><h2 id="returns">Returns</h2>
 <dl>
 <dt><code>dict</code></dt>
 <dd>each element is str -&gt; strictyaml.Map
 where key is name of cube,
 value is a schema used for validation and type-coercion</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def build_schema_for_cubes():
+    &#34;&#34;&#34;
+    Returns
+    -------
+    dict
+        each element is str -&gt; strictyaml.Map
+        where key is name of cube,
+        value is a schema used for validation and type-coercion
+    &#34;&#34;&#34;
+    schemas = {}
+    for class_of_object in SUPPORTED_CUBES:
+        res = build_schema_from_signature(class_of_object)
+
+        # &#34;selection&#34; isn&#39;t used in __init__, but we will need it later
+        res[&#34;selection&#34;] = Seq(Str())
+
+        # shortcut for strategy intialization
+        if is_key_in_schema(&#34;strategy&#34;, res):
+            signature_validation = {}
+            for strategy_class in SUPPORTED_STRATEGIES:
+                local_signature_validation = build_schema_from_signature(strategy_class)
+                signature_validation.update(local_signature_validation)
+            res[Optional(&#34;strategy_params&#34;)] = Map(signature_validation)
+
+        # we will deal with &#34;values&#34; later, but we can check at least some simple things already
+        if class_of_object.__name__ == &#34;CubeCreator&#34;:
+            element = Map({&#34;name&#34;: Str(), &#34;values&#34;: Seq(Any())})
+            res[&#34;parameters&#34;] = Seq(element)
+        if class_of_object.__name__ == &#34;RegularizersModifierCube&#34;:
+            element = Map({
+                Optional(&#34;name&#34;): Str(),
+                Optional(&#34;regularizer&#34;): Any(),
+                Optional(&#34;tau_grid&#34;): Seq(Float())
+            })
+            res[&#34;regularizer_parameters&#34;] = element | Seq(element)
+
+        res = Map(res)
+
+        specific_schema = Map({class_of_object.__name__: res})
+        schemas[class_of_object.__name__] = specific_schema
+    return schemas</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.build_schema_for_regs"><code class="name flex">
 <span>def <span class="ident">build_schema_for_regs</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="returns">Returns</h2>
+<section class="desc"><h2 id="returns">Returns</h2>
 <dl>
 <dt><code>strictyaml.Map</code></dt>
 <dd>schema used for validation and type-coercion</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def build_schema_for_regs():
+    &#34;&#34;&#34;
+    Returns
+    -------
+    strictyaml.Map
+        schema used for validation and type-coercion
+    &#34;&#34;&#34;
+    schemas = {}
+    for elem in artm.regularizers.__all__:
+        if &#34;Regularizer&#34; in elem:
+            class_of_object = getattr(artm.regularizers, elem)
+            res = build_schema_from_signature(class_of_object)
+            if elem in [&#34;SmoothSparseThetaRegularizer&#34;, &#34;SmoothSparsePhiRegularizer&#34;,
+                        &#34;DecorrelatorPhiRegularizer&#34;]:
+                res[Optional(&#34;relative&#34;, default=None)] = Bool()
+            res = wrap_in_map(res)
+
+            specific_schema = Map({class_of_object.__name__: res})
+            schemas[class_of_object.__name__] = specific_schema
+
+    return schemas</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.build_schema_for_scores"><code class="name flex">
 <span>def <span class="ident">build_schema_for_scores</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="returns">Returns</h2>
+<section class="desc"><h2 id="returns">Returns</h2>
 <dl>
 <dt><code>strictyaml.Map</code></dt>
 <dd>schema used for validation and type-coercion</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def build_schema_for_scores():
+    &#34;&#34;&#34;
+    Returns
+    -------
+    strictyaml.Map
+        schema used for validation and type-coercion
+    &#34;&#34;&#34;
+    schemas = {}
+    for elem in artm.scores.__all__:
+        if &#34;Score&#34; in elem:
+            class_of_object = getattr(artm.scores, elem)
+            # TODO: check if every key is Optional. If it is, then &#34;| EmptyDict()&#34;
+            # otherwise, just Map()
+            res = wrap_in_map(build_schema_from_signature(class_of_object))
+
+            specific_schema = Map({class_of_object.__name__: res})
+            schemas[class_of_object.__name__] = specific_schema
+
+    for elem in tnscores.__all__:
+        if &#34;Score&#34; in elem:
+            class_of_object = getattr(tnscores, elem)
+            res = build_schema_from_signature(class_of_object)
+            # res[&#34;name&#34;] = Str()  # TODO: support custom names
+            res = wrap_in_map(res)
+
+            specific_schema = Map({class_of_object.__name__: res})
+            schemas[class_of_object.__name__] = specific_schema
+
+    return schemas</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.build_schema_from_function"><code class="name flex">
-<span>def <span class="ident">build_schema_from_function</span></span>(<span>func: Callable) ‑> dict</span>
+<span>def <span class="ident">build_schema_from_function</span></span>(<span>func)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def build_schema_from_function(func: Callable) -&gt; dict:
+    from docstring_parser import parse as docstring_parse
+
+    func_params = signature(func).parameters
+    func_params_schema = dict()
+
+    for elem in docstring_parse(func.__doc__).params:
+        if elem.arg_name in func_params:
+            key = choose_key(func_params[elem.arg_name])
+            func_params_schema[key] = TYPE_VALIDATORS[elem.type_name]
+
+    return func_params_schema</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.build_schema_from_signature"><code class="name flex">
 <span>def <span class="ident">build_schema_from_signature</span></span>(<span>class_of_object, use_optional=True)</span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="parameters">Parameters</h2>
+<section class="desc"><h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>class_of_object</code></strong> :&ensp;<code>class</code></dt>
 <dd>&nbsp;</dd>
@@ -186,13 +1047,31 @@ value is a schema used for validation and type-coercion</dd>
 <dl>
 <dt><code>dict</code></dt>
 <dd>each element is either str -&gt; Validator or Optional(str) -&gt; Validator</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def build_schema_from_signature(class_of_object, use_optional=True):
+    &#34;&#34;&#34;
+    Parameters
+    ----------
+    class_of_object : class
+
+    Returns
+    -------
+    dict
+        each element is either str -&gt; Validator or Optional(str) -&gt; Validator
+    &#34;&#34;&#34;
+    choose_key_func = choose_key if use_optional else (lambda param: param.name)
+    return {choose_key_func(param): choose_validator(param)
+            for param in signature(class_of_object.__init__).parameters.values()
+            if param.name != &#39;self&#39;}</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.build_score"><code class="name flex">
 <span>def <span class="ident">build_score</span></span>(<span>elemtype, elem_args, is_artm_score)</span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="parameters">Parameters</h2>
+<section class="desc"><h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>elemtype</code></strong> :&ensp;<code>str</code></dt>
 <dd>name of score</dd>
@@ -203,15 +1082,37 @@ value is a schema used for validation and type-coercion</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>instance</code> of <code>artm.scores.BaseScore</code> or <code><a title="topicnet.cooking_machine.models.base_score" href="models/base_score.html">topicnet.cooking_machine.models.base_score</a></code></dt>
+<dt><code>instance</code> of <code>artm.scores.BaseScore</code> or <a title="topicnet.cooking_machine.models.base_score" href="models/base_score.html"><code>topicnet.cooking_machine.models.base_score</code></a></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def build_score(elemtype, elem_args, is_artm_score):
+    &#34;&#34;&#34;
+    Parameters
+    ----------
+    elemtype : str
+        name of score
+    elem_args: dict
+    is_artm_score: bool
+
+    Returns
+    -------
+    instance of artm.scores.BaseScore or topicnet.cooking_machine.models.base_score
+    &#34;&#34;&#34;
+    module = artm.scores if is_artm_score else tnscores
+    class_of_object = getattr(module, elemtype)
+    kwargs = {name: value
+              for name, value in elem_args.items()}
+
+    return class_of_object(**kwargs)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.choose_key"><code class="name flex">
 <span>def <span class="ident">choose_key</span></span>(<span>param)</span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="parameters">Parameters</h2>
+<section class="desc"><h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>param</code></strong> :&ensp;<code>inspect.Parameter</code></dt>
 <dd>&nbsp;</dd>
@@ -220,13 +1121,30 @@ value is a schema used for validation and type-coercion</dd>
 <dl>
 <dt><code>str</code> or <code>strictyaml.Optional</code></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def choose_key(param):
+    &#34;&#34;&#34;
+    Parameters
+    ----------
+    param : inspect.Parameter
+
+    Returns
+    -------
+    str or strictyaml.Optional
+    &#34;&#34;&#34;
+    if param.default is not Parameter.empty:
+        return Optional(param.name)
+
+    return param.name</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.choose_validator"><code class="name flex">
 <span>def <span class="ident">choose_validator</span></span>(<span>param)</span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="parameters">Parameters</h2>
+<section class="desc"><h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>param</code></strong> :&ensp;<code>inspect.Parameter</code></dt>
 <dd>&nbsp;</dd>
@@ -235,13 +1153,38 @@ value is a schema used for validation and type-coercion</dd>
 <dl>
 <dt><code>instance</code> of <code>strictyaml.Validator</code></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def choose_validator(param):
+    &#34;&#34;&#34;
+    Parameters
+    ----------
+    param : inspect.Parameter
+
+    Returns
+    -------
+    instance of strictyaml.Validator
+    &#34;&#34;&#34;
+    if param.annotation is int:
+        return Int()
+    if param.annotation is float:
+        return Float()
+    if param.annotation is bool:
+        return Bool()
+    if param.annotation is str:
+        return Str()
+    if param.name in ARTM_TYPES:
+        return ARTM_TYPES[param.name]
+
+    return Any()</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.handle_special_cases"><code class="name flex">
 <span>def <span class="ident">handle_special_cases</span></span>(<span>elem_args, kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>In-place fixes kwargs, handling special cases and shortcuts
+<section class="desc"><p>In-place fixes kwargs, handling special cases and shortcuts
 (only strategy for now)
 Parameters</p>
 <hr>
@@ -250,19 +1193,57 @@ Parameters</p>
 <dd>&nbsp;</dd>
 <dt><strong><code>kwargs</code></strong> :&ensp;<code>dict</code></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def handle_special_cases(elem_args, kwargs):
+    &#34;&#34;&#34;
+    In-place fixes kwargs, handling special cases and shortcuts
+    (only strategy for now)
+    Parameters
+    ----------
+    elem_args: dict
+    kwargs: dict
+    &#34;&#34;&#34;
+    # special case: shortcut for strategy
+    if &#34;strategy&#34; in elem_args:
+        strategy = None
+        for strategy_class in SUPPORTED_STRATEGIES:
+            if strategy_class.__name__ == elem_args[&#34;strategy&#34;]:
+                strat_schema = build_schema_from_signature(strategy_class, use_optional=False)
+                strat_kwargs = {}
+
+                for key, value in elem_args[&#34;strategy_params&#34;].items():
+                    key = str(key)
+                    value.revalidate(strat_schema[key])
+                    strat_kwargs[key] = value.data
+
+                strategy = strategy_class(**strat_kwargs)
+
+        kwargs[&#34;strategy&#34;] = strategy  # or None if failed to identify it</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.is_key_in_schema"><code class="name flex">
 <span>def <span class="ident">is_key_in_schema</span></span>(<span>key, schema)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def is_key_in_schema(key, schema):
+    if key in schema:
+        return True
+    return any(
+        key_val.key == key for key_val in schema
+        if isinstance(key_val, Optional)
+    )</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.parse"><code class="name flex">
-<span>def <span class="ident">parse</span></span>(<span>yaml_string: str, force_separate_thread: bool = False, dataset_class: Type[<a title="topicnet.cooking_machine.dataset.Dataset" href="dataset.html#topicnet.cooking_machine.dataset.Dataset">Dataset</a>] = topicnet.cooking_machine.dataset.Dataset)</span>
+<span>def <span class="ident">parse</span></span>(<span>yaml_string, force_separate_thread=False, dataset_class=<class 'topicnet.cooking_machine.dataset.Dataset'>)</span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="parameters">Parameters</h2>
+<section class="desc"><h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>yaml_string</code></strong> :&ensp;<code>str</code></dt>
 <dd>&nbsp;</dd>
@@ -281,19 +1262,119 @@ Parameters</p>
 <dd>&nbsp;</dd>
 <dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def parse(
+    yaml_string: str,
+    force_separate_thread: bool = False,
+    dataset_class: Type[Dataset] = Dataset
+):
+    &#34;&#34;&#34;
+    Parameters
+    ----------
+    yaml_string : str
+    force_separate_thread : bool
+    dataset_class : class
+
+    Returns
+    -------
+    cube_settings: list of dict
+    regularizers: list
+    topic_model: TopicModel
+    dataset: Dataset
+
+    &#34;&#34;&#34;
+    parsed = dirty_load(yaml_string, BASE_SCHEMA, allow_flow_style=True)
+
+    specific_topic_names, background_topic_names = create_default_topics(
+        parsed.data[&#34;topics&#34;][&#34;specific_topics&#34;],
+        parsed.data[&#34;topics&#34;][&#34;background_topics&#34;]
+    )
+
+    revalidate_section(parsed, &#34;stages&#34;)
+    revalidate_section(parsed, &#34;regularizers&#34;)
+
+    if &#34;scores&#34; in parsed:
+        revalidate_section(parsed, &#34;scores&#34;)
+
+    dataset = dataset_class(
+        data_path=parsed.data[&#34;model&#34;][&#34;dataset_path&#34;],
+        keep_in_memory=parsed.data[&#34;model&#34;].get(&#34;keep_in_memory&#34;, True),
+        internals_folder_path=parsed.data[&#34;model&#34;].get(&#34;internals_folder_path&#34;, None),
+    )
+    filter_parameters = parsed.data[&#34;model&#34;].get(
+        KEY_DICTIONARY_FILTER_PARAMETERS, dict()
+    )
+
+    if len(filter_parameters) &gt; 0:
+        filtered_dictionary = dataset.get_dictionary().filter(**filter_parameters)
+        dataset._cached_dict = filtered_dictionary
+
+    modalities_to_use = parse_modalities_data(parsed)
+
+    data_stats = count_vocab_size(dataset.get_dictionary(), modalities_to_use)
+    model = init_simple_default_model(
+        dataset=dataset,
+        modalities_to_use=modalities_to_use,
+        main_modality=parsed.data[&#34;model&#34;][&#34;main_modality&#34;],
+        specific_topics=parsed.data[&#34;topics&#34;][&#34;specific_topics&#34;],
+        background_topics=parsed.data[&#34;topics&#34;][&#34;background_topics&#34;],
+    )
+
+    regularizers = _add_parsed_regularizers(
+        parsed, model, specific_topic_names, background_topic_names, data_stats
+    )
+    topic_model = TopicModel(model)
+    _add_parsed_scores(parsed, topic_model)
+
+    cube_settings = list()
+
+    for stage in parsed[&#39;stages&#39;]:
+        for elemtype, elem_args in stage.items():
+            settings = build_cube_settings(elemtype.data, elem_args)
+            settings[elemtype][&#34;separate_thread&#34;] = force_separate_thread
+            cube_settings.append(settings)
+
+    return cube_settings, regularizers, topic_model, dataset</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.parse_modalities_data"><code class="name flex">
 <span>def <span class="ident">parse_modalities_data</span></span>(<span>parsed)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def parse_modalities_data(parsed):
+    has_modalities_to_use = is_key_in_schema(&#34;modalities_to_use&#34;, parsed[&#34;model&#34;])
+    has_weights = is_key_in_schema(&#34;modalities_weights&#34;, parsed[&#34;model&#34;])
+    main_modality = parsed[&#34;model&#34;][&#34;main_modality&#34;]
+
+    # exactly one should be specified
+    if has_modalities_to_use == has_weights:
+        raise ValueError(&#34;Either &#39;modalities_to_use&#39; or &#39;modalities_weights&#39; should be specified&#34;)
+
+    if has_weights:
+        modalities_to_use = list(parsed[&#34;model&#34;][&#34;modalities_weights&#34;].data)
+        if main_modality not in modalities_to_use:
+            modalities_to_use.append(main_modality)
+        local_schema = Map({
+            key: Float() for key in modalities_to_use
+        })
+        parsed[&#34;model&#34;][&#34;modalities_weights&#34;].revalidate(local_schema)
+        modalities_weights = parsed[&#34;model&#34;][&#34;modalities_weights&#34;].data
+        return modalities_weights
+    else:
+        modalities_to_use = parsed.data[&#34;model&#34;][&#34;modalities_to_use&#34;]
+        return modalities_to_use</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.preprocess_parameters_for_cube_creator"><code class="name flex">
 <span>def <span class="ident">preprocess_parameters_for_cube_creator</span></span>(<span>elem_args)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>This function does two things:
+<section class="desc"><p>This function does two things:
 1) convert class_ids from
 name: class_ids@text, values: [0, 1, 2, 3]
 to
@@ -301,33 +1382,105 @@ name: class_ids, values: {"@text": [0, 1, 2, 3]}
 2) type conversion for "values" field.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>elem_args</code></strong> :&ensp;<code>strictyaml.YAML object</code></dt>
+<dt><strong><code>elem_args</code></strong> :&ensp;<code>strictyaml.YAML</code> <code>object</code></dt>
 <dd>(contains dict inside)</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>new_elem_args</code></strong> :&ensp;<code>dict</code></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def preprocess_parameters_for_cube_creator(elem_args):
+    &#34;&#34;&#34;
+    This function does two things:
+        1) convert class_ids from
+            name: class_ids@text, values: [0, 1, 2, 3]
+           to
+            name: class_ids, values: {&#34;@text&#34;: [0, 1, 2, 3]}
+        2) type conversion for &#34;values&#34; field.
+
+    Parameters
+    ----------
+    elem_args: strictyaml.YAML object
+        (contains dict inside)
+
+    Returns
+    -------
+    new_elem_args: dict
+    &#34;&#34;&#34;
+
+    for param_portion in elem_args[&#34;parameters&#34;]:
+        name = str(param_portion[&#34;name&#34;])
+        if name.startswith(&#34;class_ids&#34;):
+            validator = Float() | Seq(Float())
+        else:
+            validator = Seq(ARTM_TYPES[name])
+        param_schema = Map({
+            &#34;name&#34;: Str(),
+            &#34;values&#34;: validator
+        })
+        param_portion.revalidate(param_schema)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.revalidate_section"><code class="name flex">
 <span>def <span class="ident">revalidate_section</span></span>(<span>parsed, section)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Perofrms in-place type coercion and validation</p>
+<section class="desc"><p>Perofrms in-place type coercion and validation</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>parsed</code></strong> :&ensp;<code>strictyaml.YAML object</code></dt>
+<dt><strong><code>parsed</code></strong> :&ensp;<code>strictyaml.YAML</code> <code>object</code></dt>
 <dd>(half-parsed, half-validated chunk of config)</dd>
 <dt><strong><code>section</code></strong> :&ensp;<code>str</code></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def revalidate_section(parsed, section):
+    &#34;&#34;&#34;
+    Perofrms in-place type coercion and validation
+
+    Parameters
+    ----------
+    parsed : strictyaml.YAML object
+        (half-parsed, half-validated chunk of config)
+    section: str
+    &#34;&#34;&#34;
+    if section == &#34;stages&#34;:
+        schemas = build_schema_for_cubes()
+    elif section == &#34;regularizers&#34;:
+        schemas = build_schema_for_regs()
+    elif section == &#34;scores&#34;:
+        schemas = build_schema_for_scores()
+    else:
+        raise ValueError(f&#34;Unknown section name &#39;{section}&#39;&#34;)
+
+    for i, stage in enumerate(parsed[section]):
+        assert len(stage) == 1
+        name = list(stage.data)[0]
+
+        if name not in schemas:
+            raise ValueError(f&#34;Unsupported {section} value: {name} at line {stage.start_line}&#34;)
+        local_schema = schemas[name]
+
+        stage.revalidate(local_schema)</code></pre>
+</details>
 </dd>
 <dt id="topicnet.cooking_machine.config_parser.wrap_in_map"><code class="name flex">
 <span>def <span class="ident">wrap_in_map</span></span>(<span>dictionary)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<section class="desc"></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def wrap_in_map(dictionary):
+    could_be_empty = all(isinstance(key, Optional) for key in dictionary)
+    if could_be_empty:
+        return Map(dictionary) | EmptyDict()
+    return Map(dictionary)</code></pre>
+</details>
 </dd>
 </dl>
 </section>
@@ -335,6 +1488,7 @@ name: class_ids, values: {"@text": [0, 1, 2, 3]}
 </section>
 </article>
 <nav id="sidebar">
+<h1>Index</h1>
 <div class="toc">
 <ul></ul>
 </div>
@@ -370,7 +1524,9 @@ name: class_ids, values: {"@text": [0, 1, 2, 3]}
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>

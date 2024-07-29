@@ -2,21 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-<meta name="generator" content="pdoc3 0.11.1">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.3" />
 <title>topicnet.viewers.top_documents_viewer API documentation</title>
-<meta name="description" content="">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
-<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
-<script>window.addEventListener('DOMContentLoaded', () => {
-hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
-hljs.highlightAll();
-})</script>
 </head>
 <body>
 <main>
@@ -25,6 +20,322 @@ hljs.highlightAll();
 <h1 class="title">Module <code>topicnet.viewers.top_documents_viewer</code></h1>
 </header>
 <section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">import numpy as np
+
+from collections import defaultdict
+from .base_viewer import BaseViewer
+
+
+def transform_cluster_objects_list_to_dict(object_clusters):
+    &#34;&#34;&#34;
+    Transforms list of object clusters to dict.
+
+    Parameters
+    ----------
+    object_clusters : list
+        ith element of list is cluster of ith object
+
+    Returns
+    -------
+    clusters : dict
+        dict, where key is clusterlabel (int), value is cluster objects (list)
+
+    &#34;&#34;&#34;
+    clusters = defaultdict(list)
+
+    for object_label, cluster_label in enumerate(object_clusters):
+        clusters[cluster_label].append(object_label)
+
+    clusters = dict(clusters)
+
+    return clusters
+
+
+def predict_cluster_by_precomputed_distances(precomputed_distances):
+    &#34;&#34;&#34;
+    Predict a cluster for each object with precomputed distances.
+
+    Parameters
+    ----------
+    precomputed_distances : np.array
+        array of shape (n_topics, n_objects) - distances from clusters to objects
+
+    Returns
+    -------
+    np.array
+        array of length X.shape[0], each element is cluster of ith object
+
+    &#34;&#34;&#34;
+    return precomputed_distances.T.argmin(axis=1).ravel()
+
+
+def compute_cluster_top_objects_by_distance(precomputed_distances,
+                                            max_top_number=10,
+                                            object_clusters=None):
+    &#34;&#34;&#34;
+    Compute the most representative objects for each cluster
+    using the precomputed_distances.
+
+    Parameters
+    ----------
+    precomputed_distances : np.array
+        array of shape (n_topics, n_objects) -
+        a matrix of pairwise distances: distance from ith cluster centroid to the jth object
+    max_top_number : int
+        maximum number of top objects of cluster (resulting number can be less than it) 
+        (Default value = 10)
+    object_clusters : np,array
+        array of shape n_objects - precomputed clusters for objects
+
+    Returns
+    -------
+    clusters_top_objects : list of list of indexes 
+        (Default value = None)
+    &#34;&#34;&#34;  # noqa: W291
+    # prediction for objects
+    if object_clusters is None:
+        object_clusters = predict_cluster_by_precomputed_distances(precomputed_distances)
+    # transformation from list to dict
+    clusters = transform_cluster_objects_list_to_dict(object_clusters)
+    n_topics = precomputed_distances.shape[0]
+
+    clusters_top_objects = []
+    for cluster_label in range(n_topics):
+        # cluster is empty
+        if cluster_label not in clusters.keys():
+            clusters_top_objects.append([])
+            continue
+        cluster_objects = np.array(clusters[cluster_label])
+        cluster_objects_to_center_distances = (
+            precomputed_distances[cluster_label][cluster_objects]
+        )
+        if max_top_number &gt;= cluster_objects.shape[0]:
+            # cluster is too small; grab all objects
+            indexes_of_top_objects = np.arange(0, cluster_objects.shape[0])
+        else:
+            # filter by distance with partition
+            indexes_of_top_objects = np.argpartition(
+                cluster_objects_to_center_distances,
+                kth=max_top_number
+            )[:max_top_number]
+
+        distances_of_top_objects = cluster_objects_to_center_distances[indexes_of_top_objects]
+        top_objects = cluster_objects[indexes_of_top_objects]
+
+        # sorted partitioned array
+        indexes_of_top_objects_sorted_by_distance = np.argsort(distances_of_top_objects)
+        sorted_top_objects = top_objects[indexes_of_top_objects_sorted_by_distance]
+
+        clusters_top_objects.append(sorted_top_objects.tolist())
+
+    return clusters_top_objects
+
+
+def prepare_html_string(
+    document,
+    num_sentences_in_snippet: int = 4,
+    num_words: int = 15,
+):
+    &#34;&#34;&#34;
+    Prepares basic version of raw html
+    representing the document.
+    Takes title (document_id) and combines it
+    with portion of the document text (first few sentences)
+    also makes sure that every line contains same number of words
+
+    Parameters
+    ----------
+    document : Padas.DataFrame row
+        a row that contains columns raw_text
+        and index in string form
+    distance : float between 0 and 1
+        measure of how close found document to the
+        initial inquiry
+    num_sentences_in_snippet
+        how many sentences to use for document snippet
+    num_words
+        number of document words before the line break in
+        the document snippet
+
+    Returns
+    -------
+    doc_html : str
+    &#34;&#34;&#34;
+    doc_title = document.index.values[0]
+    get_sentences = (
+        document[&#39;raw_text&#39;].values[0].split(&#39;. &#39;)[:num_sentences_in_snippet])
+    doc_snippet = &#39;. &#39;.join(get_sentences).split(&#39; &#39;)
+    doc_snippet[-1] += &#39;.&#39;
+    doc_snippet = &#39; &#39;.join([
+        word + &#39;&lt;br /&gt;&#39; if i % num_words + 1 == num_words
+        else word for i, word in enumerate(doc_snippet)
+    ])
+    doc_html = f&#39;&lt;h3&gt;{doc_title}&lt;/h3&gt;{doc_snippet}&lt;br /&gt;&#39;
+    return doc_html
+
+
+class TopDocumentsViewer(BaseViewer):
+    &#34;&#34;&#34; &#34;&#34;&#34;
+    def __init__(self,
+                 model,
+                 dataset=None,
+                 precomputed_distances=None,
+                 object_clusters=None,
+                 max_top_number=10):
+        &#34;&#34;&#34;
+        The class provide information about
+        top documents for the model topics
+        from some collection.
+
+        Parameters
+        ----------
+        model : TopicModel
+            a class of topic model
+        dataset : Dataset
+            a class that stores information about the collection
+        precomputed_distances :  np.array
+            array of shape (n_topics, n_objects) -
+            an optional matrix of pairwise distances:
+            distance from ith cluster centroid to the jth object
+        object_clusters : list of int
+            an optional array of topic number labels
+            for each document from the collection
+            ith element of list is cluster of ith object
+        max_top_number : int
+            number of top documents to provide for each cluster
+
+        &#34;&#34;&#34;
+        super().__init__(model=model)
+        self.precomputed_distances = precomputed_distances
+        self.object_clusters = object_clusters
+        self._dataset = dataset
+        self.max_top_number = max_top_number
+
+    def view(
+        self,
+        current_num_top_doc=None,
+        topic_names=None
+    ):
+
+        &#34;&#34;&#34;
+        Returns list of tuples (token,score) for
+        each topic in the model.
+
+        Parameters
+        ----------
+        current_num_top_doc : int
+            number of top documents to provide for
+            each cluster (Default value = None)
+        topic_names : list
+            list of topic names to view
+
+        Returns
+        -------
+        all_cluster_top_titles: dict of dict
+            returns dict for each topic of the model dict
+            contains document_ids of top documents for that topic
+            and their probability of belonging to the topic
+
+        &#34;&#34;&#34;
+        # TODO review how top documents returned
+        # make method use topic_names to return top documents only
+        # for certain topics
+        if current_num_top_doc is None:
+            current_num_top_doc = self.max_top_number
+
+        theta = self.model.get_theta(dataset=self._dataset)
+
+        document_ids = theta.columns.values
+        if self.precomputed_distances is None:
+            precomputed_distances = 1.0 - theta.values
+        else:
+            precomputed_distances = self.precomputed_distances
+        if self.object_clusters is not None:
+            num_clusters, num_documents = precomputed_distances.shape
+            if len(self.object_clusters) != num_documents:
+                raise ValueError(&#39;number of topics differ from number of labels&#39;)
+            if not set(range(num_clusters)) &gt;= set(self.object_clusters):
+                raise ValueError(&#39;provided clusters are not in 0 to num_clusters - 1 range&#39;)
+
+        all_cluster_top_indexes = compute_cluster_top_objects_by_distance(
+            precomputed_distances,
+            max_top_number=current_num_top_doc,
+            object_clusters=self.object_clusters
+        )
+
+        all_cluster_top_documents_dict = {
+            topic: list(document_ids[cluster_top]) for topic, cluster_top
+            in zip(theta.index.values, all_cluster_top_indexes)
+        }
+
+        for topic in all_cluster_top_documents_dict:
+            all_cluster_top_documents_dict[topic] = {
+                doc: theta.loc[topic, doc] for doc in all_cluster_top_documents_dict[topic]
+            }
+
+        if topic_names is None:
+            return all_cluster_top_documents_dict
+        else:
+            for topic in topic_names:
+                if topic not in all_cluster_top_documents_dict.keys():
+                    raise ValueError(f&#39;{topic} incorrect topic name&#39;)
+            view_topic = {topic: content for topic, content
+                          in all_cluster_top_documents_dict.items() if topic in topic_names}
+            return view_topic
+
+    def view_from_jupyter(
+            self,
+            current_num_top_doc: int = None,
+            topic_names: list = None,
+            display_output: bool = True,
+            give_html: bool = False,
+    ):
+        &#34;&#34;&#34;
+        TopDocumentsViewer method recommended for use
+        from jupyter notebooks
+        Returns texts of the actual documents.
+
+        Parameters
+        ----------
+        current_num_top_doc
+            number of top documents to provide for
+            each cluster (Default value = None)
+        topic_names
+            list of topic names to view
+        display_output
+            if provide output at the end of method run
+        give_html
+            return html string generated by the method
+
+        Returns
+        -------
+        html_output
+            html string of the output
+        &#34;&#34;&#34;
+        from IPython.display import display_html
+        from topicnet.cooking_machine.pretty_output import make_notebook_pretty
+
+        make_notebook_pretty()
+        html_output = []
+
+        doc_list = self.view(current_num_top_doc, topic_names=topic_names)
+
+        for topic_name, topic_docs_dict in doc_list.items():
+            topic_docs = list(topic_docs_dict.keys())
+            topic_html = &#39;&#39;
+            topic_headline = f&#39;&lt;h1&gt;&lt;b&gt;Topic name:&lt;/b&gt; {topic_name}&lt;/h1&gt;&#39;
+            topic_html += topic_headline
+            for doc_id in topic_docs:
+                document = self._dataset.get_source_document(doc_id)
+                topic_html += prepare_html_string(document)
+            html_output.append(topic_html)
+        if display_output:
+            display_html(&#39;&lt;br /&gt;&#39;.join(html_output), raw=True)
+        if give_html:
+            return html_output</code></pre>
+</details>
 </section>
 <section>
 </section>
@@ -37,7 +348,7 @@ hljs.highlightAll();
 <span>def <span class="ident">compute_cluster_top_objects_by_distance</span></span>(<span>precomputed_distances, max_top_number=10, object_clusters=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Compute the most representative objects for each cluster
+<section class="desc"><p>Compute the most representative objects for each cluster
 using the precomputed_distances.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -47,20 +358,83 @@ a matrix of pairwise distances: distance from ith cluster centroid to the jth ob
 <dt><strong><code>max_top_number</code></strong> :&ensp;<code>int</code></dt>
 <dd>maximum number of top objects of cluster (resulting number can be less than it)
 (Default value = 10)</dd>
-<dt><strong><code>object_clusters</code></strong> :&ensp;<code>np,array</code></dt>
+<dt><strong><code>object_clusters</code></strong> :&ensp;<code>np</code>,<code>array</code></dt>
 <dd>array of shape n_objects - precomputed clusters for objects</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><strong><code>clusters_top_objects</code></strong> :&ensp;<code>list</code> of <code>list</code> of <code>indexes </code></dt>
+<dt><strong><code>clusters_top_objects</code></strong> :&ensp;<code>list</code> of <code>list</code> of <code>indexes</code></dt>
 <dd>(Default value = None)</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def compute_cluster_top_objects_by_distance(precomputed_distances,
+                                            max_top_number=10,
+                                            object_clusters=None):
+    &#34;&#34;&#34;
+    Compute the most representative objects for each cluster
+    using the precomputed_distances.
+
+    Parameters
+    ----------
+    precomputed_distances : np.array
+        array of shape (n_topics, n_objects) -
+        a matrix of pairwise distances: distance from ith cluster centroid to the jth object
+    max_top_number : int
+        maximum number of top objects of cluster (resulting number can be less than it) 
+        (Default value = 10)
+    object_clusters : np,array
+        array of shape n_objects - precomputed clusters for objects
+
+    Returns
+    -------
+    clusters_top_objects : list of list of indexes 
+        (Default value = None)
+    &#34;&#34;&#34;  # noqa: W291
+    # prediction for objects
+    if object_clusters is None:
+        object_clusters = predict_cluster_by_precomputed_distances(precomputed_distances)
+    # transformation from list to dict
+    clusters = transform_cluster_objects_list_to_dict(object_clusters)
+    n_topics = precomputed_distances.shape[0]
+
+    clusters_top_objects = []
+    for cluster_label in range(n_topics):
+        # cluster is empty
+        if cluster_label not in clusters.keys():
+            clusters_top_objects.append([])
+            continue
+        cluster_objects = np.array(clusters[cluster_label])
+        cluster_objects_to_center_distances = (
+            precomputed_distances[cluster_label][cluster_objects]
+        )
+        if max_top_number &gt;= cluster_objects.shape[0]:
+            # cluster is too small; grab all objects
+            indexes_of_top_objects = np.arange(0, cluster_objects.shape[0])
+        else:
+            # filter by distance with partition
+            indexes_of_top_objects = np.argpartition(
+                cluster_objects_to_center_distances,
+                kth=max_top_number
+            )[:max_top_number]
+
+        distances_of_top_objects = cluster_objects_to_center_distances[indexes_of_top_objects]
+        top_objects = cluster_objects[indexes_of_top_objects]
+
+        # sorted partitioned array
+        indexes_of_top_objects_sorted_by_distance = np.argsort(distances_of_top_objects)
+        sorted_top_objects = top_objects[indexes_of_top_objects_sorted_by_distance]
+
+        clusters_top_objects.append(sorted_top_objects.tolist())
+
+    return clusters_top_objects</code></pre>
+</details>
 </dd>
 <dt id="topicnet.viewers.top_documents_viewer.predict_cluster_by_precomputed_distances"><code class="name flex">
 <span>def <span class="ident">predict_cluster_by_precomputed_distances</span></span>(<span>precomputed_distances)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Predict a cluster for each object with precomputed distances.</p>
+<section class="desc"><p>Predict a cluster for each object with precomputed distances.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>precomputed_distances</code></strong> :&ensp;<code>np.array</code></dt>
@@ -70,23 +444,42 @@ a matrix of pairwise distances: distance from ith cluster centroid to the jth ob
 <dl>
 <dt><code>np.array</code></dt>
 <dd>array of length X.shape[0], each element is cluster of ith object</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def predict_cluster_by_precomputed_distances(precomputed_distances):
+    &#34;&#34;&#34;
+    Predict a cluster for each object with precomputed distances.
+
+    Parameters
+    ----------
+    precomputed_distances : np.array
+        array of shape (n_topics, n_objects) - distances from clusters to objects
+
+    Returns
+    -------
+    np.array
+        array of length X.shape[0], each element is cluster of ith object
+
+    &#34;&#34;&#34;
+    return precomputed_distances.T.argmin(axis=1).ravel()</code></pre>
+</details>
 </dd>
 <dt id="topicnet.viewers.top_documents_viewer.prepare_html_string"><code class="name flex">
-<span>def <span class="ident">prepare_html_string</span></span>(<span>document, num_sentences_in_snippet: int = 4, num_words: int = 15)</span>
+<span>def <span class="ident">prepare_html_string</span></span>(<span>document, num_sentences_in_snippet=4, num_words=15)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Prepares basic version of raw html
+<section class="desc"><p>Prepares basic version of raw html
 representing the document.
 Takes title (document_id) and combines it
 with portion of the document text (first few sentences)
 also makes sure that every line contains same number of words</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>document</code></strong> :&ensp;<code>Padas.DataFrame row</code></dt>
+<dt><strong><code>document</code></strong> :&ensp;<code>Padas.DataFrame</code> <code>row</code></dt>
 <dd>a row that contains columns raw_text
 and index in string form</dd>
-<dt><strong><code>distance</code></strong> :&ensp;<code>float between 0 and 1</code></dt>
+<dt><strong><code>distance</code></strong> :&ensp;<code>float</code> <code>between</code> <code>0</code> <code>and</code> <code>1</code></dt>
 <dd>measure of how close found document to the
 initial inquiry</dd>
 <dt><strong><code>num_sentences_in_snippet</code></strong></dt>
@@ -99,13 +492,57 @@ the document snippet</dd>
 <dl>
 <dt><strong><code>doc_html</code></strong> :&ensp;<code>str</code></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def prepare_html_string(
+    document,
+    num_sentences_in_snippet: int = 4,
+    num_words: int = 15,
+):
+    &#34;&#34;&#34;
+    Prepares basic version of raw html
+    representing the document.
+    Takes title (document_id) and combines it
+    with portion of the document text (first few sentences)
+    also makes sure that every line contains same number of words
+
+    Parameters
+    ----------
+    document : Padas.DataFrame row
+        a row that contains columns raw_text
+        and index in string form
+    distance : float between 0 and 1
+        measure of how close found document to the
+        initial inquiry
+    num_sentences_in_snippet
+        how many sentences to use for document snippet
+    num_words
+        number of document words before the line break in
+        the document snippet
+
+    Returns
+    -------
+    doc_html : str
+    &#34;&#34;&#34;
+    doc_title = document.index.values[0]
+    get_sentences = (
+        document[&#39;raw_text&#39;].values[0].split(&#39;. &#39;)[:num_sentences_in_snippet])
+    doc_snippet = &#39;. &#39;.join(get_sentences).split(&#39; &#39;)
+    doc_snippet[-1] += &#39;.&#39;
+    doc_snippet = &#39; &#39;.join([
+        word + &#39;&lt;br /&gt;&#39; if i % num_words + 1 == num_words
+        else word for i, word in enumerate(doc_snippet)
+    ])
+    doc_html = f&#39;&lt;h3&gt;{doc_title}&lt;/h3&gt;{doc_snippet}&lt;br /&gt;&#39;
+    return doc_html</code></pre>
+</details>
 </dd>
 <dt id="topicnet.viewers.top_documents_viewer.transform_cluster_objects_list_to_dict"><code class="name flex">
 <span>def <span class="ident">transform_cluster_objects_list_to_dict</span></span>(<span>object_clusters)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Transforms list of object clusters to dict.</p>
+<section class="desc"><p>Transforms list of object clusters to dict.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>object_clusters</code></strong> :&ensp;<code>list</code></dt>
@@ -115,7 +552,33 @@ the document snippet</dd>
 <dl>
 <dt><strong><code>clusters</code></strong> :&ensp;<code>dict</code></dt>
 <dd>dict, where key is clusterlabel (int), value is cluster objects (list)</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def transform_cluster_objects_list_to_dict(object_clusters):
+    &#34;&#34;&#34;
+    Transforms list of object clusters to dict.
+
+    Parameters
+    ----------
+    object_clusters : list
+        ith element of list is cluster of ith object
+
+    Returns
+    -------
+    clusters : dict
+        dict, where key is clusterlabel (int), value is cluster objects (list)
+
+    &#34;&#34;&#34;
+    clusters = defaultdict(list)
+
+    for object_label, cluster_label in enumerate(object_clusters):
+        clusters[cluster_label].append(object_label)
+
+    clusters = dict(clusters)
+
+    return clusters</code></pre>
+</details>
 </dd>
 </dl>
 </section>
@@ -127,7 +590,7 @@ the document snippet</dd>
 <span>(</span><span>model, dataset=None, precomputed_distances=None, object_clusters=None, max_top_number=10)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>The class provide information about
+<section class="desc"><p>The class provide information about
 top documents for the model topics
 from some collection.</p>
 <h2 id="parameters">Parameters</h2>
@@ -136,7 +599,7 @@ from some collection.</p>
 <dd>a class of topic model</dd>
 <dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset</code></dt>
 <dd>a class that stores information about the collection</dd>
-<dt><strong><code>precomputed_distances</code></strong> :&ensp;<code> np.array</code></dt>
+<dt><strong><code>precomputed_distances</code></strong> :&ensp; <code>np.array</code></dt>
 <dd>array of shape (n_topics, n_objects) -
 an optional matrix of pairwise distances:
 distance from ith cluster centroid to the jth object</dd>
@@ -146,11 +609,9 @@ for each document from the collection
 ith element of list is cluster of ith object</dd>
 <dt><strong><code>max_top_number</code></strong> :&ensp;<code>int</code></dt>
 <dd>number of top documents to provide for each cluster</dd>
-</dl></div>
+</dl></section>
 <details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
+<summary>Source code</summary>
 <pre><code class="python">class TopDocumentsViewer(BaseViewer):
     &#34;&#34;&#34; &#34;&#34;&#34;
     def __init__(self,
@@ -321,7 +782,7 @@ ith element of list is cluster of ith object</dd>
 <span>def <span class="ident">view</span></span>(<span>self, current_num_top_doc=None, topic_names=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns list of tuples (token,score) for
+<section class="desc"><p>Returns list of tuples (token,score) for
 each topic in the model.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -337,13 +798,87 @@ each cluster (Default value = None)</dd>
 <dd>returns dict for each topic of the model dict
 contains document_ids of top documents for that topic
 and their probability of belonging to the topic</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def view(
+    self,
+    current_num_top_doc=None,
+    topic_names=None
+):
+
+    &#34;&#34;&#34;
+    Returns list of tuples (token,score) for
+    each topic in the model.
+
+    Parameters
+    ----------
+    current_num_top_doc : int
+        number of top documents to provide for
+        each cluster (Default value = None)
+    topic_names : list
+        list of topic names to view
+
+    Returns
+    -------
+    all_cluster_top_titles: dict of dict
+        returns dict for each topic of the model dict
+        contains document_ids of top documents for that topic
+        and their probability of belonging to the topic
+
+    &#34;&#34;&#34;
+    # TODO review how top documents returned
+    # make method use topic_names to return top documents only
+    # for certain topics
+    if current_num_top_doc is None:
+        current_num_top_doc = self.max_top_number
+
+    theta = self.model.get_theta(dataset=self._dataset)
+
+    document_ids = theta.columns.values
+    if self.precomputed_distances is None:
+        precomputed_distances = 1.0 - theta.values
+    else:
+        precomputed_distances = self.precomputed_distances
+    if self.object_clusters is not None:
+        num_clusters, num_documents = precomputed_distances.shape
+        if len(self.object_clusters) != num_documents:
+            raise ValueError(&#39;number of topics differ from number of labels&#39;)
+        if not set(range(num_clusters)) &gt;= set(self.object_clusters):
+            raise ValueError(&#39;provided clusters are not in 0 to num_clusters - 1 range&#39;)
+
+    all_cluster_top_indexes = compute_cluster_top_objects_by_distance(
+        precomputed_distances,
+        max_top_number=current_num_top_doc,
+        object_clusters=self.object_clusters
+    )
+
+    all_cluster_top_documents_dict = {
+        topic: list(document_ids[cluster_top]) for topic, cluster_top
+        in zip(theta.index.values, all_cluster_top_indexes)
+    }
+
+    for topic in all_cluster_top_documents_dict:
+        all_cluster_top_documents_dict[topic] = {
+            doc: theta.loc[topic, doc] for doc in all_cluster_top_documents_dict[topic]
+        }
+
+    if topic_names is None:
+        return all_cluster_top_documents_dict
+    else:
+        for topic in topic_names:
+            if topic not in all_cluster_top_documents_dict.keys():
+                raise ValueError(f&#39;{topic} incorrect topic name&#39;)
+        view_topic = {topic: content for topic, content
+                      in all_cluster_top_documents_dict.items() if topic in topic_names}
+        return view_topic</code></pre>
+</details>
 </dd>
 <dt id="topicnet.viewers.top_documents_viewer.TopDocumentsViewer.view_from_jupyter"><code class="name flex">
-<span>def <span class="ident">view_from_jupyter</span></span>(<span>self, current_num_top_doc: int = None, topic_names: list = None, display_output: bool = True, give_html: bool = False)</span>
+<span>def <span class="ident">view_from_jupyter</span></span>(<span>self, current_num_top_doc=None, topic_names=None, display_output=True, give_html=False)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>TopDocumentsViewer method recommended for use
+<section class="desc"><p>TopDocumentsViewer method recommended for use
 from jupyter notebooks
 Returns texts of the actual documents.</p>
 <h2 id="parameters">Parameters</h2>
@@ -362,7 +897,60 @@ each cluster (Default value = None)</dd>
 <dl>
 <dt><code>html_output</code></dt>
 <dd>html string of the output</dd>
-</dl></div>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def view_from_jupyter(
+        self,
+        current_num_top_doc: int = None,
+        topic_names: list = None,
+        display_output: bool = True,
+        give_html: bool = False,
+):
+    &#34;&#34;&#34;
+    TopDocumentsViewer method recommended for use
+    from jupyter notebooks
+    Returns texts of the actual documents.
+
+    Parameters
+    ----------
+    current_num_top_doc
+        number of top documents to provide for
+        each cluster (Default value = None)
+    topic_names
+        list of topic names to view
+    display_output
+        if provide output at the end of method run
+    give_html
+        return html string generated by the method
+
+    Returns
+    -------
+    html_output
+        html string of the output
+    &#34;&#34;&#34;
+    from IPython.display import display_html
+    from topicnet.cooking_machine.pretty_output import make_notebook_pretty
+
+    make_notebook_pretty()
+    html_output = []
+
+    doc_list = self.view(current_num_top_doc, topic_names=topic_names)
+
+    for topic_name, topic_docs_dict in doc_list.items():
+        topic_docs = list(topic_docs_dict.keys())
+        topic_html = &#39;&#39;
+        topic_headline = f&#39;&lt;h1&gt;&lt;b&gt;Topic name:&lt;/b&gt; {topic_name}&lt;/h1&gt;&#39;
+        topic_html += topic_headline
+        for doc_id in topic_docs:
+            document = self._dataset.get_source_document(doc_id)
+            topic_html += prepare_html_string(document)
+        html_output.append(topic_html)
+    if display_output:
+        display_html(&#39;&lt;br /&gt;&#39;.join(html_output), raw=True)
+    if give_html:
+        return html_output</code></pre>
+</details>
 </dd>
 </dl>
 </dd>
@@ -370,6 +958,7 @@ each cluster (Default value = None)</dd>
 </section>
 </article>
 <nav id="sidebar">
+<h1>Index</h1>
 <div class="toc">
 <ul></ul>
 </div>
@@ -402,7 +991,9 @@ each cluster (Default value = None)</dd>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>
